@@ -1,0 +1,43 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view.widgets"
+	xmlns:w="urn:import:com.simple.original.client.dashboard">
+
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+		.toolsPanel {
+			width:100%;
+			height: 100%;
+		}
+		.toolsPanel > div {
+			margin-bottom:10px;
+		}
+		
+	</ui:style>
+
+	<g:DockLayoutPanel styleName="{resources.style.contentPanel}" unit="PX">
+		<g:center>
+	        <g:FlowPanel styleName="{style.toolsPanel}">
+	           	<g:DisclosurePanel open="true" animationEnabled="true">
+					<g:header closedImage="{resources.expandablePanelClosed}"
+						openImage="{resources.expandablePanelOpen}">Dashboard Properties</g:header>
+					<w:DashboardModelEditor ui:field="dashboardEditor"/>
+				</g:DisclosurePanel>
+	            <g:DisclosurePanel open="true" animationEnabled="true">
+					<g:header closedImage="{resources.expandablePanelClosed}"
+						openImage="{resources.expandablePanelOpen}">Widgets</g:header>
+	        		
+	        		
+	        	</g:DisclosurePanel>
+	        	<g:DisclosurePanel open="true" animationEnabled="true">
+					<g:header closedImage="{resources.expandablePanelClosed}"
+						openImage="{resources.expandablePanelOpen}">Widget Properties</g:header>
+					
+				</g:DisclosurePanel>
+
+			</g:FlowPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder> 

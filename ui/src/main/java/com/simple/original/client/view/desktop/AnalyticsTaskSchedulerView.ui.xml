@@ -1,0 +1,147 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:t="urn:import:com.simple.original.client.view.widgets" xmlns:d="urn:import:com.google.gwt.user.datepicker.client">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+		.imageIcon {
+			position:absolute;
+		}
+		
+		.dateTable  td {
+			text-align: left;
+			width: 6em;
+		}
+	</ui:style>
+
+	<g:DockLayoutPanel ui:field="dockLayoutPanel"
+		styleName="{resources.style.contentPanel}" unit="PX">
+		<g:center>
+			<g:HTMLPanel>
+				<t:ErrorPanel ui:field="errorPanel" />
+				<!-- Top overview panel -->
+				<label class="{resources.style.tabbedPanelLabel}">Overview</label>
+				<div>
+					<p>Schedule a analytics task to run at a given time or a recurring
+						time in
+						the future. Set the starting date and the occurrence, and
+						give the
+						schedule a unique name. The Schedule Description is
+						required and
+						will be used
+						to view jobs that have completed. The
+						starting date is
+						the date that the analytics task will be run.
+
+					</p>
+				</div>
+				<br />
+
+				<!-- Scheduling options panel -->
+				<label class="{resources.style.tabbedPanelLabel}">Scheduling Options</label>
+				<div>
+					<span>
+						Scheduling options for analytics task:
+						<span ui:field="analyticsTaskName" style="font-weight:bold">Analytics Task NAME</span>
+					</span>
+					<br />
+
+					<g:Label>Schedule Name</g:Label>
+					<g:TextBox maxLength="40" width="25em" ui:field="scheduleName"></g:TextBox>
+
+
+					<!--  Not supported yet -->
+					<!-- 
+					<g:Label>Starting Date</g:Label>
+					<d:DateBox ui:field="startingDate"></d:DateBox>
+					<g:Label>Starting Time</g:Label>
+					<g:ListBox ui:field="startingTime"></g:ListBox>
+					 -->
+					<br />	
+					<label>Start Date</label>
+					<d:DateBox width="16em" ui:field="schedulerDateTime"></d:DateBox>
+					<g:Image ui:field="calendarImage"></g:Image>
+					</div>
+					<br/>
+
+				<!-- Recurrence options for the analytics task -->
+				<label class="{resources.style.tabbedPanelLabel}">Reccurrence Options</label>
+				<div>
+					<g:Label>Reoccurs</g:Label>
+					<t:EnumEditor ui:field="occurrence" />
+					
+					<table class="{style.dateTable}" ui:field="dayChooser">
+						<tr>
+							<td>
+								Sunday
+							</td>
+							<td>
+								Monday
+							</td>
+							<td>
+								Tuesday
+							</td>
+							<td>
+								Wednesday
+							</td>
+							<td>
+								Thursday
+							</td>
+							<td>
+								Friday
+							</td>
+							<td>
+								Saturday
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<g:CheckBox ui:field="sunday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="monday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="tuesday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="wednesday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="thursday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="friday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="saturday" />
+							</td>
+						</tr>
+					</table>
+					<div ui:field="minuteSelectorWrapper">
+					    <label>Occurs on minute</label>
+					    <t:MinuteSelector ui:field="minuteSelector" />
+					</div>
+					<div ui:field="daySelectorWrapper">
+						<label>Occurs at time</label>
+						<t:DaySelector ui:field="daySelector" />
+					</div>
+					
+					<div ui:field="timeSelectorWrapper">
+						<label>Occurs at time</label>
+						<t:SmallTimePicker ui:field="timeSelector" />
+					</div>
+					<label>Cron Text</label>
+					<g:TextBox maxLength="15" ui:field="cronText"></g:TextBox>
+				</div>
+				<br />
+				<div style="float:right">
+					<g:Button ui:field="cancel">Cancel</g:Button>
+					<g:Button ui:field="schedule">Schedule</g:Button>
+				</div>
+			</g:HTMLPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder>

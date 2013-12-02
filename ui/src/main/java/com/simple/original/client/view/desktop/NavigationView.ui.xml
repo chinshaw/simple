@@ -1,0 +1,150 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view"
+	xmlns:desktop="urn:import:com.simple.original.client.view.desktop">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+
+	<!-- !!!!!! NOTE: If you add a tree item the NavigationTreeItem navigationId 
+		must have a coordinating value in the NavigationItem Enum class. You will 
+		also need to add a handler in the NavigationActivity to make your tree item 
+		go somewhere. !!!!!!! -->
+
+	<ui:style>
+		.content {
+			position: absolute;
+			right: 10px;
+			top: 120px;
+			text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+			font-size: 12px;
+			color: #CCCCCC;
+		}
+		
+		div.systemStatus {
+			background: #DDDDDD;
+			background: -webkit-gradient(linear, left top, left bottom, from(#DDDDDD),
+			to(#DDDDDD) );
+			background: -webkit-linear-gradient(top, #DDDDDD, #EEEEEE);
+			background: -moz-linear-gradient(top, #DDDDDD, #EEEEEE);
+			background: -ms-linear-gradient(top, #DDDDDD, #EEEEEE);
+			background: -o-linear-gradient(top, #DDDDDD, #EEEEEE);
+			border:1px solid #DDDDDD;
+			height: 60px;
+			margin-bottom: 10px;
+			border-bottom: 1px solid #CCC;
+		}
+		
+		div.systemStatus>div {
+			display: block;
+			float: right;
+		}
+		
+		div.systemStatus>div img {
+			padding: 1px 5px;
+			float: left;
+		}
+		
+		div.systemStatus>div>div {
+			font-weight: bold;
+			float: left;
+			width: 15px;
+			padding: 1px 5px;
+		}
+		
+		.healthStatusContainer {
+			float: left !important;
+		}
+	</ui:style>
+
+	<g:DockLayoutPanel ui:field="dockLayoutPanel" unit="PX">
+		<g:center>
+			<g:FlowPanel ui:field="verticalPanel">
+				<g:DisclosurePanel open="true" ui:field="systemStatus"
+					animationEnabled="true">
+					<g:header closedImage="{resources.expandablePanelClosed}"
+						openImage="{resources.expandablePanelOpen}">Factory Status</g:header>
+
+					<g:HTMLPanel styleName="{style.systemStatus}">
+						<g:SimplePanel styleName="{style.healthStatusContainer}"
+							ui:field="globalHealthStatusIndicatorContainer" />
+						<br style="clear:both;" />
+						<div>
+							<g:Image title="Total critical alerts for all factories" resource="{resources.iconStatusCritical}"></g:Image>
+							<g:Image title="Total serious alerts for all factories" resource="{resources.iconStatusMajor}"></g:Image>
+							<g:Image title="Total warning alerts for all factories" resource="{resources.iconStatusMinor}"></g:Image>
+						</div>
+						<br style="clear:both;" />
+						<div style="float:left; margin-left: 5px; text-decoration: underline;">
+							<a title="View Factory Alerts Status" href="#FactoryAlertsPlace:">Alert Status</a>
+						</div>
+						<div>
+							<div ui:field="criticalAlerts">0</div>
+							<div ui:field="majorAlerts">0</div>
+							<div ui:field="minorAlerts">0</div>
+						</div>
+					</g:HTMLPanel>
+				</g:DisclosurePanel>
+				<g:DisclosurePanel open="true"
+					ui:field="navigationExpandablePanel" animationEnabled="true">
+					<g:header closedImage="{resources.expandablePanelClosed}"
+						openImage="{resources.expandablePanelOpen}">Simple Analytics</g:header>
+					<g:HTMLPanel height="100%">
+						<g:Tree animationEnabled="true" ui:field="navigationTree"
+							height="100%">
+							<g:TreeItem state="true" ui:field="factoryInformation" text="Factory Information">
+								<desktop:NavigationViewImpl.NavigationTreeItem
+									navigationId="FactoryAlertsPlace:" text="Factory Alerts"></desktop:NavigationViewImpl.NavigationTreeItem>
+
+								<g:TreeItem state="true" text="Analytics &amp; Analytics Tasks">
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="AnalyticsTaskExecPlace:" text="Run Analytics Task"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="ReportTaskExecPlace:" text="Run Reporting Task"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="AlertsSubscriptionPlace:" text="Alert Subscriptions" />
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="ReportUserSubscriptionPlace:" text="Report Subscriptions" />
+								</g:TreeItem>
+
+								<desktop:NavigationViewImpl.NavigationTreeItem 
+								    navigationId="AdministrationPlace:" ui:field="administrationTree" state="true" text="Administration">
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="AnalyticsOperationsPlace:" text="Analytics Operations"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="AnalyticsTasksPlace:" text="Analytics Tasks"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="ReportTasksPlace:" text="Report Tasks"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="AnalyticsTasksSchedulerPlace:" text="Scheduler"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="AlertDefinitionPlace:" text="Alert Manager"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="DataProvidersPlace:" text="Data Providers"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="SoftwareUpdatePlace:" text="Software Update"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="MonitoringTaskPlace:" text="Monitoring Task Limit"></desktop:NavigationViewImpl.NavigationTreeItem>
+								</desktop:NavigationViewImpl.NavigationTreeItem>
+
+								<g:TreeItem ui:field="monitoringTaskUserTree" state="true" text="Monitoring Task">
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="AnalyticsOperationsPlace:" text="Analytics Operations"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="AnalyticsTasksPlace:" text="Analytics Tasks"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="DataProvidersPlace:" text="Data Providers"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="AnalyticsTasksSchedulerPlace:" text="Scheduler"></desktop:NavigationViewImpl.NavigationTreeItem>
+									<desktop:NavigationViewImpl.NavigationTreeItem
+										navigationId="AlertDefinitionPlace:" text="Alert Manager"></desktop:NavigationViewImpl.NavigationTreeItem>
+								</g:TreeItem>
+																
+							</g:TreeItem>
+						</g:Tree>
+					</g:HTMLPanel>
+				</g:DisclosurePanel>
+			</g:FlowPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder>

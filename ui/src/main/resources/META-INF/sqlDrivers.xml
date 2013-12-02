@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<sqlDrivers>
+	<sqlDriver>
+	   	<driverName>MS SQL Driver Version 4</driverName>
+		<driverFileName>sqljdbc4.jar</driverFileName>
+	</sqlDriver>
+</sqlDrivers>

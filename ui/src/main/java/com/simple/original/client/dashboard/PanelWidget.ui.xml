@@ -1,0 +1,33 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t='urn:import:com.simple.original.client.view.widgets'
+	xmlns:designer="urn:import:com.simple.original.client.dashboard.designer">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	
+	<ui:style>
+		.widgetPanel {
+			min-height: 100px;
+			padding: 10px;
+		}
+
+		.container {
+			display:block;
+			clear:both;
+			margin-top:5px;
+			margin-bottom: 5px;
+		}
+		
+		.tabbedPanel {
+			padding: 0 !important;
+		}
+	</ui:style>
+	
+	<g:HTMLPanel styleName="{style.container}">
+		<label class="{resources.style.tabbedPanelLabel}" ui:field="panelTitle"></label>
+		<div class="{resources.style.tabbedPanel}  {style.tabbedPanel}">
+			<designer:DroppablePanel styleName="{style.widgetPanel}" ui:field="widgetsPanel"></designer:DroppablePanel> 
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder>

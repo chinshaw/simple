@@ -1,0 +1,64 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+	http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<persistence-unit name="simple-pu" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+		<!-- !!! Alphabetical Order Please!!! -->
+		<class>com.simple.domain.AnalyticsOperation</class>
+		<class>com.simple.domain.AnalyticsOperationInput</class>
+		<class>com.simple.domain.AnalyticsOperationOutput</class>
+		<class>com.simple.domain.AnalyticsTask</class>
+		<class>com.simple.domain.AnalyticsTaskExecution</class>
+		<class>com.simple.domain.AnalyticsTaskMonitor</class>
+		<class>com.simple.domain.AnalyticsTaskSchedule</class>
+		<class>com.simple.domain.ApplicationBookmark</class>
+		<class>com.simple.domain.ChangeLog</class>
+		<class>com.simple.domain.ComplexInput</class>
+		<class>com.simple.domain.DataProvider</class>
+		<class>com.simple.domain.DatastoreObject</class>
+		<class>com.simple.domain.DateInput</class>
+		<class>com.simple.domain.MonitorAlert</class>
+		<class>com.simple.domain.JavaAnalyticsOperation</class>
+		<class>com.simple.domain.Person</class>
+		<class>com.simple.domain.Preferences</class>
+		<class>com.simple.domain.RAnalyticsOperation</class>
+		<class>com.simple.domain.RDataProvider</class>
+		<class>com.simple.domain.RequestFactoryEntity</class>
+		<class>com.simple.domain.SqlConnection</class>
+		<class>com.simple.domain.SqlDataProvider</class>
+		<class>com.simple.domain.SqlDataProviderDriver</class>
+		<class>com.simple.domain.StringInput</class>
+		<class>com.simple.domain.metric.Metric</class>
+		<class>com.simple.domain.metric.MetricCollection</class>
+		<class>com.simple.domain.metric.MetricNumber</class>
+		<class>com.simple.domain.metric.MetricInteger</class>
+		<class>com.simple.domain.metric.MetricString</class>
+		<class>com.simple.domain.metric.MetricMatrix</class>
+		<class>com.simple.domain.metric.MetricDouble</class>
+		<class>com.simple.domain.metric.MetricPlot</class>
+		<class>com.simple.domain.metric.NumberRange</class>
+		<class>com.simple.domain.metric.Violation</class>
+		<class>com.simple.domain.dashboard.Dashboard</class>
+		<class>com.simple.domain.dashboard.GaugeModelRange</class>
+		<class>com.simple.domain.dashboard.LinkableDashboard</class>
+		<class>com.simple.domain.dashboard.Widget</class>
+		<class>com.simple.domain.dashboard.TextWidget</class>
+
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/simple" />
+			<property name="javax.persistence.jdbc.user" value="chris" />
+			<property name="javax.persistence.jdbc.password" value="chris" />
+		</properties>
+	</persistence-unit>
+	
+</persistence>

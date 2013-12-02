@@ -1,0 +1,84 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view.widgets"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:d="urn:import:com.simple.original.client.view.desktop">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+	<ui:style>
+		
+		.userpanel {
+			margin: 1em;
+			margin-left: 5em;
+		}
+	
+		.searchBox {
+			color: #FFF;
+			background: transparent;
+			border: 1px solid #333;
+			width: 15em;
+			margin-left: 0em;
+		}
+		
+		.buttonCollection {
+			display:block;
+			margin-top: 1em;
+			float: right;
+		}
+
+		.global {
+			padding: 20px 10px !important;
+		}
+		
+		.gwt-ValueSpinner .arrows {
+			width: 17px;
+			height: 18px;
+			margin-left: 1px;
+		}
+
+		.gwt-ValueSpinner .textBox {
+			border: 0px;
+			text-align: right;
+			font-family: sans-serif;
+			font-weight: bold;
+			border: 1px solid #7F9DB9;
+		}
+
+	</ui:style>
+	
+	<g:DockLayoutPanel styleName="{resources.style.contentPanel}">
+		<g:center>
+			<g:HTMLPanel styleName="">
+				<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+				<label class="{resources.style.tabbedPanelLabel}">Global Task Limits</label>
+				<div class="{style.global} {resources.style.tabbedPanel} ">	
+					<div style="float:left; margin-right: 2em;">
+				  	<g:Label>Default Task Limit</g:Label>
+					</div>
+					<div style="float:left;">
+						<g:TextBox width="10em" ui:field="value" maxLength="2"/>
+					</div>
+			        <div style="float: right;">
+		              <g:Button ui:field="save">Save</g:Button>
+		            </div>
+				</div>
+				<br />
+				<label class="{resources.style.tabbedPanelLabel}">User List</label>
+				<div class="{resources.style.tabbedPanel} ">		
+					<div>
+						<g:TextBox ui:field="searchQueryInput"  addStyleNames="{style.searchBox}" >
+						</g:TextBox>
+						<g:Button ui:field="searchResults">search</g:Button>
+					</div>
+					<br />
+					<c:CellTable ui:field="userTable" />
+					<div style="display:block">
+						<div class="{style.buttonCollection}">
+							<g:Button ui:field="cancel">Cancel</g:Button>
+							<g:Button ui:field="saveTaskLimit">Save</g:Button>
+						</div>
+						<c:SimplePager ui:field="pager" location="LEFT"/>
+					</div>
+				</div>
+			</g:HTMLPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder>

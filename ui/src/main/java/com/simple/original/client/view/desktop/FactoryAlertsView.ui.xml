@@ -1,0 +1,43 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view.widgets"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:d="urn:import:com.simple.original.client.view.desktop">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+		.underLine{
+			text-decoration: underline; 	
+		}
+	
+		.searchBox {
+			color: #FFF;
+			background: transparent;
+			border: 0.1em solid #333;
+			width: 25em;
+			margin-left: 1em;
+			margin-right: 1em;
+		}
+		
+	</ui:style>
+	
+	<g:DockLayoutPanel styleName="{resources.style.contentPanel}">
+		<g:center>
+			<g:HTMLPanel>
+				<g:FlowPanel ui:field="contentPanel" styleName="">
+					<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+				</g:FlowPanel>
+				<label class="{resources.style.tabbedPanelLabel}">Alerts</label>
+				<div class="{resources.style.tabbedPanel} ">
+					<g:Label>Search Field</g:Label>
+					<g:ListBox ui:field="searchListBox"></g:ListBox>
+					<g:TextBox ui:field="searchQueryInput" addStyleNames="{style.searchBox}"></g:TextBox>
+
+					<g:Button ui:field="searcButon">Search</g:Button>
+					<br/><br/>
+					<c:CellTable ui:field="factoryAlertTable"  />
+					<c:SimplePager ui:field="pager" />
+				</div>
+			</g:HTMLPanel>
+		</g:center>	
+	</g:DockLayoutPanel>
+</ui:UiBinder>

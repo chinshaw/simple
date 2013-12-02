@@ -1,0 +1,643 @@
+/* 
+    Document   : default
+    Created on : Jan 18, 2011, 4:31:49 PM
+    Author     : chinshaw
+    Description:
+        Purpose of the stylesheet follows.
+*/
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+@def lightGrey #F5F5F5;
+
+body {
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	font-weight: 200;
+	margin: 0;
+	overflow: hidden;
+	background: none repeat scroll 0 0 #F6F8F8;
+	color: #3E474C;
+}
+
+a {
+	color: #003399;
+	cursor: pointer;
+}
+
+input {
+	-moz-border-bottom-colors: none;
+	-moz-border-left-colors: none;
+	-moz-border-right-colors: none;
+	-moz-border-top-colors: none;
+	-moz-box-sizing: border-box;
+	border-color: -moz-use-text-color -moz-use-text-color #EFF1F2;
+	border-image: none;
+	border-style: none none solid;
+	border-width: medium medium 1px;
+	color: #2A5669;
+	display: block;
+	font-family: 'Gotham SSm A', 'Gotham SSm B', sans-serif;
+	font-size: 0.9em;
+	font-weight: 500;
+	height: 100%;
+	margin: 0;
+	padding: 1rem 1.5rem;
+	width: 100%;
+}
+
+input:focus {
+	border-left: 0.3rem solid #4EAACC;
+	outline: medium none;
+	padding: 1rem 1.5rem 1rem 1.3rem;
+}
+
+select {
+	padding: 2px;
+	color: #333333;
+}
+
+textarea {
+	height: 8em;
+	width: 40em;
+	font-family: arial, sans-serif;
+	font-size: 100%;
+	font-weight: normal;
+	color: #333333;
+	border: 1px solid #CCCCCC;
+}
+
+hr {
+	border: 1px dashed #CCCCCC;
+	margin: 10px 5px 5px;
+	width: 90%;
+	width: 100%;
+	float: left;
+	border-width: 1px 0 0 0;
+	height: 0;
+	line-height: 0px;
+	font-size: 0;
+	margin-top: 10px;
+	padding: 0;
+}
+
+h1 {
+	font-size: 180%;
+	font-weight: normal
+}
+
+h2 {
+	font-size: 140%;
+	font-weight: bold;
+}
+
+h3 {
+	font-size: 100%;
+	font-weight: bold;
+}
+
+.button {
+	
+}
+
+.dropMenu {
+	padding:13px;
+	font-weight: bold;
+}
+
+div.dropMenu.dropMenuVertical {
+	background-color: #ffffff;
+	border-bottom: 1px solid #CCCCCC;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+	z-index: 1200;
+}
+
+div.dropMenu.dropMenuHorizontal:hover  {
+	background-color: #3B73AF;
+    border-color: #3B73AF;
+	display:inline-block;
+}
+
+div.dropMenuPopup {
+}
+
+.linkableWidget {
+	cursor: pointer;
+}
+
+.gaugeWidget {
+	position: relative;
+	float: left;
+	cursor: pointer;
+}
+
+.gaugeWidget label {
+	text-align: center;
+	font-weight: bold;
+}
+
+.gaugeLabel {
+	text-align: center;
+}
+
+.staticPlotWidget {
+	clear: both;
+	position: relative;
+	overflow-x: auto;
+	border: 1px solid #CCC;
+	border-radius: 5px;
+	margin: 10px;
+	padding-top: 10px;
+	padding-right: 10px;
+}
+
+.content {
+	
+}
+
+.loginView input {
+	
+}
+
+.submitBtn  {
+	background: none repeat scroll 0 0 #A3CDDD;
+	border: medium none;
+	color: #7EB9CF;
+	cursor: pointer;
+	display: block;
+	font-family: 'Gotham SSm A', 'Gotham SSm B', sans-serif;
+	font-size: 0.9em;
+	font-weight: 500;
+	padding: 1rem 1.5rem;
+	text-align: left;
+	text-transform: uppercase;
+	transition: literal("background 300ms ease-in-out 0s, color 300ms ease-in-out 0s");
+	width: 100%;
+}
+
+.submitBtn:hover, .submitBtn:active  {
+	background: none repeat scroll 0 0 #62B4D2;
+	color: #3491B3;
+}
+
+
+div.staticPlotWidget img {
+	max-width: 100%;
+}
+
+.dateSlider {
+	width: 800px;
+	height: 60px;
+}
+
+.historySliderPanelDropDownLabel {
+	display: inline;
+}
+
+@sprite .definedInputsContainer button {
+	gwt-image: "minusCircle";
+	height: 16px;
+	position: relative;
+	border: none;
+	color: #333;
+	box-shadow: none;
+	float: right;
+}
+
+.definedInputsContainer>div {
+	padding: 0 !important;
+	width: 100%;
+}
+
+div.buttonCollection {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+
+.contentPanel {
+	overflow-y: auto;
+	border-left: 1px solid #CCC;
+	border-top: 1px solid #CCC;
+	box-shadow: 0px 0px 5px #CCCCCC;
+	padding: 4px;
+}
+
+div.contentPanel div.header {
+	background-color: #F5F5F5;
+    border-bottom: 1px solid #CCCCCC;
+    margin: 0;
+    padding: 20px;
+}
+
+div.contentPanel div.header h1 {
+	margin: 0;
+}
+
+.textButton {
+	position: relative;
+	width: auto;
+	height: auto;
+	border: none;
+	background: none;
+	color: #003399;
+	box-shadow: none;
+	text-decoration: underline;
+}
+
+.draggableLabel {
+	cursor: move;
+}
+
+.loggingPanel {
+	background-color: black;
+	border: 2px solid #777777;
+	border-radius: 10px 10px 10px 10px;
+	box-shadow: 0 0 10px #222222;
+	color: green;
+	height: 400px;
+	margin-right: -635px;
+	margin-top: -200px;
+	opacity: 0.9;
+	overflow-y: auto;
+	position: fixed;
+	right: 0;
+	top: 50%;
+	width: 600px;
+	z-index: 200;
+	overflow: visible;
+}
+
+.loggingPanel .loggingMessages {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-left: 1em;
+}
+
+.loggingPanel .modalCloseButton {
+	left: -11px;
+}
+
+.actionPanel {
+	margin-right: 2em;
+}
+
+.actionPanelButton {
+	position: relative;
+	display: inline-block;
+	color: #444444;
+}
+
+.menuPanel {
+	border-right: 1px solid #999;
+}
+
+.menuItem {
+	cursor: pointer;
+}
+
+.notificationPanel {
+	position: fixed;
+	bottom: 1em;
+	right: 1em;
+	box-shadow: 3px 3px 3px #CDCDCD;
+	border-radius: 5px;
+	border: 1px solid #BBB;
+	width: 25em;
+	height: 5em;
+	padding: 3px;
+	background-color: #E9E9E9;
+}
+
+.alertNotificationPanel {
+	position: fixed;
+	bottom: 1em;
+	right: 1em;
+	font-size: 1.1em;
+	box-shadow: 0.3em 0.3em 0.3em #FF8000;
+	border-radius: 0.05em;
+	border: 0.1em solid #FF8080;
+	width: 25em;
+	height: 5em;
+	padding: 0.3em;
+	background-color: red;
+}
+
+.alertNotificationLabel {
+	font-size: 1.1em;
+	font-weight: bold;
+	color: black;
+}
+
+.selectionContext {
+	opacity: .9;
+	cursor: pointer;
+}
+
+.alertNotificationCloseButton {
+	float: right;
+	font-size: 1em;
+	color: black;
+	font-weight: bold;
+	text-decoration: none;
+	box-shadow: 0.1em 0.1em 0.1em #FF8000;
+	border-radius: 0.3em;
+	padding: 0.1em;
+	border: 0.1em solid #000000;
+	background-color: red;
+}
+
+.spinBox {
+	width: 1.5em;
+	background-color: none;
+	margin: 1px;
+	height: 1em;
+}
+
+.dashboardExampleTable {
+	clear: both;
+	display: block;
+	position: relative;
+	padding: 10px;
+}
+
+.modalDialogBox {
+	background-color: #FFF;
+	border-radius: 10px;
+	border: 1px solid #AAA;
+	padding: 20px;
+	z-index: 500;
+}
+
+/** TopPanel Activity **/
+.topPanel {
+	background-color: #63B4D2;
+	color: #FFFFFF;
+}
+
+
+.widgetsPanel {
+	height: 100%;
+	width: 100%;
+}
+
+.designer {
+	
+}
+
+.widgetPropertiesPanel {
+	border: 1px solid lightGrey;
+	width: 100%;
+}
+
+.placeHolder  {
+	border: 1px dashed black;
+	margin-top: 5px;}
+
+.topHeader {
+	background-color: lightGrey;
+}
+
+.tableSearch {
+	margin-bottom: 8px;
+	font-style: italic;
+	font-weight: bold;
+	color: #555555 !important;
+	-moz-box-shadow: 3px 3px 3px #DDD;
+	-webkit-box-shadow: 3px 3px 3px #DDD;
+	box-shadow: 3px 3px 3px #DDD;
+}
+
+.tabbedPanel {
+	overflow: hidden;
+	padding: 10px;
+	border-radius: 0 5px 5px 5px;
+	background: #F9F9F9;
+	background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9),
+		to(#FFFFFF));
+	background: -webkit-linear-gradient(top, #F9F9F9, #FFFFFF);
+	background: -moz-linear-gradient(top, #F9F9F9, #FFFFFF);
+	background: -ms-linear-gradient(top, #F9F9F9, #FFFFFF);
+	background: -o-linear-gradient(top, #F9F9F9, #FFFFFF);
+	filter: literal("progid:DXImageTransform.Microsoft.gradient( startColorstr='#F9F9F9', endColorstr='#FFFFFF',GradientType=0 )"
+		); /* IE6-9 */
+}
+
+.tabbedPanelLabel {
+	color: white;
+	font-size: 110%;
+	min-height: 1em;
+	padding: 5px;
+	padding-left: 10px;
+	background: #999999;
+	background: -webkit-gradient(linear, left top, left bottom, from(#777777),
+		to(#999999));
+	background: -webkit-linear-gradient(top, #777777, #999999);
+	background: -moz-linear-gradient(top, #777777, #999999);
+	background: -ms-linear-gradient(top, #777777, #999999);
+	background: -o-linear-gradient(top, #777777, #999999);
+	filter: literal("progid:DXImageTransform.Microsoft.gradient( startColorstr='#777777', endColorstr='#999999',GradientType=0 )"
+		); /* IE6-9 */
+	font-weight: bold;
+	width: 200px;
+	border: 1px solid #777;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom: 0;
+	-moz-box-shadow: 5px 5px 5px #DDD;
+	-webkit-box-shadow: 5px 5px 5px #DDD;
+	box-shadow: 5px 5px 5px #DDD;
+	text-shadow: 1px 1px #444444;
+}
+
+.violationInfo {
+	margin-top: -25px;
+	text-align: center;
+}
+
+.toolTip {
+	border: 1px solid #CCCCCC;
+	background-color: #FFFFFF;
+	border-radius: 5px;
+	padding: 5px;
+	z-index: 99;
+	-moz-box-shadow: 5px 5px 5px #CCC;
+	-webkit-box-shadow: 5px 5px 5px #CCC;
+	box-shadow: 5px 5px 5px #CCC;
+}
+
+.constraintErrorLabel {
+	font-size: 110%;
+	font-weight: bold;
+	color: red;
+	display: inline;
+}
+
+
+.popupContextMenu {
+	padding: 2px !important;
+	box-shadow: 3px 3px 3px #CCCCCC;
+}
+
+.errorPanel {
+	display: none;
+	padding: 5px;
+	border: 2px solid red;
+	margin-bottom: 15px;
+}
+
+.errorPanel .errorMessage {
+	color: red;
+	font-weight: bold;
+	font-size: 110%;
+}
+
+@sprite .updatingImage {
+	gwt-image: "updating";
+}
+
+.designerGaugeWidget {
+	display: inline-block;
+}
+
+.widgetSelectorPanel {
+	overflow: visible !important;
+	border: 1px solid #DDDDDD;
+	padding: 5px;
+	width: 60px;
+	height:100%;
+	padding:0;
+}
+
+.widgetSelectorPanel .selectorWidget {
+	display:block;
+	width: 20px
+}
+
+.updating {
+	background-color: #000;
+	opacity: 0.5;
+	filter: literal("alpha(opacity =   50)");
+}
+
+/* This is the button at the top of a modal dialog box */
+@sprite .modalCloseButton {
+	gwt-image: "modalClose";
+	background-color: #A12A2A;
+	border: 3px solid #FFFFFF;
+	border-radius: 50px 50px 50px 50px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	color: #FFFFFF;
+	background-position: center;
+	display: block;
+	font-weight: bolder;
+	height: 21px;
+	position: absolute;
+	right: -11px;
+	top: -9px;
+	width: 20px;
+	z-index: 500;
+}
+
+.titleTextCell {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	min-width: 10em;
+	-o-text-overflow: ellipsis;
+	-moz-binding: url('assets/xml/ellipsis.xml#ellipsis');
+}
+
+.widgetInspector {
+	border-radius: 0px 5px 5px 5px;
+	border: 1px solid #DDDDDD;
+	background-color: #EEEEEE;
+	display: inline-block;
+	padding: 10px;
+	box-shadow: 3px 3px 3px #CCCCCC;
+	min-width: 200px;
+	min-height: 50px;
+}
+
+/*
+ * Overlay widget.
+ */
+.overlayPanel {
+	position: absolute;
+	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.70);
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	font-size: 150%;
+}
+
+.overlayLabel {
+	margin-top: 10px;
+}
+
+.dropDownTabPanel {
+	background-color: #EEEEEE;
+	z-index: 110;
+	width: 100%;
+	box-shadow: 5px 5px 5px #CCCCCC;
+}
+
+.dropDownTabPanel input {
+	background-color: transparent;
+}
+
+.dropDownTabPanelContainer {
+	height: 100%;
+}
+
+.dropDownTabPanelContainer>* {
+	margin: 5px;
+}
+
+.dropDownTabPanelTabBar {
+	background-color: #EEEEEE;
+	border-top: 1px solid #CCCCCC;
+	padding-bottom: 5px;
+}
+
+.dropDownTabPanelTab {
+	color: #333;
+	background: white;
+	margin-left: 4px;
+	padding: 4px 8px 4px 8px;
+	cursor: pointer;
+	cursor: hand;
+	font-weight: bold;
+	text-align: center;
+	min-width: 90px;
+	-moz-border-radius: 0px 0px 5px 5px;
+	border-radius: 0px 0px 5px 5px;
+	border: 1px solid #CCC;
+	border-top: none;
+}
+
+.dropDownTabPanelTab.dropDownTabPanelTabSelected {
+	background-color: #336384;
+	cursor: default;
+	color: #FFFFFF;
+	border: none;
+}
+
+.dropDownTabPanelTabInner {
+
+}
+
+.dropDownTabPanelTabInnerLabel {	
+}
+
+@external gwtQuery-draggable ;
+.gwtQuery-draggable {
+	z-index: 250;
+}

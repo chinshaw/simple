@@ -1,0 +1,59 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:t="urn:import:com.simple.original.client.view.widgets" xmlns:d="urn:import:com.simple.original.client.view.desktop"
+	xmlns:e="urn:import:com.google.gwt.user.datepicker.client">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+		.inputBlock {
+			display: block;
+		}
+		
+		.inputBlock div {
+			float: left;
+			padding-right: 5px;
+			padding-top: 5px;
+		}
+		
+		.inputBlock div select {
+			display: block;
+		}
+
+		.subEditorContainer {
+		}
+		
+		.subEditorContainer > div > div > div {
+			background: silver;
+			margin-right: 1em;
+		}
+	</ui:style>
+
+	<g:HTMLPanel>
+		<div>
+			<div class="{style.inputBlock}">
+				<div>
+					<label>Input Type</label>
+					<g:TextBox ui:field="inputType" readOnly="true"></g:TextBox>
+				</div>
+				<div ui:field="inputNameContainer">
+					<label>R Input Name</label>
+					<g:TextBox ui:field="inputName"></g:TextBox>
+				</div>
+				<div ui:field="displayNameContainer">
+					<label>UI Display Name</label>
+					<g:TextBox ui:field="displayName"></g:TextBox>
+				</div>
+				<div style="float:right;">
+					<g:Button ui:field="removeInput" styleName="{resources.style.textButton}">remove
+					</g:Button>
+				</div>
+			</div>
+
+			<br style="clear:both" />
+			<br />
+			<d:InputsEditorWorking styleName="{style.subEditorContainer}" ui:field="inputs" resources="{resources}"/>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder>

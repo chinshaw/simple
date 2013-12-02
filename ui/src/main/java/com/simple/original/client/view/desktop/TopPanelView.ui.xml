@@ -1,0 +1,30 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view"
+	xmlns:d="urn:import:com.simple.original.client.view.desktop">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+		
+	</ui:style>
+
+	<g:FlowPanel>
+		<g:MenuBar stylePrimaryName="{resources.style.dropMenu}">
+			<g:MenuItem text="Places">
+				<g:MenuBar vertical="true" animationEnabled="true"
+					focusOnHoverEnabled="true" stylePrimaryName="{resources.style.dropMenu}">
+					<g:MenuItem stylePrimaryName="{resources.style.menuItem}" ui:field="help">Help</g:MenuItem>
+					<g:MenuItem stylePrimaryName="{resources.style.menuItem}"  ui:field="dashboards">Dashboards</g:MenuItem>
+					<g:MenuItem stylePrimaryName="{resources.style.menuItem}"  ui:field="favorites">Favorites</g:MenuItem>
+					<g:MenuItem stylePrimaryName="{resources.style.menuItem}"  ui:field="operations">Analytics Operations</g:MenuItem>
+					<g:MenuItem stylePrimaryName="{resources.style.menuItem}"  ui:field="runTask">Run Task</g:MenuItem>
+					<g:MenuItem stylePrimaryName="dropMenuItem" ui:field="tasks">Analytics
+						Tasks
+					</g:MenuItem>
+					<g:MenuItem ui:field="scheduling">Scheduling</g:MenuItem>
+				</g:MenuBar>
+			</g:MenuItem>
+		</g:MenuBar>
+	</g:FlowPanel>
+</ui:UiBinder>

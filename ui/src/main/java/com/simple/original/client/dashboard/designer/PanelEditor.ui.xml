@@ -1,0 +1,16 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t='urn:import:com.simple.original.client.view.widgets'>
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	
+	<ui:style>
+		
+	</ui:style>
+	
+	<g:HTMLPanel>
+		<label>Widget Title</label>
+		<g:TextBox ui:field="title"></g:TextBox>
+		</g:HTMLPanel>
+</ui:UiBinder>

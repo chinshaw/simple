@@ -1,0 +1,12 @@
+Package: VFAnalytics
+Version: 0.04
+Title: Helpers for moving data between virtual factory and analytics
+        environment
+Author: Chris Hinshaw <chris.hinshaw@hp.com>
+Maintainer: Chris Hinshaw <chris.hinshaw@hp.com>
+Depends: methods
+Description: VFAnalytics adds helper methods for virtual factory server to access objects and analytics from R environment
+License: GPL version 2
+URL:
+        http://vfacrb.americas.hpqcorp.net/doku.php?id=r_vf_library_package
+Packaged: 2013-03-08 18:39:25 UTC; chinshaw

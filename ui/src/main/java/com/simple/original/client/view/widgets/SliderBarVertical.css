@@ -1,0 +1,33 @@
+.gwt-SliderBarVertical-shell {
+  width: 34pt;
+  height: 50%;
+}
+
+.gwt-SliderBarVertical-shell .gwt-SliderBarVertical-line {
+  border: 1px solid black;
+  background-color: white;
+  width: 4px;
+  height: 95%;
+  top: 22pt;
+  overflow: hidden;
+}
+
+.gwt-SliderBarVertical-shell .gwt-SliderBarVertical-line-disabled {
+  border: 1px solid gray;
+}
+
+.gwt-SliderBarVertical-shell .gwt-SliderBarVertical-knob {
+  top: 14pt;
+  height: 11px;
+  width: 21px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.gwt-SliderBarVertical-shell-focused {
+  
+}
+
+.gwt-SliderBarVertical-shell .gwt-SliderBarVertical-line-sliding {
+  cursor: pointer;
+}

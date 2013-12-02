@@ -1,0 +1,88 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:t="urn:import:com.simple.original.client.view.widgets" xmlns:d="urn:import:com.google.gwt.user.datepicker.client"
+	xmlns:desktop="urn:import:com.simple.original.client.view.desktop">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+		@external gwt-ListBox;
+		.gwt-ListBox {
+			min-width: 20em;
+		}
+		.listBox{
+			float:left;
+		}
+
+		.taskSelectionContainer {
+
+		}
+		
+		.taskSelectionContainer > div {
+			float:left; 
+			display:inline-block;
+			margin-right: 10px;
+		}
+	</ui:style>
+
+	<g:DockLayoutPanel styleName="{resources.style.contentPanel}"
+		unit="PX">
+		<g:center>
+			<g:HTMLPanel styleName="">
+				<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+				<label class="{resources.style.tabbedPanelLabel}">Overview</label>
+				<div class="{resources.style.tabbedPanel} ">
+					<p style="margin-right: 20px">This page will allow you to run a specific anlytics task with
+						user defined parameters. Once a analytics task is
+						selected the "Analytics Task
+						Inputs" panel will be updated to reflect that
+						analytics task's required
+						inputs. Once set you can execute, save, or
+						schedule that analytics task.
+						The execute button runs the selected script
+						immediately and will
+						direct you to the output screen.
+						The save option will create a
+						duplicate of the selected analytics task with
+						the options that you have
+						defined. You can also
+						schedule the analytics task to be run at a specific
+						time and set an occurrence.
+					</p>
+				</div>
+				<br />
+				<label class="{resources.style.tabbedPanelLabel}">Task Selection</label>
+				<div class="{resources.style.tabbedPanel} ">
+					<div class="{style.taskSelectionContainer}">
+						<div>
+							<label>Task Filter</label>
+							<g:ListBox ui:field="filter" addStyleNames ="{style.listBox}" ></g:ListBox>
+						</div>
+						<div>
+						   	<label>Task Selection</label>
+							<g:ValueListBox ui:field="tasksList" />
+						</div>
+						<br style="clear:both" />
+						<div>
+							<g:Label>Task Description</g:Label>
+							<g:TextArea height="8em" width="40em" ui:field="taskDescription"></g:TextArea>
+						</div>
+					</div>
+				</div>
+				<br />
+				<label class="{resources.style.tabbedPanelLabel}">Task Inputs</label>
+				<div class="{resources.style.tabbedPanel} ">
+					<desktop:AnalyticsInputEditor ui:field="taskInputsEditor" />
+					<br style="clear:both" />
+				</div>
+				<br />
+				<div>
+					<g:Button ui:field="executeScript">Execute</g:Button>
+					<g:Button ui:field="saveTask">Save</g:Button>
+					<g:Button ui:field="scheduleTask">Schedule</g:Button>
+				</div>
+			</g:HTMLPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder>
