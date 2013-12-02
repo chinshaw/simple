@@ -1,4 +1,1 @@
-simple-original
-===============
-
-Original Simple Analytics Code
+Simple Analytics
