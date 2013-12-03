@@ -6,10 +6,14 @@ import gwtquery.plugins.draggable.client.gwt.DraggableWidget;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.web.bindery.event.shared.EventBus;
@@ -18,6 +22,8 @@ import com.simple.original.client.resources.Resources;
 
 public class WidgetPalettePanel extends Composite {
 
+	interface Binder extends UiBinder<Widget, WidgetPalettePanel> {}
+	
 	public class PaletteWidget extends DraggableWidget<Image> {
 
 		private String modelType;
@@ -35,8 +41,10 @@ public class WidgetPalettePanel extends Composite {
 		}
 	}
 
-	private final FlowPanel container = new FlowPanel();
-	private FlowPanel widgetPanel = new FlowPanel();
+	@UiField
+	FlowPanel widgetPanel;
+
+	
 	private final Map<String, Provider<IDashboardWidget>> widgetProvider;
 	private final Resources resources;
 	
@@ -44,19 +52,15 @@ public class WidgetPalettePanel extends Composite {
 	public WidgetPalettePanel(EventBus eventBus, Resources resources, Map<String, Provider<IDashboardWidget>> widgetProvider) {
 		this.widgetProvider = widgetProvider;
 		this.resources = resources;
-		initWidget(container);
+		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
 
 		// Set styles
-		widgetPanel.setStyleName(resources.style().widgetSelectorPanel());
 		getElement().getStyle().setZIndex(250);
 
-		container.add(widgetPanel);
-
-		initWidgets();
-
+		addWidgetSelectors();
 	}
 
-	private void initWidgets() {
+	private void addWidgetSelectors() {
 		for (Entry<String, Provider<IDashboardWidget>> entry : widgetProvider.entrySet()) {
 			String modelType = entry.getKey();
 			ImageResource iconImage = entry.getValue().get().getSelectorIcon();

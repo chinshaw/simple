@@ -20,7 +20,7 @@
 		}
 	</ui:style>
 
-	<g:DockLayoutPanel ui:field="dockLayoutPanel" unit="PX" stylePrimaryName="loginView">
+	<g:DockLayoutPanel ui:field="dockLayoutPanel" unit="PX" stylePrimaryName="{resources.style.loginView}">
 		<g:center>
 			<g:HTMLPanel>
 				<div class="{style.centered}">

@@ -72,29 +72,21 @@ public class Simple implements EntryPoint {
 
 	private void startApplication(final PlaceHistoryHandler historyHandler) {
 
-		if (ClientUtils.hasValidSessionId()) {
-			daoRequestFactory.personRequest().getCurrentPerson().with(PersonProxy.AUTH_PROPERTIES).fire(new Receiver<PersonProxy>() {
+		daoRequestFactory.personRequest().getCurrentPerson().with(PersonProxy.AUTH_PROPERTIES).fire(new Receiver<PersonProxy>() {
 
-				@Override
-				public void onSuccess(PersonProxy person) {
-					if (person != null) {
-						application.setCurrentPerson(person);
-						historyHandler.handleCurrentHistory();
+			@Override
+			public void onSuccess(PersonProxy person) {
+				historyHandler.handleCurrentHistory();
+				application.setCurrentPerson(person);
+			}
 
-					} else {
-						placeController.goTo(new AnalyticsTaskExecPlace());
-					}
-				}
-
-				public void onFailure(ServerFailure error) {
-					// Lets just assume that the user is not authenticated and
-					// we need to send them to the login screen.
-					placeController.goTo(new LoginPlace());
-				}
-			});
-		} else {
-			placeController.goTo(new LoginPlace());
-		}
+			public void onFailure(ServerFailure error) {
+				// Lets just assume that the user is not authenticated and
+				// we need to send them to the login screen.
+				GWT.log("Got server failure " + error.getMessage());
+				placeController.goTo(new LoginPlace());
+			}
+		});
 	}
 
 	private void configureActivities() {

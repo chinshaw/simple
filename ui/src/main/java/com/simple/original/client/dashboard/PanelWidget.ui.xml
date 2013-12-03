@@ -25,9 +25,9 @@
 	</ui:style>
 	
 	<g:HTMLPanel styleName="{style.container}">
-		<label class="{resources.style.tabbedPanelLabel}" ui:field="panelTitle"></label>
+		<span class="{resources.style.tabbedPanelLabel}" ui:field="panelTitle"></span>
 		<div class="{resources.style.tabbedPanel}  {style.tabbedPanel}">
-			<designer:DroppablePanel styleName="{style.widgetPanel}" ui:field="widgetsPanel"></designer:DroppablePanel> 
+			<designer:DroppablePanel ui:field="widgetsPanel" stylePrimaryName="{resources.style.widgetsPanel}" ></designer:DroppablePanel> 
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder>

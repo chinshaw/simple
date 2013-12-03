@@ -4,21 +4,21 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.simple.original.client.dashboard.IWidgetModelEditor;
+import com.simple.original.client.dashboard.IWidgetEditor;
 
 public class WidgetEditorFactory {
 	
 	
-	private final Map<String, Provider<IWidgetModelEditor>> widgetEditorProvider;
+	private final Map<String, Provider<IWidgetEditor>> widgetEditorProvider;
 	
 	@Inject
-	public WidgetEditorFactory(Map<String, Provider<IWidgetModelEditor>> widgetEditorProvider) {
+	public WidgetEditorFactory(Map<String, Provider<IWidgetEditor>> widgetEditorProvider) {
 		this.widgetEditorProvider = widgetEditorProvider;
 	}
 	
-	public IWidgetModelEditor<?> create(String modelType) {
+	public IWidgetEditor<?> create(String modelType) {
 		
-		IWidgetModelEditor<?> editor =  widgetEditorProvider.get(modelType).get();
+		IWidgetEditor<?> editor =  widgetEditorProvider.get(modelType).get();
 		if (editor == null) {
 			throw new RuntimeException("Unsupported widget type " + modelType);
 		}

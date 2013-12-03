@@ -5,20 +5,15 @@ import java.util.logging.Logger;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
-import com.simple.original.client.dashboard.IWidgetModelEditor;
 import com.simple.original.client.dashboard.WidgetFactory;
-import com.simple.original.client.dashboard.events.WidgetAddEvent;
 import com.simple.original.client.dashboard.events.WidgetRemoveEvent;
 import com.simple.original.client.dashboard.model.IDashboardModel;
 import com.simple.original.client.dashboard.model.IWidgetModel;
@@ -30,7 +25,7 @@ import com.simple.original.client.view.widgets.ErrorPanel;
  * @author chinshaw
  */
 public class DashboardDesignerView extends AbstractView implements
-		IDashboardDesignerView, IWidgetModelEditor<IDashboardModel> {
+		IDashboardDesignerView {
 
 	private static final Logger logger = Logger
 			.getLogger(DashboardDesignerView.class.getName());
@@ -48,14 +43,9 @@ public class DashboardDesignerView extends AbstractView implements
 	 */
 	private IDashboardModel model = null;
 
-	@UiField
-	DockLayoutPanel container;
+	@UiField(provided = true)
+	SplitLayoutPanel container;
 
-	@UiField
-	TextBox name;
-
-	@UiField
-	TextBox description;
 
 	@UiField(provided = true)
 	DroppablePanel widgetsPanel;
@@ -82,7 +72,9 @@ public class DashboardDesignerView extends AbstractView implements
 		super(designerEventBus, resources);
 		this.widgetPalettePanel = widgetPalettePanel;
 		this.widgetPropertiesPanel = widgetPropertiesPanel;
-		this.widgetsPanel = new DroppablePanel(widgetFactory);
+		this.widgetsPanel = new DroppablePanel(widgetFactory, eventBus);
+		container = new SplitLayoutPanel(5);
+		
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
 
 		container.getWidgetContainerElement(widgetPalettePanel).getStyle()
@@ -91,7 +83,6 @@ public class DashboardDesignerView extends AbstractView implements
 	}
 
 	private void hookupEvents() {
-		getEventBus().addHandler(WidgetAddEvent.TYPE, this);
 		getEventBus().addHandler(WidgetRemoveEvent.TYPE, this);
 	}
 
@@ -126,26 +117,12 @@ public class DashboardDesignerView extends AbstractView implements
 		}
 	}
 
-	@UiHandler("save")
-	void onSave(ClickEvent event) {
-		Window.alert("TODO");
-	}
-
-	@UiHandler("cancel")
-	void onCancel(ClickEvent event) {
-		presenter.onCancelEdit();
-	}
 
 	@Override
 	public void onWidgetRemove(WidgetRemoveEvent event) {
 		if (model.getWidgets().contains(event.getSelectedWidget())) {
 			model.getWidgets().remove(event.getSelectedWidget());
 		}
-	}
-
-	@Override
-	public IDashboardModel getModel() {
-		return model;
 	}
 
 	public void setModel(IDashboardModel dashboard) {
@@ -157,14 +134,10 @@ public class DashboardDesignerView extends AbstractView implements
 		return designerEventBus;
 	}
 
-	@Override
-	public void onWidgetAdd(WidgetAddEvent event) {
-		if (event.getContainsWidgets() != null
-				&& event.getContainsWidgets() == model) {
-			this.model.getWidgets().add(event.getCreatedWidget().getModel());
-		}
+	public DockLayoutPanel getLayoutPanel() {
+		return container;
 	}
-
+	
 	@Override
 	public DroppablePanel getDroppbalePanel() {
 		return widgetsPanel;
@@ -178,5 +151,17 @@ public class DashboardDesignerView extends AbstractView implements
 	@Override
 	public WidgetPropertiesPanel getWidgetPropertiesPanel() {
 		return widgetPropertiesPanel;
+	}
+
+	@Override
+	public void showWidgetPropertiesPanel(boolean show) {
+		container.animate(800);
+		if (show) {
+			container.setWidgetSize(getWidgetPropertiesPanel(), 250);
+			container.animate(800);
+		} else {
+			container.setWidgetSize(getWidgetPropertiesPanel(), 0);
+			container.animate(800);
+		}
 	}
 }

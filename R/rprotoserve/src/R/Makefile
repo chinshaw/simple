@@ -34,8 +34,6 @@ fileio.o: fileio.cc
 	$(CXX) $(ALL_CPPFLAGS) $(ALL_CXXFLAGS) $(MYCXXFLAGS) -c $< -o $@
 signal.o: signal.cc
 	$(CXX) $(ALL_CPPFLAGS) $(ALL_CXXFLAGS) $(MYCXXFLAGS) -c $< -o $@
-rprotoserve.o: rprotoserve.cc
-	$(CXX) $(ALL_CPPFLAGS) $(ALL_CXXFLAGS) $(MYCXXFLAGS) -c $< -o $@
 
-app: rexp.pb.o message.o main.o display.o fileio.o signal.o rprotoserve.cc
+app: rexp.pb.o message.o main.o display.o fileio.o signal.o
 	$(CXX)  $^ -o ../rprotoserve ${MYCXXFLAGS} ${PKG_LIBS} ${RINC} ${RLIB}

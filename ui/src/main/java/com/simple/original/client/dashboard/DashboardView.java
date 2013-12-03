@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.simple.original.client.dashboard.events.WidgetAddEvent;
+import com.simple.original.client.dashboard.events.WidgetAddedEvent;
 import com.simple.original.client.dashboard.events.WidgetRemoveEvent;
 import com.simple.original.client.dashboard.model.IDashboardModel;
 import com.simple.original.client.dashboard.model.IWidgetModel;
@@ -37,8 +37,7 @@ import com.simple.original.client.view.widgets.NewPopinPanel.Tab;
 /**
  * @author chinshaw
  */
-public class DashboardView extends AbstractView implements IDashboardView, IInspectable, WidgetAddEvent.Handler,
-		WidgetRemoveEvent.Handler {
+public class DashboardView extends AbstractView implements IDashboardView, IInspectable, WidgetRemoveEvent.Handler {
 
 	/**
 	 * This is the uibinder and it will use the view.DefaultView.ui.xml
@@ -48,8 +47,7 @@ public class DashboardView extends AbstractView implements IDashboardView, IInsp
 	public interface Binder extends UiBinder<Widget, DashboardView> {
 	}
 
-	private static final Logger logger = Logger.getLogger(DashboardView.class
-			.getName());
+	private static final Logger logger = Logger.getLogger(DashboardView.class.getName());
 
 	@UiField
 	FlowPanel widgetsPanel;
@@ -131,7 +129,7 @@ public class DashboardView extends AbstractView implements IDashboardView, IInsp
 	@Override
 	public void setModel(IDashboardModel model) {
 		this.model = model;
-		
+
 		for (IWidgetModel widgetModel : model.getWidgets()) {
 			IDashboardWidget<?> widget = widgetFactory.createWidget(widgetModel);
 			widgetsPanel.add(widget);
@@ -151,9 +149,7 @@ public class DashboardView extends AbstractView implements IDashboardView, IInsp
 
 	@Override
 	public void setTaskCompletionTime(Date completionTime) {
-		taskExecutionDate.setText("Viewing cached results of task executed at "
-				+ DateTimeFormat.getFormat("MM/dd/yyyy  'at' hh:mm:ss a")
-						.format(completionTime));
+		taskExecutionDate.setText("Viewing cached results of task executed at " + DateTimeFormat.getFormat("MM/dd/yyyy  'at' hh:mm:ss a").format(completionTime));
 	}
 
 	private void onDateSliderChange(Date date) {
@@ -176,14 +172,6 @@ public class DashboardView extends AbstractView implements IDashboardView, IInsp
 
 		if (model.getWidgets().contains(selectedWidget.getModel())) {
 			model.getWidgets().remove(selectedWidget.getModel());
-		}
-	}
-
-	@Override
-	public void onWidgetAdd(WidgetAddEvent event) {
-		if (event.getContainsWidgets() == model
-				|| event.getContainsWidgets() == null) {
-			widgetsPanel.add(event.getCreatedWidget().asWidget());
 		}
 	}
 

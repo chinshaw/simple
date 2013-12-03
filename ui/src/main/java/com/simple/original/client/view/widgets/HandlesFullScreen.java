@@ -1,6 +1,6 @@
 package com.simple.original.client.view.widgets;
 
-public interface IHandlesFullScreen {
+public interface HandlesFullScreen {
 
     public abstract void onFullScreen();
     

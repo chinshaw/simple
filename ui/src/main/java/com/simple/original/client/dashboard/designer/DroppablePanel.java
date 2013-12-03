@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.dashboard.WidgetFactory;
 
 /**
@@ -22,12 +23,15 @@ public class DroppablePanel extends DroppableWidget<FlowPanel> implements
 	private FlowPanel innerPanel;
 	
 	private final WidgetFactory widgetFactory;
-
-	public DroppablePanel(WidgetFactory widgetFactory) {
+	private final EventBus eventBus;
+	
+	public DroppablePanel(WidgetFactory widgetFactory, EventBus eventBus) {
 		this.widgetFactory = widgetFactory;
+		this.eventBus = eventBus;
 		init();
 		initWidget(innerPanel);
 		setupDrop();
+		
 	}
 
 	private void init() {
@@ -40,10 +44,12 @@ public class DroppablePanel extends DroppableWidget<FlowPanel> implements
 	 * Register drop handler !
 	 */
 	private void setupDrop() {
-		SortableDragAndDropHandler sortableHandler = new SortableDragAndDropHandler(innerPanel, widgetFactory);
+		SortableDragAndDropHandler sortableHandler = new SortableDragAndDropHandler(innerPanel, widgetFactory, eventBus);
 		addDropHandler(sortableHandler);
 		addOutDroppableHandler(sortableHandler);
 		addOverDroppableHandler(sortableHandler);
+		// Keeps it from allowing the drop to propagate
+		getOptions().setGreedy(true);
 	}
 
 	@Override

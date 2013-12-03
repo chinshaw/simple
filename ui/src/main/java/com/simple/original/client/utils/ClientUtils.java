@@ -40,17 +40,6 @@ public class ClientUtils {
 
 	}
 	
-	public static boolean hasValidSessionId() {
-		boolean isValid = false;
-		
-		String sessionId = Cookies.getCookie("JSESSIONID");
-		
-		if (sessionId != null && !sessionId.equals("")) {
-			isValid = true;
-		}
-		return isValid;
-	}
-	
 	public static String getClassSimpleName(Class<?> clazz) {
 		return clazz.getName().substring(clazz.getName().lastIndexOf(".")+1);
 	}
@@ -109,4 +98,15 @@ public class ClientUtils {
             }
         }
     }
+
+	public static boolean hasValidSessionId() {
+		boolean isValid = false;
+		
+		String sessionId = Cookies.getCookie("rememberme");
+		
+		if (sessionId != null && !sessionId.equals("")) {
+			isValid = true;
+		}
+		return isValid;
+	}
 }

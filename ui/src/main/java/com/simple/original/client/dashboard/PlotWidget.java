@@ -19,9 +19,10 @@ import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
 import com.simple.original.client.dashboard.model.IPlotWidgetModel;
 import com.simple.original.client.dashboard.model.IWidgetModel;
 import com.simple.original.client.resources.Resources;
+import com.simple.original.client.view.widgets.LinkableWidget;
 import com.simple.original.client.view.widgets.ScalableImage;
 
-public class PlotWidget extends AbstractDashboardWidget<IPlotWidgetModel> implements IDashboardWidget<IPlotWidgetModel>, ILinkableWidget, WidgetModelChangedEvent.Handler,
+public class PlotWidget extends AbstractDashboardWidget<IPlotWidgetModel> implements IDashboardWidget<IPlotWidgetModel>, LinkableWidget, WidgetModelChangedEvent.Handler,
 		ContextMenuHandler {
 
 	public static final String EMPTY_PLOT_DESCRIPTION = "No metric was selected for this plot";

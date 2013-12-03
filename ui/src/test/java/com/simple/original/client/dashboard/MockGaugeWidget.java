@@ -37,7 +37,7 @@ public class MockGaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> 
 
 			@Override
 			public void onClick(ClickEvent event) {
-				onWidgetSelected(event.getNativeEvent());
+				//onWidgetSelected(event.getNativeEvent());
 			}
 			
 		}, ClickEvent.getType());

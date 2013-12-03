@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.dashboard.AbstractDashboardWidget;
 import com.simple.original.client.dashboard.IDashboardWidget;
-import com.simple.original.client.dashboard.IWidgetModelEditor;
+import com.simple.original.client.dashboard.IWidgetEditor;
 import com.simple.original.client.dashboard.events.DashboardDragEvent;
 import com.simple.original.client.dashboard.events.DesignerDragStartEvent;
 import com.simple.original.client.dashboard.events.DesignerDragStartEvent.DesignerDragStartHandler;
@@ -29,7 +29,7 @@ import com.simple.original.client.events.HandlerCollection;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.resources.ResourcesFactory;
 
-public abstract class DesignerWidget<T extends AbstractDashboardWidget<M>, M extends IWidgetModel, E extends IWidgetModelEditor<M>> implements IDashboardWidget<M>, DesignerDragStartHandler {
+public abstract class AbstractDesignerWidget<T extends AbstractDashboardWidget<M>, M extends IWidgetModel, E extends IWidgetEditor<T>> implements IDashboardWidget<M>, DesignerDragStartHandler {
 
     private class ActionsPanel extends Composite {
         
@@ -82,7 +82,7 @@ public abstract class DesignerWidget<T extends AbstractDashboardWidget<M>, M ext
         }
     }
         
-    private static final Logger logger = Logger.getLogger(DesignerWidget.class.getName());
+    private static final Logger logger = Logger.getLogger(AbstractDesignerWidget.class.getName());
     
     private String draggableId = HTMLPanel.createUniqueId();
 
@@ -98,7 +98,7 @@ public abstract class DesignerWidget<T extends AbstractDashboardWidget<M>, M ext
 
     private final DesignerWidgetWrapper wrapper; 
 
-    public DesignerWidget(EventBus eventBus, T dashboardWidget, E editor) {
+    public AbstractDesignerWidget(EventBus eventBus, T dashboardWidget, E editor) {
         this.eventBus = eventBus;
         wrapper = new DesignerWidgetWrapper(dashboardWidget);
         this.editor = editor;

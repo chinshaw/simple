@@ -10,15 +10,13 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.simple.original.client.dashboard.IWidgetModelEditor;
-import com.simple.original.client.dashboard.events.WidgetAddEvent;
-import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
+import com.simple.original.client.dashboard.IWidgetEditor;
+import com.simple.original.client.dashboard.PanelWidget;
 import com.simple.original.client.dashboard.events.WidgetRemoveEvent;
 import com.simple.original.client.dashboard.model.IPanelWidgetModel;
 import com.simple.original.client.dashboard.model.IWidgetModel;
 
-public class PanelEditor extends Composite implements IWidgetModelEditor<IPanelWidgetModel>, WidgetRemoveEvent.Handler,
-		WidgetAddEvent.Handler {
+public class PanelEditor extends Composite implements IWidgetEditor<PanelWidget>, WidgetRemoveEvent.Handler {
 
 
 	/**
@@ -31,7 +29,7 @@ public class PanelEditor extends Composite implements IWidgetModelEditor<IPanelW
 	@UiField
 	TextBox title;
 
-	private IPanelWidgetModel model;
+	private PanelWidget widget;
 
 	@Inject
 	public PanelEditor(final EventBus eventBus) {
@@ -41,41 +39,39 @@ public class PanelEditor extends Composite implements IWidgetModelEditor<IPanelW
 
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				model.setTitle(title.getValue());
-				eventBus.fireEvent(new WidgetModelChangedEvent(model));
+				model().setTitle(title.getValue());
+				widget.update();
 			}
 		});
 
-		eventBus.addHandler(WidgetAddEvent.TYPE, this);
 		eventBus.addHandler(WidgetRemoveEvent.TYPE, this);
-	}
-
-	
-	public void setModel(IPanelWidgetModel value) {
-		this.model = value;
-		this.title.setValue(value.getTitle());
-	}
-
-	@Override
-	public IPanelWidgetModel getModel() {
-		return model;
 	}
 
 	@Override
 	public void onWidgetRemove(WidgetRemoveEvent event) {
 		IWidgetModel widgetModel = event.getSelectedWidget().getModel();
-		if (model.getWidgets().contains(widgetModel)) {
-			model.getWidgets().remove(widgetModel);
+		if (model().getWidgets().contains(widgetModel)) {
+			model().getWidgets().remove(widgetModel);
 		}
 	}
 
+	private IPanelWidgetModel model() {
+		return widget.getModel();
+	}
+	
+	private void update() {
+		title.setValue(model().getTitle());
+	}
+	
 	@Override
-	public void onWidgetAdd(WidgetAddEvent event) {
-		if (event.getContainsWidgets() != null) {
-			//IWidgetModel widgetModel = (IWidgetModel) event.getParentPanel();
-			if (this.model == event.getContainsWidgets()) {
-				model.getWidgets().add(event.getCreatedWidget().getModel());
-			}
-		}
+	public void setDashboardWidget(PanelWidget widget) {
+		this.widget = widget;
+		update();
+		
+	}
+
+	@Override
+	public PanelWidget getDashboardWidget() {
+		return widget;
 	}
 }

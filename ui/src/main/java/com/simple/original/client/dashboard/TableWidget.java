@@ -53,6 +53,7 @@ import com.simple.original.client.proxy.MetricDoubleProxy;
 import com.simple.original.client.proxy.MetricProxy;
 import com.simple.original.client.proxy.MetricStringProxy;
 import com.simple.original.client.resources.Resources;
+import com.simple.original.client.view.widgets.LinkableWidget;
 
 /**
  * This is a table represenation for dashboard that represents a table. It is a
@@ -61,7 +62,7 @@ import com.simple.original.client.resources.Resources;
  * 
  * @author chinshaw
  */
-public class TableWidget extends AbstractDashboardWidget<ITableWidgetModel> implements HasData<MetricRowProxy>, ILinkableWidget, IInspectable,
+public class TableWidget extends AbstractDashboardWidget<ITableWidgetModel> implements HasData<MetricRowProxy>, LinkableWidget, IInspectable,
         WidgetModelChangedEvent.Handler {
 
     public interface MetricRowProxy {
@@ -475,11 +476,6 @@ public class TableWidget extends AbstractDashboardWidget<ITableWidgetModel> impl
         if (eventModel == model) {
             setModel((ITableWidgetModel) eventModel);
         }
-    }
-
-    @Override
-    protected void onWidgetSelected(NativeEvent event) {
-        eventBus.fireEvent(new WidgetSelectedEvent(this));
     }
 
 	@Override

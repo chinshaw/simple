@@ -2,7 +2,7 @@ package com.simple.original.client.dashboard.events;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.simple.original.client.dashboard.AbstractDashboardWidget;
+import com.simple.original.client.dashboard.IDashboardWidget;
 
 public class WidgetSelectedEvent extends GwtEvent<WidgetSelectedEvent.Handler> {
 
@@ -27,7 +27,7 @@ public class WidgetSelectedEvent extends GwtEvent<WidgetSelectedEvent.Handler> {
     /**
      * Message to show in the panel.
      */
-    private final AbstractDashboardWidget<?> widget;
+    private final IDashboardWidget<?> widget;
     
     /**
      * Constructs a NotificationEvent for the given message.
@@ -35,7 +35,7 @@ public class WidgetSelectedEvent extends GwtEvent<WidgetSelectedEvent.Handler> {
      * @param notficationMessage
      *            a message instance
      */
-    public WidgetSelectedEvent(AbstractDashboardWidget<?> widget) {
+    public WidgetSelectedEvent(IDashboardWidget<?> widget) {
         this.widget = widget;
     }
 
@@ -49,7 +49,7 @@ public class WidgetSelectedEvent extends GwtEvent<WidgetSelectedEvent.Handler> {
      * 
      * @return a message
      */
-    public AbstractDashboardWidget<?> getSelectedWidget() {
+    public IDashboardWidget<?> getSelectedWidget() {
         return this.widget;
     }
     

@@ -44,6 +44,14 @@ public class DefaultTextBox extends TextBox {
     public String getDefaultText() {
       return defaultText;
     }
+    
+    public void setText(String text) {
+    	if (text == null) {
+    		super.setText(getDefaultText());
+    	} else {
+    		super.setText(text);
+    	}
+    }
 
     /**
      * Reset the text box to the default text.

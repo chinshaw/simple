@@ -10,7 +10,6 @@
 	</ui:style>
 	
 	<g:HTMLPanel>
-		<label>Widget Title</label>
-		<g:TextBox ui:field="title"></g:TextBox>
+		<t:DefaultTextBox ui:field="title" defaultText="widget title..."></t:DefaultTextBox >
 		</g:HTMLPanel>
 </ui:UiBinder>

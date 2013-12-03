@@ -7,10 +7,11 @@ import java.util.logging.Logger;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.simple.original.client.activity.AbstractActivity;
-import com.simple.original.client.dashboard.AbstractDashboardWidget;
-import com.simple.original.client.dashboard.IWidgetModelEditor;
+import com.simple.original.client.dashboard.IDashboardWidget;
+import com.simple.original.client.dashboard.IWidgetEditor;
 import com.simple.original.client.dashboard.designer.IDashboardDesignerView;
 import com.simple.original.client.dashboard.designer.WidgetEditorFactory;
+import com.simple.original.client.dashboard.events.WidgetAddedEvent;
 import com.simple.original.client.dashboard.events.WidgetSelectedEvent;
 import com.simple.original.client.place.AnalyticsTaskExecPlace;
 import com.simple.original.client.place.DashboardDesignerPlace;
@@ -22,7 +23,7 @@ import com.simple.original.client.service.DaoRequestFactory.DashboardRequest;
 
 public class DashboardDesignerActivity extends
 		AbstractActivity<DashboardDesignerPlace, IDashboardDesignerView>
-		implements IDashboardDesignerView.Presenter, WidgetSelectedEvent.Handler  {
+		implements IDashboardDesignerView.Presenter, WidgetSelectedEvent.Handler, WidgetAddedEvent.Handler  {
 
 	/**
 	 * The Logger
@@ -70,7 +71,8 @@ public class DashboardDesignerActivity extends
 	@Override
 	protected void bindToView() {
 		display.setPresenter(this);
-		eventBus().addHandler(WidgetSelectedEvent.TYPE, this);	
+		eventBus().addHandler(WidgetSelectedEvent.TYPE, this);
+		eventBus().addHandler(WidgetAddedEvent.TYPE, this);
 	}
 
 	/**
@@ -150,9 +152,23 @@ public class DashboardDesignerActivity extends
 
 	@Override
 	public void onWidgetSelected(WidgetSelectedEvent event) {
-		AbstractDashboardWidget<?> widget = event.getSelectedWidget();
+		IDashboardWidget<?> widget = event.getSelectedWidget();
+		displayModelEditor(widget);
+	}
+
+	@Override
+	public void onWidgetAdd(WidgetAddedEvent event) {
+		IDashboardWidget<?> widget = event.getCreatedWidget();
+		displayModelEditor(widget);
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	void displayModelEditor(IDashboardWidget<?> widget) {
 		String modelType = widget.getModel().getType();
-		IWidgetModelEditor<?> modelEditor = widgetEditorFactory.create(modelType);
+		IWidgetEditor modelEditor = widgetEditorFactory.create(modelType);
+		modelEditor.setDashboardWidget(widget);
 		display.getWidgetPropertiesPanel().setPropertiesEditor(modelEditor);
+		
+		display.showWidgetPropertiesPanel(true);
 	}
 }

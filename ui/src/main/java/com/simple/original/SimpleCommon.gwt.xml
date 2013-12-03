@@ -54,5 +54,5 @@
 
 
 	<!-- These should be disabled for production builds -->
-	<!-- set-configuration-property name="CssResource.style" value="pretty"/ -->
+	<set-configuration-property name="CssResource.style" value="stable"/>
 </module>

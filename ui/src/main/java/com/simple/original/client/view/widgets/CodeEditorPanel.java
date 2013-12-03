@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
-public class CodeEditorPanel extends FlowPanel implements LeafValueEditor<String>, IHandlesFullScreen {
+public class CodeEditorPanel extends FlowPanel implements LeafValueEditor<String>, HandlesFullScreen {
 
     /**
      * Supported languages 

@@ -11,6 +11,7 @@ import gwtquery.plugins.droppable.client.events.OutDroppableEvent.OutDroppableEv
 import gwtquery.plugins.droppable.client.events.OverDroppableEvent;
 import gwtquery.plugins.droppable.client.events.OverDroppableEvent.OverDroppableEventHandler;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gwt.dom.client.DivElement;
@@ -20,8 +21,11 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.event.shared.EventBus;
+import com.simple.original.client.dashboard.IDashboardWidget;
 import com.simple.original.client.dashboard.WidgetFactory;
 import com.simple.original.client.dashboard.designer.WidgetPalettePanel.PaletteWidget;
+import com.simple.original.client.dashboard.events.WidgetAddedEvent;
 import com.simple.original.client.resources.Resources;
 
 /**
@@ -42,11 +46,12 @@ public class SortableDragAndDropHandler implements DropEventHandler,
 	private SimplePanel placeHolder;
 	private int placeHolderIndex;
 	private final WidgetFactory widgetFactory;
-	
+	private final EventBus eventBus;
 
-	public SortableDragAndDropHandler(FlowPanel panel, WidgetFactory widgetFactory) {
+	public SortableDragAndDropHandler(FlowPanel panel, WidgetFactory widgetFactory, EventBus eventBus) {
 		this.panel = panel;
 		this.widgetFactory = widgetFactory;
+		this.eventBus = eventBus;
 		placeHolderIndex = -1;
 	}
 
@@ -70,7 +75,20 @@ public class SortableDragAndDropHandler implements DropEventHandler,
 		}
 		
 		PaletteWidget paletteWidget = (PaletteWidget) draggable;
-		panel.insert(widgetFactory.createWidget(paletteWidget.getModelType()), placeHolderIndex);
+		IDashboardWidget<?> widget = widgetFactory.createWidget(paletteWidget.getModelType());
+		if (widget == null) {
+			throw new RuntimeException("Unable to create widget of type");
+		}
+		
+		
+		logger.fine("adding widget to index " + placeHolderIndex);
+		// If there is a problem we need to catch it and still reset the view.
+		try {
+			panel.insert(widget, placeHolderIndex);
+			eventBus.fireEvent(new WidgetAddedEvent(widget));
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Unable to add widget to drop panel", e);
+		}
 		reset();
 	}
 
@@ -170,9 +188,14 @@ public class SortableDragAndDropHandler implements DropEventHandler,
 
 	private void reset() {
 		// don't listen drag event on the draggable
-		dragHandlerRegistration.removeHandler();
-		// remove the place holder
-		placeHolder.removeFromParent();
+		if (dragHandlerRegistration != null) {
+			dragHandlerRegistration.removeHandler();
+		}
+		if (placeHolder != null) {
+			// remove the place holder
+			placeHolder.removeFromParent();
+		}
+		
 		placeHolder = null;
 		dragHandlerRegistration = null;
 		placeHolderIndex = -1;

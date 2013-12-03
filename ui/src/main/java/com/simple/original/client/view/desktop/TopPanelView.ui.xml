@@ -14,15 +14,15 @@
 			<g:MenuItem text="Places">
 				<g:MenuBar vertical="true" animationEnabled="true"
 					focusOnHoverEnabled="true" stylePrimaryName="{resources.style.dropMenu}">
-					<g:MenuItem stylePrimaryName="{resources.style.menuItem}" ui:field="help">Help</g:MenuItem>
-					<g:MenuItem stylePrimaryName="{resources.style.menuItem}"  ui:field="dashboards">Dashboards</g:MenuItem>
-					<g:MenuItem stylePrimaryName="{resources.style.menuItem}"  ui:field="favorites">Favorites</g:MenuItem>
-					<g:MenuItem stylePrimaryName="{resources.style.menuItem}"  ui:field="operations">Analytics Operations</g:MenuItem>
-					<g:MenuItem stylePrimaryName="{resources.style.menuItem}"  ui:field="runTask">Run Task</g:MenuItem>
-					<g:MenuItem stylePrimaryName="dropMenuItem" ui:field="tasks">Analytics
+					<g:MenuItem ui:field="help" stylePrimaryName="{resources.style.menuItem}">Help</g:MenuItem>
+					<g:MenuItem ui:field="dashboards" stylePrimaryName="{resources.style.menuItem}">Dashboards</g:MenuItem>
+					<g:MenuItem ui:field="favorites" stylePrimaryName="{resources.style.menuItem}">Favorites</g:MenuItem>
+					<g:MenuItem ui:field="operations" stylePrimaryName="{resources.style.menuItem}">Analytics Operations</g:MenuItem>
+					<g:MenuItem ui:field="runTask" stylePrimaryName="{resources.style.menuItem}">Run Task</g:MenuItem>
+					<g:MenuItem ui:field="tasks" stylePrimaryName="{resources.style.menuItem}">Analytics
 						Tasks
 					</g:MenuItem>
-					<g:MenuItem ui:field="scheduling">Scheduling</g:MenuItem>
+					<g:MenuItem ui:field="scheduling" stylePrimaryName="{resources.style.menuItem}">Scheduling</g:MenuItem>
 				</g:MenuBar>
 			</g:MenuItem>
 		</g:MenuBar>

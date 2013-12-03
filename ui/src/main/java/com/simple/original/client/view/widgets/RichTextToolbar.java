@@ -286,7 +286,7 @@ public class RichTextToolbar extends Composite {
     private EventHandler handler = new EventHandler();
 
     private RichTextArea richText;
-    private IHandlesFullScreen handlesFullscreen;
+    private HandlesFullScreen handlesFullscreen;
     private RichTextArea.BasicFormatter basic;
     private RichTextArea.ExtendedFormatter extended;
 
@@ -318,7 +318,7 @@ public class RichTextToolbar extends Composite {
     private ListBox fonts;
     private ListBox fontSizes;
 
-    public RichTextToolbar(RichTextArea richText, IHandlesFullScreen handlesFullscreen) {
+    public RichTextToolbar(RichTextArea richText, HandlesFullScreen handlesFullscreen) {
         this(richText);
         this.handlesFullscreen = handlesFullscreen;
     }

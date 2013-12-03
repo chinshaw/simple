@@ -178,11 +178,9 @@ public class GaugeModelRangesEditor extends Composite implements IsEditor<ListEd
     FlowPanel ranges;
 
     private final EventBus eventBus;
-    private final IProvidesWidgetModel<IGaugeWidgetModel> modelProvider;
 
-    public GaugeModelRangesEditor(EventBus eventBus, IProvidesWidgetModel<IGaugeWidgetModel> modelProvider) {
+    public GaugeModelRangesEditor(EventBus eventBus) {
         this.eventBus = eventBus;
-        this.modelProvider = modelProvider;
         initWidget(GWT.<RangesBinder> create(RangesBinder.class).createAndBindUi(this));
         editor = ListEditor.of(new GaugeWidgetRangeEditorSource());
         // editor.createEditorForTraversal();
@@ -215,7 +213,6 @@ public class GaugeModelRangesEditor extends Composite implements IsEditor<ListEd
 
     private void modelUpdated() {
         editor.flush();
-        eventBus.fireEvent(new WidgetModelChangedEvent(modelProvider.getModel()));
     }
 
     @Override

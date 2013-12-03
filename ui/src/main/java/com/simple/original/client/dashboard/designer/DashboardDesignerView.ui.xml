@@ -53,33 +53,16 @@
 			width: 100%;
 		}
 	</ui:style>
-	<g:DockLayoutPanel ui:field="container"
-		styleName="{resources.style.contentPanel}" unit="PX">
-
-		<g:north size="0">
-			<g:HTMLPanel styleName="{style.titleContainer}">
-				<div>
-					<div style="margin-bottom: 8px;">
-						<label>Dashboard Name</label>
-						<g:TextBox ui:field="name"></g:TextBox>
-						<label>Dashboard Description</label>
-						<g:TextBox ui:field="description"></g:TextBox>
-					</div>
-					<div>
-						<g:Button ui:field="save">Save</g:Button>
-						<g:Button ui:field="cancel">Cancel</g:Button>
-					</div>
-				</div>
-			</g:HTMLPanel>
-		</g:north>
+	<g:SplitLayoutPanel ui:field="container"
+		styleName="{resources.style.splitLayoutPanel}">
 
 		<g:west size="60">
 			<designer:WidgetPalettePanel ui:field="widgetPalettePanel"></designer:WidgetPalettePanel>
 		</g:west>
 
-		<g:west size="60">
+		<g:east size="0">
 			<designer:WidgetPropertiesPanel ui:field="widgetPropertiesPanel"></designer:WidgetPropertiesPanel>
-		</g:west>
+		</g:east>
 
 		<g:center>
 			<g:FlowPanel styleName="{style.contentPanel}">
@@ -89,5 +72,5 @@
 					ui:field="widgetsPanel"></designer:DroppablePanel>
 			</g:FlowPanel>
 		</g:center>
-	</g:DockLayoutPanel>
+	</g:SplitLayoutPanel>
 </ui:UiBinder> 

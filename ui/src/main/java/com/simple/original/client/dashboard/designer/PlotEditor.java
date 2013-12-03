@@ -12,13 +12,14 @@ import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.simple.original.client.dashboard.IWidgetModelEditor;
+import com.simple.original.client.dashboard.IWidgetEditor;
+import com.simple.original.client.dashboard.PlotWidget;
 import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
 import com.simple.original.client.dashboard.model.IPlotWidgetModel;
 import com.simple.original.client.dashboard.model.jso.PlotWidgetModelJso;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 
-public class PlotEditor extends Composite implements IWidgetModelEditor<IPlotWidgetModel>  {
+public class PlotEditor extends Composite implements IWidgetEditor<PlotWidget>  {
 
     /**
      * This is the uibinder and it will use the view.DefaultView.ui.xml
@@ -29,8 +30,8 @@ public class PlotEditor extends Composite implements IWidgetModelEditor<IPlotWid
 
     @UiField
     TextBox title;
-
-    private PlotWidgetModelJso model;
+    
+    private PlotWidget widget;
 
     //@UiField(provided = true)
     //LinkableTaskPanel linkableTasks;
@@ -53,8 +54,7 @@ public class PlotEditor extends Composite implements IWidgetModelEditor<IPlotWid
 
             @Override
             public void onKeyUp(KeyUpEvent event) {
-                model.setTitle(title.getValue());
-                eventBus.fireEvent(new WidgetModelChangedEvent(model));
+                model().setTitle(title.getValue());
             }
         });
 
@@ -78,14 +78,23 @@ public class PlotEditor extends Composite implements IWidgetModelEditor<IPlotWid
         */
     }
 
-    public void setValue(PlotWidgetModelJso model) {
-        this.model = model;
-        this.title.setValue(model.getTitle());
+    public IPlotWidgetModel model() {
+        return widget.getModel();
     }
 
-    @Override
-    public IPlotWidgetModel getModel() {
-        return model;
+    private void update() {
+    	this.title.setValue(model().getTitle());
     }
+    
+	@Override
+	public void setDashboardWidget(PlotWidget widget) {
+		this.widget = widget;
+		update();
+	}
+
+	@Override
+	public PlotWidget getDashboardWidget() {
+		return widget;
+	}
 
 }

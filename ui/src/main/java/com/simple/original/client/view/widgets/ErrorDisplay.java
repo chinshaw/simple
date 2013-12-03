@@ -1,6 +1,6 @@
 package com.simple.original.client.view.widgets;
 
-public interface IErrorDisplay {
+public interface ErrorDisplay {
   
   void displayError(String error);
 

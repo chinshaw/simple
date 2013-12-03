@@ -19,11 +19,11 @@ public interface ILinkable {
 	 * Returns the {@link LinkableDashboard} objects for this widget.
 	 * @return
 	 */
-    public List<LinkableDashboardProxy> getLinkableDashboards();
+    public List<LinkableDashboardProxy> getLinkableTasks();
 
     /**
      * Setter for the {@link LinkableDashboard} objects of this widget.
      * @param linkableTasks
      */
-    public void setLinkableDashboards(List<LinkableDashboardProxy> linkableTasks);
+    public void setLinkableTasks(List<LinkableDashboardProxy> linkableTasks);
 }

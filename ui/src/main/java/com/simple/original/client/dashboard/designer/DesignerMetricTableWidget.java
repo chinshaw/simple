@@ -6,7 +6,7 @@ import com.simple.original.client.dashboard.TableWidget;
 import com.simple.original.client.dashboard.model.ITableWidgetModel;
 import com.simple.original.client.resources.Resources;
 
-public class DesignerMetricTableWidget extends DesignerWidget<TableWidget, ITableWidgetModel, TableEditor> {
+public class DesignerMetricTableWidget extends AbstractDesignerWidget<TableWidget, ITableWidgetModel, TableEditor> {
  
     
     public DesignerMetricTableWidget(EventBus eventBus, Resources resources, TableEditor editor) {

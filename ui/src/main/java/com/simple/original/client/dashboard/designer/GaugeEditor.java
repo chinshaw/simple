@@ -14,12 +14,13 @@ import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.simple.original.client.dashboard.IWidgetModelEditor;
-import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
+import com.simple.original.client.dashboard.GaugeWidget;
+import com.simple.original.client.dashboard.IGaugeWidget;
+import com.simple.original.client.dashboard.IWidgetEditor;
 import com.simple.original.client.dashboard.model.IGaugeWidgetModel;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 
-public class GaugeEditor extends Composite implements IWidgetModelEditor<IGaugeWidgetModel> {
+public class GaugeEditor extends Composite implements IWidgetEditor<GaugeWidget> {
 
     /**
      * This is the uibinder and it will use the view.DefaultView.ui.xml
@@ -34,7 +35,7 @@ public class GaugeEditor extends Composite implements IWidgetModelEditor<IGaugeW
     @UiField
     TextBox description;
 
-    private IGaugeWidgetModel model;
+    private GaugeWidget widget;
 
     //@UiField(provided = true)
     //LinkableTaskPanel linkableTasks;
@@ -53,7 +54,7 @@ public class GaugeEditor extends Composite implements IWidgetModelEditor<IGaugeW
 
     @Inject
     public GaugeEditor(final EventBus eventBus) {
-        rangesEditor = new GaugeModelRangesEditor(eventBus, this);
+        rangesEditor = new GaugeModelRangesEditor(eventBus);
         //linkableTasks = new LinkableTaskPanel(eventBus, tasksProvider);
 
         initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
@@ -62,8 +63,7 @@ public class GaugeEditor extends Composite implements IWidgetModelEditor<IGaugeW
 
             @Override
             public void onKeyUp(KeyUpEvent event) {
-                model.setTitle(title.getValue());
-                eventBus.fireEvent(new WidgetModelChangedEvent(model));
+                model().setTitle(title.getValue());
             }
         });
 
@@ -78,7 +78,6 @@ public class GaugeEditor extends Composite implements IWidgetModelEditor<IGaugeW
                 model.setMetric(metricDouble);
                 rangesEditor.setRanges(metricDouble.getRanges());
                 */
-                eventBus.fireEvent(new WidgetModelChangedEvent(model));
             }
         });
 
@@ -95,15 +94,24 @@ public class GaugeEditor extends Composite implements IWidgetModelEditor<IGaugeW
     }
 
  
-    public void setModel(IGaugeWidgetModel model) {
-        this.model = model;
-
-        this.output.setValue(output.getValue());
-        this.title.setValue(model.getTitle()); 
+    private IGaugeWidgetModel model() {
+        return widget.getModel();
+    }
+    
+    private void update() {
+        this.title.setValue(model().getTitle()); 
     }
 
-    @Override
-    public IGaugeWidgetModel getModel() {
-        return model;
-    }
+
+	@Override
+	public void setDashboardWidget(GaugeWidget widget) {
+		this.widget = widget;
+		update();
+	}
+
+
+	@Override
+	public GaugeWidget getDashboardWidget() {
+		return this.widget;
+	}
 }

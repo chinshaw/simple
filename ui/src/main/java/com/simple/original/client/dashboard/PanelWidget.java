@@ -1,8 +1,8 @@
 package com.simple.original.client.dashboard;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.LabelElement;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.ImageResource;
@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.dashboard.designer.DroppablePanel;
-import com.simple.original.client.dashboard.events.WidgetAddEvent;
 import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
 import com.simple.original.client.dashboard.events.WidgetRemoveEvent;
 import com.simple.original.client.dashboard.events.WidgetSelectedEvent;
@@ -21,8 +20,7 @@ import com.simple.original.client.dashboard.model.IWidgetModel;
 import com.simple.original.client.resources.Resources;
 
 public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
-		implements IInspectable,	
-		WidgetAddEvent.Handler, WidgetModelChangedEvent.Handler,
+		implements IInspectable, WidgetModelChangedEvent.Handler,
 		WidgetRemoveEvent.Handler {
 
 	public interface Binder extends UiBinder<Widget, PanelWidget> {
@@ -36,7 +34,7 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	DroppablePanel widgetsPanel;
 
 	@UiField
-	LabelElement panelTitle;
+	SpanElement panelTitle;
 
 	private final WidgetFactory widgetFactory;
 
@@ -44,11 +42,11 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	public PanelWidget(final EventBus eventBus, final Resources resources, WidgetFactory widgetFactory) {
 		super(eventBus, resources);
 		this.widgetFactory = widgetFactory;
-		widgetsPanel = new DroppablePanel(widgetFactory);
+		widgetsPanel = new DroppablePanel(widgetFactory, eventBus);
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
 		
 		widgetsPanel.getElement().getStyle().setPosition(Position.RELATIVE);
-		addDomHandler(widgetSelectedHandler, ClickEvent.getType());
+		
 	}
 	
 	@Override
@@ -65,13 +63,6 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	}
 
 	@Override
-	public void onWidgetAdd(WidgetAddEvent event) {
-		if (event.getContainsWidgets() == getModel()) {
-			widgetsPanel.add(event.getCreatedWidget().asWidget());
-		}
-	}
-
-	@Override
 	public void onWidgetRemove(WidgetRemoveEvent event) {
 		IDashboardWidget<?> selectedWidget = event.getSelectedWidget();
 		widgetsPanel.remove(event.getSelectedWidget().asWidget());
@@ -81,20 +72,21 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 		}
 	}
 
+	
+	/**
+	 * This is injected and the dashboard module will inject a new model when it is created.
+	 * This can also be used to set the model at a later time.
+	 */
+	@Inject
 	@Override
 	public void setModel(IPanelWidgetModel model) {
 		this.model = model;
-		panelTitle.setInnerText(model.getTitle());
+		update(); 
 		
 		for (IWidgetModel widgetModel : model.getWidgets()) {
 			IDashboardWidget<?> widget = widgetFactory.createWidget(widgetModel);
 			widgetsPanel.add(widget);
 		}
-	}
-
-	@Override
-	protected void onWidgetSelected(NativeEvent event) {
-		eventBus.fireEvent(new WidgetSelectedEvent(this));
 	}
 	
 	public int getWidgetCount() {
@@ -104,5 +96,9 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	@Override
 	public ImageResource getSelectorIcon() {
 		return resources.panelWidgetSelector();
+	}
+	
+	public void update() {
+		panelTitle.setInnerText(model.getTitle());
 	}
 }

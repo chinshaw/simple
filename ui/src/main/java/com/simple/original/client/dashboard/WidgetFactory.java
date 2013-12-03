@@ -38,7 +38,6 @@ public class WidgetFactory {
 			throw new RuntimeException("Unsupported widget type "
 					+ iWidgetModelType);
 		}
-		GWT.log("CREATED WIDGET " + widget);
 		return widget;
 	}
 

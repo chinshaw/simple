@@ -12,12 +12,12 @@ import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.simple.original.client.dashboard.IWidgetModelEditor;
-import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
+import com.simple.original.client.dashboard.IWidgetEditor;
+import com.simple.original.client.dashboard.TableWidget;
 import com.simple.original.client.dashboard.model.ITableWidgetModel;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 
-public class TableEditor extends Composite implements IWidgetModelEditor<ITableWidgetModel> {
+public class TableEditor extends Composite implements IWidgetEditor<TableWidget> {
 
 	/**
 	 * This is the uibinder and it will use the view.DefaultView.ui.xml
@@ -31,8 +31,8 @@ public class TableEditor extends Composite implements IWidgetModelEditor<ITableW
 
 	@UiField
 	TextBox title;
-
-	private ITableWidgetModel model;
+	
+	private TableWidget widget;
 
 	@UiField(provided = true)
 	ValueListBox<AnalyticsOperationOutputProxy> output = new ValueListBox<AnalyticsOperationOutputProxy>(new AbstractRenderer<AnalyticsOperationOutputProxy>() {
@@ -52,8 +52,7 @@ public class TableEditor extends Composite implements IWidgetModelEditor<ITableW
 
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				model.setTitle(title.getValue());
-				eventBus.fireEvent(new WidgetModelChangedEvent(model));
+				model().setTitle(title.getValue());
 			}
 		});
 
@@ -80,18 +79,22 @@ public class TableEditor extends Composite implements IWidgetModelEditor<ITableW
 
 	}
 
-	public void setModel(ITableWidgetModel model) {
-//		this.model = model;
-//		if (this.model.getLinkableTasks() == null) {
-//			this.model.setLinkableTasks(new ArrayList<LinkableDashboardProxy>());
-//		}
-//
-//		this.output.setValue(model.getOutput());
-//		this.title.setValue(model.getTitle());
+	private void update() {
+		this.title.setValue(model().getTitle());
+	}
+
+	public ITableWidgetModel model() {
+		return widget.getModel();
 	}
 
 	@Override
-	public ITableWidgetModel getModel() {
-		return model;
+	public void setDashboardWidget(TableWidget widget) {
+		this.widget = widget;
+		update();
+	}
+
+	@Override
+	public TableWidget getDashboardWidget() {
+		return widget;
 	}
 }

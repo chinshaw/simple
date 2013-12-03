@@ -21,7 +21,7 @@ import com.simple.original.client.view.widgets.Gauge;
 public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> implements
 		IGaugeWidget {
 
-	protected final FlowPanel container = new FlowPanel();
+	private final FlowPanel container = new FlowPanel();
 
 	private Object gaugeDataKey;
 
@@ -49,7 +49,7 @@ public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> impl
 		container.setStyleName(resources.style().gaugeWidget());
 		container.getElement().getStyle().setZIndex(251);
 		titleLabel.setStyleName(resources.style().gaugeLabel());
-		container.addDomHandler(widgetSelectedHandler, ClickEvent.getType());
+		//container.addDomHandler(widgetSelectedHandler, ClickEvent.getType());
 		container.add(titleLabel);
 
 		options = new GWTGauge.Options();
@@ -59,6 +59,7 @@ public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> impl
 		gauge = new BubbleGauge(options);
 		container.add(gauge);
 		container.add(violationInfo);
+		addDomHandler(widgetSelectedHandler, ClickEvent.getType());
 	}
 
 	/**
@@ -105,6 +106,7 @@ public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> impl
 
 
 	@Override
+	@Inject
 	public void setModel(IGaugeWidgetModel model) {
 		super.setModel(model);
 		/*
@@ -131,7 +133,7 @@ public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> impl
 
 	@Override
 	public Widget asWidget() {
-		return container;
+		return this;
 	}
 
 	protected boolean isFastDraw() {

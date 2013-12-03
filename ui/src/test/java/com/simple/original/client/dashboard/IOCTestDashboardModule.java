@@ -68,8 +68,8 @@ public class IOCTestDashboardModule extends AbstractGinModule {
 		// This will map the model to their editor widget. We have to use
 		// the name of the interface because of JavaScriptObject can't have 
 		// instance methods otherwise we would simply a simple getter method.
-		GinMapBinder<String, IWidgetModelEditor> editorBinder = GinMapBinder
-				.newMapBinder(binder(), String.class, IWidgetModelEditor.class);
+		GinMapBinder<String, IWidgetEditor> editorBinder = GinMapBinder
+				.newMapBinder(binder(), String.class, IWidgetEditor.class);
 		
 		editorBinder.addBinding(IGaugeWidgetModel.class.getName()).to(GaugeEditor.class);
 		editorBinder.addBinding(IPlotWidgetModel.class.getName()).to(PlotEditor.class);
@@ -87,7 +87,7 @@ public class IOCTestDashboardModule extends AbstractGinModule {
 	@Inject
 	@Provides
 	@Singleton
-	WidgetEditorFactory widgetEditorFactory(Map<String, Provider<IWidgetModelEditor>> widgetProvider) {
+	WidgetEditorFactory widgetEditorFactory(Map<String, Provider<IWidgetEditor>> widgetProvider) {
 		return new WidgetEditorFactory(widgetProvider);
 	}
 

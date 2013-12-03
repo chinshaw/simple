@@ -45,7 +45,6 @@
 		<class>com.simple.domain.dashboard.Dashboard</class>
 		<class>com.simple.domain.dashboard.GaugeModelRange</class>
 		<class>com.simple.domain.dashboard.LinkableDashboard</class>
-		<class>com.simple.domain.dashboard.Widget</class>
 		<class>com.simple.domain.dashboard.TextWidget</class>
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
@@ -56,8 +55,8 @@
 
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/simple" />
-			<property name="javax.persistence.jdbc.user" value="chris" />
-			<property name="javax.persistence.jdbc.password" value="chris" />
+			<property name="javax.persistence.jdbc.user" value="" />
+			<property name="javax.persistence.jdbc.password" value="" />
 		</properties>
 	</persistence-unit>
 	

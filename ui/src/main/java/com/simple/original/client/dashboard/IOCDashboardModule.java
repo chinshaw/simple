@@ -11,9 +11,9 @@ import com.google.inject.Singleton;
 import com.simple.original.client.dashboard.designer.DashboardDesignerView;
 import com.simple.original.client.dashboard.designer.GaugeEditor;
 import com.simple.original.client.dashboard.designer.IDashboardDesignerView;
-import com.simple.original.client.dashboard.designer.TableEditor;
 import com.simple.original.client.dashboard.designer.PanelEditor;
 import com.simple.original.client.dashboard.designer.PlotEditor;
+import com.simple.original.client.dashboard.designer.TableEditor;
 import com.simple.original.client.dashboard.designer.WidgetEditorFactory;
 import com.simple.original.client.dashboard.designer.WidgetPalettePanel;
 import com.simple.original.client.dashboard.designer.WidgetPropertiesPanel;
@@ -23,6 +23,7 @@ import com.simple.original.client.dashboard.model.IGaugeWidgetModel.IGaugeModelR
 import com.simple.original.client.dashboard.model.IPanelWidgetModel;
 import com.simple.original.client.dashboard.model.IPlotWidgetModel;
 import com.simple.original.client.dashboard.model.ITableWidgetModel;
+import com.simple.original.client.dashboard.model.IWidgetModel;
 import com.simple.original.client.dashboard.model.jso.DashboardModelJso;
 import com.simple.original.client.dashboard.model.jso.GaugeWidgetModelJso;
 import com.simple.original.client.dashboard.model.jso.GaugeWidgetModelRangeJso;
@@ -59,8 +60,8 @@ public class IOCDashboardModule extends AbstractGinModule {
 		// This will map the model to their editor widget. We have to use
 		// the name of the interface because of JavaScriptObject can't have 
 		// instance methods otherwise we would simply a simple getter method.
-		GinMapBinder<String, IWidgetModelEditor> editorBinder = GinMapBinder
-				.newMapBinder(binder(), String.class, IWidgetModelEditor.class);
+		GinMapBinder<String, IWidgetEditor> editorBinder = GinMapBinder
+				.newMapBinder(binder(), String.class, IWidgetEditor.class);
 		
 		editorBinder.addBinding(IGaugeWidgetModel.class.getName()).to(GaugeEditor.class);
 		editorBinder.addBinding(IPlotWidgetModel.class.getName()).to(PlotEditor.class);
@@ -78,7 +79,7 @@ public class IOCDashboardModule extends AbstractGinModule {
 	@Inject
 	@Provides
 	@Singleton
-	WidgetEditorFactory widgetEditorFactory(Map<String, Provider<IWidgetModelEditor>> widgetProvider) {
+	WidgetEditorFactory widgetEditorFactory(Map<String, Provider<IWidgetEditor>> widgetProvider) {
 		return new WidgetEditorFactory(widgetProvider);
 	}
 

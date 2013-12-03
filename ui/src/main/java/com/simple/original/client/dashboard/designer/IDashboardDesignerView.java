@@ -3,8 +3,9 @@
  */
 package com.simple.original.client.dashboard.designer;
 
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.simple.original.client.dashboard.IProvidesAnalyticsOperationOutputs;
-import com.simple.original.client.dashboard.events.WidgetAddEvent;
+import com.simple.original.client.dashboard.events.WidgetAddedEvent;
 import com.simple.original.client.dashboard.events.WidgetRemoveEvent;
 import com.simple.original.client.dashboard.model.IDashboardModel;
 import com.simple.original.client.view.IView;
@@ -13,7 +14,7 @@ import com.simple.original.client.view.IView;
  * @author chinshaw
  * 
  */
-public interface IDashboardDesignerView extends IView, WidgetRemoveEvent.Handler, WidgetAddEvent.Handler {
+public interface IDashboardDesignerView extends IView, WidgetRemoveEvent.Handler {
 
     public interface Presenter extends IProvidesAnalyticsOperationOutputs {
 
@@ -45,4 +46,6 @@ public interface IDashboardDesignerView extends IView, WidgetRemoveEvent.Handler
      * @return
      */
     public WidgetPropertiesPanel getWidgetPropertiesPanel();
+
+ 	public abstract void showWidgetPropertiesPanel(boolean show);
 }

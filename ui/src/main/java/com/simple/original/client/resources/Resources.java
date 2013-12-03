@@ -95,6 +95,8 @@ public interface Resources extends ClientBundle, CellTable.Resources, CellList.R
 		public String violationInfo();
 
 		public String toolTip();
+		
+		public String title();
 
 		public String staticPlotWidget();
 
@@ -153,9 +155,21 @@ public interface Resources extends ClientBundle, CellTable.Resources, CellList.R
 		public String designer();
 
 		public String placeHolder();
-
-		public String widgetPropertiesPanel();
 		
+		public String splitLayoutPanel();
+
+		/**
+		 * This is the link for the {@link WidgetPropertiesPanel}
+		 * @return
+		 */
+		public String widgetPropertiesPanel();
+
+		
+		/**
+		 * Style for class {@link AbstractDashboardWidget}
+		 * @return
+		 */
+		public String abstractDashboardWidget();
     }
 
 
@@ -169,6 +183,10 @@ public interface Resources extends ClientBundle, CellTable.Resources, CellList.R
 
     @Source("images/alertSmall.png")
     public ImageResource alertSmall();
+
+    @Source("images/blueFactoryIconDashboard.png")
+    public ImageResource blueFactoryIconDashboard();
+
 
 
     /**
@@ -272,7 +290,13 @@ public interface Resources extends ClientBundle, CellTable.Resources, CellList.R
     
     @Source("images/chart_bar.png")
     ImageResource barChartIcon();
-
+    
+    @Source("images/exampleChart.png")
+    ImageResource exampleChart();
+    
+    @Source("images/exampleTable.png")
+    ImageResource exampleTable();
+    
    	@Source("images/up1.png")
     ImageResource spinBoxUp();
 

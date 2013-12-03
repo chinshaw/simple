@@ -24,15 +24,9 @@ public class TopActivityMapper implements ActivityMapper {
     @Override
     public Activity getActivity(Place place) {
 
-        if (application.getCurrentPerson() == null) {
-            return null;
-        }
-
         if (place instanceof ApplicationPlace) {
         	return injector.topPanelActivity();
         }
-
         return null;
-
     }
 }

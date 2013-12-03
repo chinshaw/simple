@@ -31,7 +31,7 @@ public class TestDashboardDesignerActivity extends DashboardTestCase {
 	            false, false, false, false);
 		DomEvent.fireNativeEvent(clickEvent, gaugeWidget.asWidget());
 		
-		IWidgetModelEditor<?> modelEditor = activity.getDisplay().getWidgetPropertiesPanel().getPropertiesEditor();
+		IWidgetEditor<?> modelEditor = activity.getDisplay().getWidgetPropertiesPanel().getPropertiesEditor();
 		assertNotNull(modelEditor);
 	}
 }
