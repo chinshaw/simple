@@ -184,11 +184,6 @@ public interface Resources extends ClientBundle, CellTable.Resources, CellList.R
     @Source("images/alertSmall.png")
     public ImageResource alertSmall();
 
-    @Source("images/blueFactoryIconDashboard.png")
-    public ImageResource blueFactoryIconDashboard();
-
-
-
     /**
      * Panel open icon.
      * 
@@ -290,12 +285,6 @@ public interface Resources extends ClientBundle, CellTable.Resources, CellList.R
     
     @Source("images/chart_bar.png")
     ImageResource barChartIcon();
-    
-    @Source("images/exampleChart.png")
-    ImageResource exampleChart();
-    
-    @Source("images/exampleTable.png")
-    ImageResource exampleTable();
     
    	@Source("images/up1.png")
     ImageResource spinBoxUp();
