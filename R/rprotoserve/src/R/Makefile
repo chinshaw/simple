@@ -16,7 +16,7 @@ CXXFLAGS=`/usr/bin/R CMD config CXXFLAGS`
 SHLIB_CXXLD=`${R_HOME}/bin/R CMD config SHLIB_CXXLD`
 SHLIB_CXXLDFLAGS=`${R_HOME}/bin/R CMD config SHLIB_CXXLDFLAGS`
 
-MYCXXFLAGS+= -I. -I/usr/share/R/include  ${CXXFLAGS} -DUSEAUTOSHORT -DHAVE_UINTPTR_T  ${RINC} ${PBINC}
+MYCXXFLAGS+= -I. -I/usr/share/R/include -lboost_system ${CXXFLAGS} -DUSEAUTOSHORT -DHAVE_UINTPTR_T  ${RINC} ${PBINC}
 PKG_LIBS+=-fpic ${RLIB} ${PBLIB}
 
 
@@ -35,5 +35,9 @@ fileio.o: fileio.cc
 signal.o: signal.cc
 	$(CXX) $(ALL_CPPFLAGS) $(ALL_CXXFLAGS) $(MYCXXFLAGS) -c $< -o $@
 
-app: rexp.pb.o message.o main.o display.o fileio.o signal.o
+rprotoserve.o: rprotoserve.cc
+	$(CXX) $(ALL_CPPFLAGS) $(ALL_CXXFLAGS) $(MYCXXFLAGS) -c $< -o $@
+	
+
+app: rexp.pb.o message.o main.o display.o fileio.o signal.o rprotoserve.o
 	$(CXX)  $^ -o ../rprotoserve ${MYCXXFLAGS} ${PKG_LIBS} ${RINC} ${RLIB}
