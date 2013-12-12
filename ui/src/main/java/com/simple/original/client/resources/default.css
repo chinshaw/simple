@@ -315,6 +315,17 @@ div.contentPanel div.header h1 {
 	cursor: pointer;
 }
 
+.operationCell {
+	text-align:center;
+	color: #FFF;
+	background-color: #3B73AF;
+	height: 80px;
+	width: 100px;
+	margin:10px;
+	padding:5px;
+	border-radius: 5px;
+}
+
 .notificationPanel {
 	position: fixed;
 	bottom: 1em;
@@ -681,6 +692,7 @@ div.tabbedPanel div.widgetsPanel  {
 
 .dropDownTabPanelTabInnerLabel {	
 }
+
 
 @external gwtQuery-draggable ;
 .gwtQuery-draggable {

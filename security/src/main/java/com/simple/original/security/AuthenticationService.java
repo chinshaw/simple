@@ -47,7 +47,6 @@ public class AuthenticationService implements IAuthenticationProvider {
 		UsernamePasswordToken token = new UsernamePasswordToken(username,password);
 		token.setRememberMe(true);
 		
-		
 		Subject currentUser = SecurityUtils.getSubject();
 
 		try {
@@ -74,5 +73,17 @@ public class AuthenticationService implements IAuthenticationProvider {
 	public void logout() {
 
 	}
-
+	
+	public Person getCurrentPerson() throws AuthenticationException {
+		Subject currentUser = SecurityUtils.getSubject();
+		if (! currentUser.isAuthenticated()) {
+			throw new AuthenticationException();
+		}
+		
+		Session session = currentUser.getSession();
+		Person person = (Person) session.getAttribute(ISession.CURRENT_PERSON);
+		
+		System.out.println("The person is " + person);
+		return person;
+	}
 }

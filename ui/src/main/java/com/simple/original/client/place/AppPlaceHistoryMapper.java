@@ -16,7 +16,7 @@ import com.google.gwt.place.shared.WithTokenizers;
                   AnalyticsTaskCopyPlace.Tokenizer.class,
                   AdministrationPlace.Tokenizer.class,
                   CopyOperationBuilderPlace.Tokenizer.class,
-                  CreateEditOperationBuilderPlace.Tokenizer.class,
+                  AnalyticsOperationPlace.Tokenizer.class,
                   DashboardPlace.Tokenizer.class,
                   DashboardsPlace.Tokenizer.class,
                   DashboardDesignerPlace.Tokenizer.class,

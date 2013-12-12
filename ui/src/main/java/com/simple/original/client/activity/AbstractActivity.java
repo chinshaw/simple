@@ -14,7 +14,6 @@ import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.simple.original.client.Application;
-import com.simple.original.client.place.ApplicationPlace;
 import com.simple.original.client.place.PlaceController;
 import com.simple.original.client.proxy.PersonProxy;
 import com.simple.original.client.proxy.PreferencesProxy;
@@ -28,7 +27,7 @@ import com.simple.original.client.view.IView;
  * 
  * @author chris
  */
-public abstract class AbstractActivity<T extends ApplicationPlace, V extends IView> implements Activity {
+public abstract class AbstractActivity<T extends Place, V extends IView> implements Activity {
 
 	@Inject
 	private EventBus eventBus;

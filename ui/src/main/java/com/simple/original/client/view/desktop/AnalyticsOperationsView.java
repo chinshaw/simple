@@ -1,5 +1,6 @@
 package com.simple.original.client.view.desktop;
 
+import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.NumberCell;
@@ -7,34 +8,31 @@ import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.NumberFormat;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.HasData;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.api.domain.GroupMembership;
-import com.simple.original.api.domain.RecordFecthType;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.JavaAnalyticsOperationProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
@@ -45,6 +43,46 @@ import com.simple.original.client.view.widgets.ErrorPanel;
 
 public class AnalyticsOperationsView extends AbstractView implements IOperationsView {
 
+	class OperationCell extends AbstractCell<AnalyticsOperationProxy> {
+
+		public OperationCell() {
+			super("click");
+		}
+
+		@Override
+		public void render(com.google.gwt.cell.client.Cell.Context context, AnalyticsOperationProxy value, SafeHtmlBuilder sb) {
+		    String description = (value.getDescription() != null) ? value.getDescription() : "No description set for operation";
+		    
+			sb.appendHtmlConstant("<div class=\"" + getResources().style().operationCell() +"\">");
+			sb.appendHtmlConstant("<h3>" + value.getName() + "</h3>");
+			sb.appendHtmlConstant("<h5>" + description + "</h5>");
+			sb.appendHtmlConstant("</div>");
+		}
+
+		public void onBrowserEvent(Context context, Element parent, AnalyticsOperationProxy value, NativeEvent event, ValueUpdater<AnalyticsOperationProxy> valueUpdater) {
+			
+			super.onBrowserEvent(context, parent, value, event, valueUpdater);
+			if ("click".equals(event.getType())) {
+				EventTarget eventTarget = event.getEventTarget();
+				if (!Element.is(eventTarget)) {
+					return;
+				}
+				
+				presenter.onOperationSelected(value);
+
+				/*
+				if (Element.as(eventTarget).getId().equalsIgnoreCase("remove")) {
+					onRemoveCell(value);
+				}
+				
+				if (Element.as(eventTarget).getId().equalsIgnoreCase("edit")) {
+					onEditOperation(value);
+				}
+				*/
+			}
+		}
+	}
+	
     /**
      * This is the uibinder and it will use the view.DefaultView.ui.xml
      * template.
@@ -82,13 +120,6 @@ public class AnalyticsOperationsView extends AbstractView implements IOperations
      */
     @UiField
     TextBox searchQueryInput;
-
-
-	/**
-     * List of available Operations for Admin view.
-     */
-    @UiField
-    ListBox operationsList = new ListBox();
     
     /**
      * To perform the search.
@@ -123,8 +154,8 @@ public class AnalyticsOperationsView extends AbstractView implements IOperations
    	/**
      * Table containing the list of Analytics Operation.
      */
-    @UiField
-    CellTable<AnalyticsOperationProxy> analyticsTableData; 
+    @UiField(provided = true)
+    CellList<AnalyticsOperationProxy> operationsList; 
 
 	/**
      * Pagination for displaying the list of Analytics operations.
@@ -137,15 +168,17 @@ public class AnalyticsOperationsView extends AbstractView implements IOperations
      */
     private Presenter presenter;
 
-    private GroupMembership userRole;
 
     @Inject
     public AnalyticsOperationsView(EventBus eventBus, Resources resources) {
         super(resources);
         pager = new SimplePager();
-
-        initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));        
-        pager.setDisplay(analyticsTableData);
+        
+       operationsList = new CellList<AnalyticsOperationProxy>(new OperationCell(), resources);
+ 
+        initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
+        
+        pager.setDisplay(operationsList);
     }
 
 
@@ -154,51 +187,20 @@ public class AnalyticsOperationsView extends AbstractView implements IOperations
      */
     @Override
     public void setUserView(GroupMembership userGroup){
-    	userRole = userGroup;
-    	operationsList.clear();
-	    if(userRole == GroupMembership.ADMINISTRATOR ){
-	    	for(RecordFecthType type : RecordFecthType.values()){
-	    		operationsList.addItem(type.getDescription()+appendText, type.name());
-	    	}
-	    	operationsList.setSelectedIndex(RecordFecthType.ALL_RECORDS.ordinal());
-	    }else{
-	    	operationsList.addItem(RecordFecthType.PUBLIC_RECORDS.getDescription()+appendText, RecordFecthType.PUBLIC_RECORDS.name());
-	    	operationsList.addItem(RecordFecthType.MY_RECORDS.getDescription()+appendText, RecordFecthType.MY_RECORDS.name());
-			operationsList.setSelectedIndex(1);
-	    }
-    	setView();
-	    addOperationListHandler();
+    
     }
 
     /**
 	 * This method is used to handle change of list item selected in the drop down listBox
 	 */
     public void addOperationListHandler() {
-    	operationsList.addChangeHandler(new ChangeHandler() {
-            @Override
-            public void onChange(ChangeEvent event) {
-            	errorPanel.clear();
-            	searchQueryInput.setText("");
-            	setView();
-               presenter.onOperationSelected( operationsList.getValue(operationsList.getSelectedIndex()));
-            }
-        });
 	}
 
     /**
      * This method is used to set View for Admin and User
      */
     private void setView(){
-    	String operationSelected = operationsList.getValue(operationsList.getSelectedIndex()); 
-    	if(userRole == GroupMembership.USER){// User View
-			if(operationSelected.equals(RecordFecthType.PUBLIC_RECORDS.name())){
-        		setEnabledAddButton(false);
-
-        	}else{
-        		setEnabledAddButton(true);
-        	}
-    	}
-    	disableCopyEditDeleteButtons();		
+    	
     }
 
 		/**
@@ -400,15 +402,7 @@ public class AnalyticsOperationsView extends AbstractView implements IOperations
      */
 	@Override
     public void  setEnabledDeleteButton(boolean value) {
-		if(userRole !=  null && 
-				operationsList.getSelectedIndex() >= 0 && 
-				userRole == GroupMembership.USER &&
-				operationsList.getValue(operationsList.getSelectedIndex()).equals(RecordFecthType.PUBLIC_RECORDS.name()) ){
-			deleteOperations.setEnabled(false);
-		}else{
-			deleteOperations.setEnabled(value);
-		}
-    	
+		
 	}
     
     /**
@@ -439,7 +433,6 @@ public class AnalyticsOperationsView extends AbstractView implements IOperations
     public void reset() {
 		errorPanel.clear();
 		searchQueryInput.setText("");
-		operationsList.clear();
 		disableCopyEditDeleteButtons();
 		setEnabledAddButton(true);
     }
@@ -450,24 +443,10 @@ public class AnalyticsOperationsView extends AbstractView implements IOperations
    	}
 
     @Override
-    public HasData<AnalyticsOperationProxy> getAnalyticsTable() {
-        return analyticsTableData;
+    public HasData<AnalyticsOperationProxy> getOperationsList() {
+        return operationsList;
     }
 
-    @Override
-    public int getColumnIndex(Column<AnalyticsOperationProxy, ?> column) {
-    	return this.analyticsTableData.getColumnIndex(column);
-    }
-    
-	@Override
-	public HandlerRegistration addColumnSortHandler(ColumnSortEvent.Handler handler) {
-		return analyticsTableData.addColumnSortHandler(handler);  
-	}
-
-    @Override
-	public CellTable<AnalyticsOperationProxy> getAnalyticsTableData() {
-		return analyticsTableData;
-	}
     /**
      * Method to set visibility of  Edit Analytics Operations button
      */

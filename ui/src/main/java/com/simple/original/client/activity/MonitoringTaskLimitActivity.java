@@ -1,19 +1,15 @@
 package com.simple.original.client.activity;
 
-import java.util.List;
 import java.util.logging.Logger;
 
-import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
-import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
-import com.google.web.bindery.requestfactory.shared.Request;
 import com.simple.original.api.domain.SortOrder;
 import com.simple.original.client.place.MonitoringTaskPlace;
 import com.simple.original.client.place.WelcomePlace;
 import com.simple.original.client.proxy.PersonProxy;
-import com.simple.original.client.service.BaseListDataProvider;
+import com.simple.original.client.service.DaoBaseDataProvider;
 import com.simple.original.client.service.DaoRequestFactory.DaoRequest;
 import com.simple.original.client.view.IMonitoringTaskLimitView;
 
@@ -38,62 +34,13 @@ public class MonitoringTaskLimitActivity extends AbstractActivity<MonitoringTask
 		super(view);
 	}
 	
-	private class MonitoringTaskDataProvider extends BaseListDataProvider<PersonProxy> implements ColumnSortEvent.Handler{
+	private class MonitoringTaskDataProvider extends DaoBaseDataProvider<PersonProxy> implements ColumnSortEvent.Handler{
 
 		private String sortColumn = null;
 		private SortOrder sortOrder = SortOrder.DESCENDING;
 		private final String NAME_COLUMN = "name";
 		private final String EMAIL_COLUMN = "email";
 		private final String TASKLIMIT_COLUMN = "taskLimitValue";
-
-		@Override
-		protected CellTable<PersonProxy> getDisplayTable() {
-			return display.getUserTable();
-		}
-
-		@Override
-		protected String getSearchText() {
-			String searchText = display.getSearchText();
-			if(searchText.contains("'")){
-				searchText = searchText.replaceAll("'", "''");
-			}
-			return searchText;
-		}
-
-		@Override
-		protected String getSearchColumn() {
-			return NAME_COLUMN;
-		}
-
-		@Override
-		protected String getSortColumn() {
-			return sortColumn;
-		}
-
-		@Override
-		protected SortOrder getSortOrder() {
-			return sortOrder;
-		}
-
-		@Override
-		protected void showError(String errorMessage) {
-			display.showError(errorMessage);
-		}
-
-		@Override
-		protected DaoRequest<PersonProxy> getRequestProvider() {
-			return null;
-		}
-
-
-		/**
-		 * This method is used to get the UserList
-		 */
-		@Override
-		protected Request<List<PersonProxy>> getRecordsQuery(Range range) {
-			return dao().personRequest().search(range.getStart(), range.getLength(),null,getSearchText(),getSearchColumn(),getSortColumn(), getSortOrder());
-		}
-
 		/**
 		 * This method is used to sort the user exception list onclick of the column header.
 		 */
@@ -120,6 +67,18 @@ public class MonitoringTaskLimitActivity extends AbstractActivity<MonitoringTask
 				logger.info("Selected sort : " + columnIndex + "-" + sortOrder.asJPQL());
 				display.getUserTable().setVisibleRangeAndClearData(display.getUserTable().getVisibleRange(), true);
 			}
+		}
+
+		@Override
+		public String[] getWithProperties() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public DaoRequest<PersonProxy> getRequestProvider() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 

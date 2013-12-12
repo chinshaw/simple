@@ -1,29 +1,22 @@
 package com.simple.original.client.activity;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.simple.original.api.analytics.IPerson;
-import com.simple.original.api.domain.RecordFecthType;
-import com.simple.original.api.domain.SortOrder;
 import com.simple.original.client.events.NotificationEvent;
+import com.simple.original.client.place.AnalyticsOperationPlace;
 import com.simple.original.client.place.AnalyticsOperationsPlace;
 import com.simple.original.client.place.CopyOperationBuilderPlace;
-import com.simple.original.client.place.CreateEditOperationBuilderPlace;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
-import com.simple.original.client.service.BaseListDataProvider;
+import com.simple.original.client.service.DaoBaseDataProvider;
 import com.simple.original.client.service.DaoRequestFactory.DaoRequest;
 import com.simple.original.client.view.IOperationsView;
 import com.simple.original.client.view.IOperationsView.Presenter;
@@ -36,101 +29,18 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 	 */
 	private static final Logger logger = Logger.getLogger(AnalyticsOperationsActivity.class.getName());
 
-	private class AnalyticsDataProvider extends BaseListDataProvider<AnalyticsOperationProxy> {
-		private String sortColumn = null;
-		private SortOrder sortOrder = SortOrder.DESCENDING;
-		private final String NAME_COLUMN = "name";
-		private final String DESCRIPTION_COLUMN = "description";
-		private final String PUBLIC_OWNER_COLUMN = "owner";
-
-		@Override
-		protected CellTable<AnalyticsOperationProxy> getDisplayTable() {
-			return display.getAnalyticsTableData();
-		}
-
-		@Override
-		protected DaoRequest<AnalyticsOperationProxy> getRequestProvider() {
-			return dao().createAnalyticsOperationRequest();
-		}
-
-		@Override
-		protected String getSearchText() {
-			String searchText = display.getSearchText().getValue();
-			if (searchText.contains("'")) {
-				searchText = searchText.replaceAll("'", "''");
-			}
-			return searchText;
-		}
-
-		@Override
-		protected String getSortColumn() {
-			return sortColumn;
-		}
-
-		@Override
-		protected SortOrder getSortOrder() {
-			return sortOrder;
-		}
-
-		@Override
-		protected void showError(String errorMessage) {
-			display.showError(errorMessage);
-		}
-
-		@Override
-		protected RecordFecthType getRecordFecthType() {
-			if (fetchtype == null) {
-				fetchtype = currentPerson().getRoles().contains(IPerson.Role.ADMIN) ? RecordFecthType.ALL_RECORDS : RecordFecthType.MY_RECORDS;
-			}
-			return fetchtype;
-		}
+	private class AnalyticsDataProvider extends DaoBaseDataProvider<AnalyticsOperationProxy> {
 
 		@Override
 		public String[] getWithProperties() {
-			return new String[] {"owner"};
+			return new String[0];
 		}
 
 		@Override
-		protected String getSearchColumn() {
-			return NAME_COLUMN;
-		}
-
-		/**
-		 * This method is used to sort the Analytics operation on click of the
-		 * column header.
-		 */
-		@Override
-		public void onColumnSort(ColumnSortEvent event) {
-			if (event.getColumn().isSortable()) {
-				@SuppressWarnings("unchecked")
-				int columnIndex = display.getColumnIndex((Column<AnalyticsOperationProxy, ?>) event.getColumn());
-
-				switch (columnIndex) {
-				case 1:
-					sortColumn = NAME_COLUMN;
-					sortOrder = (event.isSortAscending()) ? SortOrder.ASCENDING : SortOrder.DESCENDING;
-					break;
-				case 2:
-					sortColumn = DESCRIPTION_COLUMN;
-					sortOrder = (event.isSortAscending()) ? SortOrder.ASCENDING : SortOrder.DESCENDING;
-					break;
-				case 4: // Sorting is not required on Operation type(Index 3) so
-						// we sort on index 4
-					sortColumn = PUBLIC_OWNER_COLUMN;
-					sortOrder = (event.isSortAscending()) ? SortOrder.ASCENDING : SortOrder.DESCENDING;
-					break;
-				}
-				logger.info("Selected sort : " + columnIndex + "-" + sortOrder.asJPQL());
-				display.getAnalyticsTable().setVisibleRangeAndClearData(display.getAnalyticsTable().getVisibleRange(), true);
-			}
+		public DaoRequest<AnalyticsOperationProxy> getRequestProvider() {
+			return dao().createAnalyticsOperationRequest();
 		}
 	}
-
-	/**
-	 * This is the variable used to get the List item selected by the Current
-	 * User
-	 */
-	private RecordFecthType fetchtype = null;
 
 	/**
 	 * This is the analytics operation data provider used to fetch the analytics
@@ -151,15 +61,26 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 	@Override
 	protected void bindToView() {
 		display.setPresenter(this); // Bind the view to the presenter
-		dataProvider.addDataDisplay(display.getAnalyticsTable());
-		display.getAnalyticsTable().setSelectionModel(selectionModel);
+
+		dataProvider.addDataDisplay(display.getOperationsList());
+		display.getOperationsList().setSelectionModel(selectionModel);
+		
+	}
+	
+	/**
+	 * Overriding parent cleanup so that we can add the call to remove the displays from the operartions
+	 * dataprovider. Otherwise if we try to re add it will throw IllegalStateException.
+	 */
+	@Override
+	protected void cleanup() {
+		dataProvider.removeDataDisplay(display.getOperationsList());
 		selectionModel.clear();
-		display.addColumnSortHandler(dataProvider); // Column Sorting
+		super.cleanup();
 	}
 
 	@Override
 	public void onAddAnalytics() {
-		placeController().goTo(new CreateEditOperationBuilderPlace(null));
+		placeController().goTo(new AnalyticsOperationPlace(null));
 	}
 
 	@Override
@@ -199,7 +120,8 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 									NotificationEvent ne = new NotificationEvent("Deleted Successfully");
 									eventBus().fireEvent(ne);
 								}
-								display.getAnalyticsTable().setVisibleRangeAndClearData(display.getAnalyticsTable().getVisibleRange(), true);
+								// display.getAnalyticsTable().setVisibleRangeAndClearData(display.getAnalyticsTable().getVisibleRange(),
+								// true);
 								display.disableCopyEditDeleteButtons();
 								selectionModel.clear();
 								display.setEnabledDeleteButton(true);
@@ -230,9 +152,7 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 	public void onEditAnalytics() {
 		final Set<AnalyticsOperationProxy> selectedAnalyticsOperation = selectionModel.getSelectedSet();
 		for (AnalyticsOperationProxy analyticsOperationProxy : selectedAnalyticsOperation) {
-			placeController().goTo(new CreateEditOperationBuilderPlace(analyticsOperationProxy.getId()));
-			selectionModel.clear();
-			break;
+			placeController().goTo(new AnalyticsOperationPlace(analyticsOperationProxy.getId()));
 		}
 	}
 
@@ -240,10 +160,7 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 	public void onCopyAnalytics() {
 		final Set<AnalyticsOperationProxy> selectedAnalyticsOperation = selectionModel.getSelectedSet();
 		for (AnalyticsOperationProxy analyticsOperationProxy : selectedAnalyticsOperation) {
-			logger.info("operation id is " + analyticsOperationProxy.getId());
 			placeController().goTo(new CopyOperationBuilderPlace(analyticsOperationProxy.getId()));
-			selectionModel.clear();
-			break;
 		}
 	}
 
@@ -253,19 +170,8 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 	 * item
 	 */
 	@Override
-	public void onOperationSelected(String recordSelected) {
-		logger.info("selected record Fetch type ->" + recordSelected);
-		if (recordSelected.equals(RecordFecthType.ALL_RECORDS.name())) {
-			fetchtype = RecordFecthType.ALL_RECORDS;
-		} else if (recordSelected.equals(RecordFecthType.PUBLIC_RECORDS.name())) {
-			fetchtype = RecordFecthType.PUBLIC_RECORDS;
-		} else if (recordSelected.equals(RecordFecthType.USER_RECORDS.name())) {
-			fetchtype = RecordFecthType.USER_RECORDS;
-		} else if (recordSelected.equals(RecordFecthType.MY_RECORDS.name())) {
-			fetchtype = RecordFecthType.MY_RECORDS;
-		}
-		selectionModel.clear();
-		display.getAnalyticsTableData().setVisibleRangeAndClearData(display.getAnalyticsTableData().getVisibleRange(), true);
+	public void onOperationSelected(AnalyticsOperationProxy operation) {
+		placeController().goTo(new AnalyticsOperationPlace(operation.getId()));
 	}
 
 	/**
@@ -275,19 +181,20 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 	@Override
 	public void onClickSearch() {
 		selectionModel.clear();
-		display.getAnalyticsTableData().setVisibleRangeAndClearData(display.getAnalyticsTableData().getVisibleRange(), true);
 		display.disableCopyEditDeleteButtons();
 	}
 
 	@Override
 	public void onSelectAll(Boolean selectAll) {
-		Iterable<AnalyticsOperationProxy> selectable = display.getAnalyticsTable().getVisibleItems();
-		for (Iterator<AnalyticsOperationProxy> iter = selectable.iterator(); iter.hasNext();) {
-			selectionModel.setSelected(iter.next(), selectAll);
-		}
-		display.setEnabledCopyButton(false);
-		display.setEnabledEditButton(false);
-		display.setEnabledDeleteButton(selectAll);
+		/*
+		 * Iterable<AnalyticsOperationProxy> selectable =
+		 * display.getAnalyticsTable().getVisibleItems(); for
+		 * (Iterator<AnalyticsOperationProxy> iter = selectable.iterator();
+		 * iter.hasNext();) { selectionModel.setSelected(iter.next(),
+		 * selectAll); } display.setEnabledCopyButton(false);
+		 * display.setEnabledEditButton(false);
+		 * display.setEnabledDeleteButton(selectAll);
+		 */
 	}
 
 	@Override

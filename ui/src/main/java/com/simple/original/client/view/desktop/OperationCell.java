@@ -19,9 +19,7 @@ public abstract class OperationCell extends AbstractCell<AnalyticsOperationProxy
 	    String description = (value.getDescription() != null) ? value.getDescription() : "No description set for operation";
 	    
 		sb.appendHtmlConstant("<div class=\" operationCell\">");
-		sb.appendHtmlConstant("<h2>" + (context.getIndex() + 1) + ": -  " + value.getName() + "</h3>");
-		sb.appendHtmlConstant("<button id=\"remove\" style=\"float:right\">remove</button>");
-		sb.appendHtmlConstant("<button id=\"edit\" style=\"float:right\">edit</button>");
+		sb.appendHtmlConstant("<h3>" + (context.getIndex() + 1) + ": -  " + value.getName() + "</h3>");
 		sb.appendHtmlConstant("<label style=\"font-style:italic; padding-left: 2em;\" >" + description + "</label>");
 		sb.appendHtmlConstant("</div>");
 	}

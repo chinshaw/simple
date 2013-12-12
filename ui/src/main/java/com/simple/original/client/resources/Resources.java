@@ -5,9 +5,12 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ImageResource.ImageOptions;
+import com.google.gwt.resources.client.ImageResource.RepeatStyle;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.simple.original.client.dashboard.AbstractDashboardWidget;
+import com.simple.original.client.dashboard.designer.WidgetPropertiesPanel;
 import com.simple.original.client.view.widgets.ProgressWidget;
 
 
@@ -170,6 +173,12 @@ public interface Resources extends ClientBundle, CellTable.Resources, CellList.R
 		 * @return
 		 */
 		public String abstractDashboardWidget();
+
+		/**
+		 * Operations cell when listing mutiple cells.
+		 * @return
+		 */
+		public String operationCell();
     }
 
 
@@ -180,9 +189,20 @@ public interface Resources extends ClientBundle, CellTable.Resources, CellList.R
      */
     @Source({"default.css"})
     public Style style();
+    
+    @Source("cellListStyle.css")
+    public CellList.Style cellListStyle();
+    
 
     @Source("images/alertSmall.png")
     public ImageResource alertSmall();
+    
+    /**
+     * The background used for selected items.
+     */
+    @Source("images/alertSmall.png")
+    @ImageOptions(repeatStyle = RepeatStyle.Horizontal, flipRtl = true)
+    ImageResource cellListSelectedBackground();
 
     /**
      * Panel open icon.

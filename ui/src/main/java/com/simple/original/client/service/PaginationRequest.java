@@ -9,5 +9,5 @@ import com.google.web.bindery.requestfactory.shared.SkipInterfaceValidation;
 
 @SkipInterfaceValidation
 public interface PaginationRequest<T extends EntityProxy> extends RequestContext {
-    Request<List<T>> find(int start, int end);
+    Request<List<T>> findRange(int start, int end);
 }

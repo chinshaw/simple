@@ -51,10 +51,6 @@ public abstract class DaoBaseDataProvider<T extends DatastoreObjectProxy> extend
         });
     }
 
-    public void showAll() {
-        updateRowCount(10, false);
-    }
-
     @Override
     protected void onRangeChanged(HasData<T> display) {
         final Range range = display.getVisibleRange();
@@ -95,7 +91,7 @@ public abstract class DaoBaseDataProvider<T extends DatastoreObjectProxy> extend
      * @return
      */
     protected Request<List<T>> getRangeQuery(Range range) {
-        return getRequestProvider().find(range.getStart(), range.getLength()).with(getWithProperties());
+        return getRequestProvider().findRange(range.getStart(), range.getLength()).with(getWithProperties());
     }
 
     protected Request<List<T>> getSearchQuery(String searchText) {

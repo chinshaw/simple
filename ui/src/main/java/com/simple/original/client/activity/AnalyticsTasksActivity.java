@@ -10,17 +10,11 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.view.client.MultiSelectionModel;
-import com.google.gwt.view.client.Range;
 import com.google.inject.Inject;
-import com.google.web.bindery.requestfactory.shared.Request;
-import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.domain.RecordFecthType;
 import com.simple.original.api.domain.SortOrder;
 import com.simple.original.client.place.AnalyticsTaskBuilderPlace;
@@ -29,7 +23,7 @@ import com.simple.original.client.place.ReportAdminSubscriptionPlace;
 import com.simple.original.client.place.TasksPlace;
 import com.simple.original.client.proxy.AnalyticsTaskMonitorProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
-import com.simple.original.client.service.BaseListDataProvider;
+import com.simple.original.client.service.DaoBaseDataProvider;
 import com.simple.original.client.service.DaoRequestFactory.DaoRequest;
 import com.simple.original.client.view.IAnalyticsTaskView;
 import com.simple.original.client.view.widgets.AnalyticsPopupPanel;
@@ -53,95 +47,21 @@ public class AnalyticsTasksActivity extends AbstractActivity<TasksPlace, IAnalyt
 	 * The AnalyticsDataProvider is used for fetching analytics tasks from the
 	 * server and update the table accordingly.
 	 */
-	class AnalyticsDataProvider extends BaseListDataProvider<AnalyticsTaskProxy> {
+	class AnalyticsDataProvider extends DaoBaseDataProvider<AnalyticsTaskProxy> {
 
 		@Override
-		protected DaoRequest<AnalyticsTaskProxy> getRequestProvider() {
-			return dao().createAnalyticsTaskRequest();
-		}
-
-		@Override
-		protected CellTable<AnalyticsTaskProxy> getDisplayTable() {
-			return display.getAnalyticsTasksTable();
+		public String[] getWithProperties() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 		@Override
-		protected String getSearchText() {
-			String searchText = display.getSearchText().getValue();
-			if (searchText.contains("'")) {
-				searchText = searchText.replaceAll("'", "''");
-			}
-			return searchText;
+		public DaoRequest<AnalyticsTaskProxy> getRequestProvider() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
-		@Override
-		protected String getSearchColumn() {
-			return NAME_COLUMN;
-		}
-
-		@Override
-		protected String getSortColumn() {
-			return sortColumn;
-		}
-
-		@Override
-		protected SortOrder getSortOrder() {
-			return sortOrder;
-		}
-
-		@Override
-		protected void showError(String errorMessage) {
-			display.showError(errorMessage);
-		}
-
-		@Override
-		protected RecordFecthType getRecordFecthType() {
-			if (fetchtype == null) {
-				fetchtype = currentPerson().getRoles().contains(IPerson.Role.ADMIN) ? RecordFecthType.ALL_RECORDS : RecordFecthType.MY_RECORDS;
-			}
-			return fetchtype;
-		}
-
-		protected String[] getWithProperties() {
-			return new String[] { "owner" };
-		}
-
-		@Override
-		protected Request<List<AnalyticsTaskProxy>> getRecordsQuery(Range range) {
-			return dao().createAnalyticsTaskRequest()
-					.search(range.getStart(), range.getLength(), getRecordFecthType(), getSearchText(), getSearchColumn(), getSortColumn(), getSortOrder())
-					.with(getWithProperties());
-		}
-
-		/**
-		 * This method is used to sort the analytics tasks onclick of the column
-		 * header.
-		 */
-		@Override
-		public void onColumnSort(ColumnSortEvent event) {
-			if (event.getColumn().isSortable()) {
-				@SuppressWarnings("unchecked")
-				int columnIndex = display.getColumnIndex((Column<AnalyticsTaskProxy, ?>) event.getColumn());
-
-				switch (columnIndex) {
-				case 1:
-					sortColumn = NAME_COLUMN;
-					sortOrder = (event.isSortAscending()) ? SortOrder.ASCENDING : SortOrder.DESCENDING;
-					break;
-				case 2:
-					sortColumn = DESCRIPTION_COLUMN;
-					sortOrder = (event.isSortAscending()) ? SortOrder.ASCENDING : SortOrder.DESCENDING;
-					break;
-				case 3:
-					sortColumn = PUBLIC_OWNER_COLUMN;
-					sortOrder = (event.isSortAscending()) ? SortOrder.ASCENDING : SortOrder.DESCENDING;
-					break;
-				}
-				logger.info("Selected sort : " + columnIndex + "-" + sortOrder.asJPQL());
-				display.getAnalyticsTasksTable().setVisibleRangeAndClearData(display.getAnalyticsTasksTable().getVisibleRange(), true);
-			}
-		}
-
+	
 	}
 
 	/**
@@ -180,7 +100,7 @@ public class AnalyticsTasksActivity extends AbstractActivity<TasksPlace, IAnalyt
 		analyticDataProvider.addDataDisplay(display.getAnalyticsTasksTable());
 		display.getAnalyticsTasksTable().setSelectionModel(analyticsSelectionModel);
 		analyticsSelectionModel.clear();
-		display.addColumnSortHandler(analyticDataProvider);
+		//display.addColumnSortHandler(analyticDataProvider);
 	}
 
 	/**

@@ -8,7 +8,7 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.simple.original.client.place.AnalyticsTasksPlace;
-import com.simple.original.client.place.CreateEditOperationBuilderPlace;
+import com.simple.original.client.place.AnalyticsOperationPlace;
 import com.simple.original.client.place.DashboardDesignerPlace;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
@@ -72,7 +72,7 @@ public class AnalyticsTaskBuilderActivity extends AbstractTaskBuilderActivity<An
 
 	@Override
 	public void onEditOperation(AnalyticsOperationProxy value) {
-		placeController().goTo(new CreateEditOperationBuilderPlace(value.getId()));
+		placeController().goTo(new AnalyticsOperationPlace(value.getId()));
 	}
 
 	@Override

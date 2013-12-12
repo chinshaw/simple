@@ -34,6 +34,8 @@ public interface PublicRequestFactory extends RequestFactory {
 	interface AuthenticationRequest extends RequestContext {
 
 		Request<PersonProxy> doAuthenticate(String email, String password);
+		
+		Request<PersonProxy> getCurrentPerson();
 
 		Request<Void> logout();
 	}

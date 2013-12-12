@@ -35,22 +35,18 @@
 		<g:center>
 			<g:HTMLPanel>
 				<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
-				<label class="{resources.style.tabbedPanelLabel}">Analytics Operations</label>
-				<div class="{resources.style.tabbedPanel}">
-					<g:FlowPanel styleName="{resources.style.buttonCollection}">
-						<g:Button ui:field="deleteOperations">Delete</g:Button>
-						<g:Button ui:field="addAnalytics">New</g:Button> 
-						<g:Button ui:field="copyOperations">Copy</g:Button>
-						<g:Button ui:field="editOperations">Edit</g:Button>
-						<g:ListBox ui:field="operationsList" addStyleNames ="{style.listBox}" ></g:ListBox>
-					</g:FlowPanel>
-					<div style="margin-top:5px; margin-bottom:5px;">
-						<g:TextBox ui:field="searchQueryInput" addStyleNames="{style.searchBox}" />
-						<g:Button ui:field="searchResults">search</g:Button>
-					</div>
-					<c:CellTable ui:field="analyticsTableData" />
-					<c:SimplePager ui:field="pager" />
+				<g:FlowPanel styleName="{resources.style.buttonCollection}">
+					<g:Button ui:field="deleteOperations">Delete</g:Button>
+					<g:Button ui:field="addAnalytics">New</g:Button>
+					<g:Button ui:field="copyOperations">Copy</g:Button>
+					<g:Button ui:field="editOperations">Edit</g:Button>
+				</g:FlowPanel>
+				<div style="margin-top:5px; margin-bottom:5px;">
+					<g:TextBox ui:field="searchQueryInput" addStyleNames="{style.searchBox}" />
+					<g:Button ui:field="searchResults">search</g:Button>
 				</div>
+				<c:CellList ui:field="operationsList" />
+				<c:SimplePager ui:field="pager" />
 			</g:HTMLPanel>
 		</g:center>
 	</g:DockLayoutPanel>

@@ -1,6 +1,7 @@
 package com.simple.original.client.view;
 
 import com.google.gwt.editor.client.Editor;
+import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
@@ -32,8 +33,6 @@ public interface IOperationBuilderView extends IView, Editor<RAnalyticsOperation
     public interface Presenter {
 
         void onCancelAnalytics();
-
-        void onAnalyticsTypeUpdated(OperationType value);
 
         AnalyticsOperationOutputProxy createOutput(IAnalyticsOperationOutput.Type  type) throws SimpleException;
 

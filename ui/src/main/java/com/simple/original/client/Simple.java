@@ -7,7 +7,6 @@ import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
-import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.Window;
@@ -20,13 +19,14 @@ import com.simple.original.client.place.LoginPlace;
 import com.simple.original.client.place.PlaceController;
 import com.simple.original.client.proxy.PersonProxy;
 import com.simple.original.client.resources.Resources;
-import com.simple.original.client.service.DaoRequestFactory;
+import com.simple.original.client.service.PublicRequestFactory;
 import com.simple.original.client.service.RemoteDebugService;
-import com.simple.original.client.utils.ClientUtils;
 import com.simple.original.client.view.IMasterLayoutPanel;
 
 public class Simple implements EntryPoint {
 
+	private static final Logger logger = Logger.getLogger(Simple.class.getName());
+	
 	private final InjectorProvider provider = GWT.create(InjectorProvider.class);
 
 	private final IOCBaseInjector injector = provider.get();
@@ -35,7 +35,7 @@ public class Simple implements EntryPoint {
 	private IMasterLayoutPanel masterLayoutPanel;
 
 	@Inject
-	DaoRequestFactory daoRequestFactory;
+	PublicRequestFactory publicRequestFactory;
 
 	@Inject
 	Resources resources;
@@ -43,8 +43,11 @@ public class Simple implements EntryPoint {
 	@Inject
 	PlaceController placeController;
 
+	/**
+	 * Client side application singleton for storing global variables.
+	 */
 	@Inject
-	Application application;
+	Application app;
 
 	private Place defaultPlace = new AnalyticsTaskExecPlace();
 
@@ -58,8 +61,10 @@ public class Simple implements EntryPoint {
 		}
 
 		RootLayoutPanel.get().add(masterLayoutPanel);
-		StyleInjector.inject(resources.style().getText());
-
+		
+		resources.style().ensureInjected();
+		resources.cellListStyle().ensureInjected();
+		
 		PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(injector.placeHistoryMapper());
 
 		// Start PlaceHistoryHandler with our PlaceHistoryMapper
@@ -70,24 +75,6 @@ public class Simple implements EntryPoint {
 
 	}
 
-	private void startApplication(final PlaceHistoryHandler historyHandler) {
-
-		daoRequestFactory.personRequest().getCurrentPerson().with(PersonProxy.AUTH_PROPERTIES).fire(new Receiver<PersonProxy>() {
-
-			@Override
-			public void onSuccess(PersonProxy person) {
-				historyHandler.handleCurrentHistory();
-				application.setCurrentPerson(person);
-			}
-
-			public void onFailure(ServerFailure error) {
-				// Lets just assume that the user is not authenticated and
-				// we need to send them to the login screen.
-				GWT.log("Got server failure " + error.getMessage());
-				placeController.goTo(new LoginPlace());
-			}
-		});
-	}
 
 	private void configureActivities() {
 		ActivityManager contentMapper = new ActivityManager(injector.contentActivityMapper(), injector.eventBus());
@@ -111,5 +98,30 @@ public class Simple implements EntryPoint {
 				}
 			});
 		}
+	}
+	
+	/**
+	 * This will call the server and try to fetch the current person if they are logged in.
+	 * If they are logged in and a person is found for an existing session then the user is
+	 * configured for the application as a whole.
+	 * @param historyHandler
+	 */
+	private void startApplication(final PlaceHistoryHandler historyHandler) {
+		publicRequestFactory.authRequest().getCurrentPerson().with(PersonProxy.AUTH_PROPERTIES).fire(new Receiver<PersonProxy>() {
+
+			@Override
+			public void onSuccess(PersonProxy person) {
+				app.setCurrentPerson(person);
+				historyHandler.handleCurrentHistory();
+			}
+
+			public void onFailure(ServerFailure error) {
+				// Lets just assume that the user is not authenticated and
+				// we need to send them to the login screen.
+				
+				GWT.log("Got server failure " + error.getMessage());
+				placeController.goTo(new LoginPlace());
+			}
+		});
 	}
 }

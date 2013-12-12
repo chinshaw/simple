@@ -37,7 +37,7 @@ public interface IOperationsView extends IView {
 		 * Called on the operation selection from the list box.
 		 * @param operationSelected 
 		 */
-		void onOperationSelected(String operationSelected);
+		void onOperationSelected(AnalyticsOperationProxy operation);
 		
 		/**
 		 * Called when the select all header is clicked.
@@ -71,30 +71,12 @@ public interface IOperationsView extends IView {
      */
     TextBox getSearchText();
 
-	/**
-	 * Method for getting the column index.
-	 * @param column
-	 * @return
-	 */
-	int getColumnIndex(Column<AnalyticsOperationProxy, ?> column);
-	
-	/**
-	 * Method for implementing sort functionality.
-	 * @param handler
-	 * @return
-	 */
-	HandlerRegistration addColumnSortHandler(Handler handler);
 	
 	/**
      * This method is used to populate the values to analytics operation.
      */
-	HasData<AnalyticsOperationProxy> getAnalyticsTable();
+	HasData<AnalyticsOperationProxy> getOperationsList();
 	
-	/**
-	 * To get the analyticsTableData.
-	 * @return
-	 */
-	CellTable<AnalyticsOperationProxy> getAnalyticsTableData();
 	
 	/**
 	 * To Set the User View.

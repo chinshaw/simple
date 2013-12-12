@@ -15,192 +15,65 @@
 		}
 	</ui:style>
 
-	<g:DockLayoutPanel styleName="{resources.style.contentPanel}"
-		ui:field="layout" unit="PX">
-		<g:center>
-			<g:HTMLPanel ui:field="contentPanel" styleName="">
-				<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
-				<!-- <t:EnumEditor ui:field="typeEditor"></t:EnumEditor> -->
+	<g:HTMLPanel ui:field="contentPanel" styleName="{resources.style.contentPanel}">
+		<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+		<!-- <t:EnumEditor ui:field="typeEditor"></t:EnumEditor> -->
 
-				<label class="{resources.style.tabbedPanelLabel}">Analytics Operation</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<p>
-						<b>Description:</b>
-						The analytics operation builder facilitates building a customized
-						analytics operation that can be used in an analyitcs task. An
-						analyitcs
-						task provides a contract between the analytics task and
-						the
-						operation itself.
-						For example some analyitcs task may require
-						specific user inputs and
-						data provider in order to run. The
-						analytics operation also gives
-						insight
-						into what outputs it will
-						provide when done. The analytics
-						task can take
-						these inputs and give
-						the task builder a more intuitive
-						way to design
-						things like
-						dashboards and metrics that can be monitored.
-						UI User Inputs will
-						be used to allow a user
-						to define what inputs will
-						be provided to
-						the screen (example "start
-						date", "factory id", etc).
-						A analytics
-						operation
-						consists of a name, description, user inputs, optional
-						outputs and
-						required
-						data providers. UI User Inputs are ui widgets
-						that will prompt the
-						user for input.
-						Required Data Providers tell
-						the analytics task
-						builder that something is required
-						for a specific
-						analytics
-						operation. The implementation of the data provider is up
-						to the
-						task
-						creator but this is a que to what is required in order
-						to operate.
-					</p>
-					<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
-					<label>
-						<span style="color:red; padding-right:1px;">*</span>
-						Name
-					</label>
-					<t:ValueBoxEditorDecorator errorLocation="RIGHT"
-						ui:field="name">
-						<t:valuebox>
-							<g:TextBox />
-						</t:valuebox>
-					</t:ValueBoxEditorDecorator>
+		<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
+		<label>
+			<span style="color:red; padding-right:1px;">*</span>
+			Name
+		</label>
+		<t:ValueBoxEditorDecorator errorLocation="RIGHT"
+			ui:field="name">
+			<t:valuebox>
+				<g:TextBox />
+			</t:valuebox>
+		</t:ValueBoxEditorDecorator>
 
-					<label>Description</label>
-					<t:ValueBoxEditorDecorator errorLocation="RIGHT"
-						ui:field="description">
-						<t:valuebox>
-							<g:TextArea />
-						</t:valuebox>
-					</t:ValueBoxEditorDecorator>
+		<label>Description</label>
+		<t:ValueBoxEditorDecorator errorLocation="RIGHT"
+			ui:field="description">
+			<t:valuebox>
+				<g:TextArea />
+			</t:valuebox>
+		</t:ValueBoxEditorDecorator>
 
-				</div>
-				<br />
+		<br />
 
-				<!-- Inputs Panel -->
-				<label class="{resources.style.tabbedPanelLabel}">UI User Inputs</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<p>
-						<b>Description:</b>
-						UI User Inputs are used to help drive the ui when a analytics
-						task
-						is selected. You can use these to define and override
-						what inputs
-						are
-						required to execute this analtyics job. A stand
-						UIInput can be
-						used
-						for a text input or a numeric input
-						they will be converted at
-						runtime
-						to the correct type. The R is not
-						shown to the user but will
-						be the
-						variable name in which
-						the user provided variable will be
-						assigned.
-						The Default Value field
-						is an optional field that allows
-						the
-						analytics task creator to
-						provide a default value for this field
-						for
-						most cases. UI Display Name is
-						only used in the ui and provides
-						the
-						user with a more customized
-						name of what is required than just
-						the
-						input name. Defined Inputs
-						option will convert the input into a
-						select box if any defined inputs are provided. This will only
-						allow
-						the user to select from a predefined list of options.
-						A
-						UIDateInput
-						will prompt the user for a date using a calendar
-						widget
-						so that
-						formatting will be consistent for your analytics
-						task.
-					</p>
-					<br />
-					<d:InputsEditorWorking ui:field="inputsEditor" resources="{resources}"/>
-				</div>
-				<br />
+		<br />
+		<d:InputsEditorWorking ui:field="inputsEditor"
+			resources="{resources}" />
+		<br />
 
-				<!-- Required Data Providers Panel -->
-				<label class="{resources.style.tabbedPanelLabel}">Required Data Providers</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<p>
-						<b>Description:</b>
-						A data provider in the operation is a contractual agreement that
-						the creator
-						of the analytics task must follow. If an operation
-						defines a
-						required data provider
-						the analytics task must add a data
-						provider that will supply the
-						required input data
-						in the required
-						format. Validation of the data provider input data
-						will be done
-						at
-						run time so the description is a que to tell the analaytics task
-						builder what
-						format the data is expected to be formatted as.
-					</p>
-					<br />
-				</div>
-				<br />
+		<label class="{resources.style.tabbedPanelLabel}">R Script</label>
+		<div class="{resources.style.tabbedPanel} ">
+			<div>
+				<label style="display:inline-block;">Script Code</label>
+				<span style="display:inline-block; float:right">
+					<g:Image url="{resources.fullScreen.getURL}" ui:field="codeFullScreen" />
+				</span>
+			</div>
+			<br style="clear:both;" />
+			<t:CodeEditorPanel styleName="{style.codePanel}"
+				ui:field="code" />
+		</div>
+		<br />
 
-				<label class="{resources.style.tabbedPanelLabel}">R Script</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<div>
-						<label style="display:inline-block;">Script Code</label>
-						<span style="display:inline-block; float:right">
-							<g:Image url="{resources.fullScreen.getURL}" ui:field="codeFullScreen" />
-						</span>
-					</div>
-					<br style="clear:both;" />
-					<t:CodeEditorPanel styleName="{style.codePanel}"
-						ui:field="code" />
-				</div>
-				<br />
-
-				<!-- Outputs panel -->
-				<label class="{resources.style.tabbedPanelLabel}">Provided Outputs</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<d:AnalyticsOperationOutputEditor
-						ui:field="outputsEditor"></d:AnalyticsOperationOutputEditor>
-					<g:ListBox ui:field="availableOutputTypes"></g:ListBox>
-					<g:Button styleName="{resources.style.textButton}"
-						ui:field="addOutput">
-						add
-					</g:Button>
-				</div>
-				<br />
-				<div class="{resources.style.buttonCollection}" style="text-align: right; margin-bottom: 2em;">
-					<g:Button ui:field="cancel">Cancel</g:Button>
-					<g:Button ui:field="save">Save</g:Button>
-				</div>
-			</g:HTMLPanel>
-		</g:center>
-	</g:DockLayoutPanel>
+		<!-- Outputs panel -->
+		<label class="{resources.style.tabbedPanelLabel}">Provided Outputs</label>
+		<div class="{resources.style.tabbedPanel} ">
+			<d:AnalyticsOperationOutputEditor
+				ui:field="outputsEditor"></d:AnalyticsOperationOutputEditor>
+			<g:ListBox ui:field="availableOutputTypes"></g:ListBox>
+			<g:Button styleName="{resources.style.textButton}" ui:field="addOutput">
+				add
+			</g:Button>
+		</div>
+		<br />
+		<div class="{resources.style.buttonCollection}" style="text-align: right; margin-bottom: 2em;">
+			<g:Button ui:field="cancel">Cancel</g:Button>
+			<g:Button ui:field="save">Save</g:Button>
+		</div>
+	</g:HTMLPanel>
 </ui:UiBinder>

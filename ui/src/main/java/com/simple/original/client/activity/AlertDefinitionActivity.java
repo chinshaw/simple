@@ -4,24 +4,19 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.domain.RecordFecthType;
-import com.simple.original.api.domain.SortOrder;
 import com.simple.original.client.events.NotificationEvent;
 import com.simple.original.client.place.AlertDefinitionEditPlace;
 import com.simple.original.client.place.EmailNotificationPlace;
 import com.simple.original.client.place.MonitoringPlace;
 import com.simple.original.client.proxy.AnalyticsTaskMonitorProxy;
-import com.simple.original.client.service.BaseListDataProvider;
+import com.simple.original.client.service.DaoBaseDataProvider;
 import com.simple.original.client.service.DaoRequestFactory;
 import com.simple.original.client.service.DaoRequestFactory.DaoRequest;
 import com.simple.original.client.view.IAlertDefinitionView;
@@ -37,97 +32,19 @@ public class AlertDefinitionActivity extends AbstractActivity<MonitoringPlace, I
 	 * The {@link ListDataProvider} used for user lists. This will fetch alerts
 	 * from the server and update the table accordingly.
 	 */
-	private class TableDataProvider extends BaseListDataProvider<AnalyticsTaskMonitorProxy> {
-
-		private String sortColumn = null;
-		private SortOrder sortOrder = SortOrder.DESCENDING;
-
-		private final String NAME_COLUMN = "name";
-		private final String DESCRIPTION_COLUMN = "description";
-		private final String PUBLIC_OWNER_COLUMN = "owner";
+	private class TableDataProvider extends DaoBaseDataProvider<AnalyticsTaskMonitorProxy> {
 
 		@Override
-		protected CellTable<AnalyticsTaskMonitorProxy> getDisplayTable() {
-			return display.getAlertsTable();
+		public String[] getWithProperties() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 		@Override
-		protected DaoRequest<AnalyticsTaskMonitorProxy> getRequestProvider() {
-			return daoRequestFactory.alertDefinitionRequest();
+		public DaoRequest<AnalyticsTaskMonitorProxy> getRequestProvider() {
+			// TODO Auto-generated method stub
+			return null;
 		}
-
-		@Override
-		protected String getSearchText() {
-			String searchText = display.getSearchQueryInput().getValue();
-			if (searchText.contains("'")) {
-				searchText = searchText.replaceAll("'", "''");
-			}
-			((MultiSelectionModel<AnalyticsTaskMonitorProxy>) selectionModel).clear();
-			return searchText;
-		}
-
-		@Override
-		protected String getSearchColumn() {
-			return NAME_COLUMN;
-		}
-
-		@Override
-		protected String getSortColumn() {
-			return sortColumn;
-		}
-
-		@Override
-		protected SortOrder getSortOrder() {
-			return sortOrder;
-		}
-
-		@Override
-		protected String[] getWithProperties() {
-			return AnalyticsTaskMonitorProxy.EDIT_PROPERTIES;
-		}
-
-		@Override
-		protected void showError(String errorMessage) {
-			display.showError(errorMessage);
-		}
-
-		@Override
-		protected RecordFecthType getRecordFecthType() {
-			if (fetchtype == null) {
-				fetchtype = currentPerson().getRoles().contains(IPerson.Role.ADMIN) ? RecordFecthType.ALL_RECORDS : RecordFecthType.MY_RECORDS;
-			}
-			return fetchtype;
-		}
-
-		/**
-		 * This method is used to sort the alerts onclick of the column header.
-		 */
-		@Override
-		public void onColumnSort(ColumnSortEvent event) {
-
-			if (event.getColumn().isSortable()) {
-				@SuppressWarnings("unchecked")
-				int columnIndex = display.getColumnIndex((Column<AnalyticsTaskMonitorProxy, ?>) event.getColumn());
-
-				switch (columnIndex) {
-				case 1:
-					sortColumn = NAME_COLUMN;
-					sortOrder = (event.isSortAscending()) ? SortOrder.ASCENDING : SortOrder.DESCENDING;
-					break;
-				case 2:
-					sortColumn = DESCRIPTION_COLUMN;
-					sortOrder = (event.isSortAscending()) ? SortOrder.ASCENDING : SortOrder.DESCENDING;
-					break;
-				case 3:
-					sortColumn = PUBLIC_OWNER_COLUMN;
-					sortOrder = (event.isSortAscending()) ? SortOrder.ASCENDING : SortOrder.DESCENDING;
-					break;
-				}
-				logger.info("Selected sort : " + columnIndex + "-" + sortOrder.asJPQL());
-				display.getAlertsTable().setVisibleRangeAndClearData(display.getAlertsTable().getVisibleRange(), true);
-			}
-		}
-
 	}
 
 	/**
@@ -168,7 +85,7 @@ public class AlertDefinitionActivity extends AbstractActivity<MonitoringPlace, I
 		((MultiSelectionModel<AnalyticsTaskMonitorProxy>) selectionModel).clear();
 
 		display.getSelectedAlertsToDelete();
-		display.addColumnSortHandler(tableDataProvider);
+		//display.addColumnSortHandler(tableDataProvider);
 	}
 
 	/**

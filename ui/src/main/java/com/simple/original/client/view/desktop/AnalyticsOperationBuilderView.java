@@ -64,9 +64,6 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     @Path("public")
 	@UiField
 	CheckBox isPublic;
-    
-    @UiField
-    DockLayoutPanel layout;
 
     @UiField
     HTMLPanel contentPanel;

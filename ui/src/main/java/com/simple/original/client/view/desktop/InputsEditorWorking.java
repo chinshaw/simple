@@ -392,8 +392,10 @@ public class InputsEditorWorking extends AbstractInputsEditor {
         // This was causing a bug where editors inputs were being duplicated.
         editors.clear();
         
-        for (AnalyticsOperationInputProxy input : inputs) {
-            addInput(input);
+        if (inputs != null) {
+            for (AnalyticsOperationInputProxy input : inputs) {
+                addInput(input);
+            }	
         }
     }
 

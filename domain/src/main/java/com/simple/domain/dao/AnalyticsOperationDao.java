@@ -42,8 +42,13 @@ public class AnalyticsOperationDao extends DaoBase<AnalyticsOperation>
 		super(AnalyticsOperation.class);
 	}
 
+	/**
+	 * This method requires that the current person either be set in the 
+	 * operation or that it will use the person from the
+	 * current session.
+	 */
 	public Long save(AnalyticsOperation operation) throws DomainException {
-		return saveAndReturn(operation).getId();
+		return this.saveAndReturn(operation).getId();
 	}
 
 	public AnalyticsOperation saveAndReturn(AnalyticsOperation operation)
@@ -103,6 +108,7 @@ public class AnalyticsOperationDao extends DaoBase<AnalyticsOperation>
 		return operationNames;
 	}
 
+	
 	public List<AnalyticsOperation> search(int start, int max,
 			RecordFecthType recordType, String searchText, String searchColumn,
 			String sortColumn, SortOrder sortOrder) {

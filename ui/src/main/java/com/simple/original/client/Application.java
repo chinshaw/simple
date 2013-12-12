@@ -10,7 +10,6 @@ public class Application {
 		
 	}
 	
-	
 	public PersonProxy getCurrentPerson() {
 		return person;
 	}

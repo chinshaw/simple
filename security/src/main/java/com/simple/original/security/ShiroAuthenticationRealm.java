@@ -56,6 +56,7 @@ public class ShiroAuthenticationRealm extends AuthorizingRealm {
 
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
 		info.setStringPermissions(permissions);
+		
 		return info;
 	}
 

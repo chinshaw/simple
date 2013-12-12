@@ -2,12 +2,12 @@ package com.simple.original.client.place;
 
 import com.google.gwt.place.shared.PlaceTokenizer;
 
-public class CreateEditOperationBuilderPlace extends ApplicationPlace {
+public class AnalyticsOperationPlace extends ApplicationPlace {
 	
 	 private Long analyticsOperationId;
 	    
 	 
-	  public CreateEditOperationBuilderPlace(Long analyticsOperationId) {
+	  public AnalyticsOperationPlace(Long analyticsOperationId) {
 	        this.analyticsOperationId = analyticsOperationId;
 	    }
 	 
@@ -20,9 +20,9 @@ public class CreateEditOperationBuilderPlace extends ApplicationPlace {
 		}
 
 
-	  public static class Tokenizer implements PlaceTokenizer<CreateEditOperationBuilderPlace> {
+	  public static class Tokenizer implements PlaceTokenizer<AnalyticsOperationPlace> {
 	        @Override
-	        public String getToken(CreateEditOperationBuilderPlace place) {
+	        public String getToken(AnalyticsOperationPlace place) {
 	        	if (place.getAnalyticsOperationId() != null) {
 	            	return place.getAnalyticsOperationId().toString();
 	            }	            
@@ -30,12 +30,12 @@ public class CreateEditOperationBuilderPlace extends ApplicationPlace {
 	        }
 
 	        @Override
-	        public CreateEditOperationBuilderPlace getPlace(String token) {
+	        public AnalyticsOperationPlace getPlace(String token) {
 	        	if(token == null){
-	        		return new CreateEditOperationBuilderPlace(null);
+	        		return new AnalyticsOperationPlace(null);
 	        	}
 	            Long analyticsOperationId = PlaceUtils.longFromToken(token);
-	            return new CreateEditOperationBuilderPlace(analyticsOperationId);
+	            return new AnalyticsOperationPlace(analyticsOperationId);
 	        }
 	    }
 

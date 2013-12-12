@@ -73,10 +73,12 @@ public class DaoBase<T extends IDatastoreObject> {
 	 *            to be persisted.
 	 * @return The persisted object
 	 */
-
-	@Transactional
+	//@Transactional
 	protected T saveOrUpdate(T obj) {
+		em.getTransaction().begin();
 		obj = em.merge(obj);
+		em.getTransaction().commit();
+		
 		return obj;
 	}
 
