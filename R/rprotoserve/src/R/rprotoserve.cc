@@ -23,7 +23,38 @@ void start() {
 }
 
 
+class Connection : public boost::enable_shared_from_this<Connection> {
+
+public:
+	typedef boost::shared_ptr<Connection> Pointer;
+
+    static Pointer create(asio::io_service& io_service)
+    {
+        return Pointer(new Connection(io_service));
+    }
+
+
+    tcp::socket& get_socket()
+    {
+        return m_socket;
+    }
+
+
+private:
+
+    tcp::socket m_socket;
+
+    Connection(asio::io_service& io_service)
+        : m_socket(io_service)
+    {
+    }
+
+
+};
+
+
 struct RProtoServe::RProtoServeImpl {
+	tcp::socket m_socket;
 
 	int m_port;
 	tcp::acceptor acceptor;
@@ -37,17 +68,17 @@ struct RProtoServe::RProtoServeImpl {
 		// to db to each connection poses no problem since the server is 
 		// single-threaded.
 		//
-		DbConnection::Pointer new_connection =
-			DbConnection::create(acceptor.io_service(), db);
+		Connection::Pointer new_connection =
+			Connection::create(acceptor.io_service());
 
 		// Asynchronously wait to accept a new client
 		//
 		acceptor.async_accept(new_connection->get_socket(),
-				boost::bind(&DbServerImpl::handle_accept, this, new_connection,
+				boost::bind(&RProtoServeImpl::handle_accept, this, new_connection,
 					asio::placeholders::error));
 	}
 
-	void handle_accept(DbConnection::Pointer connection,
+	void handle_accept(Connection::Pointer connection,
 			const boost::system::error_code& error)
 	{
 
