@@ -145,6 +145,7 @@ public class DashboardDesignerActivity extends
 	 */
 
 	private void doEdit(DashboardRequest context, DashboardProxy dashboard) {
+		//display.setDashboardModel(dashboard);
 		// widgetController = new WidgetControllerDesigner(eventBus,
 		// clientFactory.getResources());
 		// display.setWidgetController(widgetController);
