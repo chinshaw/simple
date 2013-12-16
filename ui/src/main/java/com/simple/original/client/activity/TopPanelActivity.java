@@ -11,10 +11,6 @@ import com.simple.original.client.view.ITopPanelView;
 
 public class TopPanelActivity extends AbstractActivity<ApplicationPlace, ITopPanelView> implements ITopPanelView.Presenter {
 
-	class PlaceClick {
-
-	}
-	
 	@Inject
 	IMasterLayoutPanel masterLayoutPanel;
 

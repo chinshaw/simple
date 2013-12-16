@@ -16,6 +16,7 @@ import com.simple.original.client.place.AnalyticsTaskExecPlace;
 import com.simple.original.client.place.AnalyticsTaskSchedulerPlace;
 import com.simple.original.client.place.AnalyticsTasksPlace;
 import com.simple.original.client.place.DashboardsPlace;
+import com.simple.original.client.place.DataProvidersPlace;
 import com.simple.original.client.place.PlaceController;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.ITopPanelView;
@@ -49,6 +50,9 @@ public class TopPanelView extends AbstractView implements ITopPanelView {
 
 	@UiField
 	MenuItem dashboards;
+	
+	@UiField
+	MenuItem dataProviders;
 
 	@UiField
 	MenuItem favorites;
@@ -75,6 +79,7 @@ public class TopPanelView extends AbstractView implements ITopPanelView {
 		addStyleName(resources.style().topPanel());
 		
 		help.setScheduledCommand(new MenuPlaceItemCommand(null));
+		dataProviders.setScheduledCommand(new MenuPlaceItemCommand(new DataProvidersPlace()));
 		dashboards.setScheduledCommand(new MenuPlaceItemCommand(new DashboardsPlace()));
 		favorites.setScheduledCommand(new MenuPlaceItemCommand(null));
 		operations.setScheduledCommand(new MenuPlaceItemCommand(new AnalyticsOperationsPlace()));

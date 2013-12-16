@@ -1,6 +1,5 @@
 <!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view"
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view"
 	xmlns:d="urn:import:com.simple.original.client.view.desktop">
 
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
@@ -12,16 +11,14 @@
 	<g:FlowPanel>
 		<g:MenuBar stylePrimaryName="{resources.style.dropMenu}">
 			<g:MenuItem text="Places">
-				<g:MenuBar vertical="true" animationEnabled="true"
-					focusOnHoverEnabled="true" stylePrimaryName="{resources.style.dropMenu}">
+				<g:MenuBar vertical="true" animationEnabled="true" focusOnHoverEnabled="true" stylePrimaryName="{resources.style.dropMenu}">
 					<g:MenuItem ui:field="help" stylePrimaryName="{resources.style.menuItem}">Help</g:MenuItem>
 					<g:MenuItem ui:field="dashboards" stylePrimaryName="{resources.style.menuItem}">Dashboards</g:MenuItem>
+					<g:MenuItem ui:field="dataProviders" stylePrimaryName="{resources.style.menuItem}">DataProviders</g:MenuItem>
 					<g:MenuItem ui:field="favorites" stylePrimaryName="{resources.style.menuItem}">Favorites</g:MenuItem>
 					<g:MenuItem ui:field="operations" stylePrimaryName="{resources.style.menuItem}">Analytics Operations</g:MenuItem>
 					<g:MenuItem ui:field="runTask" stylePrimaryName="{resources.style.menuItem}">Run Task</g:MenuItem>
-					<g:MenuItem ui:field="tasks" stylePrimaryName="{resources.style.menuItem}">Analytics
-						Tasks
-					</g:MenuItem>
+					<g:MenuItem ui:field="tasks" stylePrimaryName="{resources.style.menuItem}">Analytics Tasks</g:MenuItem>
 					<g:MenuItem ui:field="scheduling" stylePrimaryName="{resources.style.menuItem}">Scheduling</g:MenuItem>
 				</g:MenuBar>
 			</g:MenuItem>

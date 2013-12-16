@@ -41,6 +41,8 @@ public interface IOperationBuilderView extends IView, Editor<RAnalyticsOperation
         AnalyticsOperationDataProviderProxy createDataProvider();
 
 		void onSave(String name, boolean publicFlag);
+
+		void onTestScript();
     }
 
     void setPresenter(Presenter presenter);

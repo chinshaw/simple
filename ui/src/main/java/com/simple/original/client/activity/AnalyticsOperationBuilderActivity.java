@@ -27,13 +27,9 @@ import com.simple.original.client.service.DaoRequestFactory.AnalyticsOperationRe
 import com.simple.original.client.view.IOperationBuilderView;
 import com.simple.original.client.view.IOperationBuilderView.Presenter;
 
-public class AnalyticsOperationBuilderActivity extends
-		AbstractActivity<AnalyticsOperationPlace, IOperationBuilderView>
-		implements Presenter {
+public class AnalyticsOperationBuilderActivity extends AbstractActivity<AnalyticsOperationPlace, IOperationBuilderView> implements Presenter {
 
-	private static final Logger logger = Logger
-			.getLogger(AnalyticsOperationBuilderActivity.class.getName());
-
+	private static final Logger logger = Logger.getLogger(AnalyticsOperationBuilderActivity.class.getName());
 
 	/**
 	 * This is the request context for the
@@ -51,7 +47,7 @@ public class AnalyticsOperationBuilderActivity extends
 		context = dao().createAnalyticsOperationRequest();
 
 		final Long operationId = place().getAnalyticsOperationId();
-		
+
 		logger.finest("Operation Id to edit is " + operationId);
 		if (operationId == null) {
 			createAndEditOperation();
@@ -68,13 +64,12 @@ public class AnalyticsOperationBuilderActivity extends
 	private void createAndEditOperation() {
 		logger.fine("Creating new operation to edit");
 
-		RAnalyticsOperationProxy operation = context
-				.create(RAnalyticsOperationProxy.class);
+		RAnalyticsOperationProxy operation = context.create(RAnalyticsOperationProxy.class);
 		operation.setInputs(new ArrayList<AnalyticsOperationInputProxy>());
 		operation.setOutputs(new ArrayList<AnalyticsOperationOutputProxy>());
 		edit(operation);
 	}
-	
+
 	private void findAndEditOperation(Long operationId) {
 		dao().createAnalyticsOperationRequest().find(operationId).fire(new Receiver<AnalyticsOperationProxy>() {
 
@@ -109,12 +104,10 @@ public class AnalyticsOperationBuilderActivity extends
 			}
 
 			@Override
-			public void onConstraintViolation(
-					Set<ConstraintViolation<?>> violations) {
+			public void onConstraintViolation(Set<ConstraintViolation<?>> violations) {
 				for (ConstraintViolation<?> violation : violations) {
 					Window.alert("CONSTRAINT VIOLATION " + violation.getMessage());
-					display.showError(violation.getPropertyPath() + " "
-							+ violation.getMessage());
+					display.showError(violation.getPropertyPath() + " " + violation.getMessage());
 				}
 			}
 		});
@@ -136,9 +129,9 @@ public class AnalyticsOperationBuilderActivity extends
 			@Override
 			public void onSuccess(Void response) {
 				GWT.log("GOT SUCCESSSSS");
-				
+
 			}
-			
+
 		});
 	}
 
@@ -153,12 +146,10 @@ public class AnalyticsOperationBuilderActivity extends
 	 * class type and creat it that way but that is no longer needed.
 	 */
 	@Override
-	public AnalyticsOperationOutputProxy createOutput(
-			IAnalyticsOperationOutput.Type outputType) throws SimpleException {
+	public AnalyticsOperationOutputProxy createOutput(IAnalyticsOperationOutput.Type outputType) throws SimpleException {
 		logger.fine("Cretaing output with type " + outputType.name());
 
-		AnalyticsOperationOutputProxy output = context
-				.create(AnalyticsOperationOutputProxy.class);
+		AnalyticsOperationOutputProxy output = context.create(AnalyticsOperationOutputProxy.class);
 		output.setOutputType(outputType);
 
 		return output;
@@ -174,8 +165,12 @@ public class AnalyticsOperationBuilderActivity extends
 	 */
 	@Override
 	public AnalyticsOperationDataProviderProxy createDataProvider() {
-		AnalyticsOperationDataProviderProxy dataProvider = context
-				.create(AnalyticsOperationDataProviderProxy.class);
+		AnalyticsOperationDataProviderProxy dataProvider = context.create(AnalyticsOperationDataProviderProxy.class);
 		return dataProvider;
+	}
+
+	@Override
+	public void onTestScript() {
+		
 	}
 }

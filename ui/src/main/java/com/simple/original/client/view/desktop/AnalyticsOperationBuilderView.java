@@ -14,7 +14,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -98,7 +97,7 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     @Ignore
     @UiField
     public ListBox availableOutputTypes;
-
+    
     @UiField
     CodeEditorPanel code;
 
@@ -221,6 +220,11 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     @UiHandler("save")
     void onSaveAnalytics(ClickEvent clickEvent) {
         presenter.onSave(name.asEditor().getValue(), isPublic.getValue());
+    }
+    
+    @UiHandler("testScript")
+    void onTestScript(ClickEvent clickEvent) {
+    	presenter.onTestScript();
     }
 
     /**
