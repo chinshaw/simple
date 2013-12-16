@@ -109,6 +109,7 @@ public interface IOCBaseInjector extends Ginjector {
 
 	DataProvidersActivity dataProvidersActivity();
 	
+	
 	/**
 	 * Used to view a single dashboard, this is the rendering of the dashboard.
 	 * @return

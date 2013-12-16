@@ -44,6 +44,10 @@ input {
 	width: 20em;
 }
 
+input[type='checkbox'] {
+	width: auto;
+}
+
 
 select {
 	padding: 2px;
@@ -422,6 +426,13 @@ div.contentPanel div.header h1 {
 .gwt-SplitLayoutPanel-VDragger {
   background: #e7e7e7 url(images/thumb_horz.png) center center no-repeat;
   cursor: row-resize;
+}
+
+.gwt-CheckBox {	
+}
+
+.gwt-CheckBox input[type='checkbox'] {
+	float:left;
 }
 
 .widgetSelectorPanel {

@@ -1,6 +1,5 @@
 <!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:t="urn:import:com.simple.original.client.view.widgets" xmlns:d="urn:import:com.simple.original.client.view.desktop">
 
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
@@ -20,51 +19,46 @@
 		<!-- <t:EnumEditor ui:field="typeEditor"></t:EnumEditor> -->
 
 		<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
+		<br style="clear:both;" />
 		<label>
 			<span style="color:red; padding-right:1px;">*</span>
 			Name
 		</label>
-		<t:ValueBoxEditorDecorator errorLocation="RIGHT"
-			ui:field="name">
+		<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="name">
 			<t:valuebox>
 				<g:TextBox />
 			</t:valuebox>
 		</t:ValueBoxEditorDecorator>
 
 		<label>Description</label>
-		<t:ValueBoxEditorDecorator errorLocation="RIGHT"
-			ui:field="description">
+		<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="description">
 			<t:valuebox>
 				<g:TextArea />
 			</t:valuebox>
 		</t:ValueBoxEditorDecorator>
 
 		<br />
-
+		<d:InputsEditorWorking ui:field="inputsEditor" resources="{resources}" />
+		
 		<br />
-		<d:InputsEditorWorking ui:field="inputsEditor"
-			resources="{resources}" />
-		<br />
-
 		<label class="{resources.style.tabbedPanelLabel}">R Script</label>
 		<div class="{resources.style.tabbedPanel} ">
 			<div>
 				<label style="display:inline-block;">Script Code</label>
 				<span style="display:inline-block; float:right">
+					<g:Button ui:field="testScript">Test</g:Button>
 					<g:Image url="{resources.fullScreen.getURL}" ui:field="codeFullScreen" />
 				</span>
 			</div>
 			<br style="clear:both;" />
-			<t:CodeEditorPanel styleName="{style.codePanel}"
-				ui:field="code" />
+			<t:CodeEditorPanel styleName="{style.codePanel}" ui:field="code" />
 		</div>
 		<br />
 
 		<!-- Outputs panel -->
 		<label class="{resources.style.tabbedPanelLabel}">Provided Outputs</label>
 		<div class="{resources.style.tabbedPanel} ">
-			<d:AnalyticsOperationOutputEditor
-				ui:field="outputsEditor"></d:AnalyticsOperationOutputEditor>
+			<d:AnalyticsOperationOutputEditor ui:field="outputsEditor"></d:AnalyticsOperationOutputEditor>
 			<g:ListBox ui:field="availableOutputTypes"></g:ListBox>
 			<g:Button styleName="{resources.style.textButton}" ui:field="addOutput">
 				add

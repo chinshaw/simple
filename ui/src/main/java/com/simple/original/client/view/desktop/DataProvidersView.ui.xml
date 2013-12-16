@@ -14,7 +14,7 @@
 		<g:center>
 			<g:HTMLPanel>
 				<label class="{resources.style.tabbedPanelLabel}">Configured Data Providers</label>
-				<div class="{resources.style.tabbedPanel} >
+				<div class="{resources.style.tabbedPanel}">
 					<g:Button ui:field="delete">Delete</g:Button>
 				    <g:Button ui:field="test">Test</g:Button>
 	

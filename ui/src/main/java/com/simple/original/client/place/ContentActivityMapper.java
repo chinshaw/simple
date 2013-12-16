@@ -29,6 +29,7 @@ public class ContentActivityMapper implements ActivityMapper {
 		addProvider(AnalyticsOperationPlace.class, injector.analyticsOperationBuilderActivity());
 		addProvider(DashboardPlace.class, injector.dashboardActivity());
 		addProvider(DashboardsPlace.class, injector.dashboardsActivity());
+		addProvider(DataProvidersPlace.class, injector.dataProvidersActivity());
 		addProvider(DashboardDesignerPlace.class, injector.dashboardDesignerActivity());
 		addProvider(LoginPlace.class, injector.loginActivity());
 		addProvider(WelcomePlace.class, injector.welcomeActivity());
