@@ -600,12 +600,12 @@ const ProtobufCMessageDescriptor cmplx__descriptor =
 static const ProtobufCFieldDescriptor script__field_descriptors[1] =
 {
   {
-    "script",
+    "code",
     1,
     PROTOBUF_C_LABEL_REQUIRED,
     PROTOBUF_C_TYPE_STRING,
     0,   /* quantifier_offset */
-    PROTOBUF_C_OFFSETOF(Script, script),
+    PROTOBUF_C_OFFSETOF(Script, code),
     NULL,
     NULL,
     0,            /* packed */
@@ -613,7 +613,7 @@ static const ProtobufCFieldDescriptor script__field_descriptors[1] =
   },
 };
 static const unsigned script__field_indices_by_name[] = {
-  0,   /* field[0] = script */
+  0,   /* field[0] = code */
 };
 static const ProtobufCIntRange script__number_ranges[1 + 1] =
 {
