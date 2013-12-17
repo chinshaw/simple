@@ -1,9 +1,9 @@
 
 #include <R.h>
 #include <Rinternals.h>
-#include <Rdefines.h>
 #include <Rversion.h>
-#include <R_ext/Parse.h>
+#include <Rembedded.h>
+#include <Rdefines.h>
 
 /* the # of arguments to R_ParseVector changed since R 2.5.0 */
 #if R_VERSION < R_Version(2,5,0)
@@ -13,5 +13,27 @@
 #endif
 
 
-SEXP parseString(const char *s, int *parts, ParseStatus *status) {
+/* string encoding handling */
+#if (R_VERSION < R_Version(2,8,0)) || (defined DISABLE_ENCODING)
+#define mkRChar(X) mkChar(X)
+#else
+#define USE_ENCODING 1
+cetype_t string_encoding = CE_NATIVE;  /* default is native */
+#define mkRChar(X) mkCharCE((X), string_encoding)
+#endif
+
+
+
+int initR(int argc, char *argv[]) {
+	Rf_initEmbeddedR(argc, argv);
+}
+
+SEXP eval_script(const char *command) {
+	SEXP e, result;
+    	int errorOccurred;	
+
+	PROTECT(result = R_tryEval(e, R_GlobalEnv, &errorOccurred));
+	UNPROTECT(1);
+
+	return result;
 }
