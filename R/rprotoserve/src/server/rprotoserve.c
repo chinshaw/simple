@@ -4,7 +4,7 @@
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
-#include "generated-code/rexp.pb-c.h"
+#include "rexp.pb-c.h"
 #include <google/protobuf-c/protobuf-c-rpc.h>
 
 static unsigned database_size;
