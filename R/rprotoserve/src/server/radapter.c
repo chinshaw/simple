@@ -1,9 +1,4 @@
-
-#include <R.h>
-#include <Rinternals.h>
-#include <Rversion.h>
-#include <Rembedded.h>
-#include <Rdefines.h>
+#include "radapter.h"
 
 /* the # of arguments to R_ParseVector changed since R 2.5.0 */
 #if R_VERSION < R_Version(2,5,0)
@@ -31,9 +26,7 @@ int initR(int argc, char *argv[]) {
 SEXP eval_script(const char *command) {
 	SEXP e, result;
     	int errorOccurred;	
-
-	PROTECT(result = R_tryEval(e, R_GlobalEnv, &errorOccurred));
-	UNPROTECT(1);
+	Rf_initEmbeddedR(argc, argv);
 
 	return result;
 }

@@ -3,6 +3,7 @@ set(client_source_files
 	client.h
 )
 
-add_library(client ${client_source_files})
 
-target_link_libraries(rexp-pb)
+include_directories(/usr/share/R/include ${PROJECT_SOURCE_DIR}/protobuf)
+add_executable(rprotoserve-client ${client_source_files})
+target_link_libraries(rprotoserve-client rexp-pb protobuf-c)

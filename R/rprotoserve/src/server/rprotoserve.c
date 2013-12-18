@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include "rexp.pb-c.h"
+#include "radapter.h"
 #include <google/protobuf-c/protobuf-c-rpc.h>
 
 static unsigned database_size;
@@ -119,6 +120,9 @@ static void script__eval (ScriptService_Service *service,
 			void *closure_data) {
 	fprintf(stderr, "Got request\n");
 
+	const char *script_code = xstrdup(input->code);
+	fprintf(stderr, "Script code is %s", script_code);
+	SEXP sexp = eval_script(script_code);
 	EvalResponse response = EVAL_RESPONSE__INIT;
 	response.exit_code = 0;
 
