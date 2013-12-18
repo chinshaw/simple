@@ -20,9 +20,3 @@ add_subdirectory(protobuf)
 add_subdirectory(server)
 add_subdirectory(client/c)
 
-# add the binary tree to the search path for include files
-# so that we will find rprotoserve_config.h
- 
-# add the executable
-#add_executable(rprotoserve ${server_source_files})
-#target_link_libraries(protobuf server protbuf-c)
