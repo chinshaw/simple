@@ -6,13 +6,6 @@ set (RProtoServe_VERSION_MINOR 0)
  
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L/usr/local/lib -lprotobuf-c")
 
-include_directories(${PROJECT_SOURCE_DIR}/protobuf)
-
-
-add_subdirectory(protobuf)
-add_subdirectory(server)
-add_subdirectory(client/c)
-
 # configure a header file to pass some of the CMake settings
 # to the source code
 configure_file (
@@ -20,6 +13,13 @@ configure_file (
   "${PROJECT_BINARY_DIR}/rprotoserve_config.h"
 )
  
+include_directories(${PROJECT_SOURCE_DIR}/protobuf)
+
+
+add_subdirectory(protobuf)
+add_subdirectory(server)
+add_subdirectory(client/c)
+
 # add the binary tree to the search path for include files
 # so that we will find rprotoserve_config.h
  
