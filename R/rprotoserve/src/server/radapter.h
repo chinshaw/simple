@@ -6,3 +6,8 @@
 
 
 SEXP eval_script(const char *command);
+
+
+int initR(char *argv[]);
+
+int stopR();

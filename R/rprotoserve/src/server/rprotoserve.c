@@ -120,12 +120,18 @@ static void script__eval (ScriptService_Service *service,
 			void *closure_data) {
 	fprintf(stderr, "Got request\n");
 
+	initR(NULL);
+	fprintf(stderr, "R is initialized\n");
+
 	const char *script_code = xstrdup(input->code);
-	fprintf(stderr, "Script code is %s", script_code);
+	fprintf(stderr, "Script code is %s\n", script_code);
+
 	SEXP sexp = eval_script(script_code);
 	EvalResponse response = EVAL_RESPONSE__INIT;
+
 	response.exit_code = 0;
 
+	stopR();
 	closure(&response, closure_data);
 }
 
