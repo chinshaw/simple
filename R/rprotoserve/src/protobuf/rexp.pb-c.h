@@ -100,7 +100,7 @@ struct  _CMPLX
 struct  _Script
 {
   ProtobufCMessage base;
-  char *script;
+  char *code;
 };
 #define SCRIPT__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&script__descriptor) \

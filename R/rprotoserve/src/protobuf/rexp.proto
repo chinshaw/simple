@@ -48,7 +48,7 @@ message CMPLX {
 }
 
 message Script {
-  required string	script		= 1;
+  required string	code		= 1;
 }
 
 message EvalResponse {

@@ -4,7 +4,8 @@
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
-#include "generated-code/rexp.pb-c.h"
+#include "rexp.pb-c.h"
+#include "radapter.h"
 #include <google/protobuf-c/protobuf-c-rpc.h>
 
 static unsigned database_size;
@@ -117,7 +118,15 @@ static void script__eval (ScriptService_Service *service,
 			const Script *input, 
 			EvalResponse_Closure closure, 
 			void *closure_data) {
+	fprintf(stderr, "Got request\n");
 
+	const char *script_code = xstrdup(input->code);
+	fprintf(stderr, "Script code is %s", script_code);
+	SEXP sexp = eval_script(script_code);
+	EvalResponse response = EVAL_RESPONSE__INIT;
+	response.exit_code = 0;
+
+	closure(&response, closure_data);
 }
 
 static ScriptService_Service script_service =
@@ -146,8 +155,6 @@ int main(int argc, char**argv)
         usage ();
     }
 
-  if (database_size == 0)
-    die ("missing --database=FILE (try --database=example.database)");
   if (name == NULL)
     die ("missing --port=NUM or --unix=PATH");
   
