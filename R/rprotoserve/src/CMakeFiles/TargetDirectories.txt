@@ -1,0 +1,3 @@
+/Users/chinshaw/devel/workspace/simple/R/rprotoserve/src/protobuf/CMakeFiles/rexp-pb.dir
+/Users/chinshaw/devel/workspace/simple/R/rprotoserve/src/server/CMakeFiles/rprotoserve.dir
+/Users/chinshaw/devel/workspace/simple/R/rprotoserve/src/client/c/CMakeFiles/rprotoserve-client.dir
