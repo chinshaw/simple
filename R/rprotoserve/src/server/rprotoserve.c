@@ -120,7 +120,7 @@ static void script__eval (ScriptService_Service *service,
 			void *closure_data) {
 	fprintf(stderr, "Got request\n");
 
-	initR(NULL);
+	initR(0, NULL);
 	fprintf(stderr, "R is initialized\n");
 
 	const char *script_code = xstrdup(input->code);
