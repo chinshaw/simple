@@ -19,4 +19,5 @@ include_directories(${PROJECT_SOURCE_DIR}/protobuf)
 add_subdirectory(protobuf)
 add_subdirectory(server)
 add_subdirectory(client/c)
+add_subdirectory(test)
 

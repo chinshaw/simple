@@ -26,17 +26,17 @@ char *default_args[] = {"--gui=none", "--silent"};
 //  Whether or not R is initialized.
 static int initialized = 0;
 
-int initR(char *argv[]) {
+int initR(int argc, char *argv[]) {
 	if (initialized) {
 		fprintf(stderr, "R is initialized, you need to either call stopR");
 		return 1;
 	}
-
+	
 	if (argv == NULL) {
+		argc = 2;
 		argv = default_args;
 	}
 
-	int argc = sizeof(argv)/sizeof(argv[0]);
 	Rf_initEmbeddedR(argc, argv);
 	initialized = 1;
 

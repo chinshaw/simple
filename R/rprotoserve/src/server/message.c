@@ -1,10 +1,8 @@
-#include <iostream>
-#include <rexp.pb.h>
-#include "ream.h"
+#include "server.h"
+#include "rexp.pb-c.h"
 
-using namespace std;
 
-// Used to execute a command
+
 SEXP rexpress(const char* cmd)
 {
   SEXP cmdSexp, cmdexpr, ans = R_NilValue;
@@ -27,36 +25,36 @@ SEXP rexpress(const char* cmd)
 // call (void)Rf_PrintValue(robj) in gdb
 
 
-
-SEXP rexpToSexp(const REXP& rexp){
+/*
+SEXP rexpToSexp(const REXP *rexp){
   SEXP s = R_NilValue;
   int length;
   static int convertLogical[3]={0,1,NA_LOGICAL};
-  switch(rexp.rclass()){
-  case REXP::NULLTYPE:
+  switch(rexp->rclass()){
+  case REXP__RCLASS__NULLTYPE:
     return(R_NilValue);
-  case REXP::LOGICAL:
+  case REXP__RCLASS__LOGICAL:
     length = rexp.booleanvalue_size();
     PROTECT(s = Rf_allocVector(LGLSXP,length));
     for (int i = 0; i<length; i++)
       {
-  	REXP::RBOOLEAN v = rexp.booleanvalue(i);
+  	REXP__RBOOLEAN v = rexp.booleanvalue(i);
   	LOGICAL(s)[i] = convertLogical[1*v];
       }
     break;
-  case REXP::INTEGER:
+  case REXP__RCLASS__INTEGER:
     length = rexp.intvalue_size();
     PROTECT(s = Rf_allocVector(INTSXP,length));
     for (int i = 0; i<length; i++)
       INTEGER(s)[i] = rexp.intvalue(i);
     break;
-  case REXP::REAL:
+  case REXP__RCLASS__REAL
     length = rexp.realvalue_size();
     PROTECT(s = Rf_allocVector(REALSXP,length));
     for (int i = 0; i<length; i++)
       REAL(s)[i] = rexp.realvalue(i);
     break;
-  case REXP::RAW:
+  case REXP__RCLASS__RAW:
     {
       const string& r = rexp.rawvalue();
       length = r.size();
@@ -64,7 +62,7 @@ SEXP rexpToSexp(const REXP& rexp){
       memcpy(RAW(s),r.data(),length);
       break;
     }
-  case REXP::COMPLEX:
+  case REXP__RCLASS__COMPLEX:
     length = rexp.complexvalue_size();
     PROTECT(s = Rf_allocVector(CPLXSXP,length));
     for (int i = 0; i<length; i++){
@@ -72,7 +70,7 @@ SEXP rexpToSexp(const REXP& rexp){
       COMPLEX(s)[i].i = rexp.complexvalue(i).imag();
     }
     break;
-  case REXP::STRING:
+  case REXP__RCLASS__STRING:
     {
       length = rexp.stringvalue_size();
       PROTECT(s = Rf_allocVector(STRSXP,length));
@@ -88,7 +86,7 @@ SEXP rexpToSexp(const REXP& rexp){
       }
       break;
     }
-  case REXP::LIST:
+  case REXP__RCLASS__LIST:
     length = rexp.rexpvalue_size();
     PROTECT(s = Rf_allocVector(VECSXP,length));
     for (int i = 0; i< length; i++){
@@ -129,97 +127,108 @@ SEXP rexpToSexp(const REXP& rexp){
   UNPROTECT(1);
   return(s); //Rf_duplicate(s)); //iff not forthis things crash, dont know why.
 }
+*/
 
-
-void sexpToRexp(REXP* rxp,const SEXP robj){
-  fill_rexp(rxp,robj);
+void sexpToRexp(REXP *rexp,const SEXP robj){
+  fill_rexp(rexp,robj);
 }
 
 
 
-void fill_rexp(REXP* rexp,const SEXP robj){
+void fill_rexp(REXP *rexp, const SEXP robj){
   
   SEXP xx =   ATTRIB(robj);
+  int i;
   if (xx!=R_NilValue)
     {
-      for (SEXP s = ATTRIB(robj); s != R_NilValue; s = CDR(s))
+      SEXP s = ATTRIB(robj);
+      for (; s != R_NilValue; s = CDR(s))
 	{
 	  // Rf_PrintValue(s);
-	  rexp->add_attrname(CHAR(PRINTNAME(TAG(s))));
-	  fill_rexp(rexp->add_attrvalue(),
+	  *rexp->attrname = (CHAR(PRINTNAME(TAG(s))));
+	  fill_rexp(rexp->attrvalue,
 	  	    CAR(s));
 	}
     }
   switch(TYPEOF(robj)){
   case LGLSXP:
-    rexp->set_rclass(REXP::LOGICAL);
-    for (int i = 0; i< LENGTH(robj); i++)
+    rexp->rclass = REXP__RCLASS__LOGICAL;
+    for (i = 0; i< LENGTH(robj); i++)
       {
 	int d = LOGICAL(robj)[i];
 	    switch(d){
 	    case 0:
-	      rexp->add_booleanvalue(REXP::F);
+	      * rexp->booleanvalue = REXP__RBOOLEAN__F;
 	      break;
 	    case 1:
-	      rexp->add_booleanvalue(REXP::T);
+	      * rexp->booleanvalue = REXP__RBOOLEAN__T;
 	      break;
 	    default:
-	      rexp->add_booleanvalue(REXP::NA);
+	      * rexp->booleanvalue = REXP__RBOOLEAN__NA;
 	      break;
 	    }
       }
     break;
   case INTSXP:
-    rexp->set_rclass(REXP::INTEGER);
-    for (int i=0; i<LENGTH(robj); i++)
-      rexp->add_intvalue(INTEGER(robj)[i]);
+    rexp->rclass = REXP__RCLASS__INTEGER;
+    for (i=0; i<LENGTH(robj); i++)
+      * rexp->intvalue = INTEGER(robj)[i];
     break;
   case REALSXP:
-    rexp->set_rclass(REXP::REAL);
-    for (int i=0; i<LENGTH(robj); i++)
-      rexp->add_realvalue(REAL(robj)[i]);
+    rexp->rclass = REXP__RCLASS__REAL;
+    for (i=0; i<LENGTH(robj); i++) {
+      *rexp->realvalue = REAL(robj)[i];
+    }
     break;
   case RAWSXP:{
-    rexp->set_rclass(REXP::RAW);
+    rexp->rclass = REXP__RCLASS__RAW;
     int l = LENGTH(robj);
-    rexp->set_rawvalue((const char*)RAW(robj),l);
+    ProtobufCBinaryData binData;
+
+    binData.data = (RAW(robj),l); 
+    binData.len = l;
+
+    rexp->rawvalue = binData;
+	
+    //rexp->rawvalue = (RAW(robj),l);
     break;
   }
   case CPLXSXP:{
-    rexp->set_rclass(REXP::COMPLEX);
-    for (int i = 0; i<LENGTH(robj); i++)
+    rexp->rclass = REXP__RCLASS__COMPLEX;
+    for (i = 0; i<LENGTH(robj); i++)
       {
-	CMPLX *mp = rexp->add_complexvalue();
-	mp->set_real(COMPLEX(robj)[i].r);
-	mp->set_imag(COMPLEX(robj)[i].i);
+	CMPLX mp = CMPLX__INIT;
+	mp.real = COMPLEX(robj)[i].r;
+	mp.imag = COMPLEX(robj)[i].i;
       }
     break;
   }
   case NILSXP:{
-    rexp->set_rclass(REXP::NULLTYPE);
+    rexp->rclass = REXP__RCLASS__NULLTYPE;
     break;
   }
   case STRSXP:{
-    rexp->set_rclass(REXP::STRING);
-    for (int i=0; i<LENGTH(robj); i++){
-      STRING* cm = rexp->add_stringvalue();
+    rexp->rclass = REXP__RCLASS__STRING;
+    for (i=0; i<LENGTH(robj); i++){
+      STRING cm = STRING__INIT;
       if (STRING_ELT(robj,i)==NA_STRING)
-	cm->set_isna(true);
+	cm.isna = REXP__RBOOLEAN__NA;
       else
-	cm->set_strval(CHAR(STRING_ELT(robj,i)));
+	cm.strval = CHAR(STRING_ELT(robj,i));
     }
     break;
   }
   case VECSXP:{
-    rexp->set_rclass(REXP::LIST);
-    for (int i = 0; i<LENGTH(robj); i++)
-  	fill_rexp(rexp->add_rexpvalue(),VECTOR_ELT(robj,i));
+    rexp->rclass = REXP__RCLASS__LIST;
+    for (i = 0; i < LENGTH(robj); i++)
+  	fill_rexp(* rexp->rexpvalue,VECTOR_ELT(robj,i));
     break;
   }
  default:
-   rexp->set_rclass(REXP::NULLTYPE);
+   rexp->rclass = REXP__RCLASS__NULLTYPE;
    break;
   }
  
 }
   
+
