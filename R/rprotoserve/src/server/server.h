@@ -10,10 +10,19 @@
 #include "rexp.pb-c.h"
 
 
+/**
+ * radapter.c
+ */
+REXP eval_script(const char *cmd);
+SEXP rexpress(const char *cmd);
+int initR(int argc, char *argv[]);
+int stopR();
+
+
+
 /*
  * MESSAGES.cc
  */
-SEXP rexpress(const char*);
 void sexpToRexp(REXP *, const SEXP);
 void fill_rexp(REXP *, const SEXP );
 SEXP rexpToSexp(const REXP);
