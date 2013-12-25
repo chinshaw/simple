@@ -2,7 +2,7 @@
 #include "rexp.pb-c.h"
 
 
-
+/*
 SEXP rexpress(const char* cmd)
 {
   SEXP cmdSexp, cmdexpr, ans = R_NilValue;
@@ -21,6 +21,7 @@ SEXP rexpress(const char* cmd)
   UNPROTECT(2);
   return(ans);
 }
+*/
 
 // call (void)Rf_PrintValue(robj) in gdb
 
@@ -130,105 +131,111 @@ SEXP rexpToSexp(const REXP *rexp){
 */
 
 void sexpToRexp(REXP *rexp,const SEXP robj){
-  fill_rexp(rexp,robj);
+	fill_rexp(rexp,robj);
 }
 
 
-
+/**
+ * Copy the properties from the sexp object to
+ * the rexp object
+ */
 void fill_rexp(REXP *rexp, const SEXP robj){
-  
-  SEXP xx =   ATTRIB(robj);
-  int i;
-  if (xx!=R_NilValue)
-    {
-      SEXP s = ATTRIB(robj);
-      for (; s != R_NilValue; s = CDR(s))
+
+	SEXP xx = ATTRIB(robj);
+	int i;
+	if (xx!=R_NilValue)
 	{
-	  // Rf_PrintValue(s);
-	  *rexp->attrname = (CHAR(PRINTNAME(TAG(s))));
-	  fill_rexp(rexp->attrvalue,
-	  	    CAR(s));
+		SEXP s = ATTRIB(robj);
+		for (; s != R_NilValue; s = CDR(s))
+		{
+			Rf_PrintValue(s);
+			rexp->attrname = (CHAR(PRINTNAME(TAG(s))));
+			REXP attrvalue = REXP__INIT;
+			rexp->attrvalue = &attrvalue;
+			fill_rexp(rexp->attrvalue,
+					CAR(s));
+		}
 	}
-    }
-  switch(TYPEOF(robj)){
-  case LGLSXP:
-    rexp->rclass = REXP__RCLASS__LOGICAL;
-    for (i = 0; i< LENGTH(robj); i++)
-      {
-	int d = LOGICAL(robj)[i];
-	    switch(d){
-	    case 0:
-	      * rexp->booleanvalue = REXP__RBOOLEAN__F;
-	      break;
-	    case 1:
-	      * rexp->booleanvalue = REXP__RBOOLEAN__T;
-	      break;
-	    default:
-	      * rexp->booleanvalue = REXP__RBOOLEAN__NA;
-	      break;
-	    }
-      }
-    break;
-  case INTSXP:
-    rexp->rclass = REXP__RCLASS__INTEGER;
-    for (i=0; i<LENGTH(robj); i++)
-      * rexp->intvalue = INTEGER(robj)[i];
-    break;
-  case REALSXP:
-    rexp->rclass = REXP__RCLASS__REAL;
-    for (i=0; i<LENGTH(robj); i++) {
-      *rexp->realvalue = REAL(robj)[i];
-    }
-    break;
-  case RAWSXP:{
-    rexp->rclass = REXP__RCLASS__RAW;
-    int l = LENGTH(robj);
-    ProtobufCBinaryData binData;
+	fprintf(stderr, "Type of robj is %d\n", TYPEOF(robj));
+	switch(TYPEOF(robj)){
+		case LGLSXP:
+		rexp->rclass = REXP__RCLASS__LOGICAL;
+		for (i = 0; i< LENGTH(robj); i++)
+		{
+			int d = LOGICAL(robj)[i];
+			switch(d){
+				case 0:
+					rexp->booleanvalue = REXP__RBOOLEAN__F;
+					break;
+				case 1:
+					rexp->booleanvalue = REXP__RBOOLEAN__T;
+					break;
+				default:
+					rexp->booleanvalue = REXP__RBOOLEAN__NA;
+					break;
+			}
+		}
+		break;
+		case INTSXP:
+		rexp->rclass = REXP__RCLASS__INTEGER;
+		for (i=0; i<LENGTH(robj); i++)
+			rexp->intvalue = &(INTEGER(robj)[i]);
+		break;
+		case REALSXP:
+		rexp->rclass = REXP__RCLASS__REAL;
+		for (i=0; i<LENGTH(robj); i++) {
+			rexp->realvalue = &(REAL(robj)[i]);
+		}
+		break;
+		case RAWSXP:{
+				    rexp->rclass = REXP__RCLASS__RAW;
+				    int l = LENGTH(robj);
+				    ProtobufCBinaryData binData;
 
-    binData.data = (RAW(robj),l); 
-    binData.len = l;
+				    binData.data = (RAW(robj),l); 
+				    binData.len = l;
 
-    rexp->rawvalue = binData;
-	
-    //rexp->rawvalue = (RAW(robj),l);
-    break;
-  }
-  case CPLXSXP:{
-    rexp->rclass = REXP__RCLASS__COMPLEX;
-    for (i = 0; i<LENGTH(robj); i++)
-      {
-	CMPLX mp = CMPLX__INIT;
-	mp.real = COMPLEX(robj)[i].r;
-	mp.imag = COMPLEX(robj)[i].i;
-      }
-    break;
-  }
-  case NILSXP:{
-    rexp->rclass = REXP__RCLASS__NULLTYPE;
-    break;
-  }
-  case STRSXP:{
-    rexp->rclass = REXP__RCLASS__STRING;
-    for (i=0; i<LENGTH(robj); i++){
-      STRING cm = STRING__INIT;
-      if (STRING_ELT(robj,i)==NA_STRING)
-	cm.isna = REXP__RBOOLEAN__NA;
-      else
-	cm.strval = CHAR(STRING_ELT(robj,i));
-    }
-    break;
-  }
-  case VECSXP:{
-    rexp->rclass = REXP__RCLASS__LIST;
-    for (i = 0; i < LENGTH(robj); i++)
-  	fill_rexp(* rexp->rexpvalue,VECTOR_ELT(robj,i));
-    break;
-  }
- default:
-   rexp->rclass = REXP__RCLASS__NULLTYPE;
-   break;
-  }
- 
+				    rexp->rawvalue = binData;
+
+				    //rexp->rawvalue = (RAW(robj),l);
+				    break;
+			    }
+		case CPLXSXP:{
+				     rexp->rclass = REXP__RCLASS__COMPLEX;
+				     for (i = 0; i<LENGTH(robj); i++)
+				     {
+					     CMPLX mp = CMPLX__INIT;
+					     mp.real = COMPLEX(robj)[i].r;
+					     mp.imag = COMPLEX(robj)[i].i;
+				     }
+				     break;
+			     }
+		case NILSXP:{
+				    rexp->rclass = REXP__RCLASS__NULLTYPE;
+				    break;
+			    }
+		case STRSXP:{
+				    rexp->rclass = REXP__RCLASS__STRING;
+				    for (i=0; i<LENGTH(robj); i++){
+					    STRING cm = STRING__INIT;
+					    if (STRING_ELT(robj,i) == NA_STRING)
+						    cm.isna = REXP__RBOOLEAN__NA;
+					    else
+						    cm.strval = CHAR(STRING_ELT(robj,i));
+				    }
+				    break;
+			    }
+		case VECSXP:{
+				    rexp->rclass = REXP__RCLASS__LIST;
+				    for (i = 0; i < LENGTH(robj); i++) {
+					    REXP subval = REXP__INIT;
+					    rexp->rexpvalue = &subval;
+					    fill_rexp(&rexp->rexpvalue,VECTOR_ELT(robj,i));
+				    }	
+				    break;
+			    }
+		default:
+			    rexp->rclass = REXP__RCLASS__NULLTYPE;
+			    break;
+	}
 }
-  
-

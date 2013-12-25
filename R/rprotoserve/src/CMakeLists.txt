@@ -4,7 +4,7 @@ project (RProtoServe)
 set (RProtoServe_VERSION_MAJOR 1)
 set (RProtoServe_VERSION_MINOR 0)
  
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L/usr/local/lib -L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -lprotobuf-c")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -L/usr/local/lib -L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -lprotobuf-c")
 
 # configure a header file to pass some of the CMake settings
 # to the source code

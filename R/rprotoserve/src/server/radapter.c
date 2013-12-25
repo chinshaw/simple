@@ -1,4 +1,4 @@
-#include "radapter.h"
+#include "server.h"
 #include <R_ext/Parse.h>
 
 /* the # of arguments to R_ParseVector changed since R 2.5.0 */
@@ -50,22 +50,46 @@ int stopR() {
 	return 0;
 }
 
-SEXP eval_script(const char *command) {
+
+REXP eval_script(const char *command) 
+{
+	REXP rexp = REXP__INIT;
 	if (! initialized) {
 		fprintf(stderr, "R has not been initialized, need to call initR");
-		return NULL;
+		return rexp;
 	}	
-
-	SEXP e, result;
+	/*
 	ParseStatus status;
 
-	result = R_ParseVector(mkString(command), 1, &status, R_NilValue);
-	if (TYPEOF(result) == EXPRSXP) { /* parse returns an expr vector, you want the first */
-		result = eval(VECTOR_ELT(result, 0), R_GlobalEnv);
-		PrintValue(result);
+	SEXP sexp = R_ParseVector(mkString(command), 1, &status, R_NilValue);
+	if (TYPEOF(sexp) == EXPRSXP) { // parse returns an expr vector, you want the first 
+		sexp = eval(VECTOR_ELT(sexp, 0), R_GlobalEnv);
+		PrintValue(sexp);
 	}
+	*/
+	SEXP sexp = rexpress(command);
+	sexpToRexp(&rexp, sexp);
 
-	return result;
+	return rexp;
 }
 
+
+SEXP rexpress(const char* cmd)
+{
+	SEXP cmdSexp, cmdexpr, ans = R_NilValue;
+	int i;
+	ParseStatus status;
+	PROTECT(cmdSexp = Rf_allocVector(STRSXP, 1));
+	SET_STRING_ELT(cmdSexp, 0, Rf_mkChar(cmd));
+	cmdexpr = PROTECT(R_ParseVector(cmdSexp, -1, &status, R_NilValue));
+	if (status != PARSE_OK) {
+		UNPROTECT(2);
+		Rf_error("invalid call: %s", cmd);
+		return(R_NilValue);
+	}
+	for(i = 0; i < Rf_length(cmdexpr); i++)
+		ans = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
+	UNPROTECT(2);
+	return(ans);
+}
 
