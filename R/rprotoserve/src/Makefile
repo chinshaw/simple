@@ -102,6 +102,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named gen-protobuf
+
+# Build rule for target.
+gen-protobuf: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 gen-protobuf
+.PHONY : gen-protobuf
+
+# fast build rule for target.
+gen-protobuf/fast:
+	$(MAKE) -f protobuf/CMakeFiles/gen-protobuf.dir/build.make protobuf/CMakeFiles/gen-protobuf.dir/build
+.PHONY : gen-protobuf/fast
+
+#=============================================================================
 # Target rules for targets named rexp-pb
 
 # Build rule for target.
@@ -128,6 +141,19 @@ rprotoserve/fast:
 .PHONY : rprotoserve/fast
 
 #=============================================================================
+# Target rules for targets named server
+
+# Build rule for target.
+server: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 server
+.PHONY : server
+
+# fast build rule for target.
+server/fast:
+	$(MAKE) -f server/CMakeFiles/server.dir/build.make server/CMakeFiles/server.dir/build
+.PHONY : server/fast
+
+#=============================================================================
 # Target rules for targets named rprotoserve-client
 
 # Build rule for target.
@@ -140,6 +166,19 @@ rprotoserve-client/fast:
 	$(MAKE) -f client/c/CMakeFiles/rprotoserve-client.dir/build.make client/c/CMakeFiles/rprotoserve-client.dir/build
 .PHONY : rprotoserve-client/fast
 
+#=============================================================================
+# Target rules for targets named test_r_adapter
+
+# Build rule for target.
+test_r_adapter: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_r_adapter
+.PHONY : test_r_adapter
+
+# fast build rule for target.
+test_r_adapter/fast:
+	$(MAKE) -f test/CMakeFiles/test_r_adapter.dir/build.make test/CMakeFiles/test_r_adapter.dir/build
+.PHONY : test_r_adapter/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -148,9 +187,12 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... gen-protobuf"
 	@echo "... rexp-pb"
 	@echo "... rprotoserve"
+	@echo "... server"
 	@echo "... rprotoserve-client"
+	@echo "... test_r_adapter"
 .PHONY : help
 
 

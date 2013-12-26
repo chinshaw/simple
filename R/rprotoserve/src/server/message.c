@@ -230,7 +230,7 @@ void fill_rexp(REXP *rexp, const SEXP robj){
 				    for (i = 0; i < LENGTH(robj); i++) {
 					    REXP subval = REXP__INIT;
 					    rexp->rexpvalue = &subval;
-					    fill_rexp(&rexp->rexpvalue,VECTOR_ELT(robj,i));
+					    fill_rexp(*rexp->rexpvalue,VECTOR_ELT(robj,i));
 				    }	
 				    break;
 			    }

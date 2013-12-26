@@ -1,1 +1,0 @@
-/usr/bin/cc   -L/usr/local/lib -L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -lprotobuf-c -dynamiclib -Wl,-headerpad_max_install_names   -o librexp-pb.dylib -install_name /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src/protobuf/librexp-pb.dylib CMakeFiles/rexp-pb.dir/rexp.pb-c.c.o 
