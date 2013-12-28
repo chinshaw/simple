@@ -42,10 +42,17 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/local/bin/ccmake
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /Users/chris/devel/workspace/simple/R/rprotoserve/src
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /Users/chris/devel/workspace/simple/R/rprotoserve/src
+=======
+CMAKE_SOURCE_DIR = /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src
+>>>>>>> 7e9d0ddaf7ba82f41eb7411fbbf4164112ea9235
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -72,14 +79,24 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
+<<<<<<< HEAD
 	cd /Users/chris/devel/workspace/simple/R/rprotoserve/src && $(CMAKE_COMMAND) -E cmake_progress_start /Users/chris/devel/workspace/simple/R/rprotoserve/src/CMakeFiles /Users/chris/devel/workspace/simple/R/rprotoserve/src/client/c/CMakeFiles/progress.marks
 	cd /Users/chris/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f CMakeFiles/Makefile2 client/c/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chris/devel/workspace/simple/R/rprotoserve/src/CMakeFiles 0
+=======
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(CMAKE_COMMAND) -E cmake_progress_start /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src/CMakeFiles /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src/client/c/CMakeFiles/progress.marks
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f CMakeFiles/Makefile2 client/c/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src/CMakeFiles 0
+>>>>>>> 7e9d0ddaf7ba82f41eb7411fbbf4164112ea9235
 .PHONY : all
 
 # The main clean target
 clean:
+<<<<<<< HEAD
 	cd /Users/chris/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f CMakeFiles/Makefile2 client/c/clean
+=======
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f CMakeFiles/Makefile2 client/c/clean
+>>>>>>> 7e9d0ddaf7ba82f41eb7411fbbf4164112ea9235
 .PHONY : clean
 
 # The main clean target
@@ -88,19 +105,71 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
+<<<<<<< HEAD
 	cd /Users/chris/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f CMakeFiles/Makefile2 client/c/preinstall
+=======
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f CMakeFiles/Makefile2 client/c/preinstall
+>>>>>>> 7e9d0ddaf7ba82f41eb7411fbbf4164112ea9235
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
+<<<<<<< HEAD
 	cd /Users/chris/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f CMakeFiles/Makefile2 client/c/preinstall
+=======
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f CMakeFiles/Makefile2 client/c/preinstall
+>>>>>>> 7e9d0ddaf7ba82f41eb7411fbbf4164112ea9235
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
+<<<<<<< HEAD
 	cd /Users/chris/devel/workspace/simple/R/rprotoserve/src && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+=======
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+.PHONY : depend
+
+# Convenience name for target.
+client/c/CMakeFiles/rprotoserve-client.dir/rule:
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f CMakeFiles/Makefile2 client/c/CMakeFiles/rprotoserve-client.dir/rule
+.PHONY : client/c/CMakeFiles/rprotoserve-client.dir/rule
+
+# Convenience name for target.
+rprotoserve-client: client/c/CMakeFiles/rprotoserve-client.dir/rule
+.PHONY : rprotoserve-client
+
+# fast build rule for target.
+rprotoserve-client/fast:
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f client/c/CMakeFiles/rprotoserve-client.dir/build.make client/c/CMakeFiles/rprotoserve-client.dir/build
+.PHONY : rprotoserve-client/fast
+
+client.o: client.c.o
+.PHONY : client.o
+
+# target to build an object file
+client.c.o:
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f client/c/CMakeFiles/rprotoserve-client.dir/build.make client/c/CMakeFiles/rprotoserve-client.dir/client.c.o
+.PHONY : client.c.o
+
+client.i: client.c.i
+.PHONY : client.i
+
+# target to preprocess a source file
+client.c.i:
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f client/c/CMakeFiles/rprotoserve-client.dir/build.make client/c/CMakeFiles/rprotoserve-client.dir/client.c.i
+.PHONY : client.c.i
+
+client.s: client.c.s
+.PHONY : client.s
+
+# target to generate assembly for a file
+client.c.s:
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(MAKE) -f client/c/CMakeFiles/rprotoserve-client.dir/build.make client/c/CMakeFiles/rprotoserve-client.dir/client.c.s
+.PHONY : client.c.s
+
+>>>>>>> 7e9d0ddaf7ba82f41eb7411fbbf4164112ea9235
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -109,6 +178,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+<<<<<<< HEAD
+=======
+	@echo "... rprotoserve-client"
+	@echo "... client.o"
+	@echo "... client.i"
+	@echo "... client.s"
+>>>>>>> 7e9d0ddaf7ba82f41eb7411fbbf4164112ea9235
 .PHONY : help
 
 
@@ -120,6 +196,10 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+<<<<<<< HEAD
 	cd /Users/chris/devel/workspace/simple/R/rprotoserve/src && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+=======
+	cd /Users/chinshaw/devel/workspace/simple/R/rprotoserve/src && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+>>>>>>> 7e9d0ddaf7ba82f41eb7411fbbf4164112ea9235
 .PHONY : cmake_check_build_system
 
