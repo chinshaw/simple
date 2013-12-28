@@ -5,17 +5,20 @@ import java.util.logging.Logger;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.simple.original.client.dashboard.WidgetFactory;
 import com.simple.original.client.dashboard.events.WidgetRemoveEvent;
-import com.simple.original.client.dashboard.model.IDashboardModel;
+import com.simple.original.client.dashboard.model.IDashboardWidgetsModel;
 import com.simple.original.client.dashboard.model.IWidgetModel;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.desktop.AbstractView;
@@ -24,11 +27,9 @@ import com.simple.original.client.view.widgets.ErrorPanel;
 /**
  * @author chinshaw
  */
-public class DashboardDesignerView extends AbstractView implements
-		IDashboardDesignerView {
+public class DashboardDesignerView extends AbstractView implements IDashboardDesignerView {
 
-	private static final Logger logger = Logger
-			.getLogger(DashboardDesignerView.class.getName());
+	private static final Logger logger = Logger.getLogger(DashboardDesignerView.class.getName());
 
 	/**
 	 * This is the uibinder and it will use the view.DefaultView.ui.xml
@@ -41,11 +42,16 @@ public class DashboardDesignerView extends AbstractView implements
 	 * This is the actual widget model that we are editng, this may go away
 	 * sooner than later.
 	 */
-	private IDashboardModel model = null;
+	private IDashboardWidgetsModel model = null;
 
 	@UiField(provided = true)
 	SplitLayoutPanel container;
 
+	@UiField
+	TextBox name;
+
+	@UiField
+	TextBox description;
 
 	@UiField(provided = true)
 	DroppablePanel widgetsPanel;
@@ -64,21 +70,18 @@ public class DashboardDesignerView extends AbstractView implements
 	private static EventBus designerEventBus = new SimpleEventBus();
 
 	@Inject
-	public DashboardDesignerView(EventBus eventBus, Resources resources,
-			WidgetPalettePanel widgetPalettePanel,
-			WidgetPropertiesPanel widgetPropertiesPanel,
-			WidgetFactory widgetFactory) {
-		
+	public DashboardDesignerView(EventBus eventBus, Resources resources, WidgetPalettePanel widgetPalettePanel, WidgetPropertiesPanel widgetPropertiesPanel,
+			WidgetFactory widgetFactory, WidgetModelFactory widgetModelFactory) {
+
 		super(designerEventBus, resources);
 		this.widgetPalettePanel = widgetPalettePanel;
 		this.widgetPropertiesPanel = widgetPropertiesPanel;
-		this.widgetsPanel = new DroppablePanel(widgetFactory, eventBus);
+		this.widgetsPanel = new DroppablePanel(widgetFactory, widgetModelFactory, eventBus);
 		container = new SplitLayoutPanel(5);
-		
+
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
 
-		container.getWidgetContainerElement(widgetPalettePanel).getStyle()
-				.setOverflow(Overflow.VISIBLE);
+		container.getWidgetContainerElement(widgetPalettePanel).getStyle().setOverflow(Overflow.VISIBLE);
 		hookupEvents();
 	}
 
@@ -105,7 +108,12 @@ public class DashboardDesignerView extends AbstractView implements
 	}
 
 	@Override
-	public void setDashboardModel(IDashboardModel dashboard) {
+	public IDashboardWidgetsModel getDashboardModel() {
+		return this.model;
+	}
+	
+	@Override
+	public void setDashboardModel(IDashboardWidgetsModel dashboard) {
 		if (dashboard == null) {
 			throw new IllegalArgumentException("Dashboard cannot be null");
 		}
@@ -117,7 +125,6 @@ public class DashboardDesignerView extends AbstractView implements
 		}
 	}
 
-
 	@Override
 	public void onWidgetRemove(WidgetRemoveEvent event) {
 		if (model.getWidgets().contains(event.getSelectedWidget())) {
@@ -125,8 +132,8 @@ public class DashboardDesignerView extends AbstractView implements
 		}
 	}
 
-	public void setModel(IDashboardModel dashboard) {
-		this.model = dashboard;
+	public void setModel(IDashboardWidgetsModel widgetsModel) {
+		this.model = widgetsModel;
 	}
 
 	@Override
@@ -137,7 +144,7 @@ public class DashboardDesignerView extends AbstractView implements
 	public DockLayoutPanel getLayoutPanel() {
 		return container;
 	}
-	
+
 	@Override
 	public DroppablePanel getDroppbalePanel() {
 		return widgetsPanel;
@@ -163,5 +170,30 @@ public class DashboardDesignerView extends AbstractView implements
 			container.setWidgetSize(getWidgetPropertiesPanel(), 0);
 			container.animate(800);
 		}
+	}
+
+	@UiHandler("saveDashboard")
+	void onSaveDashboard(ClickEvent click) {
+		presenter.onSave();
+	}
+
+	@Override
+	public String getName() {
+		return name.getValue();
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name.setValue(name);
+	}
+	
+	@Override
+	public String getDescription() {
+		return description.getValue();
+	}
+	
+	@Override
+	public void setDescription(String description) {
+		this.description.setValue(description);
 	}
 }

@@ -6,7 +6,7 @@ package com.simple.original.client.dashboard.model;
  * json to the IWidgetModel objects.
  * @author chinshaw
  */
-public interface IDashboardModel extends ICompositeWidgetModel {
+public interface IDashboardWidgetsModel extends ICompositeWidgetModel {
 	
 	void addWidgetModel(IWidgetModel widget);
 	

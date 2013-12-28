@@ -3,7 +3,7 @@ package com.simple.original.client.dashboard;
 import org.junit.Test;
 
 import com.google.gwt.core.client.GWT;
-import com.simple.original.client.dashboard.model.IDashboardModel;
+import com.simple.original.client.dashboard.model.IDashboardWidgetsModel;
 import com.simple.original.client.dashboard.model.IGaugeWidgetModel;
 import com.simple.original.client.dashboard.model.IPanelWidgetModel;
 import com.simple.original.client.dashboard.model.IPlotWidgetModel;
@@ -28,7 +28,7 @@ public class TestDashboardView extends DashboardTestCase {
 
 		IDashboardView view = injector.dashboardView();
 
-		IDashboardModel model = injector.dashboardModel();
+		IDashboardWidgetsModel model = injector.dashboardModel();
 
 		assertNotNull(model);
 		assertNotNull(model.getWidgets());
@@ -49,7 +49,7 @@ public class TestDashboardView extends DashboardTestCase {
 
 		IDashboardView view = injector.dashboardView();
 
-		IDashboardModel model = injector.dashboardModel();
+		IDashboardWidgetsModel model = injector.dashboardModel();
 
 		assertNotNull(model);
 		assertNotNull(model.getWidgets());
@@ -68,7 +68,7 @@ public class TestDashboardView extends DashboardTestCase {
 				.create(IOCDashboardInjector.class);
 
 		IDashboardView view = injector.dashboardView();
-		IDashboardModel model = injector.dashboardModel();
+		IDashboardWidgetsModel model = injector.dashboardModel();
 
 		assertNotNull(model);
 		assertNotNull(model.getWidgets());
@@ -87,7 +87,7 @@ public class TestDashboardView extends DashboardTestCase {
 				.create(IOCDashboardInjector.class);
 
 		IDashboardView view = injector.dashboardView();
-		IDashboardModel model = injector.dashboardModel();
+		IDashboardWidgetsModel model = injector.dashboardModel();
 
 		assertNotNull(model);
 		assertNotNull(model.getWidgets());
@@ -106,7 +106,7 @@ public class TestDashboardView extends DashboardTestCase {
 				.create(IOCDashboardInjector.class);
 
 		IDashboardView view = injector.dashboardView();
-		IDashboardModel model = injector.dashboardModel();
+		IDashboardWidgetsModel model = injector.dashboardModel();
 
 		assertNotNull(model);
 		assertNotNull(model.getWidgets());
@@ -129,7 +129,7 @@ public class TestDashboardView extends DashboardTestCase {
 				.create(IOCDashboardInjector.class);
 
 		IDashboardView view = injector.dashboardView();
-		IDashboardModel model = injector.dashboardModel();
+		IDashboardWidgetsModel model = injector.dashboardModel();
 
 		assertNotNull(model);
 		assertNotNull(model.getWidgets());

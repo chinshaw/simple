@@ -26,31 +26,35 @@ import com.simple.original.client.dashboard.IDashboardWidget;
 import com.simple.original.client.dashboard.WidgetFactory;
 import com.simple.original.client.dashboard.designer.WidgetPalettePanel.PaletteWidget;
 import com.simple.original.client.dashboard.events.WidgetAddedEvent;
+import com.simple.original.client.dashboard.model.ICompositeWidgetModel;
+import com.simple.original.client.dashboard.model.IWidgetModel;
 import com.simple.original.client.resources.Resources;
 
 /**
- * All logic of the drag and drop operation is contained in this class.
- * Original Author 
+ * All logic of the drag and drop operation is contained in this class. Original
+ * Author
+ * 
  * @author Julien Dramaix (julien.dramaix@gmail.com)
  * 
- * Modified by 
+ *         Modified by
  * @author Chris Hinshaw (chris.hinshaw@gmail.com)
  */
-public class SortableDragAndDropHandler implements DropEventHandler,
-		OverDroppableEventHandler, OutDroppableEventHandler, DragEventHandler {
+public class SortableDragAndDropHandler implements DropEventHandler, OverDroppableEventHandler, OutDroppableEventHandler, DragEventHandler {
 
 	private static final Logger logger = Logger.getLogger(SortableDragAndDropHandler.class.getName());
-	
+
 	private HandlerRegistration dragHandlerRegistration;
 	private FlowPanel panel;
 	private SimplePanel placeHolder;
 	private int placeHolderIndex;
 	private final WidgetFactory widgetFactory;
+	private final WidgetModelFactory widgetModelFactory;
 	private final EventBus eventBus;
 
-	public SortableDragAndDropHandler(FlowPanel panel, WidgetFactory widgetFactory, EventBus eventBus) {
+	public SortableDragAndDropHandler(FlowPanel panel, WidgetFactory widgetFactory, WidgetModelFactory widgetModelFactory, EventBus eventBus) {
 		this.panel = panel;
 		this.widgetFactory = widgetFactory;
+		this.widgetModelFactory = widgetModelFactory;
 		this.eventBus = eventBus;
 		placeHolderIndex = -1;
 	}
@@ -68,19 +72,24 @@ public class SortableDragAndDropHandler implements DropEventHandler,
 	 * on the {@link DragEvent} of this draggable and remove the visual place
 	 * holder
 	 */
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void onDrop(DropEvent event) {
 		DraggableWidget<?> draggable = event.getDraggableWidget();
-		if (! (draggable instanceof PaletteWidget)) {
+		if (!(draggable instanceof PaletteWidget)) {
 			throw new RuntimeException("Widget is not a valid type");
 		}
-		
+
 		PaletteWidget paletteWidget = (PaletteWidget) draggable;
-		IDashboardWidget<?> widget = widgetFactory.createWidget(paletteWidget.getModelType());
-		if (widget == null) {
-			throw new RuntimeException("Unable to create widget of type");
+		
+		IDashboardWidget widget = widgetFactory.createWidget(paletteWidget.getModelType());
+
+		IWidgetModel model = widgetModelFactory.create(paletteWidget.getModelType());
+		if (!(model instanceof ICompositeWidgetModel)) {
+			throw new RuntimeException("Incorrect type of drop panel");
 		}
-		
-		
+
+		widget.setModel(model);
+
 		logger.fine("adding widget to index " + placeHolderIndex);
 		// If there is a problem we need to catch it and still reset the view.
 		try {
@@ -106,7 +115,7 @@ public class SortableDragAndDropHandler implements DropEventHandler,
 	 */
 	public void onOverDroppable(OverDroppableEvent event) {
 		DraggableWidget<?> draggable = event.getDraggableWidget();
-		
+
 		DivElement div = DOM.createDiv().cast();
 		draggable.getDraggableOptions().setHelper(div);
 		// create a place holder
@@ -195,7 +204,7 @@ public class SortableDragAndDropHandler implements DropEventHandler,
 			// remove the place holder
 			placeHolder.removeFromParent();
 		}
-		
+
 		placeHolder = null;
 		dragHandlerRegistration = null;
 		placeHolderIndex = -1;

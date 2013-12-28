@@ -1,12 +1,12 @@
 package com.simple.original.client.dashboard.model.jso;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.json.client.JSONObject;
 import com.simple.original.client.dashboard.model.IWidgetModel;
 
 public class WidgetModelJso extends JavaScriptObject implements IWidgetModel {
 
 	protected WidgetModelJso() {}
-	
 	
 	@Override
 	public final native String getDescription() /*-{
@@ -35,7 +35,6 @@ public class WidgetModelJso extends JavaScriptObject implements IWidgetModel {
 	public final native void setMetricId(Long metricId) /*-{
 		this.metricId = metricId;
 	}-*/;
-
 	
 	@Override
 	public final native WidgetStyleJso getStyle() /*-{
@@ -44,10 +43,6 @@ public class WidgetModelJso extends JavaScriptObject implements IWidgetModel {
 	
 	public final native void setStyle(WidgetStyleJso style) /*-{
 		this.style = style;
-	}-*/;
-	
-	public final native String toJson() /*-{
-		return this.toString();
 	}-*/;
 	
 	public final native String getType() /*-{
@@ -63,5 +58,8 @@ public class WidgetModelJso extends JavaScriptObject implements IWidgetModel {
 	public final String getWidgetType() {
 		return "GAUGE";
 	}
-
+	
+	public final String toJson() {
+		return new JSONObject(this).toString();
+	}
 }

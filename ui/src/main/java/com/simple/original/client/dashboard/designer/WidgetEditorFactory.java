@@ -7,8 +7,7 @@ import com.google.inject.Provider;
 import com.simple.original.client.dashboard.IWidgetEditor;
 
 public class WidgetEditorFactory {
-	
-	
+		
 	private final Map<String, Provider<IWidgetEditor>> widgetEditorProvider;
 	
 	@Inject

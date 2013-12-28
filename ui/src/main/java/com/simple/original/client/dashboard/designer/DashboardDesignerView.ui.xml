@@ -1,60 +1,61 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view.widgets"
-	xmlns:designer="urn:import:com.simple.original.client.dashboard.designer"
-	xmlns:desktop="urn:import:com.simple.original.client.view.desktop">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view.widgets"
+	xmlns:designer="urn:import:com.simple.original.client.dashboard.designer" xmlns:desktop="urn:import:com.simple.original.client.view.desktop">
 
 
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
-		.dashboardInspector {
-			
-		}
+	.dashboardInspector {
 		
-		.dashboardInspector>div {
-			display: inline-block;
-		}
-		
-		.debugOutput {
-			width: 800px;
-			height: 8em;
-		}
-		
-		.rerunPanel {
-			min-height: 4em;
-			padding: 10px;
-			border: 1px solid #CCC;
-			margin-bottom: 10px;
-			box-shadow: 5px 5px 5px #DDDDDD;
-			border-radius: 5px;
-		}
-		
-		.rerunPanel>div {
-			margin-bottom: 10px;
-		}
-		
-		.tabPanel {
-			width: 100%;
-			z-index: 1000;
-			position: fixed;
-		}
-		
-		.contentPanel {
-			height: 100%;
-			overflow-x: hidden;
-		}
-		
-		.titleContainer {
-			background-color: #EEE;
-			border: 1px solid #CCCCCC;
-			border-radius: 0 0 8px 8px;
-			padding: 10px;
-			width: 100%;
-		}
+	}
+	
+	.dashboardInspector>div {
+		display: inline-block;
+	}
+	
+	.debugOutput {
+		width: 800px;
+		height: 8em;
+	}
+	
+	.rerunPanel {
+		min-height: 4em;
+		padding: 10px;
+		border: 1px solid #CCC;
+		margin-bottom: 10px;
+		box-shadow: 5px 5px 5px #DDDDDD;
+		border-radius: 5px;
+	}
+	
+	.rerunPanel>div {
+		margin-bottom: 10px;
+	}
+	
+	.tabPanel {
+		width: 100%;
+		z-index: 1000;
+		position: fixed;
+	}
+	
+	.contentPanel {
+		height: 100%;
+		overflow-x: hidden;
+	}
+	
+	.titleContainer {
+		background-color: #EEE;
+		border: 1px solid #CCCCCC;
+		border-radius: 0 0 8px 8px;
+		padding: 10px;
+		width: 100%;
+	}
 	</ui:style>
-	<g:SplitLayoutPanel ui:field="container"
-		styleName="{resources.style.splitLayoutPanel}">
+	<g:SplitLayoutPanel ui:field="container" styleName="{resources.style.splitLayoutPanel}">
+
+
+
+
 
 		<g:west size="60">
 			<designer:WidgetPalettePanel ui:field="widgetPalettePanel"></designer:WidgetPalettePanel>
@@ -64,12 +65,22 @@
 			<designer:WidgetPropertiesPanel ui:field="widgetPropertiesPanel"></designer:WidgetPropertiesPanel>
 		</g:east>
 
+		<g:north size="40">
+			<g:HTMLPanel>
+				<div class="display:inline-block;">
+					<label>name</label>
+					<g:TextBox ui:field="name"></g:TextBox>
+					<label>description</label>
+					<g:TextBox ui:field="description"></g:TextBox>
+					<g:Button ui:field="saveDashboard">Save</g:Button>
+				</div>
+			</g:HTMLPanel>
+		</g:north>
+
 		<g:center>
 			<g:FlowPanel styleName="{style.contentPanel}">
 				<t:ErrorPanel ui:field="errorPanel" />
-				<designer:DroppablePanel
-					stylePrimaryName="{resources.style.widgetsPanel} {resources.style.designer}"
-					ui:field="widgetsPanel"></designer:DroppablePanel>
+				<designer:DroppablePanel stylePrimaryName="{resources.style.widgetsPanel} {resources.style.designer}" ui:field="widgetsPanel"></designer:DroppablePanel>
 			</g:FlowPanel>
 		</g:center>
 	</g:SplitLayoutPanel>

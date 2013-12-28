@@ -15,13 +15,10 @@ MYCXXFLAGS+= -I. -I/usr/share/R/include -I../common/generated-code -lprotobuf-c 
 PKG_LIBS+=-fpic ${RLIB} ${PBLIB}
 
 
-all: gen-code librexp.so
+all: gen-code
 
 gen-code:
 	protoc-c --c_out=generated-code rexp.proto
-	
-librexp.so: generated-code/rexp.pb-c.c
-	$(CC) -shared $(ALL_CPPFLAGS) $(ALL_CXXFLAGS) $(MYCXXFLAGS) -c $< -o $@
 
 clean:
 	rm -fr *.o

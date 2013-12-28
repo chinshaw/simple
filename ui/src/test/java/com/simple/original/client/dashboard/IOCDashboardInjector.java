@@ -6,7 +6,7 @@ import com.simple.original.client.dashboard.activity.DashboardActivity;
 import com.simple.original.client.dashboard.activity.DashboardDesignerActivity;
 import com.simple.original.client.dashboard.designer.IDashboardDesignerView;
 import com.simple.original.client.dashboard.designer.WidgetPalettePanel;
-import com.simple.original.client.dashboard.model.IDashboardModel;
+import com.simple.original.client.dashboard.model.IDashboardWidgetsModel;
 import com.simple.original.client.dashboard.model.IGaugeWidgetModel;
 import com.simple.original.client.dashboard.model.IGaugeWidgetModel.IGaugeModelRange;
 import com.simple.original.client.dashboard.model.IPanelWidgetModel;
@@ -21,7 +21,7 @@ public interface IOCDashboardInjector extends Ginjector {
 	
 	DashboardDesignerActivity dashboardDesignerActivity();
 	
-	IDashboardModel dashboardModel();
+	IDashboardWidgetsModel dashboardModel();
 	
 	IGaugeWidgetModel gaugeWidgetModel();
 

@@ -21,9 +21,8 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.simple.original.client.dashboard.events.WidgetAddedEvent;
 import com.simple.original.client.dashboard.events.WidgetRemoveEvent;
-import com.simple.original.client.dashboard.model.IDashboardModel;
+import com.simple.original.client.dashboard.model.IDashboardWidgetsModel;
 import com.simple.original.client.dashboard.model.IWidgetModel;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.IDashboardView;
@@ -79,7 +78,7 @@ public class DashboardView extends AbstractView implements IDashboardView, IInsp
 	@UiField
 	AnalyticsInputEditor taskInputsEditor;
 
-	private IDashboardModel model;
+	private IDashboardWidgetsModel model;
 
 	private Presenter presenter;
 
@@ -127,7 +126,7 @@ public class DashboardView extends AbstractView implements IDashboardView, IInsp
 	}
 
 	@Override
-	public void setModel(IDashboardModel model) {
+	public void setModel(IDashboardWidgetsModel model) {
 		this.model = model;
 
 		for (IWidgetModel widgetModel : model.getWidgets()) {

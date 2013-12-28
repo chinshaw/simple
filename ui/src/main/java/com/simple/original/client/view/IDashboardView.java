@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.simple.original.client.dashboard.AbstractDashboardWidget;
-import com.simple.original.client.dashboard.model.IDashboardModel;
+import com.simple.original.client.dashboard.model.IDashboardWidgetsModel;
 import com.simple.original.client.view.desktop.AnalyticsInputEditor;
 
 public interface IDashboardView extends IView {
@@ -40,7 +40,7 @@ public interface IDashboardView extends IView {
 
     void setPresenter(Presenter presenter);
 
-    void setModel(IDashboardModel dashboard);
+    void setModel(IDashboardWidgetsModel dashboard);
 
     void setTaskCompletionTime(Date completionTime);
 

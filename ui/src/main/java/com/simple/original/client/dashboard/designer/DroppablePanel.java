@@ -22,29 +22,19 @@ public class DroppablePanel extends DroppableWidget<FlowPanel> implements
 
 	private FlowPanel innerPanel;
 	
-	private final WidgetFactory widgetFactory;
-	private final EventBus eventBus;
+	private SortableDragAndDropHandler sortableHandler;
 	
-	public DroppablePanel(WidgetFactory widgetFactory, EventBus eventBus) {
-		this.widgetFactory = widgetFactory;
-		this.eventBus = eventBus;
-		init();
-		initWidget(innerPanel);
+	public DroppablePanel(WidgetFactory widgetFactory, WidgetModelFactory widgetModelFactory, EventBus eventBus) {
+		initWidget(innerPanel = new FlowPanel());
+		sortableHandler = new SortableDragAndDropHandler(innerPanel, widgetFactory, widgetModelFactory, eventBus);
 		setupDrop();
-		
-	}
-
-	private void init() {
-		innerPanel = new FlowPanel();
-		// innerPanel.addStyleName(Resources.INSTANCE.css().sortablePanel());
-
 	}
 
 	/**
 	 * Register drop handler !
 	 */
 	private void setupDrop() {
-		SortableDragAndDropHandler sortableHandler = new SortableDragAndDropHandler(innerPanel, widgetFactory, eventBus);
+
 		addDropHandler(sortableHandler);
 		addOutDroppableHandler(sortableHandler);
 		addOverDroppableHandler(sortableHandler);

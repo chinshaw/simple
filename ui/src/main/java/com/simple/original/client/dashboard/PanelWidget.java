@@ -1,10 +1,8 @@
 package com.simple.original.client.dashboard;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -12,9 +10,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.dashboard.designer.DroppablePanel;
+import com.simple.original.client.dashboard.designer.WidgetModelFactory;
 import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
 import com.simple.original.client.dashboard.events.WidgetRemoveEvent;
-import com.simple.original.client.dashboard.events.WidgetSelectedEvent;
 import com.simple.original.client.dashboard.model.IPanelWidgetModel;
 import com.simple.original.client.dashboard.model.IWidgetModel;
 import com.simple.original.client.resources.Resources;
@@ -39,10 +37,10 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	private final WidgetFactory widgetFactory;
 
 	@Inject
-	public PanelWidget(final EventBus eventBus, final Resources resources, WidgetFactory widgetFactory) {
+	public PanelWidget(final EventBus eventBus, final Resources resources, WidgetFactory widgetFactory, WidgetModelFactory widgetModelFactory) {
 		super(eventBus, resources);
 		this.widgetFactory = widgetFactory;
-		widgetsPanel = new DroppablePanel(widgetFactory, eventBus);
+		widgetsPanel = new DroppablePanel(widgetFactory, widgetModelFactory, eventBus);
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
 		
 		widgetsPanel.getElement().getStyle().setPosition(Position.RELATIVE);

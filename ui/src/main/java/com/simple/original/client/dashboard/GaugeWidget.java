@@ -2,7 +2,6 @@ package com.simple.original.client.dashboard;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -18,8 +17,7 @@ import com.simple.original.client.view.widgets.BubbleGauge;
 import com.simple.original.client.view.widgets.GWTGauge;
 import com.simple.original.client.view.widgets.Gauge;
 
-public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> implements
-		IGaugeWidget {
+public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> implements IGaugeWidget {
 
 	private final FlowPanel container = new FlowPanel();
 
@@ -33,8 +31,6 @@ public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> impl
 
 	final Label titleLabel = new Label();
 
-	private Button closeButton = null;
-
 	final MenuBar popupMenuBar = new MenuBar(true);
 
 	private BubbleGauge gauge;
@@ -42,14 +38,15 @@ public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> impl
 	private boolean fastDraw = true;
 
 	@Inject
-	public GaugeWidget(final EventBus eventBus, Resources resources) {
+	public GaugeWidget(final EventBus eventBus, Resources resources, IGaugeWidgetModel model) {
 		super(eventBus, resources);
 		initWidget(container);
+		setModel(model);
 
 		container.setStyleName(resources.style().gaugeWidget());
 		container.getElement().getStyle().setZIndex(251);
 		titleLabel.setStyleName(resources.style().gaugeLabel());
-		//container.addDomHandler(widgetSelectedHandler, ClickEvent.getType());
+		// container.addDomHandler(widgetSelectedHandler, ClickEvent.getType());
 		container.add(titleLabel);
 
 		options = new GWTGauge.Options();
@@ -103,7 +100,6 @@ public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> impl
 			setModel((IGaugeWidgetModel) eventModel);
 		}
 	}
-
 
 	@Override
 	@Inject

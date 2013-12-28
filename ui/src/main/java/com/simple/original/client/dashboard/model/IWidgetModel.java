@@ -1,7 +1,5 @@
 package com.simple.original.client.dashboard.model;
 
-
-
 public interface IWidgetModel extends IHasWidgetStyle {
 	
 	public String getWidgetType();

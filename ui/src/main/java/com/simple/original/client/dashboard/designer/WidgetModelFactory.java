@@ -19,6 +19,7 @@ public class WidgetModelFactory {
 		this.widgetModelProvider = widgetModelProvider;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public final <T extends IWidgetModel> T create(
 			String iWidgetModelType) {
 		T widget = (T) widgetModelProvider.get(iWidgetModelType).get();

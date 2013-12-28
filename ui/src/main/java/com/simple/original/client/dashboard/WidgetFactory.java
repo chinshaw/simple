@@ -3,9 +3,9 @@ package com.simple.original.client.dashboard;
 import java.util.Collection;
 import java.util.Map;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.simple.original.client.dashboard.designer.WidgetModelFactory;
 import com.simple.original.client.dashboard.model.IWidgetModel;
 
 /**
@@ -22,6 +22,7 @@ import com.simple.original.client.dashboard.model.IWidgetModel;
  * @author chinshaw
  * 
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class WidgetFactory {
 
 	private final Map<String, Provider<IDashboardWidget>> widgetProvider;
@@ -33,15 +34,16 @@ public class WidgetFactory {
 
 	public final <T extends IDashboardWidget<? extends IWidgetModel>> T createWidget(
 			String iWidgetModelType) {
+
 		T widget = (T) widgetProvider.get(iWidgetModelType).get();
 		if (widget == null) {
 			throw new RuntimeException("Unsupported widget type "
 					+ iWidgetModelType);
 		}
+		
 		return widget;
 	}
 
-	@SuppressWarnings("rawtypes")
 	public final <T extends IDashboardWidget> T createWidget(
 			IWidgetModel model) {
 		T widget = (T) createWidget(model.getType());

@@ -21,13 +21,13 @@ import com.simple.original.client.dashboard.designer.PlotEditor;
 import com.simple.original.client.dashboard.designer.TableEditor;
 import com.simple.original.client.dashboard.designer.WidgetEditorFactory;
 import com.simple.original.client.dashboard.designer.WidgetPalettePanel;
-import com.simple.original.client.dashboard.model.IDashboardModel;
+import com.simple.original.client.dashboard.model.IDashboardWidgetsModel;
 import com.simple.original.client.dashboard.model.IGaugeWidgetModel;
 import com.simple.original.client.dashboard.model.IGaugeWidgetModel.IGaugeModelRange;
 import com.simple.original.client.dashboard.model.IPanelWidgetModel;
 import com.simple.original.client.dashboard.model.IPlotWidgetModel;
 import com.simple.original.client.dashboard.model.ITableWidgetModel;
-import com.simple.original.client.dashboard.model.jso.DashboardModelJso;
+import com.simple.original.client.dashboard.model.jso.DashboardWidgetsModelJso;
 import com.simple.original.client.dashboard.model.jso.GaugeWidgetModelJso;
 import com.simple.original.client.dashboard.model.jso.GaugeWidgetModelRangeJso;
 import com.simple.original.client.dashboard.model.jso.PanelWidgetModelJso;
@@ -92,8 +92,8 @@ public class IOCTestDashboardModule extends AbstractGinModule {
 	}
 
 	@Provides
-	IDashboardModel dashboardModel() {
-		return DashboardModelJso.create();
+	IDashboardWidgetsModel dashboardModel() {
+		return DashboardWidgetsModelJso.create();
 	}
 
 	@Provides
