@@ -164,15 +164,17 @@ void fill_rexp(REXP *rexp, const SEXP robj){
 		{
 			int d = LOGICAL(robj)[i];
 			switch(d){
+				REXP__RBOOLEAN value;
 				case 0:
-					rexp->booleanvalue = REXP__RBOOLEAN__F;
+					value = REXP__RBOOLEAN__F;
 					break;
 				case 1:
-					rexp->booleanvalue = REXP__RBOOLEAN__T;
+					value = REXP__RBOOLEAN__T;
 					break;
 				default:
-					rexp->booleanvalue = REXP__RBOOLEAN__NA;
+					value = REXP__RBOOLEAN__NA;
 					break;
+				rexp->booleanvalue = &value;
 			}
 		}
 		break;
@@ -230,7 +232,7 @@ void fill_rexp(REXP *rexp, const SEXP robj){
 				    for (i = 0; i < LENGTH(robj); i++) {
 					    REXP subval = REXP__INIT;
 					    rexp->rexpvalue = &subval;
-					    fill_rexp(*rexp->rexpvalue,VECTOR_ELT(robj,i));
+					    fill_rexp(rexp->rexpvalue,VECTOR_ELT(robj,i));
 				    }	
 				    break;
 			    }

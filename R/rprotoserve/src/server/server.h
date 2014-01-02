@@ -5,10 +5,17 @@
 #include <Rdefines.h>
 #include <R_ext/Parse.h>
 
+#include <google/protobuf-c/protobuf-c-rpc.h>
 
 
 #include "rexp.pb-c.h"
 
+
+
+/**
+ * rprotoserve.c
+ */
+int start_server(ProtobufC_RPC_AddressType address_type, const char *name);
 
 /**
  * radapter.c
