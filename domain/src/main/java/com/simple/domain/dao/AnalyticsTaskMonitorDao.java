@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 
 import com.simple.domain.AnalyticsOperationOutput;
 import com.simple.domain.AnalyticsTask;
-import com.simple.domain.AnalyticsTaskMonitor;
+import com.simple.domain.Monitor;
 import com.simple.domain.Person;
 import com.simple.domain.Subscription;
 import com.simple.domain.metric.Metric;
@@ -31,18 +31,18 @@ import com.simple.original.api.exceptions.NotAuthenticatedException;
  * @author chinshaw
  * 
  */
-public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
-		implements IDaoRequest<AnalyticsTaskMonitor> {
+public class AnalyticsTaskMonitorDao extends DaoBase<Monitor>
+		implements IDaoRequest<Monitor> {
 
 	private static final Logger logger = Logger
 			.getLogger(AnalyticsTaskMonitorDao.class.getName());
 
 	public AnalyticsTaskMonitorDao() {
-		super(AnalyticsTaskMonitor.class);
+		super(Monitor.class);
 	}
 
 	@Override
-	public Long save(AnalyticsTaskMonitor alert) throws DomainException {
+	public Long save(Monitor alert) throws DomainException {
 		logger.info("Calling save on alert definition");
 		if (alert.getOwner() == null) {
 			assignCurrentPersonToAlertDefinition(alert);
@@ -56,7 +56,7 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 	 * @throws RuntimeException
 	 * @throws NoSuchUserException
 	 */
-	private void assignCurrentPersonToAlertDefinition(AnalyticsTaskMonitor alert)
+	private void assignCurrentPersonToAlertDefinition(Monitor alert)
 			throws RuntimeException, NoSuchUserException {
 		Person person = getCurrentPerson();
 
@@ -75,7 +75,7 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 		return task.getAllOutputs();
 	}
 
-	public AnalyticsTaskMonitor saveAndReturn(AnalyticsTaskMonitor alert) {
+	public Monitor saveAndReturn(Monitor alert) {
 		return super.saveOrUpdate(alert);
 	}
 
@@ -91,7 +91,7 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 	}
 
 	@Override
-	public AnalyticsTaskMonitor find(Long alertId) {
+	public Monitor find(Long alertId) {
 		return super.find(alertId);
 	}
 
@@ -102,12 +102,12 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 	 * @return
 	 * 
 	 */
-	public List<AnalyticsTaskMonitor> findAlertsRelatedToTask(Set<Long> taskIds) {
+	public List<Monitor> findAlertsRelatedToTask(Set<Long> taskIds) {
 		EntityManager em = getEntityManager();
-		TypedQuery<AnalyticsTaskMonitor> query = em.createNamedQuery(
-				"AnalyticsTaskMonitor.byTasks", AnalyticsTaskMonitor.class);
+		TypedQuery<Monitor> query = em.createNamedQuery(
+				"AnalyticsTaskMonitor.byTasks", Monitor.class);
 		query.setParameter("taskIdList", taskIds);
-		List<AnalyticsTaskMonitor> alertDefinitions = new ArrayList<AnalyticsTaskMonitor>();
+		List<Monitor> alertDefinitions = new ArrayList<Monitor>();
 		alertDefinitions.addAll(query.getResultList());
 		logger.info("alertDefinitions.size ->" + alertDefinitions.size());
 		return alertDefinitions;
@@ -165,7 +165,7 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 	public List<Subscription> getSubscriptions(int start, int max,
 			RecordFecthType recordType, String searchText, String searchColumn,
 			String sortColumn, SortOrder sortOrder) {
-		List<AnalyticsTaskMonitor> alerts = new ArrayList<AnalyticsTaskMonitor>();
+		List<Monitor> alerts = new ArrayList<Monitor>();
 		List<Subscription> subscriptions = new ArrayList<Subscription>();
 
 		alerts = super.search(start, max, recordType, searchText, searchColumn,
@@ -173,7 +173,7 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 		// creates subscription Object from AlertDefinition Object
 		IPerson currentUser = getSession().getCurrentPerson();
 
-		for (AnalyticsTaskMonitor alert : alerts) {
+		for (Monitor alert : alerts) {
 			Subscription subscription = new Subscription(alert.getId(),
 					alert.getName(), alert.getDescription(), alert
 							.getSubscribers().contains(currentUser));
@@ -199,7 +199,7 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 		Person currentPerson = getCurrentPerson();
 		logger.info("AlertDefinitionDao.saveAlertSubscriptions() - called");
 		for (Long alertToBeSubscribedId : alertsToBeSubscribedId) {
-			AnalyticsTaskMonitor alertToBeSubscribed = find(alertToBeSubscribedId);
+			Monitor alertToBeSubscribed = find(alertToBeSubscribedId);
 			if (!alertToBeSubscribed.getSubscribers().contains(currentPerson)) {
 				alertToBeSubscribed.getSubscribers().add(currentPerson);
 				save(alertToBeSubscribed);
@@ -207,7 +207,7 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 		}
 
 		for (Long alertToBeUnSubscribedId : alertsToBeUnSubscribedId) {
-			AnalyticsTaskMonitor alertToBeUnSubscribed = find(alertToBeUnSubscribedId);
+			Monitor alertToBeUnSubscribed = find(alertToBeUnSubscribedId);
 			if (alertToBeUnSubscribed.getSubscribers().contains(currentPerson)) {
 				alertToBeUnSubscribed.getSubscribers().remove(currentPerson);
 				save(alertToBeUnSubscribed);
@@ -223,7 +223,7 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 	 * @return a list of alertDefinitions
 	 */
 	@SuppressWarnings("unchecked")
-	public List<AnalyticsTaskMonitor> getAlertDefinitions(
+	public List<Monitor> getAlertDefinitions(
 			List<MetricNumber> metrics) {
 		logger.info("Entering AlertDefinitionDao->getAlertDefinitions():  metrics size is = "
 				+ metrics.size());
@@ -231,7 +231,7 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 		EntityManager em = getEntityManager();
 		Query query = em.createNamedQuery("findAlertsByMetrics");
 		query.setParameter("metrics", metrics);
-		List<AnalyticsTaskMonitor> matchedAlertsList = (List<AnalyticsTaskMonitor>) query
+		List<Monitor> matchedAlertsList = (List<Monitor>) query
 				.getResultList();
 		logger.info("Exiting AlertDefinitionDao->getAlertDefinitions(): Number of matched alertDefinitions are :"
 				+ matchedAlertsList.size());
@@ -253,7 +253,7 @@ public class AnalyticsTaskMonitorDao extends DaoBase<AnalyticsTaskMonitor>
 	 * @param metrics
 	 * @return
 	 */
-	public List<AnalyticsTaskMonitor> findByMetric(Metric metric) {
+	public List<Monitor> findByMetric(Metric metric) {
 		return metric.getOrigin().getMonitors();
 	}
 

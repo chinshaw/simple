@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.simple.original.client.resources.Resources;
+import com.simple.original.client.resources.Resources.Style;
 import com.simple.original.client.view.IView;
 import com.simple.original.client.view.widgets.ErrorPanel;
 
@@ -102,6 +103,10 @@ public abstract class AbstractView extends Composite implements IView, RequiresR
     public Resources getResources() {
         return resources;
     }
+    
+    public Style style() {
+    	return resources.style();
+    }
 
     protected abstract ErrorPanel getErrorPanel();
 
@@ -139,5 +144,6 @@ public abstract class AbstractView extends Composite implements IView, RequiresR
     
     
     public abstract void reset();
+    
 
 }

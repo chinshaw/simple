@@ -78,7 +78,7 @@ public class MonitorAlert extends DatastoreObject {
      * Holds the Factory  AlertDefinition.
      */
     @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch= FetchType.LAZY, orphanRemoval = false)
-    private AnalyticsTaskMonitor monitor;
+    private Monitor monitor;
 	
     /**
      *  
@@ -97,14 +97,14 @@ public class MonitorAlert extends DatastoreObject {
     /**
  	 * @return the alertDefinition
  	 */
- 	public AnalyticsTaskMonitor getAlertDefinition() {	
+ 	public Monitor getAlertDefinition() {	
  		return monitor;
  	}
 
  	/**
  	 * @param alertDefinition the alertDefinition to set
  	 */
- 	public void setAlertDefinition(AnalyticsTaskMonitor alertDefinition) {
+ 	public void setAlertDefinition(Monitor alertDefinition) {
  		this.monitor = alertDefinition;
  	}
  	

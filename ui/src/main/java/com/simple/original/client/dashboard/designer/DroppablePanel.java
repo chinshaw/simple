@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.dashboard.WidgetFactory;
+import com.simple.original.client.dashboard.model.IContainsWidgets;
 
 /**
  * Droppable Panel containing the portlets.
@@ -24,9 +25,9 @@ public class DroppablePanel extends DroppableWidget<FlowPanel> implements
 	
 	private SortableDragAndDropHandler sortableHandler;
 	
-	public DroppablePanel(WidgetFactory widgetFactory, WidgetModelFactory widgetModelFactory, EventBus eventBus) {
+	public DroppablePanel(WidgetFactory widgetFactory, EventBus eventBus) {
 		initWidget(innerPanel = new FlowPanel());
-		sortableHandler = new SortableDragAndDropHandler(innerPanel, widgetFactory, widgetModelFactory, eventBus);
+		sortableHandler = new SortableDragAndDropHandler(innerPanel, widgetFactory, eventBus);
 		setupDrop();
 	}
 
@@ -34,7 +35,6 @@ public class DroppablePanel extends DroppableWidget<FlowPanel> implements
 	 * Register drop handler !
 	 */
 	private void setupDrop() {
-
 		addDropHandler(sortableHandler);
 		addOutDroppableHandler(sortableHandler);
 		addOverDroppableHandler(sortableHandler);
@@ -69,5 +69,8 @@ public class DroppablePanel extends DroppableWidget<FlowPanel> implements
 	public int getWidgetCount() {
 		return innerPanel.getWidgetCount();
 	}
-
+	
+	public void setWidgetModel(IContainsWidgets widgetContainer) {
+		sortableHandler.setWidgetModel(widgetContainer);
+	}
 }

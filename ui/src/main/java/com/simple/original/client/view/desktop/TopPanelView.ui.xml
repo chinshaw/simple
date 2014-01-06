@@ -5,23 +5,72 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
-		
+	.leftPanel {
+		float: left;
+	}
+	
+	.rightPanel {
+		float: right;
+		overflow: hidden;
+	}
+	
+	.rightPanel > div {
+		margin-right: 8px;
+	}
+	
+	.username {
+		margin-top:9px;	
+		min-width: 5em;
+		max-width: 10em;
+		overflow: hidden;
+		text-decoration: underline;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	
+	.rightPanel .search {
+		border-radius: 5em;
+		padding: 5px;
+		margin-top: 4px;
+	
+	}
 	</ui:style>
 
-	<g:FlowPanel>
-		<g:MenuBar stylePrimaryName="{resources.style.dropMenu}">
-			<g:MenuItem text="Places">
-				<g:MenuBar vertical="true" animationEnabled="true" focusOnHoverEnabled="true" stylePrimaryName="{resources.style.dropMenu}">
-					<g:MenuItem ui:field="help" stylePrimaryName="{resources.style.menuItem}">Help</g:MenuItem>
-					<g:MenuItem ui:field="dashboards" stylePrimaryName="{resources.style.menuItem}">Dashboards</g:MenuItem>
-					<g:MenuItem ui:field="dataProviders" stylePrimaryName="{resources.style.menuItem}">DataProviders</g:MenuItem>
-					<g:MenuItem ui:field="favorites" stylePrimaryName="{resources.style.menuItem}">Favorites</g:MenuItem>
-					<g:MenuItem ui:field="operations" stylePrimaryName="{resources.style.menuItem}">Analytics Operations</g:MenuItem>
-					<g:MenuItem ui:field="runTask" stylePrimaryName="{resources.style.menuItem}">Run Task</g:MenuItem>
-					<g:MenuItem ui:field="tasks" stylePrimaryName="{resources.style.menuItem}">Analytics Tasks</g:MenuItem>
-					<g:MenuItem ui:field="scheduling" stylePrimaryName="{resources.style.menuItem}">Scheduling</g:MenuItem>
+	<g:HTMLPanel>
+		<div class="{style.leftPanel}">
+			<g:MenuBar stylePrimaryName="{resources.style.dropMenu}">
+				<g:MenuItem text="Places &#x25BE;">
+					<g:MenuBar vertical="true" animationEnabled="true" focusOnHoverEnabled="true" stylePrimaryName="{resources.style.dropMenu}">
+						<g:MenuItem ui:field="dashboards" stylePrimaryName="{resources.style.menuItem}">Dashboards</g:MenuItem>
+						<g:MenuItem ui:field="dataProviders" stylePrimaryName="{resources.style.menuItem}">DataProviders</g:MenuItem>
+						<g:MenuItem ui:field="favorites" stylePrimaryName="{resources.style.menuItem}">Favorites</g:MenuItem>
+						<g:MenuItem ui:field="operations" stylePrimaryName="{resources.style.menuItem}">Analytics Operations</g:MenuItem>
+						<g:MenuItem ui:field="runTask" stylePrimaryName="{resources.style.menuItem}">Run Task</g:MenuItem>
+						<g:MenuItem ui:field="tasks" stylePrimaryName="{resources.style.menuItem}">Analytics Tasks</g:MenuItem>
+						<g:MenuItem ui:field="scheduling" stylePrimaryName="{resources.style.menuItem}">Scheduling</g:MenuItem>
+					</g:MenuBar>
+				</g:MenuItem>
+
+			</g:MenuBar>
+		</div>
+
+		<div class="{style.rightPanel}">
+			<div style="float:left;">
+				<input type="text" ui:field="search" class="{style.search}"></input>
+			</div>
+			<div style="float:left">
+				<g:MenuBar stylePrimaryName="{resources.style.dropMenu}">
+					<g:MenuItem text="Help &#x25BE;">
+						<g:MenuBar vertical="true" animationEnabled="true" focusOnHoverEnabled="true" stylePrimaryName="{resources.style.dropMenu}">
+							<g:MenuItem stylePrimaryName="{resources.style.menuItem}">Help</g:MenuItem>
+							<g:MenuItem stylePrimaryName="{resources.style.menuItem}">Dashboards</g:MenuItem>
+						</g:MenuBar>
+					</g:MenuItem>
 				</g:MenuBar>
-			</g:MenuItem>
-		</g:MenuBar>
-	</g:FlowPanel>
+			</div>
+			<div style="float:left">
+				<div ui:field="username" class="{style.username}"></div>
+			</div>
+		</div>
+	</g:HTMLPanel>
 </ui:UiBinder>

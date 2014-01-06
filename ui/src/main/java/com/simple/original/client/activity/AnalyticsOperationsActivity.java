@@ -86,7 +86,6 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 	@Override
 	public void onDeleteAnalyticsOperations() {
 		final Set<AnalyticsOperationProxy> selectedAnalyticsOperation = selectionModel.getSelectedSet();
-		display.setEnabledDeleteButton(false);
 		final Set<Long> idsToDelete = new HashSet<Long>();
 		for (AnalyticsOperationProxy analyticsOperation : selectedAnalyticsOperation) {
 			idsToDelete.add(analyticsOperation.getId());
@@ -107,7 +106,6 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 					}
 					analyticsPopupPanel.setMessage("Can not delete the operation(s), please remove the linked task(s)");
 					analyticsPopupPanel.showPopup();
-					display.setEnabledDeleteButton(true);
 				} else {
 					boolean confirm = Window.confirm("Are you sure you want to delete the " + selectedAnalyticsOperation.size() + " analytics operations");
 					if (confirm) {
@@ -122,26 +120,20 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 								}
 								// display.getAnalyticsTable().setVisibleRangeAndClearData(display.getAnalyticsTable().getVisibleRange(),
 								// true);
-								display.disableCopyEditDeleteButtons();
 								selectionModel.clear();
-								display.setEnabledDeleteButton(true);
 							}
 
 							public void onFailure(ServerFailure error) {
-								display.setEnabledDeleteButton(true);
 								logger.info("AlertOperationActivity->onDeleteAnalyticsOperations->deleteList():" + error.toString());
 								display.showError("Unable to delete Operation(s) ", error);
 							}
 
 						});
-					} else {
-						display.setEnabledDeleteButton(true);
 					}
 				}
 			}
 
 			public void onFailure(ServerFailure error) {
-				display.setEnabledDeleteButton(true);
 				logger.info("AlertOperationActivity->onDeleteAnalyticsOperations->getTasksByOperation():" + error.toString());
 				display.showError("Unable to get linked tasks: ", error);
 			}
@@ -181,7 +173,6 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 	@Override
 	public void onClickSearch() {
 		selectionModel.clear();
-		display.disableCopyEditDeleteButtons();
 	}
 
 	@Override
@@ -201,24 +192,5 @@ public class AnalyticsOperationsActivity extends AbstractActivity<AnalyticsOpera
 	public void onCancel() {
 		display.getSearchText().setText("");
 		placeController().goTo(new AnalyticsOperationsPlace());
-	}
-
-	@Override
-	public void onCheckBoxSelected(AnalyticsOperationProxy object, Boolean value) {
-		// value will be added to selectedList only after onCheckBoxSelected()
-		// returns
-		int selectedItems = ((MultiSelectionModel<AnalyticsOperationProxy>) selectionModel).getSelectedSet().size();
-		if (value == true) {
-			// when check box value is selected
-			// we need to increase selectedItems by 1
-			selectedItems += 1;
-		} else {
-			// when check box value is de-selected
-			// we need to decrease selectedItems by 1
-			selectedItems -= 1;
-		}
-		display.setEnabledEditButton(selectedItems == 1);
-		display.setEnabledCopyButton(selectedItems == 1);
-		display.setEnabledDeleteButton(selectedItems != 0);
 	}
 }

@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import javax.validation.ConstraintViolation;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
@@ -63,7 +62,6 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 	 */
 	private void createAndEditOperation() {
 		logger.fine("Creating new operation to edit");
-
 		RAnalyticsOperationProxy operation = context.create(RAnalyticsOperationProxy.class);
 		operation.setInputs(new ArrayList<AnalyticsOperationInputProxy>());
 		operation.setOutputs(new ArrayList<AnalyticsOperationOutputProxy>());
@@ -71,7 +69,7 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 	}
 
 	private void findAndEditOperation(Long operationId) {
-		dao().createAnalyticsOperationRequest().find(operationId).fire(new Receiver<AnalyticsOperationProxy>() {
+		dao().createAnalyticsOperationRequest().find(operationId).with("*").fire(new Receiver<AnalyticsOperationProxy>() {
 
 			@Override
 			public void onSuccess(AnalyticsOperationProxy operation) {
@@ -99,14 +97,12 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 
 			@Override
 			public void onSuccess(Long response) {
-				Window.alert("GOT RESPONSE WITH VALUE " + response);
 				placeController().goTo(new AnalyticsOperationsPlace());
 			}
 
 			@Override
 			public void onConstraintViolation(Set<ConstraintViolation<?>> violations) {
 				for (ConstraintViolation<?> violation : violations) {
-					Window.alert("CONSTRAINT VIOLATION " + violation.getMessage());
 					display.showError(violation.getPropertyPath() + " " + violation.getMessage());
 				}
 			}
@@ -137,8 +133,7 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 
 	@Override
 	public void onCancelAnalytics() {
-		Place previousPlace = placeController().getPreviousPlace();
-		placeController().goTo(previousPlace);
+		placeController().goBackOr(new AnalyticsOperationsPlace());
 	}
 
 	/**

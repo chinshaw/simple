@@ -46,8 +46,8 @@ public class Dashboard extends Widget {
 	@NotNull(message = "Name must be provided")
 	private String name;
 
-	@OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
-	@JoinColumn(name = "analyticstask_id")
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = true)
+	@JoinColumn(name = "analyticstask_id", nullable = true)
 	private AnalyticsTask analyticsTask;
 
 	@Column(name = "widgetmodel", columnDefinition = "TEXT")

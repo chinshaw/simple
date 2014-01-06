@@ -47,7 +47,7 @@ import com.simple.original.api.analytics.IAnalyticsTaskMonitor;
  * "SELECT monitor FROM AnalyticsTaskMonitor AS monitor WHERE monitor.metric IN :metrics"
  * ) })
  */
-public class AnalyticsTaskMonitor extends RequestFactoryEntity implements
+public class Monitor extends RequestFactoryEntity implements
 		IAnalyticsTaskMonitor {
 
 	/**
@@ -118,14 +118,14 @@ public class AnalyticsTaskMonitor extends RequestFactoryEntity implements
 	 * Factories related to alert
 	 */
 	@OneToMany(mappedBy = "monitor")
-	private List<MonitorAlert> factoryAlert;
+	private List<MonitorAlert> triggeredAlerts;
 
 	/**
 	 * Required default constructor
 	 */
-	public AnalyticsTaskMonitor() {
+	public Monitor() {
 		subscribers = new ArrayList<Person>();
-		factoryAlert = new ArrayList<MonitorAlert>();
+		triggeredAlerts = new ArrayList<MonitorAlert>();
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class AnalyticsTaskMonitor extends RequestFactoryEntity implements
 	 * 
 	 * @param name
 	 */
-	public AnalyticsTaskMonitor(String name) {
+	public Monitor(String name) {
 		this();
 		this.name = name;
 	}
@@ -300,7 +300,7 @@ public class AnalyticsTaskMonitor extends RequestFactoryEntity implements
 	 * @return factoryAlert List of factoryAlerts related to the alert
 	 */
 	public List<MonitorAlert> getFactoryAlert() {
-		return factoryAlert;
+		return triggeredAlerts;
 	}
 
 	/**
@@ -310,7 +310,7 @@ public class AnalyticsTaskMonitor extends RequestFactoryEntity implements
 	 *            factoryAlerts associated with alert
 	 */
 	public void setFactoryAlert(List<MonitorAlert> factoryAlert) {
-		this.factoryAlert = factoryAlert;
+		this.triggeredAlerts = factoryAlert;
 	}
 
 }

@@ -5,64 +5,98 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
-		.codePanel {
-			border-radius: 5px;
-			width: 100%;
-			border: 1px solid #CCC;
-			background-color: #FFFFFF;
-			box-shadow: 3px 3px 3px #DDDDDD;
-		}
+	.codePanel {
+		position: relative;
+	}
+	
+	.codePanel img {
+		position: absolute;
+		top: 0;
+		right: 0;
+		cursor: pointer;
+		z-index: 20;
+	}
+	
+	.codeEditor {
+		border-radius: 5px;
+		width: 100%;
+		border: 1px solid #CCC;
+	}
 	</ui:style>
 
 	<g:HTMLPanel ui:field="contentPanel" styleName="{resources.style.contentPanel}">
 		<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
 		<!-- <t:EnumEditor ui:field="typeEditor"></t:EnumEditor> -->
-
-		<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
-		<br style="clear:both;" />
-		<label>
-			<span style="color:red; padding-right:1px;">*</span>
-			Name
-		</label>
-		<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="name">
-			<t:valuebox>
-				<g:TextBox />
-			</t:valuebox>
-		</t:ValueBoxEditorDecorator>
-
-		<label>Description</label>
-		<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="description">
-			<t:valuebox>
-				<g:TextArea />
-			</t:valuebox>
-		</t:ValueBoxEditorDecorator>
-
-		<br />
-		<d:InputsEditorWorking ui:field="inputsEditor" resources="{resources}" />
-		
-		<br />
-		<label class="{resources.style.tabbedPanelLabel}">R Script</label>
-		<div class="{resources.style.tabbedPanel} ">
-			<div>
-				<label style="display:inline-block;">Script Code</label>
-				<span style="display:inline-block; float:right">
-					<g:Button ui:field="testScript">Test</g:Button>
-					<g:Image url="{resources.fullScreen.getURL}" ui:field="codeFullScreen" />
-				</span>
+		<div class="{resources.style.contentBlock}">
+			<div class="{resources.style.title}">
+				<label>Properties</label>
+				<hr style="display:inline;"></hr>
 			</div>
-			<br style="clear:both;" />
-			<t:CodeEditorPanel styleName="{style.codePanel}" ui:field="code" />
-		</div>
-		<br />
+			<section class="{resources.style.content}">
+				<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
+				<br style="clear:both;" />
+				<label>
+					<span style="color:red; padding-right:1px;">*</span>
+					Name
+				</label>
+				<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="name">
+					<t:valuebox>
+						<g:TextBox />
+					</t:valuebox>
+				</t:ValueBoxEditorDecorator>
 
+				<label>Description</label>
+				<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="description">
+					<t:valuebox>
+						<g:TextArea />
+					</t:valuebox>
+				</t:ValueBoxEditorDecorator>
+			</section>
+		</div>
+
+		<br />
+		<div class="{resources.style.contentBlock}">
+			<div class="{resources.style.title}">
+				<label>Inputs</label>
+				<hr style="display:inline;"></hr>
+			</div>
+			<div class="{resources.style.content}">
+				<d:InputsEditorWorking ui:field="inputsEditor" resources="{resources}" />
+			</div>
+		</div>
+
+		<br />
+		<div class="{resources.style.contentBlock}">
+			<div class="{resources.style.title}">
+				<label>Code</label>
+				<hr style="display:inline;"></hr>
+			</div>
+			<div class="{resources.style.content}">
+				<br style="clear:both;" />
+				<div class="{style.codePanel}">
+					<t:CodeEditorPanel styleName="{style.codeEditor}" ui:field="code" />
+					<g:Image url="{resources.fullScreen.getURL}" ui:field="codeFullScreen" />
+				</div>
+				<div style="text-align:left; padding:5px;">
+					<g:Button ui:field="testScript">Test</g:Button>
+				</div>
+			</div>
+		</div>
+
+		<br />
 		<!-- Outputs panel -->
-		<label class="{resources.style.tabbedPanelLabel}">Provided Outputs</label>
-		<div class="{resources.style.tabbedPanel} ">
-			<d:AnalyticsOperationOutputEditor ui:field="outputsEditor"></d:AnalyticsOperationOutputEditor>
-			<g:ListBox ui:field="availableOutputTypes"></g:ListBox>
-			<g:Button styleName="{resources.style.textButton}" ui:field="addOutput">
-				add
-			</g:Button>
+		<div class="{resources.style.contentBlock}">
+			<div class="{resources.style.title}">
+				<label>Outputs</label>
+				<hr style="display:inline;"></hr>
+			</div>
+			<div class="{resources.style.content}">
+				<d:AnalyticsOperationOutputEditor ui:field="outputsEditor"></d:AnalyticsOperationOutputEditor>
+				<g:ListBox ui:field="availableOutputTypes"></g:ListBox>
+				<g:Button styleName="{resources.style.textButton}" ui:field="addOutput">
+					add
+				</g:Button>
+			</div>
 		</div>
 		<br />
 		<div class="{resources.style.buttonCollection}" style="text-align: right; margin-bottom: 2em;">

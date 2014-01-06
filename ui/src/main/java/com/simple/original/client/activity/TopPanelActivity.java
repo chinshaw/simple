@@ -3,6 +3,7 @@ package com.simple.original.client.activity;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.inject.Inject;
+import com.simple.original.client.Application;
 import com.simple.original.client.place.ApplicationPlace;
 import com.simple.original.client.proxy.DashboardProxy;
 import com.simple.original.client.service.SearchableRequest;
@@ -18,6 +19,9 @@ public class TopPanelActivity extends AbstractActivity<ApplicationPlace, ITopPan
 	PlaceHistoryMapper placeHistoryMapper;
 	
 	@Inject
+	Application app;
+	
+	@Inject
 	public TopPanelActivity(ITopPanelView view) {
 		super(view);
 	}
@@ -25,7 +29,8 @@ public class TopPanelActivity extends AbstractActivity<ApplicationPlace, ITopPan
 	@Override
 	protected void bindToView() {
 		display.setPresenter(this);
-		masterLayoutPanel.setTopPanelSize((double) 40);
+		masterLayoutPanel.setTopPanelSize((double) 35);
+		display.setFullName(app.getCurrentPerson().getName());
 	}
 
 	@Override

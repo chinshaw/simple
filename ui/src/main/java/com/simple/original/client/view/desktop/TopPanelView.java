@@ -2,11 +2,11 @@ package com.simple.original.client.view.desktop;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -44,10 +44,7 @@ public class TopPanelView extends AbstractView implements ITopPanelView {
 	@UiTemplate("TopPanelView.ui.xml")
 	public interface Binder extends UiBinder<Widget, TopPanelView> {
 	}
-
-	@UiField
-	MenuItem help;
-
+	
 	@UiField
 	MenuItem dashboards;
 	
@@ -69,6 +66,9 @@ public class TopPanelView extends AbstractView implements ITopPanelView {
 	@UiField 
 	MenuItem runTask;
 	
+	@UiField
+	DivElement username;
+	
 	@Inject
 	PlaceController placeController;
 
@@ -78,7 +78,6 @@ public class TopPanelView extends AbstractView implements ITopPanelView {
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
 		addStyleName(resources.style().topPanel());
 		
-		help.setScheduledCommand(new MenuPlaceItemCommand(null));
 		dataProviders.setScheduledCommand(new MenuPlaceItemCommand(new DataProvidersPlace()));
 		dashboards.setScheduledCommand(new MenuPlaceItemCommand(new DashboardsPlace()));
 		favorites.setScheduledCommand(new MenuPlaceItemCommand(null));
@@ -101,6 +100,6 @@ public class TopPanelView extends AbstractView implements ITopPanelView {
 	}
 
 	public void setFullName(String name) {
-		Window.alert("Doign set name");
+		username.setInnerText(name);
 	}
 }

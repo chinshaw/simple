@@ -49,8 +49,6 @@ public interface IOperationsView extends IView {
 		 * Called on the Click of Search Button.
 		 */
 		void onClickSearch();
-		
-		void onCheckBoxSelected(AnalyticsOperationProxy object, Boolean value);
     }
     
     /**
@@ -83,15 +81,4 @@ public interface IOperationsView extends IView {
 	 * @param userGroup
 	 */
 	void setUserView(GroupMembership userGroup);
-
-	void setEnabledEditButton(boolean value);
-
-	void setEnabledAddButton(boolean value);
-
-	void setEnabledCopyButton(boolean value);
-	
-	void disableCopyEditDeleteButtons();
-
-	void setEnabledDeleteButton(boolean value);
-
 }

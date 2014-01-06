@@ -60,7 +60,7 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	 * outputs to see whether an alert should be fired.
 	 */
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<AnalyticsTaskMonitor> monitors = new ArrayList<AnalyticsTaskMonitor>();
+	private List<Monitor> monitors = new ArrayList<Monitor>();
 
 	/**
 	 * This is the operation that owns this output.
@@ -98,7 +98,7 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 			IAnalyticsOperationOutput.Type outputType) {
 		this.name = name;
 		this.outputType = outputType;
-		this.monitors = new ArrayList<AnalyticsTaskMonitor>();
+		this.monitors = new ArrayList<Monitor>();
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	 * 
 	 * @return
 	 */
-	public List<AnalyticsTaskMonitor> getMonitors() {
+	public List<Monitor> getMonitors() {
 		return monitors;
 	}
 
@@ -196,7 +196,7 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	 * 
 	 * @param monitors
 	 */
-	public void setMonitors(List<AnalyticsTaskMonitor> monitors) {
+	public void setMonitors(List<Monitor> monitors) {
 		this.monitors = monitors;
 	}
 
@@ -224,7 +224,7 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 		return (AnalyticsOperationOutput) super.clone();
 	}
 
-	public void addMonitor(AnalyticsTaskMonitor monitor) {
+	public void addMonitor(Monitor monitor) {
 		monitors.add(monitor);
 	}
 }

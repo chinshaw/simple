@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.dashboard.designer.DroppablePanel;
-import com.simple.original.client.dashboard.designer.WidgetModelFactory;
 import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
 import com.simple.original.client.dashboard.events.WidgetRemoveEvent;
 import com.simple.original.client.dashboard.model.IPanelWidgetModel;
@@ -37,14 +36,14 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	private final WidgetFactory widgetFactory;
 
 	@Inject
-	public PanelWidget(final EventBus eventBus, final Resources resources, WidgetFactory widgetFactory, WidgetModelFactory widgetModelFactory) {
+	public PanelWidget(final EventBus eventBus, final Resources resources, WidgetFactory widgetFactory, IPanelWidgetModel model) {
 		super(eventBus, resources);
+		this.model = model;
 		this.widgetFactory = widgetFactory;
-		widgetsPanel = new DroppablePanel(widgetFactory, widgetModelFactory, eventBus);
+		widgetsPanel = new DroppablePanel(widgetFactory, eventBus);
+		widgetsPanel.setWidgetModel(model);
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
-		
 		widgetsPanel.getElement().getStyle().setPosition(Position.RELATIVE);
-		
 	}
 	
 	@Override
@@ -74,8 +73,7 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	/**
 	 * This is injected and the dashboard module will inject a new model when it is created.
 	 * This can also be used to set the model at a later time.
-	 */
-	@Inject
+	 
 	@Override
 	public void setModel(IPanelWidgetModel model) {
 		this.model = model;
@@ -86,6 +84,7 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 			widgetsPanel.add(widget);
 		}
 	}
+	*/
 	
 	public int getWidgetCount() {
 		return widgetsPanel.getWidgetCount();

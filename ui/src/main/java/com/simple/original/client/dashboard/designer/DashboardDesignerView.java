@@ -71,12 +71,12 @@ public class DashboardDesignerView extends AbstractView implements IDashboardDes
 
 	@Inject
 	public DashboardDesignerView(EventBus eventBus, Resources resources, WidgetPalettePanel widgetPalettePanel, WidgetPropertiesPanel widgetPropertiesPanel,
-			WidgetFactory widgetFactory, WidgetModelFactory widgetModelFactory) {
+			WidgetFactory widgetFactory) {
 
 		super(designerEventBus, resources);
 		this.widgetPalettePanel = widgetPalettePanel;
 		this.widgetPropertiesPanel = widgetPropertiesPanel;
-		this.widgetsPanel = new DroppablePanel(widgetFactory, widgetModelFactory, eventBus);
+		this.widgetsPanel = new DroppablePanel(widgetFactory, eventBus);
 		container = new SplitLayoutPanel(5);
 
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
@@ -123,17 +123,14 @@ public class DashboardDesignerView extends AbstractView implements IDashboardDes
 		if (this.model.getWidgets() == null) {
 			this.model.setWidgets(new ArrayList<IWidgetModel>());
 		}
+		widgetsPanel.setWidgetModel(model);
 	}
-
+ 
 	@Override
 	public void onWidgetRemove(WidgetRemoveEvent event) {
 		if (model.getWidgets().contains(event.getSelectedWidget())) {
 			model.getWidgets().remove(event.getSelectedWidget());
 		}
-	}
-
-	public void setModel(IDashboardWidgetsModel widgetsModel) {
-		this.model = widgetsModel;
 	}
 
 	@Override

@@ -68,7 +68,7 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 	 * we can't use the mapped by clause.
 	 */
 	@OrderColumn(name = "inputs_order")
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="operation_id", insertable=false, updatable=false)
 	//@JoinTable(name = "analyticsoperation_inputs", joinColumns = { @JoinColumn(name = "fk_analyticsoperation_id") }, inverseJoinColumns = { @JoinColumn(name = "fk_analyticsoperation_input_id") })
 	private List<AnalyticsOperationInput> inputs = new ArrayList<AnalyticsOperationInput>();

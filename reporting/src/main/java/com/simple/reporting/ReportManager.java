@@ -12,7 +12,7 @@ import javax.mail.MessagingException;
 
 import com.google.inject.Inject;
 import com.simple.domain.AnalyticsTaskExecution;
-import com.simple.domain.AnalyticsTaskMonitor;
+import com.simple.domain.Monitor;
 import com.simple.domain.dao.AnalyticsTaskMonitorDao;
 import com.simple.domain.metric.Metric;
 
@@ -55,9 +55,9 @@ public class ReportManager {
 	 * @param metric
 	 * @return
 	 */
-	protected List<AnalyticsTaskMonitor> getMetricMonitors(Metric metric) {
+	protected List<Monitor> getMetricMonitors(Metric metric) {
 	   // Metric parent = metric.getParent();
-	    List<AnalyticsTaskMonitor> alertDefinitions = null;
+	    List<Monitor> alertDefinitions = null;
 	    
 	    // If this is not null then we have a 
 	    // cloned metric.

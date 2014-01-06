@@ -106,9 +106,6 @@ public class DashboardDesignerActivity extends AbstractActivity<DashboardDesigne
 		logger.finest("Entering createAndEdit()");
 		request = dao().createDashboardRequest();
 		dashboard = request.create(DashboardProxy.class);
-		String json = DashboardWidgetsModelJso.create().toJson();
-		Window.alert("The json " + json);
-		logger.info("WidgetModel is " + json);
 		dashboard.setWidgetModel(DashboardWidgetsModelJso.create().toJson());
 		doEdit(dashboard);
 	}
@@ -130,9 +127,7 @@ public class DashboardDesignerActivity extends AbstractActivity<DashboardDesigne
 	 */
 	@Override
 	public void onWidgetAdd(WidgetAddedEvent event) {
-		
 		IDashboardWidget<?> widget = event.getCreatedWidget();
-		
 		displayModelEditor(widget);
 	}
 
@@ -154,9 +149,9 @@ public class DashboardDesignerActivity extends AbstractActivity<DashboardDesigne
 		dashboard.setDescription(dashboardDescription);
 		IDashboardWidgetsModel model = display.getDashboardModel();
 		dashboard.setWidgetModel(model.toJson());
-
+		
 		Window.alert("saving dashboard with name " + dashboardName + " description " + dashboardDescription + model.toJson());
-
+		request.save(dashboard).fire();
 	}
 
 	@Override

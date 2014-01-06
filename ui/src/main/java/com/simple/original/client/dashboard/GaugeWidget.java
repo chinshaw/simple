@@ -41,8 +41,7 @@ public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> impl
 	public GaugeWidget(final EventBus eventBus, Resources resources, IGaugeWidgetModel model) {
 		super(eventBus, resources);
 		initWidget(container);
-		setModel(model);
-
+		this.model = model;
 		container.setStyleName(resources.style().gaugeWidget());
 		container.getElement().getStyle().setZIndex(251);
 		titleLabel.setStyleName(resources.style().gaugeLabel());

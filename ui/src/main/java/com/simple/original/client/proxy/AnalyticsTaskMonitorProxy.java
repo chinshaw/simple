@@ -3,14 +3,14 @@ package com.simple.original.client.proxy;
 import java.util.List;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
-import com.simple.domain.AnalyticsTaskMonitor;
+import com.simple.domain.Monitor;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 
 /**
  * @author nallaraj
  * @description This is the proxy for AlertDefintion domain class 
  */
-@ProxyFor(value = AnalyticsTaskMonitor.class, locator = RequestFactoryEntityLocator.class)
+@ProxyFor(value = Monitor.class, locator = RequestFactoryEntityLocator.class)
 public interface AnalyticsTaskMonitorProxy extends DatastoreObjectProxy {
    
     public static final String[] EDIT_PROPERTIES = {"analyticsTask", "owner", "output", "subscribers" };

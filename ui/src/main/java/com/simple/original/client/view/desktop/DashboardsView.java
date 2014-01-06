@@ -30,18 +30,28 @@ import com.simple.original.client.view.widgets.ErrorPanel;
 public class DashboardsView extends AbstractView implements IDashboardsView {
 
 	interface Binder extends UiBinder<Widget, DashboardsView>{}
+
 	
 	static class DashboardCell extends AbstractCell<DashboardProxy> {
-
+		
+		// Not used
 		interface Templates extends SafeHtmlTemplates {
-			@SafeHtmlTemplates.Template("<div style=\"height:40;width:40\">{0}</div>")
+			@SafeHtmlTemplates.Template("<div class=\"ext-dashboard-cell\"> class=\"ext- style=\"height:40;width:40\">{0}</div>")
 			SafeHtml cell(SafeHtml value);
 		}
+		
+		private Resources resources;
+		
+		public DashboardCell(Resources resources) {
+			this.resources = resources;
+		}
+
 
 		/**
 		 * Create a singleton instance of the templates used to render the cell.
 		 */
-		private static Templates templates = GWT.create(Templates.class);
+		
+		//static Templates templates = GWT.create(Templates.class);
 
 		@Override
 		public void render(Context context, DashboardProxy value, SafeHtmlBuilder sb) {
@@ -56,17 +66,23 @@ public class DashboardsView extends AbstractView implements IDashboardsView {
 
 			SafeHtml name = SafeHtmlUtils.fromString(value.getName());
 			// Use the template to create the Cell's html.
-			SafeHtml rendered = templates.cell(name);
-			sb.append(rendered);
+			//SafeHtml rendered = templates.cell(name);
+			SafeHtml html = new SafeHtmlBuilder().appendHtmlConstant(
+					"<div class=\"" + resources.style().iconCell() + "\"><div class=\"graphic\">D</div><div class=\"text\">").append(name).appendHtmlConstant(
+		            "</div>").toSafeHtml();
+			sb.append(html);
 		}
 	}
 	
-	
 	private Presenter presenter;
-
+	
+	
+	
 	@UiField(provided = true)
-	CellList<DashboardProxy> dashboardsList = new CellList<DashboardProxy>(new DashboardCell());
+	CellList<DashboardProxy> dashboardsList;
 
+	
+	
 	/**
 	 * @param eventBus
 	 * @param resources
@@ -74,6 +90,7 @@ public class DashboardsView extends AbstractView implements IDashboardsView {
 	@Inject
 	public DashboardsView(EventBus eventBus, Resources resources) {
 		super(eventBus, resources);
+		dashboardsList = new CellList<DashboardProxy>(new DashboardCell(resources));
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
 	}
 

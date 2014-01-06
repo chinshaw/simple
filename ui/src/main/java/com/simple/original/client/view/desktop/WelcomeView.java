@@ -32,7 +32,7 @@ public class WelcomeView extends AbstractView implements IWelcomeView {
 	@Inject
 	public WelcomeView(EventBus eventBus, Resources resources) {
 		super(eventBus, resources);
-		initWidget(new Label( "Place Holder For Welcome"));
+		initWidget(new Label(""));
 	}
 
 	/* (non-Javadoc)

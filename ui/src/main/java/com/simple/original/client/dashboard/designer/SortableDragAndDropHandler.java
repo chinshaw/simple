@@ -14,6 +14,7 @@ import gwtquery.plugins.droppable.client.events.OverDroppableEvent.OverDroppable
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -26,8 +27,7 @@ import com.simple.original.client.dashboard.IDashboardWidget;
 import com.simple.original.client.dashboard.WidgetFactory;
 import com.simple.original.client.dashboard.designer.WidgetPalettePanel.PaletteWidget;
 import com.simple.original.client.dashboard.events.WidgetAddedEvent;
-import com.simple.original.client.dashboard.model.ICompositeWidgetModel;
-import com.simple.original.client.dashboard.model.IWidgetModel;
+import com.simple.original.client.dashboard.model.IContainsWidgets;
 import com.simple.original.client.resources.Resources;
 
 /**
@@ -41,6 +41,8 @@ import com.simple.original.client.resources.Resources;
  */
 public class SortableDragAndDropHandler implements DropEventHandler, OverDroppableEventHandler, OutDroppableEventHandler, DragEventHandler {
 
+
+	
 	private static final Logger logger = Logger.getLogger(SortableDragAndDropHandler.class.getName());
 
 	private HandlerRegistration dragHandlerRegistration;
@@ -48,13 +50,13 @@ public class SortableDragAndDropHandler implements DropEventHandler, OverDroppab
 	private SimplePanel placeHolder;
 	private int placeHolderIndex;
 	private final WidgetFactory widgetFactory;
-	private final WidgetModelFactory widgetModelFactory;
 	private final EventBus eventBus;
+	
+	private IContainsWidgets widgetContainer;
 
-	public SortableDragAndDropHandler(FlowPanel panel, WidgetFactory widgetFactory, WidgetModelFactory widgetModelFactory, EventBus eventBus) {
+	public SortableDragAndDropHandler(FlowPanel panel, WidgetFactory widgetFactory, EventBus eventBus) {
 		this.panel = panel;
 		this.widgetFactory = widgetFactory;
-		this.widgetModelFactory = widgetModelFactory;
 		this.eventBus = eventBus;
 		placeHolderIndex = -1;
 	}
@@ -82,18 +84,14 @@ public class SortableDragAndDropHandler implements DropEventHandler, OverDroppab
 		PaletteWidget paletteWidget = (PaletteWidget) draggable;
 		
 		IDashboardWidget widget = widgetFactory.createWidget(paletteWidget.getModelType());
-
-		IWidgetModel model = widgetModelFactory.create(paletteWidget.getModelType());
-		if (!(model instanceof ICompositeWidgetModel)) {
-			throw new RuntimeException("Incorrect type of drop panel");
-		}
-
-		widget.setModel(model);
-
+ 
 		logger.fine("adding widget to index " + placeHolderIndex);
 		// If there is a problem we need to catch it and still reset the view.
 		try {
 			panel.insert(widget, placeHolderIndex);
+			widgetContainer.addWidgetModel(widget.getModel());
+			GWT.log("Number of widgets is " + widgetContainer.getWidgets().size() + " for widget container " + widgetContainer);
+			
 			eventBus.fireEvent(new WidgetAddedEvent(widget));
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Unable to add widget to drop panel", e);
@@ -208,5 +206,9 @@ public class SortableDragAndDropHandler implements DropEventHandler, OverDroppab
 		placeHolder = null;
 		dragHandlerRegistration = null;
 		placeHolderIndex = -1;
+	}
+
+	public void setWidgetModel(IContainsWidgets widgetContainer) {
+		this.widgetContainer = widgetContainer;
 	}
 }
