@@ -1,0 +1,12 @@
+This is a local repository that houses modules that are not on
+a public maven repository. This is used for dependencies that do 
+not exist in the public realm.
+
+To install a module do the following
+
+mvn org.apache.maven.plugins:maven-install-plugin:2.5.1:install-file  -Dfile=path-to-your-artifact-jar \
+                                                                              -DgroupId=your.groupId \
+                                                                              -DartifactId=your-artifactId \
+                                                                              -Dversion=version \
+                                                                              -Dpackaging=jar \
+                                                                              -DlocalRepositoryPath=path-to-specific-local-repo

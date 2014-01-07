@@ -115,7 +115,7 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-			<url>file://${project.basedir}/repo</url>
+			<url>file://${project.basedir}/local_repo</url>
 		</repository>
 	</repositories>
 
