@@ -41,11 +41,11 @@ public class AnalyticsService {
 
 	private final AnalyticsTaskExecutionDao executionDao;
 	
-	private final AnalyticsOperationProvider provider;
+	private final IAnalyticsOperationExecutor provider;
 
 	@Inject
 	public AnalyticsService(AnalyticsTaskDao taskDao,
-			AnalyticsTaskExecutionDao executionDao, AnalyticsOperationProvider provider) {
+			AnalyticsTaskExecutionDao executionDao, IAnalyticsOperationExecutor provider) {
 		this.taskDao = taskDao;
 		this.executionDao = executionDao;
 		this.provider = provider;

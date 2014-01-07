@@ -18,7 +18,7 @@ public class TestRServeService {
 	private static final Injector injector = Guice.createInjector(new IOCEngineModule());
 	
 	@Inject
-	private AnalyticsOperationProvider provider;
+	private IAnalyticsOperationExecutor provider;
 	
 	public TestRServeService() {
 		injector.injectMembers(this);

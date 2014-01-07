@@ -1,0 +1,41 @@
+package com.simple.engine.service.hadoop;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import com.simple.original.api.exceptions.RAnalyticsException;
+
+public class JobUtils {
+
+	public static final String R_OPERATION_PARAM = "R_OPERATION_PARAM";
+
+	public static String serializeObject(Object object) throws IOException {
+		String serializedOperation = null;
+		ObjectOutputStream os = null;
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			os = new ObjectOutputStream(baos);
+			os.writeObject(object);
+			serializedOperation = baos.toString();
+		} finally {
+			os.close();
+		}
+		return serializedOperation;
+	}
+	
+	public static <T> T unSerializeObject(String serializedObject) throws IOException, ClassNotFoundException {
+		T unserializedObject = null;
+		ObjectInputStream is = null;
+		try {
+			ByteArrayInputStream baos = new ByteArrayInputStream(serializedObject.getBytes());
+			is = new ObjectInputStream(baos);
+			unserializedObject = (T) is.readObject();
+		} finally {
+			is.close();
+		}
+		return unserializedObject;
+	}
+}

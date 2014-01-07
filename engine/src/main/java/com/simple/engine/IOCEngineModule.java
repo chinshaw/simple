@@ -8,7 +8,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.simple.domain.IOCDomainModule;
-import com.simple.engine.service.AnalyticsOperationProvider;
+import com.simple.engine.service.IAnalyticsOperationExecutor;
 import com.simple.engine.service.AnalyticsService;
 import com.simple.engine.service.R.RServeService;
 
@@ -19,7 +19,7 @@ public class IOCEngineModule extends AbstractModule {
 		install(new IOCDomainModule());
 		Names.bindProperties(binder(), getEngineProperties());
 		
-		bind(AnalyticsOperationProvider.class).to(RServeService.class);
+		bind(IAnalyticsOperationExecutor.class).to(RServeService.class);
 		bind(AnalyticsService.class).in(Singleton.class);
 	}
 	

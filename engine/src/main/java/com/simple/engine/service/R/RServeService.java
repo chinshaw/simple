@@ -28,14 +28,14 @@ import com.simple.domain.SqlDataProvider;
 import com.simple.domain.StringInput;
 import com.simple.domain.metric.Metric;
 import com.simple.engine.service.AnalyticsOperationException;
-import com.simple.engine.service.AnalyticsOperationProvider;
+import com.simple.engine.service.IAnalyticsOperationExecutor;
 import com.simple.engine.service.AnalyticsService;
 import com.simple.original.api.analytics.IAnalyticsOperationInput;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.exceptions.RAnalyticsException;
 import com.simple.original.server.service.scheduler.MetricUtils;
 
-public class RServeService implements AnalyticsOperationProvider {
+public class RServeService implements IAnalyticsOperationExecutor {
 
 	/**
 	 * Our Operation logger logger.

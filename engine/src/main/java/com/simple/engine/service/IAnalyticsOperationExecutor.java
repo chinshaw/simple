@@ -9,7 +9,7 @@ import com.simple.domain.DataProvider;
 import com.simple.domain.metric.Metric;
 import com.simple.original.api.exceptions.RAnalyticsException;
 
-public interface AnalyticsOperationProvider {
+public interface IAnalyticsOperationExecutor {
 
     public abstract HashMap<Long, Metric>  execute(List<AnalyticsOperationInput> userInputs, AnalyticsOperation operation, List<DataProvider> dataProviders) throws AnalyticsOperationException;
     
