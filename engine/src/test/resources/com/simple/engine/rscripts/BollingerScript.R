@@ -1,4 +1,3 @@
-require("VFAnalytics")
 
 getData <- function(instrument = "IBM",
                     start=format(Sys.time()-60*60*24*252,
@@ -151,6 +150,9 @@ plotBollingerIndicators <- function(X) {
   par(oldpar)
 }
 
+
+print("RUNNING 1")
+
 ## plot volume bars
 plotVolumeBars <- function(X) {
   x <- 1:NROW(X)
@@ -222,27 +224,10 @@ BollingerBands <- function(instrument) {
   
 }
 
-
-print("RUNNING")
+print("RUNNING 2")
 
 X <- BollingerBands("IBM")
 X <- BollingerBands("HPQ")
-
-testMetric <- new("MetricNumber");
-
-r1 <- MetricRange(min=1, max=100, criticality=1)
-r2 <- MetricRange(min=100, max=200, criticality=2)
-r3 <- MetricRange(min=200, max=400, criticality=3)
-
-testMetric@ranges <- c(r1, r2, r3)
-
-
-metricPlot <- MetricPlot()
-metricPlot@plot <- setPlot(plot="temp.png")
-
-print(r1)
-print(r2)
-print(r3)
 
 #testMetric$plot
 ##plot_binary <- paste(readBin("temp.png", what="raw", n=1e6), collapse="")

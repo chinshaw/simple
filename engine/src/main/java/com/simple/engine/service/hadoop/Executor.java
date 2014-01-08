@@ -55,6 +55,8 @@ public class Executor implements IAnalyticsOperationExecutor {
 		
 		Configuration configuration = new Configuration(true);
 		//configuration.set(JobUtils.R_OPERATION_PARAM, serializedOperation);
+		
+		configuration.set(JobUtils.R_OPERATION_CODE, rOperation.getCode());
 		String args[] = {};
 		
 		OperationTool tool = new OperationTool();

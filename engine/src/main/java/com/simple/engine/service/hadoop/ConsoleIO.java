@@ -44,12 +44,12 @@ public class ConsoleIO implements RMainLoopCallbacks {
 
 	@Override
 	public void rShowMessage(Rengine arg0, String arg1) {
-		// TODO Auto-generated method stub
+		System.out.println(arg1);
 		
 	}
 
 	@Override
 	public void rWriteConsole(Rengine arg0, String arg1, int arg2) {
-		// TODO Auto-generated method stub
+		System.out.println(arg1);
 	}
 }

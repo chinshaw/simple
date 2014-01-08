@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import com.simple.original.api.exceptions.RAnalyticsException;
-
 public class JobUtils {
 
 	public static final String R_OPERATION_PARAM = "R_OPERATION_PARAM";
+	
+	
+	public static final String R_OPERATION_CODE = "R_OPERATION_CODE";
 
 	public static String serializeObject(Object object) throws IOException {
 		String serializedOperation = null;
@@ -27,6 +28,10 @@ public class JobUtils {
 	}
 	
 	public static <T> T unSerializeObject(String serializedObject) throws IOException, ClassNotFoundException {
+		if (serializedObject == null || serializedObject.isEmpty()) {
+			return null;
+		}
+		
 		T unserializedObject = null;
 		ObjectInputStream is = null;
 		try {
@@ -34,8 +39,12 @@ public class JobUtils {
 			is = new ObjectInputStream(baos);
 			unserializedObject = (T) is.readObject();
 		} finally {
-			is.close();
+			if (is!= null) {
+				is.close();	
+			}
+			
 		}
+		
 		return unserializedObject;
 	}
 }
