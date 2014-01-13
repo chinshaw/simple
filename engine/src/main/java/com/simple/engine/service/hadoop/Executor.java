@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.mapred.FileInputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
 import com.simple.domain.AnalyticsOperation;
@@ -51,15 +52,11 @@ public class Executor implements IAnalyticsOperationExecutor {
 		try {
 			serializedOperation = JobUtils.serializeToXml(RAnalyticsOperation.class, rOperation);
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		Configuration configuration = new Configuration(true);
-		//configuration.set(JobUtils.R_OPERATION_PARAM, serializedOperation);
-		
 		configuration.set(JobUtils.R_OPERATION_PARAM, serializedOperation);
-		configuration.set(JobUtils.R_OPERATION_CODE, rOperation.getCode());
 		String args[] = {};
 		
 		OperationTool tool = new OperationTool();

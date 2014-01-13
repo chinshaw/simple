@@ -4,10 +4,9 @@ import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.mapred.FileInputFormat;
-import org.apache.hadoop.mapred.FileOutputFormat;
-import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 
 public class OperationTool implements Tool {
@@ -16,11 +15,12 @@ public class OperationTool implements Tool {
 	
 	@Override
 	public int run(String args[]) throws IOException, InterruptedException, ClassNotFoundException {
-		JobConf jobConf = new JobConf(getConf());
+		Job job = Job.getInstance(getConf());
 		
-		FileInputFormat.addInputPath(jobConf, new Path("/tmp/stocks.txt"));
-		FileOutputFormat.setOutputPath(jobConf, new Path("output1"));
-		Job job = new Job(jobConf);
+		
+		//FileInputFormat.setInputPaths(job, "/tmp/stocks.txt");
+		HttpInputFormat.setInput(job, "http://chart.yahoo.com/table.csv?s=aapl");
+		FileOutputFormat.setOutputPath(job, new Path("output1"));
 		
 		//job.setInputFormatClass(StockInputFormat.class);
 		

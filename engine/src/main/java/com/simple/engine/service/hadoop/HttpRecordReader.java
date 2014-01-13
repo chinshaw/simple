@@ -36,6 +36,7 @@ public class HttpRecordReader extends RecordReader<LongWritable, Text> {
 	public void initialize(InputSplit split, TaskAttemptContext context) throws IOException, InterruptedException {
 		urlResult = doGet(requestUrl);
 		lineScanner = new Scanner(urlResult);
+		System.out.println("Result is " + urlResult);
 	}
 
 	@Override
@@ -87,6 +88,7 @@ public class HttpRecordReader extends RecordReader<LongWritable, Text> {
 		String line;
 		String result = "";
 		try {
+			System.out.println("Initializing URL " + requestUrl);
 			url = new URL(requestUrl);
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
