@@ -21,13 +21,11 @@ public class ConsoleIO implements RMainLoopCallbacks {
 	@Override
 	public void rFlushConsole(Rengine arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void rLoadHistory(Rengine arg0, String arg1) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -45,7 +43,6 @@ public class ConsoleIO implements RMainLoopCallbacks {
 	@Override
 	public void rShowMessage(Rengine arg0, String arg1) {
 		System.out.println(arg1);
-		
 	}
 
 	@Override

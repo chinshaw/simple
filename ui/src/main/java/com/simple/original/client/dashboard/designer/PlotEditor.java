@@ -14,9 +14,7 @@ import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.dashboard.IWidgetEditor;
 import com.simple.original.client.dashboard.PlotWidget;
-import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
 import com.simple.original.client.dashboard.model.IPlotWidgetModel;
-import com.simple.original.client.dashboard.model.jso.PlotWidgetModelJso;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 
 public class PlotEditor extends Composite implements IWidgetEditor<PlotWidget>  {

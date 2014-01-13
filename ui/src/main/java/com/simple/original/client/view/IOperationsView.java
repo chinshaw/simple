@@ -1,9 +1,5 @@
 package com.simple.original.client.view;
 
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.view.client.HasData;
 import com.simple.original.api.domain.GroupMembership;

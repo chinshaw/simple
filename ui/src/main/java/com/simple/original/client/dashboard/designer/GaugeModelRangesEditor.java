@@ -28,10 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.api.analytics.Criticality;
 import com.simple.original.client.dashboard.designer.GaugeModelRangesEditor.GaugeModelRangeEditor;
-import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
-import com.simple.original.client.dashboard.model.IGaugeWidgetModel;
 import com.simple.original.client.dashboard.model.IGaugeWidgetModel.IGaugeModelRange;
-import com.simple.original.client.dashboard.model.IProvidesWidgetModel;
 import com.simple.original.client.proxy.NumberRangeProxy;
 import com.simple.original.client.view.widgets.ColorPickerEditor;
 

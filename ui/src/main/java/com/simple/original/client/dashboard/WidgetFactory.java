@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.simple.original.client.dashboard.designer.WidgetModelFactory;
 import com.simple.original.client.dashboard.model.IWidgetModel;
 
 /**

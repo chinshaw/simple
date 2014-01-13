@@ -23,14 +23,12 @@ import com.simple.original.client.dashboard.model.IGaugeWidgetModel.IGaugeModelR
 import com.simple.original.client.dashboard.model.IPanelWidgetModel;
 import com.simple.original.client.dashboard.model.IPlotWidgetModel;
 import com.simple.original.client.dashboard.model.ITableWidgetModel;
-import com.simple.original.client.dashboard.model.IWidgetModel;
 import com.simple.original.client.dashboard.model.jso.DashboardWidgetsModelJso;
 import com.simple.original.client.dashboard.model.jso.GaugeWidgetModelJso;
 import com.simple.original.client.dashboard.model.jso.GaugeWidgetModelRangeJso;
 import com.simple.original.client.dashboard.model.jso.PanelWidgetModelJso;
 import com.simple.original.client.dashboard.model.jso.PlotWidgetModelJso;
 import com.simple.original.client.dashboard.model.jso.TableWidgetModelJso;
-import com.simple.original.client.dashboard.model.jso.WidgetModelJso;
 import com.simple.original.client.view.IDashboardView;
 
 public class IOCDashboardModule extends AbstractGinModule {

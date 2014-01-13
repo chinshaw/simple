@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.dashboard.GaugeWidget;
-import com.simple.original.client.dashboard.IGaugeWidget;
 import com.simple.original.client.dashboard.IWidgetEditor;
 import com.simple.original.client.dashboard.model.IGaugeWidgetModel;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;

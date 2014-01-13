@@ -19,7 +19,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import com.google.inject.Inject;
-import com.google.inject.persist.Transactional;
 import com.simple.domain.Person;
 import com.simple.original.api.analytics.IDatastoreObject;
 import com.simple.original.api.analytics.IPerson;
@@ -227,17 +226,6 @@ public class DaoBase<T extends IDatastoreObject> {
 		return query.getResultList();
 	}
 
-	/**
-	 * The type checking is done with the client Generic.
-	 * 
-	 * @param clazz
-	 * @return
-	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <T> T listAll(Class clazz) {
-		Query query = em.createQuery("SELECT e FROM " + clazz.getName() + " e");
-		return (T) query.getResultList();
-	}
 
 	@SuppressWarnings("unchecked")
 	public T copy(Long id) throws SimpleException {

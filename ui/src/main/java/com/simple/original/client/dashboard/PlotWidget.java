@@ -135,7 +135,6 @@ public class PlotWidget extends AbstractDashboardWidget<IPlotWidgetModel> implem
 
 	@Override
 	public void onWidgetModelChanged(WidgetModelChangedEvent event) {
-		IWidgetModel eventModel = event.getWidgetModel();
 	}
 
 	@Override
