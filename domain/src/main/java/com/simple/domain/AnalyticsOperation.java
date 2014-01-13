@@ -16,6 +16,7 @@ import javax.persistence.OrderColumn;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.simple.original.api.analytics.IAnalyticsOperation;
@@ -26,6 +27,7 @@ import com.simple.original.api.analytics.IPerson;
  * @author chinshaw
  */
 @Entity
+@XmlRootElement
 @Inheritance(strategy =InheritanceType.TABLE_PER_CLASS)
 public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyticsOperation  {
 

@@ -5,11 +5,13 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.simple.original.api.analytics.IAnalyticsOperationInput;
 
 
 @Entity
+@XmlRootElement
 @Access(AccessType.FIELD)
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public abstract class AnalyticsOperationInput extends RequestFactoryEntity implements IAnalyticsOperationInput {

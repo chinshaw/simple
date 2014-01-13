@@ -24,8 +24,6 @@ import com.simple.original.api.analytics.IMetricPlot;
 @Table(name = "metric_metricplot")
 public class MetricPlot extends Metric implements IMetricPlot {
 
-    
-    
     /**
      * Serialization ID
      */

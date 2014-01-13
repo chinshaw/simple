@@ -25,7 +25,7 @@ public class OperationTool implements Tool {
 		//job.setInputFormatClass(StockInputFormat.class);
 		
 		job.setJarByClass(Executor.class);
-		job.setMapperClass(OperationMapper.class);
+		job.setMapperClass(ROperationMapper.class);
  
 		return job.waitForCompletion(true) ? 0 : 1;
 	}

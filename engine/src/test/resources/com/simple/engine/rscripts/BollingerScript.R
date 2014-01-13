@@ -231,3 +231,4 @@ X <- BollingerBands("HPQ")
 
 #testMetric$plot
 ##plot_binary <- paste(readBin("temp.png", what="raw", n=1e6), collapse="")
+##print(plot_binary)

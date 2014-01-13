@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.simple.original.api.analytics.IRAnalyticsOperation;
 
@@ -21,6 +22,7 @@ import com.simple.original.api.analytics.IRAnalyticsOperation;
  * 
  */
 @Entity
+@XmlRootElement
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class RAnalyticsOperation extends AnalyticsOperation implements IRAnalyticsOperation {
 

@@ -80,6 +80,13 @@
 			<version>2.2.0</version>
 		</dependency>
 
+		<!--  Avro is used to read input into hadoop -->
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+
 
 	</dependencies>
 

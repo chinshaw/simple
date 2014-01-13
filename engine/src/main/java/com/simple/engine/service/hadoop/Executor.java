@@ -1,8 +1,9 @@
 package com.simple.engine.service.hadoop;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.util.ToolRunner;
@@ -48,14 +49,16 @@ public class Executor implements IAnalyticsOperationExecutor {
 		String serializedOperation = null;
 		
 		try {
-			serializedOperation = JobUtils.serializeObject(rOperation);
-		} catch (IOException e) {
-			throw new RAnalyticsException("Unable to serialize the operation", e);
+			serializedOperation = JobUtils.serializeToXml(RAnalyticsOperation.class, rOperation);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		Configuration configuration = new Configuration(true);
 		//configuration.set(JobUtils.R_OPERATION_PARAM, serializedOperation);
 		
+		configuration.set(JobUtils.R_OPERATION_PARAM, serializedOperation);
 		configuration.set(JobUtils.R_OPERATION_CODE, rOperation.getCode());
 		String args[] = {};
 		
@@ -68,8 +71,6 @@ public class Executor implements IAnalyticsOperationExecutor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 		
 		return null;
 	}
