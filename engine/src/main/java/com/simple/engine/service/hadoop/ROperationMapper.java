@@ -59,8 +59,8 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 
 		try {
 			REXP imageTest = getMetricPlotFromWorkspace(engine, "temp.png");
-			System.out.println("Type is " + imageTest.getType());
-			System.out.println(imageTest.toString());
+			//System.out.println("Type is " + imageTest.getType());
+			//System.out.println(imageTest.toString());
 		} catch (RAnalyticsException e) {
 			e.printStackTrace();
 		}

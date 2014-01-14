@@ -1,4 +1,11 @@
 
+# Read the stock data from standard input
+input <- file("stdin", "r")
+
+
+stockData <- read.csv(textConnection(input))
+stockData <- stockData[nrow(data):1,]    
+
 getData <- function(instrument = "IBM",
                     start=format(Sys.time()-60*60*24*252,
                                  "%Y-%m-%d"),      ## 200 days ago
@@ -151,8 +158,6 @@ plotBollingerIndicators <- function(X) {
 }
 
 
-print("RUNNING 1")
-
 ## plot volume bars
 plotVolumeBars <- function(X) {
   x <- 1:NROW(X)
@@ -224,11 +229,4 @@ BollingerBands <- function(instrument) {
   
 }
 
-print("RUNNING 2")
-
 X <- BollingerBands("IBM")
-X <- BollingerBands("HPQ")
-
-#testMetric$plot
-##plot_binary <- paste(readBin("temp.png", what="raw", n=1e6), collapse="")
-##print(plot_binary)

@@ -1,12 +1,14 @@
 package com.simple.engine.service.hadoop;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.LongWritable;
@@ -36,6 +38,7 @@ public class HttpRecordReader extends RecordReader<LongWritable, Text> {
 	public void initialize(InputSplit split, TaskAttemptContext context) throws IOException, InterruptedException {
 		urlResult = doGet(requestUrl);
 		lineScanner = new Scanner(urlResult);
+		FileUtils.writeStringToFile(new File("/tmp/stocks.txt"), urlResult);
 		System.out.println("Result is " + urlResult);
 	}
 

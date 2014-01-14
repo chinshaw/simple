@@ -1,50 +1,9 @@
 
-getData <- function(instrument = "IBM",
-                    start=format(Sys.time()-60*60*24*252,
-                                 "%Y-%m-%d"),      ## 200 days ago
-                    end=format(Sys.time(), "%Y-%m-%d"),   ## today
-                    quote = c("Open","High", "Low", "Close", "Volume"),
-                    method = "auto",
-                    origin = "1899-12-30",
-                    compression="d",
-                    quiet=TRUE) {
-  start <- as.POSIXct(start,tz="GMT")  
-  end <- as.POSIXct(end,tz="GMT")
-  url <-                              
-    paste("http://chart.yahoo.com/table.csv?s=",
-          instrument,
-          format(start,
-                 paste("&a=",as.character(as.numeric(format(start, "%m")) - 1),
-                       "&b=%d&c=%Y", sep = "")),
-          format(end,
-                 paste("&d=", as.character(as.numeric(format(end, "%m")) - 1),
-                       "&e=%d&f=%Y", sep = "")),
-          "&g=", compression,
-          "&q=q&y=0&z=", instrument, "&x=.csv", sep = "")
-  destfile <- tempfile()                # and download to tempfile
-  status <- download.file(url, destfile, method = method, quiet=quiet)
-  if (status != 0) {
-    unlink(destfile)
-    stop(paste("download error, status", status))
-  }
-  nlines <- length(count.fields(destfile, sep = "\n"))
-  if (nlines == 1) {
-    unlink(destfile)
-    stop(paste("No data available for", instrument))
-  }
-  v <- readLines(destfile)
-  cl <- grep("^<!",v)                   # look for html comments
-  if (length(cl))
-    v <- v[-cl]                         # and invert the grep
-  data <- read.csv(textConnection(v))   # load all that do not match           
-  data <- data[nrow(data):1,]           # and inverse order in data
-  
-#  rownames(data) <- data[,"Date"]       # re-store dates as rownames
-  data <- data[, quote, drop=FALSE]     # and drop unwanted columns
-  
-  unlink(destfile)
-  return(data)
-}
+
+# Read the stock data from standard input
+stockInput <- read("stdin", "r")
+
+print(input)
 
 ## compute Bollinger Bands on price and scaled volume
 computeBollingerBands <- function(dat, ndays=20, nsd=2, nvol=50) {
@@ -151,8 +110,6 @@ plotBollingerIndicators <- function(X) {
 }
 
 
-print("RUNNING 1")
-
 ## plot volume bars
 plotVolumeBars <- function(X) {
   x <- 1:NROW(X)
@@ -195,7 +152,7 @@ plotVolumeBars <- function(X) {
 BollingerBands <- function(instrument) {
   library("Cairo")
   Cairo(file = "temp.png", width=1024, height = 800, type="png",  units = "px", dpi = "auto")
-  X <- getData(instrument)
+  X <- stockInput
   useObs <- 100                         # use this many observations
   X <- computeBollingerBands(X, 20, 2)
   X <- X[(NROW(X)-useObs):NROW(X),]     # limit to recent useObs obs.
@@ -224,8 +181,7 @@ BollingerBands <- function(instrument) {
   
 }
 
-print("RUNNING 2")
-
+BollingerBands()
 
 #testMetric$plot
 ##plot_binary <- paste(readBin("temp.png", what="raw", n=1e6), collapse="")

@@ -66,12 +66,12 @@ public class HttpInputFormat extends InputFormat<LongWritable, Text> implements 
 
 	@Override
 	public RecordReader<LongWritable, Text> createRecordReader(InputSplit split, TaskAttemptContext context) throws IOException, InterruptedException {
-		String requestUrl = configuration.get(WebInputConf.WEB_URL_PROPERTY);
+		String requestUrl = configuration.get(WebConf.WEB_URL_PROPERTY);
 		return new HttpRecordReader(requestUrl);
 	}
 	
 	public static void setInput(Job job, String url) {
-	    job.getConfiguration().set(WebInputConf.WEB_URL_PROPERTY, url);
+	    job.getConfiguration().set(WebConf.WEB_URL_PROPERTY, url);
 		job.setInputFormatClass(HttpInputFormat.class);	
 	}
 }
