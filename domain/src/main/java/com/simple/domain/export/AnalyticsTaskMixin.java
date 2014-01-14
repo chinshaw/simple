@@ -6,13 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.simple.domain.AnalyticsOperation;
-import com.simple.domain.AnalyticsOperationInput;
-import com.simple.domain.AnalyticsTask;
-import com.simple.domain.AnalyticsTaskExecution;
-import com.simple.domain.Person;
-import com.simple.domain.dashboard.Dashboard;
-import com.simple.domain.metric.Metric;
+import com.simple.domain.model.AnalyticsOperation;
+import com.simple.domain.model.AnalyticsTask;
+import com.simple.domain.model.AnalyticsTaskExecution;
+import com.simple.domain.model.Person;
+import com.simple.domain.model.metric.Metric;
+import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.domain.model.ui.dashboard.Dashboard;
 
 /**
  * Serialization Mixin for {@link AnalyticsTask}

@@ -8,10 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import com.simple.domain.AlertViolationData;
-import com.simple.domain.AnalyticsTaskExecution;
-import com.simple.domain.metric.Metric;
-import com.simple.domain.metric.MetricDouble;
+import com.simple.domain.model.AlertViolationData;
+import com.simple.domain.model.AnalyticsTaskExecution;
+import com.simple.domain.model.metric.Metric;
+import com.simple.domain.model.metric.MetricDouble;
 import com.simple.original.api.analytics.IAnalyticsTaskExecution;
 import com.simple.original.api.analytics.IViolation;
 import com.simple.original.api.domain.RecordFecthType;

@@ -16,11 +16,11 @@ import org.junit.Assert;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.simple.domain.AnalyticsOperation;
-import com.simple.domain.AnalyticsTask;
-import com.simple.domain.dashboard.Dashboard;
 import com.simple.domain.export.EntityExporter;
 import com.simple.domain.export.ExportModel;
+import com.simple.domain.model.AnalyticsOperation;
+import com.simple.domain.model.AnalyticsTask;
+import com.simple.domain.model.ui.dashboard.Dashboard;
 
 public class TestAnalyticsOperationImportExport {
 

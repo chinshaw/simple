@@ -3,11 +3,11 @@ package com.simple.domain.export;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.simple.domain.metric.Metric;
-import com.simple.domain.metric.MetricCollection;
-import com.simple.domain.metric.MetricNumber;
-import com.simple.domain.metric.MetricPlot;
-import com.simple.domain.metric.MetricString;
+import com.simple.domain.model.metric.Metric;
+import com.simple.domain.model.metric.MetricCollection;
+import com.simple.domain.model.metric.MetricNumber;
+import com.simple.domain.model.metric.MetricPlot;
+import com.simple.domain.model.metric.MetricString;
 
 
 /**

@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import com.simple.domain.SqlConnection;
-import com.simple.domain.SqlDriver;
+import com.simple.domain.model.SqlConnection;
+import com.simple.domain.model.SqlDriver;
 import com.simple.original.api.exceptions.DomainException;
 
 public class SqlDataProviderDriverDao extends DaoBase<SqlConnection> {

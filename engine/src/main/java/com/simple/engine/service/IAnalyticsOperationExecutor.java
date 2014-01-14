@@ -3,10 +3,10 @@ package com.simple.engine.service;
 import java.util.HashMap;
 import java.util.List;
 
-import com.simple.domain.AnalyticsOperation;
-import com.simple.domain.AnalyticsOperationInput;
-import com.simple.domain.DataProvider;
-import com.simple.domain.metric.Metric;
+import com.simple.domain.model.AnalyticsOperation;
+import com.simple.domain.model.dataprovider.DataProvider;
+import com.simple.domain.model.metric.Metric;
+import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.original.api.exceptions.RAnalyticsException;
 
 public interface IAnalyticsOperationExecutor {

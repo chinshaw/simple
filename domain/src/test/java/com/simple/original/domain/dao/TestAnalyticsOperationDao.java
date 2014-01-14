@@ -9,12 +9,12 @@ import java.util.List;
 import org.junit.Test;
 
 import com.google.inject.Inject;
-import com.simple.domain.AnalyticsOperationInput;
-import com.simple.domain.AnalyticsOperationOutput;
-import com.simple.domain.DateInput;
-import com.simple.domain.RAnalyticsOperation;
-import com.simple.domain.StringInput;
 import com.simple.domain.dao.AnalyticsOperationDao;
+import com.simple.domain.model.AnalyticsOperationOutput;
+import com.simple.domain.model.RAnalyticsOperation;
+import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.domain.model.ui.DateInput;
+import com.simple.domain.model.ui.StringInput;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput.Type;
 import com.simple.original.api.exceptions.DomainException;
 

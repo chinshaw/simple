@@ -3,9 +3,6 @@ package com.simple.original.api.analytics;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElementRef;
-import javax.xml.bind.annotation.XmlElementWrapper;
-
 /**
  * This option extends serializable so that it can be serialized by quartz.
  * 
@@ -48,14 +45,8 @@ public interface IAnalyticsTask extends Serializable {
      * @return
      */
     public abstract List<? extends IAnalyticsOperation> getOperations();
+    
+    
+    public List<? extends IDataProvider> getDataProviders();
 
-    /**
-     * Getter for data provider. TODO this needs to be converted to an
-     * interface.
-     * 
-     * @return
-     */
-    @XmlElementWrapper
-    @XmlElementRef
-    public abstract List<? extends IDataProvider> getDataProviders();
 }

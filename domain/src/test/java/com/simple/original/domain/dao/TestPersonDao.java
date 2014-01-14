@@ -16,8 +16,8 @@ import org.junit.Test;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.simple.domain.IOCDomainModule;
-import com.simple.domain.Person;
 import com.simple.domain.dao.PersonDao;
+import com.simple.domain.model.Person;
 import com.simple.original.api.analytics.IPreferences;
 import com.simple.original.api.exceptions.DomainException;
 

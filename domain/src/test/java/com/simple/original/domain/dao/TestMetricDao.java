@@ -8,14 +8,14 @@ import org.junit.Test;
 
 import com.google.inject.Inject;
 import com.simple.domain.dao.MetricDao;
-import com.simple.domain.metric.MetricDouble;
-import com.simple.domain.metric.MetricInteger;
-import com.simple.domain.metric.MetricMatrix;
-import com.simple.domain.metric.MetricString;
-import com.simple.domain.metric.Violation;
-import com.simple.domain.metric.MetricMatrix.Column;
-import com.simple.domain.metric.MetricMatrix.DoubleColumn;
-import com.simple.domain.metric.MetricMatrix.IntegerColumn;
+import com.simple.domain.model.metric.MetricDouble;
+import com.simple.domain.model.metric.MetricInteger;
+import com.simple.domain.model.metric.MetricMatrix;
+import com.simple.domain.model.metric.MetricString;
+import com.simple.domain.model.metric.Violation;
+import com.simple.domain.model.metric.MetricMatrix.Column;
+import com.simple.domain.model.metric.MetricMatrix.DoubleColumn;
+import com.simple.domain.model.metric.MetricMatrix.IntegerColumn;
 import com.simple.original.api.analytics.IViolation.Severity;
 import com.simple.original.api.exceptions.DomainException;
 

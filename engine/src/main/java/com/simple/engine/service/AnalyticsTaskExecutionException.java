@@ -1,6 +1,6 @@
 package com.simple.engine.service;
 
-import com.simple.domain.AnalyticsTaskExecution;
+import com.simple.domain.model.AnalyticsTaskExecution;
 
 public class AnalyticsTaskExecutionException extends Exception {
 

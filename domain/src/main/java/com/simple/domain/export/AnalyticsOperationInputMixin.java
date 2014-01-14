@@ -3,10 +3,10 @@ package com.simple.domain.export;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.simple.domain.AnalyticsOperationInput;
-import com.simple.domain.ComplexInput;
-import com.simple.domain.DateInput;
-import com.simple.domain.StringInput;
+import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.domain.model.ui.ComplexInput;
+import com.simple.domain.model.ui.DateInput;
+import com.simple.domain.model.ui.StringInput;
 
 
 /**

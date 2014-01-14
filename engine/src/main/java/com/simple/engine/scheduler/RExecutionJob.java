@@ -11,12 +11,12 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.google.inject.Inject;
-import com.simple.domain.AnalyticsOperationInput;
-import com.simple.domain.AnalyticsTask;
-import com.simple.domain.AnalyticsTaskExecution;
 import com.simple.domain.dao.AnalyticsTaskDao;
 import com.simple.domain.dao.AnalyticsTaskExecutionDao;
-import com.simple.engine.service.AnalyticsService;
+import com.simple.domain.model.AnalyticsTask;
+import com.simple.domain.model.AnalyticsTaskExecution;
+import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.engine.service.AnalyticsTaskService;
 import com.simple.engine.service.AnalyticsTaskExecutionException;
 import com.simple.original.api.exceptions.DomainException;
 
@@ -33,11 +33,11 @@ public class RExecutionJob implements Job {
 
 	private final AnalyticsTaskExecutionDao executionDao;
 
-	private final AnalyticsService service;
+	private final AnalyticsTaskService service;
 
 	@Inject
 	public RExecutionJob(AnalyticsTaskDao taskDao,
-			AnalyticsTaskExecutionDao executionDao, AnalyticsService service) {
+			AnalyticsTaskExecutionDao executionDao, AnalyticsTaskService service) {
 		this.taskDao = taskDao;
 		this.executionDao = executionDao;
 		this.service = service;

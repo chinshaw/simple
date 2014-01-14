@@ -5,9 +5,9 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.simple.domain.AnalyticsTask;
-import com.simple.domain.dashboard.Dashboard;
-import com.simple.domain.dashboard.Widget;
+import com.simple.domain.model.AnalyticsTask;
+import com.simple.domain.model.ui.dashboard.Dashboard;
+import com.simple.domain.model.ui.dashboard.Widget;
 
 
 /**

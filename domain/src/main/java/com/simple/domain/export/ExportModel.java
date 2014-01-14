@@ -2,10 +2,10 @@ package com.simple.domain.export;
 
 import java.util.Collection;
 
-import com.simple.domain.AnalyticsOperation;
-import com.simple.domain.AnalyticsTask;
-import com.simple.domain.Person;
-import com.simple.domain.dashboard.Dashboard;
+import com.simple.domain.model.AnalyticsOperation;
+import com.simple.domain.model.AnalyticsTask;
+import com.simple.domain.model.Person;
+import com.simple.domain.model.ui.dashboard.Dashboard;
 
 public class ExportModel {
 

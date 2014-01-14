@@ -13,8 +13,9 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
 
-import com.simple.domain.AnalyticsOperation;
-import com.simple.domain.RAnalyticsOperation;
+import com.simple.domain.model.AnalyticsOperation;
+import com.simple.domain.model.RAnalyticsOperation;
+import com.simple.engine.service.r.jri.ConsoleIO;
 import com.simple.original.api.exceptions.RAnalyticsException;
 
 public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
@@ -36,11 +37,11 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 		Configuration configuration = context.getConfiguration();
 		// String code = configuration.get(JobUtils.R_OPERATION_CODE);
 
-		String serializedOperation = configuration.get(JobUtils.R_OPERATION_PARAM);
+		String serializedOperation = configuration.get(ConfigurationUtils.R_OPERATION_PARAM);
 
 		AnalyticsOperation operation = null;
 		try {
-			operation = JobUtils.unserializeXml(RAnalyticsOperation.class, serializedOperation);
+			operation = ConfigurationUtils.unserializeXml(RAnalyticsOperation.class, serializedOperation);
 		} catch (JAXBException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

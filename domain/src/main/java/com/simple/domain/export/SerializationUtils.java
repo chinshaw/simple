@@ -2,7 +2,7 @@ package com.simple.domain.export;
 
 import java.lang.reflect.Field;
 
-import com.simple.domain.DatastoreObject;
+import com.simple.domain.model.DatastoreObject;
 
 public class SerializationUtils {
 

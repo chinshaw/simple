@@ -2,8 +2,11 @@ package com.simple.original.api.analytics;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlType;
+
 public interface IAnalyticsOperationOutput extends IRequestFactoryEntity {
 
+	@XmlType(name="operation_type")
 	enum Type {
 	    AUTO,
 	    GRAPHIC,

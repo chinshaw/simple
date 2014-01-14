@@ -1,9 +1,8 @@
 
 
 # Read the stock data from standard input
-stockInput <- read("stdin", "r")
-
-print(input)
+input <- file("stdin", "r")
+stockInput <- read.csv(input, header = TRUE)
 
 ## compute Bollinger Bands on price and scaled volume
 computeBollingerBands <- function(dat, ndays=20, nsd=2, nvol=50) {
@@ -149,7 +148,7 @@ plotVolumeBars <- function(X) {
   par(oldpar)
 }
 
-BollingerBands <- function(instrument) {
+BollingerBands <- function() {
   library("Cairo")
   Cairo(file = "temp.png", width=1024, height = 800, type="png",  units = "px", dpi = "auto")
   X <- stockInput
@@ -170,7 +169,7 @@ BollingerBands <- function(instrument) {
 
   
   plotBollingerBars(X)
-  mtext(paste(instrument, ": Bollinger Bars, Bands, Indicators and ",
+  mtext(paste("aapl", ": Bollinger Bars, Bands, Indicators and ",
               "normalized and absolute Volume", sep=""),
         3, outer=FALSE, line=1, cex=1.0, font=2)
   plotBollingerIndicators(X)

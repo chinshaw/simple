@@ -22,5 +22,4 @@ public class AnalyticsOperationException extends Exception {
 	public AnalyticsOperationException(Throwable cause) {
 		super(cause);
 	}
-
 }

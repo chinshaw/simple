@@ -5,11 +5,11 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.simple.domain.AnalyticsOperation;
-import com.simple.domain.AnalyticsOperationInput;
-import com.simple.domain.JavaAnalyticsOperation;
-import com.simple.domain.RAnalyticsOperation;
-import com.simple.domain.metric.Metric;
+import com.simple.domain.model.AnalyticsOperation;
+import com.simple.domain.model.JavaAnalyticsOperation;
+import com.simple.domain.model.RAnalyticsOperation;
+import com.simple.domain.model.metric.Metric;
+import com.simple.domain.model.ui.AnalyticsOperationInput;
 
 /**
  * Jackson mixin annotations for {@link AnalyticsOperation}

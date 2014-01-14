@@ -19,7 +19,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import com.google.inject.name.Named;
-import com.simple.domain.SqlDriver;
+import com.simple.domain.model.SqlDriver;
 
 public class SqlDriverDao {
     

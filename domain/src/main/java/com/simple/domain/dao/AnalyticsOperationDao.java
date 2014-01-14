@@ -14,11 +14,11 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import com.simple.domain.AnalyticsOperation;
-import com.simple.domain.AnalyticsOperationInput;
-import com.simple.domain.AnalyticsOperationName;
-import com.simple.domain.Person;
-import com.simple.domain.RAnalyticsOperation;
+import com.simple.domain.model.AnalyticsOperation;
+import com.simple.domain.model.AnalyticsOperationName;
+import com.simple.domain.model.Person;
+import com.simple.domain.model.RAnalyticsOperation;
+import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.domain.RecordFecthType;
 import com.simple.original.api.domain.SortOrder;

@@ -38,4 +38,11 @@ public interface IAnalyticsOperation extends IRequestFactoryEntity {
      * @return List of outputs to render.
      */
     public List<? extends IAnalyticsOperationOutput> getOutputs();
+    
+    /**
+     * Getter for data provider inputs.
+     * 
+     * @return
+     */
+    public List<? extends IDataProviderInput> getDataProviders();
 }

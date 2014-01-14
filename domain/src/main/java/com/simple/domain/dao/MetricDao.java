@@ -2,9 +2,9 @@ package com.simple.domain.dao;
 
 import javax.persistence.EntityManager;
 
-import com.simple.domain.metric.Metric;
-import com.simple.domain.metric.MetricCollection;
-import com.simple.domain.metric.MetricMatrix;
+import com.simple.domain.model.metric.Metric;
+import com.simple.domain.model.metric.MetricCollection;
+import com.simple.domain.model.metric.MetricMatrix;
 import com.simple.original.api.exceptions.AnalyticsTaskException;
 
 public class MetricDao extends DaoBase<Metric> {

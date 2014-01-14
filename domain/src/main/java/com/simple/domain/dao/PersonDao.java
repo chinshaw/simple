@@ -4,9 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import com.simple.domain.ApplicationBookmark;
-import com.simple.domain.Person;
-import com.simple.domain.Preferences;
+import com.simple.domain.model.ApplicationBookmark;
+import com.simple.domain.model.Person;
+import com.simple.domain.model.Preferences;
 import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.exceptions.NoSuchUserException;
 import com.simple.original.api.exceptions.NotAuthenticatedException;

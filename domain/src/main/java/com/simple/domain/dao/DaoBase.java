@@ -19,7 +19,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import com.google.inject.Inject;
-import com.simple.domain.Person;
+import com.simple.domain.model.Person;
 import com.simple.original.api.analytics.IDatastoreObject;
 import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.domain.RecordFecthType;
@@ -120,11 +120,6 @@ public class DaoBase<T extends IDatastoreObject> {
 	}
 
 	/**
-	 * This method finds all the entities based on the input parameters and
-	 * range passed. WHY IS THIS IN DAO BASE WHEN IT ONLY SEARCH FOR TASKS. THIS
-	 * NEEDS TO GO BACK TO THE GENERIC SEARCH AND MOVE THIS TO ANALYTICS TASK
-	 * DAO!!!
-	 * 
 	 * @param start
 	 *            Starting record
 	 * @param max
