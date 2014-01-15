@@ -39,7 +39,7 @@ public class HttpInputRecordReader extends RecordReader<LongWritable, Text> {
 		urlResult = doGet(requestUrl);
 		lineScanner = new Scanner(urlResult);
 		FileUtils.writeStringToFile(new File("/tmp/stocks.txt"), urlResult);
-		System.out.println("Result is " + urlResult);
+		//System.out.println("Result is " + urlResult);
 	}
 
 	@Override
@@ -47,6 +47,7 @@ public class HttpInputRecordReader extends RecordReader<LongWritable, Text> {
 		if (!lineScanner.hasNext()) {
 			key = null;
 			value = null;
+			System.out.println("DONE READING");
 			return false;
 		}
 		
@@ -59,6 +60,7 @@ public class HttpInputRecordReader extends RecordReader<LongWritable, Text> {
 
 		key.set(pos++);
 		value.set(lineScanner.nextLine());
+		System.out.println("DOING READ");
 		return true;
 	}
 

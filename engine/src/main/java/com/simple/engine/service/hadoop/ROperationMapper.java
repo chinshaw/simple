@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
@@ -27,22 +28,24 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 	private Rengine engine;
 
 	public ROperationMapper() {
-		// System.out.println("Lib Path" +
-		// System.getProperty("java.library.path"));
-		// debugEnvironment();
 		engine = new Rengine(args, true, new ConsoleIO());
 	}
 
 	public void run(Context context) throws IOException, InterruptedException {
 		Configuration configuration = context.getConfiguration();
-		// String code = configuration.get(JobUtils.R_OPERATION_CODE);
-
-		String serializedOperation = configuration.get(ConfigurationUtils.R_OPERATION_PARAM);
+		OperationConfig opConfig = new OperationConfig(configuration);
 
 		AnalyticsOperation operation = null;
 		try {
-			operation = ConfigurationUtils.unserializeXml(RAnalyticsOperation.class, serializedOperation);
+			operation = opConfig.getOperation();
 		} catch (JAXBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
+			Class<? extends InputFormat<?,?>> inFormatter = context.getInputFormatClass();
+		} catch (ClassNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -60,8 +63,6 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 
 		try {
 			REXP imageTest = getMetricPlotFromWorkspace(engine, "temp.png");
-			//System.out.println("Type is " + imageTest.getType());
-			//System.out.println(imageTest.toString());
 		} catch (RAnalyticsException e) {
 			e.printStackTrace();
 		}
