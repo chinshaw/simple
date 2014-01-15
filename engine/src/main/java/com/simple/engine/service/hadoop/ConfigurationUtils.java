@@ -15,10 +15,6 @@ import javax.xml.bind.Unmarshaller;
 
 public class ConfigurationUtils {
 
-	public static final String R_OPERATION_PARAM = "R_OPERATION_PARAM";
-	
-	public static final String R_OPERATION_CODE = "R_OPERATION_CODE";
-
 	public static String serializeObject(Object object) throws IOException {
 		String serializedOperation = null;
 		ObjectOutputStream os = null;

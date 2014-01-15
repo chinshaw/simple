@@ -32,7 +32,7 @@ public class HadoopBasicTest {
 		operation.getOutputs().add(new AnalyticsOperationOutput("temp.png", Type.BINARY));
 		//operation.addOutput(new AnalyticsOperationOutput("metricPlot",IAnalyticsOperationOutput.Type.GRAPHIC));
 		operation.setCode(script);
-		HttpDataProvider dp = new HttpDataProvider("http://chart.yahoo.com/table.csv?s=aapl");
+		HttpDataProvider dp = new HttpDataProvider("http://ichart.finance.yahoo.com/table.csv?s=HPQ&a=00&b=12&c=2013&d=00&e=15&f=2014&g=d&ignore=.csv");
 		List<DataProvider> dps = new ArrayList<DataProvider>();
 		dps.add(dp);
 		executor.execute(null, operation, dps);

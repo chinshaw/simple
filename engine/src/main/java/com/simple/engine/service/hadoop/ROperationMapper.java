@@ -37,14 +37,13 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 		Configuration configuration = context.getConfiguration();
 		// String code = configuration.get(JobUtils.R_OPERATION_CODE);
 
-		String serializedOperation = configuration.get(ConfigurationUtils.R_OPERATION_PARAM);
+		OperationConfig opConfig = new OperationConfig(configuration);
 
 		AnalyticsOperation operation = null;
 		try {
-			operation = ConfigurationUtils.unserializeXml(RAnalyticsOperation.class, serializedOperation);
-		} catch (JAXBException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			operation = opConfig.getOperation();
+		} catch (JAXBException e) {
+			e.printStackTrace();
 		}
 
 		RAnalyticsOperation rOperation = (RAnalyticsOperation) operation;

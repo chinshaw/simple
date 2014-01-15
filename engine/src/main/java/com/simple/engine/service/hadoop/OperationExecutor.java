@@ -18,27 +18,32 @@ import com.simple.original.api.exceptions.RAnalyticsException;
 
 public class OperationExecutor implements IAnalyticsOperationExecutor {
 
-	
-	
 	public OperationExecutor() {
 	}
 
 	@Override
-	public HashMap<Long, Metric> execute(List<AnalyticsOperationInput> userInputs, AnalyticsOperation operation, List<DataProvider> dataProviders)
+	public HashMap<Long, Metric> execute(
+			List<AnalyticsOperationInput> userInputs,
+			AnalyticsOperation operation, List<DataProvider> dataProviders)
 			throws AnalyticsOperationException {
 
 		try {
 			return _execute(userInputs, operation, dataProviders);
 		} catch (RAnalyticsException e) {
-			throw new AnalyticsOperationException("Unable to execute operation " + operation.getName(), e);
+			throw new AnalyticsOperationException(
+					"Unable to execute operation " + operation.getName(), e);
 		}
 	}
 
 	@Override
-	public void execute(AnalyticsOperation operation, List<DataProvider> dataProviders) throws AnalyticsOperationException {
+	public void execute(AnalyticsOperation operation,
+			List<DataProvider> dataProviders)
+			throws AnalyticsOperationException {
 	}
 
-	private synchronized HashMap<Long, Metric> _execute(List<AnalyticsOperationInput> operationInputs, AnalyticsOperation operation, List<DataProvider> dataProviders)
+	private synchronized HashMap<Long, Metric> _execute(
+			List<AnalyticsOperationInput> operationInputs,
+			AnalyticsOperation operation, List<DataProvider> dataProviders)
 			throws RAnalyticsException {
 
 		if (!(operation instanceof RAnalyticsOperation)) {
@@ -47,26 +52,26 @@ public class OperationExecutor implements IAnalyticsOperationExecutor {
 
 		RAnalyticsOperation rOperation = (RAnalyticsOperation) operation;
 		OperationConfig configuration = new OperationConfig();
-		
+
 		try {
 			configuration.setOperation(rOperation);
 			configuration.setDataProviders(dataProviders);
 			configuration.setOperationInputs(operationInputs);
-		} catch(JAXBException e) {
+		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			String args[] = {};
-			
+
 			OperationTool tool = new OperationTool();
 			tool.setConf(configuration);
-			
+
 			ToolRunner.run(configuration, tool, args);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 

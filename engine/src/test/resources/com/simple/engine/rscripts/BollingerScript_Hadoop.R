@@ -1,8 +1,12 @@
 
 
 # Read the stock data from standard input
+print("Starting script")
 input <- file("stdin", "r")
-stockInput <- read.csv(input, header = TRUE)
+print("Reading stdout")
+stockInput <- read.csv(input, gheader = TRUE)
+
+print("Done reading csv")
 
 ## compute Bollinger Bands on price and scaled volume
 computeBollingerBands <- function(dat, ndays=20, nsd=2, nvol=50) {

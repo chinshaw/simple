@@ -38,15 +38,17 @@ public class HttpInputRecordReader extends RecordReader<LongWritable, Text> {
 	public void initialize(InputSplit split, TaskAttemptContext context) throws IOException, InterruptedException {
 		urlResult = doGet(requestUrl);
 		lineScanner = new Scanner(urlResult);
-		FileUtils.writeStringToFile(new File("/tmp/stocks.txt"), urlResult);
-		System.out.println("Result is " + urlResult);
+		//FileUtils.writeStringToFile(new File("/tmp/stocks.txt"), urlResult);
+		//System.out.println("Result is " + urlResult);
 	}
 
 	@Override
 	public boolean nextKeyValue() throws IOException, InterruptedException {
-		if (!lineScanner.hasNext()) {
+		if (! lineScanner.hasNext()) {
 			key = null;
 			value = null;
+			
+			System.err.println("NO MORE LINES");
 			return false;
 		}
 		
@@ -59,6 +61,7 @@ public class HttpInputRecordReader extends RecordReader<LongWritable, Text> {
 
 		key.set(pos++);
 		value.set(lineScanner.nextLine());
+		System.err.println("YES MORE LINES");
 		return true;
 	}
 
@@ -74,14 +77,11 @@ public class HttpInputRecordReader extends RecordReader<LongWritable, Text> {
 
 	@Override
 	public float getProgress() throws IOException, InterruptedException {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void close() throws IOException {
-		// TODO Auto-generated method stub
-
 	}
 
 	private String doGet(String requestUrl) {
