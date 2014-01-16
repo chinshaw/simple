@@ -1,8 +1,17 @@
-package com.simple.radapter.impl;
+package com.simple.radapter;
 
 import com.simple.radapter.api.IRAdapter;
 
 public class NativeAdapter implements IRAdapter {
+	
+	static {
+		try {
+			System.loadLibrary("radapter");
+		} catch (UnsatisfiedLinkError e) {
+			String searchPath = System.getProperty("java.library.path");
+			throw new RuntimeException("Unable to find native library in the following paths " + searchPath, e);
+		}
+	}
 	
 	public static final int GLOBAL_ENVIRONMENT = 0;
 
@@ -23,7 +32,6 @@ public class NativeAdapter implements IRAdapter {
 	 */
 	public synchronized native long eval(long exp, long environment);
 	
-	
 	/**
 	 * Used to assign an expression into the workspace, the expression needs to be 
 	 * created using the parse function.
@@ -38,32 +46,35 @@ public class NativeAdapter implements IRAdapter {
 	public synchronized native int getExpressionType(long expression);
 
 	@Override
-	public String[] getStringArray() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public synchronized native String getString();
 
 	@Override
-	public int[] getIntArray() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public synchronized native long setString(String string);
 
 	@Override
-	public double[] getDoubleArray() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public synchronized native String[] getStrings();
 
 	@Override
-	public long[] getVector() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public synchronized native long setStrings(String[] strings);
 
 	@Override
-	public boolean[] getBooleanArray() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public synchronized native int[] getInts();
+
+	@Override
+	public synchronized native long setInts(int[] ints); 
+
+	@Override
+	public synchronized native double[] getDoubles();
+
+	@Override
+	public synchronized native long setDoubles(double[] doubles);
+
+	@Override
+	public synchronized native long[] getVector();
+
+	@Override
+	public synchronized native boolean[] getBooleans();
+
+	@Override
+	public synchronized native long setBooleans(boolean[] booleans);
 }

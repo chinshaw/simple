@@ -6,7 +6,7 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.simple.radapter</groupId>
-	<artifactId>radapter</artifactId>
+	<artifactId>radapter-native</artifactId>
 	<name>simple-analytics-radapter</name>
 	<description>Java to R adapter</description>
 	<packaging>so</packaging>
@@ -49,9 +49,17 @@
 						</source> 
 			
 					</sources>
+					<compilerStartOptions>
+						<compilerStartOption>-fpic</compilerStartOption>
+					</compilerStartOptions>
+
+
 					 <linkerStartOptions>
-						 <linkerStartOption>-shared -lR</linkerStartOption> 
+						 <linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -lR</linkerStartOption> 
 					 </linkerStartOptions>
+					 <linkerEndOptions>
+						 <linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -lR</linkerStartOption> 
+					 </linkerEndOptions>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -1,4 +1,4 @@
-package com.simple.radapter.impl;
+package com.simple.radapter;
 
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.IRexp;

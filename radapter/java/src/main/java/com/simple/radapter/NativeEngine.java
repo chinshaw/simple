@@ -1,4 +1,4 @@
-package com.simple.radapter.impl;
+package com.simple.radapter;
 
 import com.simple.radapter.api.IEngine;
 import com.simple.radapter.api.IRAdapter;
@@ -7,14 +7,7 @@ import com.simple.radapter.exceptions.RAdapterException;
 
 public class NativeEngine implements IEngine {
 
-	static {
-		try {
-			System.loadLibrary("radapter");
-		} catch (UnsatisfiedLinkError e) {
-			String searchPath = System.getProperty("jri.library.path");
-			throw new RuntimeException("Unable to find native library in the following paths" + searchPath);
-		}
-	}
+
 
 	private IRAdapter adapter;
 

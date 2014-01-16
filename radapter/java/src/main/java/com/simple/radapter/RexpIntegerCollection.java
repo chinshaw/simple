@@ -1,4 +1,4 @@
-package com.simple.radapter.impl;
+package com.simple.radapter;
 
 import java.util.Arrays;
 import java.util.Collection;

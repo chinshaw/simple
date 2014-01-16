@@ -40,14 +40,25 @@ public interface IRAdapter {
 	 */
 	public int getExpressionType(long expression);
 	
+	public String getString();
+
+	public long setString(String string);
 	
-	public String[] getStringArray();
+	public String[] getStrings();
 	
-	public int[] getIntArray();
+	public long setStrings(String[] strings);
 	
-	public double[] getDoubleArray();
+	public int[] getInts();
+	
+	public long setInts(int[] ints);
+	
+	public double[] getDoubles();
+	
+	public long setDoubles(double[] doubles);
 	
 	public long[] getVector();
 	
-	public boolean[] getBooleanArray();
+	public boolean[] getBooleans();
+	
+	public long setBooleans(boolean[] booleans);	
 }
