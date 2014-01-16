@@ -1,23 +1,16 @@
 
 
 # Read the stock data from standard input
-<<<<<<< HEAD
 print("Starting script")
 input <- file("stdin", "r")
 print("Reading stdout")
-stockInput <- read.csv(input, gheader = TRUE)
 
-print("Done reading csv")
-=======
-print("Starting read")
-input <- file("stdin", "r")
 while(length(currentLine <- readLines(input, n=1, warn=FALSE)) > 0) {
 print(currentLine)
 }
 
 print("going to read input from csv")
 stockInput <- read.csv(input, header = TRUE)
->>>>>>> 2764177f702cbe49c8b6f00a740069d15f937f85
 
 print("done reading from input")
 

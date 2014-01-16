@@ -33,24 +33,13 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 
 	public void run(Context context) throws IOException, InterruptedException {
 		Configuration configuration = context.getConfiguration();
-<<<<<<< HEAD
-		// String code = configuration.get(JobUtils.R_OPERATION_CODE);
-
-=======
->>>>>>> 2764177f702cbe49c8b6f00a740069d15f937f85
 		OperationConfig opConfig = new OperationConfig(configuration);
 
 		AnalyticsOperation operation = null;
 		try {
 			operation = opConfig.getOperation();
-<<<<<<< HEAD
 		} catch (JAXBException e) {
 			e.printStackTrace();
-=======
-		} catch (JAXBException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
->>>>>>> 2764177f702cbe49c8b6f00a740069d15f937f85
 		}
 		
 		try {
