@@ -55,7 +55,7 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 		if (!engine.waitForR()) {
 			throw new RuntimeException("Unable to connect to R");
 		}
-
+		
 		engine.assign(".tmpCode.", rOperation.getCode());
 
 		// Get stdout from the script and send it to the log.

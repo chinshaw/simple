@@ -16,11 +16,9 @@
  * limitations under the License.
  */
 
-package org.apache.hadoop.streaming.io;
+package com.simple.engine.service.hadoop.io;
 
 import java.io.IOException;
-
-import org.apache.hadoop.streaming.PipeMapRed;
 
 /**
  * Abstract base for classes that write the client's input.
@@ -31,7 +29,7 @@ public abstract class InputWriter<K, V> {
    * Initializes the InputWriter. This method has to be called before calling
    * any of the other methods.
    */
-  public void initialize(PipeMapRed pipeMapRed) throws IOException {
+  public void initialize() throws IOException {
     // nothing here yet, but that might change in the future
   }
   

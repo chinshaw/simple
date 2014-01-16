@@ -33,6 +33,7 @@
 		<module>ui</module>
 		<module>security</module>
 		<module>reporting</module>
+		<module>radapter</module>
 	</modules>
 
 	<scm>
