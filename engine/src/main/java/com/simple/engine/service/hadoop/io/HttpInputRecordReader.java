@@ -38,7 +38,11 @@ public class HttpInputRecordReader extends RecordReader<LongWritable, Text> {
 	public void initialize(InputSplit split, TaskAttemptContext context) throws IOException, InterruptedException {
 		urlResult = doGet(requestUrl);
 		lineScanner = new Scanner(urlResult);
+<<<<<<< HEAD
 		//FileUtils.writeStringToFile(new File("/tmp/stocks.txt"), urlResult);
+=======
+		FileUtils.writeStringToFile(new File("/tmp/stocks.txt"), urlResult);
+>>>>>>> 2764177f702cbe49c8b6f00a740069d15f937f85
 		//System.out.println("Result is " + urlResult);
 	}
 
@@ -47,8 +51,12 @@ public class HttpInputRecordReader extends RecordReader<LongWritable, Text> {
 		if (! lineScanner.hasNext()) {
 			key = null;
 			value = null;
+<<<<<<< HEAD
 			
 			System.err.println("NO MORE LINES");
+=======
+			System.out.println("DONE READING");
+>>>>>>> 2764177f702cbe49c8b6f00a740069d15f937f85
 			return false;
 		}
 		
@@ -61,7 +69,11 @@ public class HttpInputRecordReader extends RecordReader<LongWritable, Text> {
 
 		key.set(pos++);
 		value.set(lineScanner.nextLine());
+<<<<<<< HEAD
 		System.err.println("YES MORE LINES");
+=======
+		System.out.println("DOING READ");
+>>>>>>> 2764177f702cbe49c8b6f00a740069d15f937f85
 		return true;
 	}
 
