@@ -1,7 +1,7 @@
 package com.simple.original.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
-import com.simple.domain.SqlConnection;
+import com.simple.domain.model.SqlConnection;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 
 @ProxyFor(value=SqlConnection.class, locator=RequestFactoryEntityLocator.class)

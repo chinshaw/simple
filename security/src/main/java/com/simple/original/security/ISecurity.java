@@ -1,6 +1,6 @@
 package com.simple.original.security;
 
-import com.simple.domain.Person;
+import com.simple.domain.model.Person;
 import com.simple.original.api.domain.GroupMembership;
 import com.simple.original.api.security.ISession;
 

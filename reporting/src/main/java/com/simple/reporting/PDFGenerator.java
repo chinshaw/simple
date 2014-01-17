@@ -22,9 +22,9 @@ import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
-import com.simple.domain.dashboard.Dashboard;
-import com.simple.domain.metric.MetricDouble;
-import com.simple.domain.metric.NumberRange;
+import com.simple.domain.model.metric.MetricDouble;
+import com.simple.domain.model.metric.NumberRange;
+import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.original.api.analytics.IMetricDouble;
 
 /**

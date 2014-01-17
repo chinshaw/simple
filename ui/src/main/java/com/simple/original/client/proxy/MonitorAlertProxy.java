@@ -3,7 +3,7 @@ package com.simple.original.client.proxy;
 import java.util.Date;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
-import com.simple.domain.MonitorAlert;
+import com.simple.domain.model.MonitorAlert;
 import com.simple.original.api.analytics.AlertState;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 

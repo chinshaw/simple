@@ -43,6 +43,7 @@
 		<class>com.simple.domain.model.ui.dashboard.Dashboard</class>
 		<class>com.simple.domain.model.ui.dashboard.GaugeModelRange</class>
 		<class>com.simple.domain.model.ui.dashboard.Widget</class>
+		<class>com.simple.domain.model.ui.DataProviderInput</class>
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 

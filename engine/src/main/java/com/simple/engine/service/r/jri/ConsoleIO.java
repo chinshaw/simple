@@ -9,7 +9,6 @@ public class ConsoleIO implements RMainLoopCallbacks {
 	@Override
 	public void rBusy(Rengine arg0, int arg1) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

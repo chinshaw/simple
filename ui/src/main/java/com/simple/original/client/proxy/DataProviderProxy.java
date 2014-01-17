@@ -2,7 +2,7 @@ package com.simple.original.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
-import com.simple.domain.DataProvider;
+import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 
 /**

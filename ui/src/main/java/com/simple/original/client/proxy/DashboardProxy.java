@@ -3,9 +3,10 @@ package com.simple.original.client.proxy;
 import java.util.List;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
+import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 
-@ProxyFor(value = com.simple.domain.dashboard.Dashboard.class, locator = RequestFactoryEntityLocator.class)
+@ProxyFor(value = Dashboard.class, locator = RequestFactoryEntityLocator.class)
 public interface DashboardProxy extends DatastoreObjectProxy {
     
     public String getName();

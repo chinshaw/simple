@@ -12,7 +12,7 @@ import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.simple.domain.RAnalyticsOperation;
+import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.exceptions.SimpleException;
 import com.simple.original.client.place.AnalyticsOperationPlace;

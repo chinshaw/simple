@@ -2,7 +2,7 @@ package com.simple.original.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
-import com.simple.domain.AnalyticsOperationInput;
+import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 
 @ProxyFor(value = AnalyticsOperationInput.class, locator = RequestFactoryEntityLocator.class)

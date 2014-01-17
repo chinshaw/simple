@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import javax.xml.bind.JAXBException;
 import javax.xml.xpath.XPathExpressionException;
 
-import com.simple.domain.SqlConnection;
-import com.simple.domain.SqlDriver;
 import com.simple.domain.dao.SqlDriverDao;
+import com.simple.domain.model.SqlConnection;
+import com.simple.domain.model.SqlDriver;
 import com.simple.original.shared.SqlDataProviderException;
 
 public class SqlDriverService {

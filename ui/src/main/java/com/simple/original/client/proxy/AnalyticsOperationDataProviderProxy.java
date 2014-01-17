@@ -2,7 +2,7 @@ package com.simple.original.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
-import com.simple.domain.DataProvider;
+import com.simple.domain.model.dataprovider.DataProvider;
 
 /**
  * This is an interface to the analytics data provider class which provides a

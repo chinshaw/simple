@@ -19,7 +19,6 @@ import com.simple.original.client.activity.DataProvidersActivity;
 import com.simple.original.client.activity.EmailNotificationActivity;
 import com.simple.original.client.activity.LoginActivity;
 import com.simple.original.client.activity.MonitoringTaskLimitActivity;
-import com.simple.original.client.activity.PlaygroundActivity;
 import com.simple.original.client.activity.PreferencesActivity;
 import com.simple.original.client.activity.ServerLogsActivity;
 import com.simple.original.client.activity.SubscriptionActivity;
@@ -134,8 +133,6 @@ public interface IOCBaseInjector extends Ginjector {
 	LoginActivity loginActivity();
 
 	MonitoringTaskLimitActivity monitoringTaskLimitActivity();
-
-	PlaygroundActivity playgroundActivity();
 
 	PreferencesActivity preferencesActivity();
 

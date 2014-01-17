@@ -3,7 +3,7 @@ package com.simple.original.client.proxy;
 import java.util.List;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
-import com.simple.domain.AnalyticsTask;
+import com.simple.domain.model.AnalyticsTask;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 
 @ProxyFor(value = AnalyticsTask.class, locator = RequestFactoryEntityLocator.class)

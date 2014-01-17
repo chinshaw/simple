@@ -1,7 +1,7 @@
 package com.simple.original.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
-import com.simple.domain.dashboard.LinkableDashboard;
+import com.simple.domain.model.ui.dashboard.LinkableDashboard;
 import com.simple.original.client.dashboard.ILinkable;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 

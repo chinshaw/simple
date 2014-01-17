@@ -41,13 +41,15 @@ import com.simple.original.api.analytics.IPerson;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(name = "analyticstask", uniqueConstraints = { @UniqueConstraint(columnNames = { "task_name", "owner_id" }) })
+@Table(name = "analyticstask", uniqueConstraints = { @UniqueConstraint(columnNames = {
+		"task_name", "owner_id" }) })
 @NamedQueries(value = {
 		@NamedQuery(name = "AnalyticsTask.all", query = "select task from AnalyticsTask as task order by task.name"),
 		@NamedQuery(name = "AnalyticsTask.byName", query = "select task from AnalyticsTask as task where task.name in :name order by task.name"),
 		@NamedQuery(name = "AnalyticsTask.byOwner", query = "select task from AnalyticsTask as task where task.owner.id = :owner order by task.name"),
 		@NamedQuery(name = "AnalyticsTask.countByOwner", query = "select count(task) from AnalyticsTask as task where task.owner.id= :userId and task.isPublic = false") })
-public class AnalyticsTask extends RequestFactoryEntity implements IAnalyticsTask {
+public class AnalyticsTask extends RequestFactoryEntity implements
+		IAnalyticsTask {
 
 	/**
 	 * Serialization id.
@@ -123,19 +125,19 @@ public class AnalyticsTask extends RequestFactoryEntity implements IAnalyticsTas
 	@Embedded
 	private AnalyticsTaskSchedule schedule;
 
-
 	/**
 	 * List of inputs to provide the the operations. This will typically
 	 * override the operation default inputs.
 	 */
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	private List<AnalyticsOperationInput> taskInputs;
 
 	/**
 	 * One to one relationship for the script that contains the actual data.
 	 * Script may make it's way into this class later on.
 	 */
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE,
+			CascadeType.REFRESH, CascadeType.DETACH })
 	// @JoinTable(name = "analyticstask_analyticsoperations", joinColumns = {
 	// @JoinColumn(name = "fk_analyticstask_id") }, inverseJoinColumns = {
 	// @JoinColumn(name = "fk_analyticsoperations_id") })
@@ -143,18 +145,21 @@ public class AnalyticsTask extends RequestFactoryEntity implements IAnalyticsTas
 	@Size(min = 1, message = "Atleast one operation is required for the task")
 	private List<AnalyticsOperation> operations;
 
+	@OneToMany
+	private List<DataProvider> dataProviders;
+
 	/**
 	 * Required default constructor.
 	 */
 	public AnalyticsTask() {
-		
-		operations = new ArrayList<AnalyticsOperation>();
-		fingerprint = UUID.randomUUID().toString();
+		this(null);
 	}
 
 	public AnalyticsTask(String name) {
-		this();
 		this.name = name;
+		dataProviders = new ArrayList<DataProvider>();
+		operations = new ArrayList<AnalyticsOperation>();
+		fingerprint = UUID.randomUUID().toString();
 	}
 
 	/*
@@ -196,7 +201,8 @@ public class AnalyticsTask extends RequestFactoryEntity implements IAnalyticsTas
 		return operations;
 	}
 
-	public void setAnalyticsOperations(List<AnalyticsOperation> analyticsOperations) {
+	public void setAnalyticsOperations(
+			List<AnalyticsOperation> analyticsOperations) {
 		this.operations = analyticsOperations;
 	}
 
@@ -319,11 +325,13 @@ public class AnalyticsTask extends RequestFactoryEntity implements IAnalyticsTas
 
 	@Override
 	public List<DataProvider> getDataProviders() {
-		// TODO Auto-generated method stub
-		return null;
+		return dataProviders;
 	}
 
-	
+	public void setDataProviders(List<DataProvider> dataProviders) {
+		this.dataProviders = dataProviders;
+	}
+
 	public String getFingerprint() {
 		return fingerprint;
 	}
@@ -341,7 +349,8 @@ public class AnalyticsTask extends RequestFactoryEntity implements IAnalyticsTas
 
 	public void setScheduleEnabled(boolean isEnabled) {
 		if (schedule == null) {
-			throw new RuntimeException("Can't set schedule enabled because there isn't one created");
+			throw new RuntimeException(
+					"Can't set schedule enabled because there isn't one created");
 		}
 		this.schedule.setEnabled(isEnabled);
 	}
@@ -417,7 +426,6 @@ public class AnalyticsTask extends RequestFactoryEntity implements IAnalyticsTas
 		// Set the list of operations no need for clone.
 		clone.setAnalyticsOperations(getAnalyticsOperations());
 
-
 		clone.changeLogs = new ArrayList<ChangeLog>();
 
 		clone.dashboards = new ArrayList<Dashboard>();
@@ -456,6 +464,5 @@ public class AnalyticsTask extends RequestFactoryEntity implements IAnalyticsTas
 		}
 		subscribers.add(subscriber);
 	}
-
 
 }

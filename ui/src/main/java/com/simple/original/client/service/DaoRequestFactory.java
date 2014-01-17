@@ -17,7 +17,7 @@ import com.simple.domain.dao.DaoBase;
 import com.simple.domain.dao.MetricDao;
 import com.simple.domain.dao.PersonDao;
 import com.simple.domain.dao.SqlDataProviderDriverDao;
-import com.simple.domain.dashboard.DashboardDao;
+import com.simple.domain.model.ui.dashboard.DashboardDao;
 import com.simple.original.api.domain.RecordFecthType;
 import com.simple.original.api.domain.SortOrder;
 import com.simple.original.client.proxy.AlertViolationDataProxy;

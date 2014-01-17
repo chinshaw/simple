@@ -3,7 +3,7 @@ package com.simple.original.client.proxy;
 import java.util.Set;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
-import com.simple.domain.Person;
+import com.simple.domain.model.Person;
 import com.simple.original.api.analytics.IPerson;
 import com.simple.original.server.service.locators.PersonLocator;
 

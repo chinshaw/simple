@@ -6,11 +6,11 @@ import com.google.web.bindery.requestfactory.shared.ExtraTypes;
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.SkipInterfaceValidation;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
-import com.simple.domain.metric.MetricMatrix;
-import com.simple.domain.metric.MetricMatrix.Column;
-import com.simple.domain.metric.MetricMatrix.DoubleColumn;
-import com.simple.domain.metric.MetricMatrix.IntegerColumn;
-import com.simple.domain.metric.MetricMatrix.StringColumn;
+import com.simple.domain.model.metric.MetricMatrix;
+import com.simple.domain.model.metric.MetricMatrix.Column;
+import com.simple.domain.model.metric.MetricMatrix.DoubleColumn;
+import com.simple.domain.model.metric.MetricMatrix.IntegerColumn;
+import com.simple.domain.model.metric.MetricMatrix.StringColumn;
 import com.simple.original.server.service.locators.IMetricLocator;
 
 /**

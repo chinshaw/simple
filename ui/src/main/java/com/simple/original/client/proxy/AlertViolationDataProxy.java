@@ -2,7 +2,7 @@ package com.simple.original.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
-import com.simple.domain.AlertViolationData;
+import com.simple.domain.model.AlertViolationData;
 
 @ProxyFor(value = AlertViolationData.class)
 public interface AlertViolationDataProxy  extends ValueProxy {

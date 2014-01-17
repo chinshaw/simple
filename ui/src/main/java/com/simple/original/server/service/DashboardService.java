@@ -7,16 +7,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
-import com.simple.domain.AnalyticsOperationInput;
-import com.simple.domain.AnalyticsTask;
-import com.simple.domain.AnalyticsTaskExecution;
-import com.simple.domain.DataProvider;
-import com.simple.domain.dashboard.Dashboard;
-import com.simple.domain.dashboard.DashboardDao;
-import com.simple.domain.dashboard.DashboardUtils;
-import com.simple.domain.metric.Metric;
-import com.simple.engine.service.AnalyticsService;
+import com.simple.domain.model.AnalyticsTask;
+import com.simple.domain.model.AnalyticsTaskExecution;
+import com.simple.domain.model.dataprovider.DataProvider;
+import com.simple.domain.model.metric.Metric;
+import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.domain.model.ui.dashboard.Dashboard;
+import com.simple.domain.model.ui.dashboard.DashboardDao;
+import com.simple.domain.model.ui.dashboard.DashboardUtils;
 import com.simple.engine.service.AnalyticsTaskExecutionException;
+import com.simple.engine.service.AnalyticsTaskService;
 import com.simple.original.api.exceptions.DashboardException;
 
 public class DashboardService {
@@ -25,10 +25,10 @@ public class DashboardService {
 	
 	private final DashboardDao dashboardDao;
 	
-	private final AnalyticsService analyticsService;
+	private final AnalyticsTaskService analyticsService;
 
 	@Inject
-	public DashboardService(DashboardDao dashboardDao, AnalyticsService analyticsService) {
+	public DashboardService(DashboardDao dashboardDao, AnalyticsTaskService analyticsService) {
 		this.dashboardDao = dashboardDao;
 		this.analyticsService = analyticsService;
 	}

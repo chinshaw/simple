@@ -2,7 +2,7 @@ package com.simple.original.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
-import com.simple.domain.SqlDriver;
+import com.simple.domain.model.SqlDriver;
 
 @ProxyFor(SqlDriver.class)
 public interface SqlDriverProxy extends ValueProxy {

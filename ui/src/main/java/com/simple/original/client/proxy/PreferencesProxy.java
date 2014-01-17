@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
-import com.simple.domain.Preferences;
+import com.simple.domain.model.Preferences;
 
 /**
  * Preferences are the user defined environment variable 

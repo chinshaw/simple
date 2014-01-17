@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
-import com.simple.domain.AnalyticsTaskExecution;
+import com.simple.domain.model.AnalyticsTaskExecution;
 import com.simple.original.api.analytics.IAnalyticsTaskExecution.TaskCompletionStatus;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 

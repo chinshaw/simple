@@ -32,11 +32,12 @@ public class TextInputWriter extends InputWriter<Object, Object> {
   private DataOutput clientOut;
   private byte[] inputSeparator;
   
+  
   @Override
-  public void initialize(PipeMapRed pipeMapRed) throws IOException {
-    super.initialize(pipeMapRed);
-    clientOut = pipeMapRed.getClientOutput();
-    inputSeparator = pipeMapRed.getInputSeparator();
+  public void initialize() throws IOException {
+	  // TODO THIS IS NOT WROKING
+	  //clientOut = new DataOutputStream(out)
+    //inputSeparator = pipeMapRed.getInputSeparator();
   }
   
   @Override

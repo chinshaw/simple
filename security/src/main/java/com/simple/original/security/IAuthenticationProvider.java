@@ -1,6 +1,6 @@
 package com.simple.original.security;
 
-import com.simple.domain.Person;
+import com.simple.domain.model.Person;
 
 public interface IAuthenticationProvider {
 

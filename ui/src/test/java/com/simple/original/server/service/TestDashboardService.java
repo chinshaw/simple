@@ -7,11 +7,11 @@ import java.util.logging.Logger;
 import org.junit.Test;
 
 import com.google.inject.Inject;
-import com.simple.domain.AnalyticsOperationOutput;
-import com.simple.domain.AnalyticsTask;
-import com.simple.domain.Person;
-import com.simple.domain.RAnalyticsOperation;
-import com.simple.domain.dashboard.Dashboard;
+import com.simple.domain.model.AnalyticsOperationOutput;
+import com.simple.domain.model.AnalyticsTask;
+import com.simple.domain.model.Person;
+import com.simple.domain.model.RAnalyticsOperation;
+import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.engine.utils.ScriptUtils;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput.Type;
 import com.simple.original.api.exceptions.DashboardException;

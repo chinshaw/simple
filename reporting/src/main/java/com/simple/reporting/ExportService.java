@@ -15,10 +15,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.simple.domain.export.MetricMatrixDeserializerMixin;
-import com.simple.domain.metric.Metric;
-import com.simple.domain.metric.MetricMatrix;
-import com.simple.domain.metric.MetricMatrixDeserializer;
-import com.simple.domain.metric.MetricMatrixDeserializer.Column;
+import com.simple.domain.model.metric.Metric;
+import com.simple.domain.model.metric.MetricMatrix;
+import com.simple.domain.model.metric.MetricMatrix.Column;
+import com.simple.domain.model.metric.MetricMatrixDeserializer;
 
 public class ExportService {
 
@@ -60,7 +60,7 @@ public class ExportService {
 		try {
 			out = new ByteArrayOutputStream();
 			Sheet sheet = wb.createSheet();
-			addMetricCollectionToSheet(sheet, metricMatrixDeserializer);
+		//	addMetricCollectionToSheet(sheet, metricMatrixDeserializer);
 			wb.write(out);
 			
 			xlsData = out.toByteArray();
@@ -130,6 +130,7 @@ public class ExportService {
         }
 	}*/
 	
+	/*
 	private void addMetricCollectionToSheet(Sheet sheet, MetricMatrixDeserializer metricMatrixDeserializer) {
 		List<String> headers = metricMatrixDeserializer.getHeaders();
 		int columnCount = metricMatrixDeserializer.getHeaders().size();
@@ -163,6 +164,7 @@ public class ExportService {
             }
         }
 	}
+	*/
 	
 	/*
 	private void addMetricCollectionToSheet(Sheet sheet, int imgIndex, MetricStaticChart staticChart) {

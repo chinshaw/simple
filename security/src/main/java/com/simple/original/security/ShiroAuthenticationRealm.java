@@ -18,8 +18,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 import com.google.inject.Inject;
-import com.simple.domain.Person;
 import com.simple.domain.dao.PersonDao;
+import com.simple.domain.model.Person;
 import com.simple.original.api.analytics.IPerson;
 
 

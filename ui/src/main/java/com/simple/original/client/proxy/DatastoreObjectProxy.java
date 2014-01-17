@@ -8,7 +8,7 @@ package com.simple.original.client.proxy;
 import com.google.web.bindery.requestfactory.shared.EntityProxy;
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.SkipInterfaceValidation;
-import com.simple.domain.DatastoreObject;
+import com.simple.domain.model.DatastoreObject;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 
 /**

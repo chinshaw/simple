@@ -13,8 +13,8 @@ import javax.xml.bind.Unmarshaller;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.simple.domain.CellPhoneProvider;
-import com.simple.domain.CellPhoneProviders;
+import com.simple.domain.model.CellPhoneProvider;
+import com.simple.domain.model.CellPhoneProviders;
 
 /**
  * Fetches the cellphone providers list from the XML

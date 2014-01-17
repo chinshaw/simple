@@ -1,8 +1,8 @@
 package com.simple.original.server;
 
 import com.google.web.bindery.requestfactory.server.ServiceLayerDecorator;
-import com.simple.domain.metric.Metric;
-import com.simple.domain.metric.MetricString;
+import com.simple.domain.model.metric.Metric;
+import com.simple.domain.model.metric.MetricString;
 
 public class AnalyticsServiceDecorator extends ServiceLayerDecorator {
 

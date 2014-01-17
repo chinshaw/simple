@@ -25,7 +25,6 @@ import com.simple.original.client.activity.DataProvidersActivity;
 import com.simple.original.client.activity.EmailNotificationActivity;
 import com.simple.original.client.activity.LoginActivity;
 import com.simple.original.client.activity.MonitoringTaskLimitActivity;
-import com.simple.original.client.activity.PlaygroundActivity;
 import com.simple.original.client.activity.PreferencesActivity;
 import com.simple.original.client.activity.ServerLogsActivity;
 import com.simple.original.client.activity.SubscriptionActivity;
@@ -121,7 +120,6 @@ public class IOCDesktopModule extends AbstractGinModule {
 		bind(EmailNotificationActivity.class);
 		bind(LoginActivity.class);
 		bind(MonitoringTaskLimitActivity.class);
-		bind(PlaygroundActivity.class);
 		bind(PreferencesActivity.class);
 		bind(AnalyticsTaskSubscriptionActivity.class);
 		bind(ServerLogsActivity.class);

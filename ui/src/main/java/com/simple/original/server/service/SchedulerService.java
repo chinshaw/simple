@@ -17,9 +17,9 @@ import org.quartz.TriggerKey;
 import org.quartz.UnableToInterruptJobException;
 
 import com.google.inject.Inject;
-import com.simple.domain.AnalyticsOperationInput;
-import com.simple.domain.AnalyticsTask;
 import com.simple.domain.dao.AnalyticsTaskDao;
+import com.simple.domain.model.AnalyticsTask;
+import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.scheduler.RExecutionJob;
 import com.simple.engine.scheduler.TaskEngineClient;
 import com.simple.original.api.exceptions.AnalyticsTaskException;

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.inject.Inject;
-import com.simple.domain.metric.MetricMatrix;
+import com.simple.domain.model.metric.MetricMatrix;
 import com.simple.original.shared.AnalyticsExport;
 import com.simple.original.shared.AnalyticsExport.ExportType;
 import com.simple.reporting.ExportService;

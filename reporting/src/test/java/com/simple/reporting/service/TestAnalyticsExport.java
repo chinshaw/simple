@@ -10,12 +10,12 @@ import org.junit.Test;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
-import com.simple.domain.AnalyticsOperationOutput;
 import com.simple.domain.IOCDomainModule;
 import com.simple.domain.dao.MetricDao;
-import com.simple.domain.metric.MetricMatrix;
-import com.simple.domain.metric.MetricMatrix.DoubleColumn;
-import com.simple.domain.metric.MetricMatrix.StringColumn;
+import com.simple.domain.model.AnalyticsOperationOutput;
+import com.simple.domain.model.metric.MetricMatrix;
+import com.simple.domain.model.metric.MetricMatrix.DoubleColumn;
+import com.simple.domain.model.metric.MetricMatrix.StringColumn;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.exceptions.DomainException;
 import com.simple.reporting.ExportService;

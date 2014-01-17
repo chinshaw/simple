@@ -2,8 +2,8 @@ package com.simple.original.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
-import com.simple.domain.metric.MetricNumber;
-import com.simple.domain.metric.Violation;
+import com.simple.domain.model.metric.MetricNumber;
+import com.simple.domain.model.metric.Violation;
 import com.simple.original.api.analytics.IViolation.Severity;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 

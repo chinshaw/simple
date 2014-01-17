@@ -3,7 +3,7 @@ package com.simple.original.client.proxy;
 import java.util.Date;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
-import com.simple.domain.DateInput;
+import com.simple.domain.model.ui.DateInput;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 
 @ProxyFor(value = DateInput.class, locator=RequestFactoryEntityLocator.class)

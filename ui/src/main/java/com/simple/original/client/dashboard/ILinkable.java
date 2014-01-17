@@ -3,7 +3,7 @@ package com.simple.original.client.dashboard;
 import java.util.List;
 
 import com.google.web.bindery.requestfactory.shared.SkipInterfaceValidation;
-import com.simple.domain.dashboard.LinkableDashboard;
+import com.simple.domain.model.ui.dashboard.LinkableDashboard;
 import com.simple.original.client.proxy.LinkableDashboardProxy;
 
 

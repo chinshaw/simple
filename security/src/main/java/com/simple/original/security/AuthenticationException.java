@@ -5,7 +5,7 @@ import com.simple.original.api.exceptions.SimpleException;
 public class AuthenticationException extends SimpleException {
     
     /**
-     * 
+     * Serialization Id
      */
     private static final long serialVersionUID = 1L;
 

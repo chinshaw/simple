@@ -21,7 +21,7 @@ import org.jfree.ui.StandardGradientPaintTransformer;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
-import com.simple.domain.dashboard.Dashboard;
+import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.original.api.analytics.Criticality;
 import com.simple.original.api.analytics.IMetricDouble;
 import com.simple.original.api.analytics.INumberRange;

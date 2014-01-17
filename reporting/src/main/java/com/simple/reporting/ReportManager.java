@@ -11,10 +11,10 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 
 import com.google.inject.Inject;
-import com.simple.domain.AnalyticsTaskExecution;
-import com.simple.domain.Monitor;
 import com.simple.domain.dao.AnalyticsTaskMonitorDao;
-import com.simple.domain.metric.Metric;
+import com.simple.domain.model.AnalyticsTaskExecution;
+import com.simple.domain.model.Monitor;
+import com.simple.domain.model.metric.Metric;
 
 /**
  * Class provides the complete factory alert generation with Quix case creation

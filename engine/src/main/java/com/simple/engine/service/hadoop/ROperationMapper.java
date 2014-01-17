@@ -48,6 +48,7 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 
 		RAnalyticsOperation rOperation = (RAnalyticsOperation) operation;
 
@@ -58,6 +59,7 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 		engine.assign(".tmpCode.", rOperation.getCode());
 
 		// Get stdout from the script and send it to the log.
+		
 		REXP rexp = engine.eval("eval(parse(text=.tmpCode.))");
 
 		try {
