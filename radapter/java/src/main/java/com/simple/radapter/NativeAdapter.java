@@ -1,7 +1,7 @@
 package com.simple.radapter;
 
 import com.simple.radapter.api.IRAdapter;
-import com.simple.radapter.api.IRexpCollection;
+import com.simple.radapter.api.IRexp;
 import com.simple.radapter.api.IRexpString;
 import com.simple.radapter.exceptions.RAdapterException;
 
@@ -78,15 +78,24 @@ public class NativeAdapter implements IRAdapter {
 
 	@Override
 	public IRexpString getString(String name) throws RAdapterException {
+		return getTypedRexp(name);
+	}
+	
+	public <T extends IRexp<?>> T getTypedRexp(String name) throws RAdapterException {
+		return (T) getRexp(name);
+	}
+	
+	private IRexp<?> getRexp(String name) throws RAdapterException {
 		long parsed = parse(name, 1);
 		if (parsed != 0) {
 			long evaled = eval(parsed, IRAdapter.GLOBAL_ENVIRONMENT);
 			if (evaled == 0) {
 				throw new RAdapterException("Unable to retrieve variable from workspace: " + name);
 			}
-			return (IRexpString) RexpUtils.convert(this, evaled);
+			IRexp<?> rexp = RexpUtils.convert(this, evaled);
+			return rexp;
 		}
-		return null;
+		throw new RAdapterException("Invalid rexp " + name);
 	}
 	
 	public synchronized native String[] getStrings(long expression);
@@ -95,8 +104,6 @@ public class NativeAdapter implements IRAdapter {
 
 	@Override
 	public synchronized native long setString(String string);
-
-
 
 	@Override
 	public synchronized native long setStrings(String[] strings);
