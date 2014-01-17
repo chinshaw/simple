@@ -35,8 +35,8 @@ public class TextInputWriter extends InputWriter<Object, Object> {
   
   @Override
   public void initialize() throws IOException {
-	  // TODO THIS IS NOT WROKING
-	  //clientOut = new DataOutputStream(out)
+    //super.initialize(pipeMapRed);
+    //clientOut = pipeMapRed.getClientOutput();
     //inputSeparator = pipeMapRed.getInputSeparator();
   }
   

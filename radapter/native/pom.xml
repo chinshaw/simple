@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.simple</groupId>
+		<artifactId>simple-analytics</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+	<groupId>com.simple.radapter</groupId>
+	<artifactId>radapter-native</artifactId>
+	<name>simple-analytics-radapter</name>
+	<description>Java to R adapter</description>
+	<packaging>so</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.simple.radapter</groupId>
+			<artifactId>radapter-client</artifactId>
+			<version>1.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>native-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<!-- trigger javah -->
+					<javahOS>linux</javahOS>
+					<javahClassNames>
+						<javahClassName>com.simple.radapter.impl.NativeAdapter</javahClassName>
+					</javahClassNames>
+					<javahSearchJNIFromDependencies>true</javahSearchJNIFromDependencies>
+					<sources>
+						<source>
+							<directory>
+								./src/main/native
+							</directory>
+							<includes>
+								<include>**/*.c</include>
+							</includes>
+						</source>
+
+
+						<source>
+						<directory>/usr/share/R/include</directory>
+						<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
+						</source> 
+			
+					</sources>
+					<compilerStartOptions>
+						<compilerStartOption>-fpic</compilerStartOption>
+					</compilerStartOptions>
+
+
+					 <linkerStartOptions>
+						 <linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -lR</linkerStartOption> 
+					 </linkerStartOptions>
+					 <linkerEndOptions>
+						 <linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -lR</linkerStartOption> 
+					 </linkerEndOptions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
