@@ -13,11 +13,18 @@ public class RexpUtils {
 		
 		int expressionType = adapter.getExpressionType(expression);
 		
+		IRexp<?> rexp = null;
+		
 		if (expressionType == RConstants.STRSXP) {
+			String[] strings = adapter.getStrings(expression);
+			if (strings.length == 1) {
+				rexp = new RexpString(strings[0]);
+			}
 			
+			return rexp;
 		}
 		
 		
-		throw new RAdapterException("Unable to find suitable conversion for expression");
+		throw new RAdapterException("Unable to find suitable conversion for expression, Type -> " + expressionType);
 	}
 }

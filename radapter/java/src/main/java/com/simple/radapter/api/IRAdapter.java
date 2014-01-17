@@ -1,9 +1,12 @@
 package com.simple.radapter.api;
 
+import com.simple.radapter.exceptions.RAdapterException;
+
 public interface IRAdapter {
 
 	public static final int GLOBAL_ENVIRONMENT = 0;
 	
+	public void connect() throws RAdapterException;
 	
 	/**
 	 * Parse a string into an R expression
@@ -40,11 +43,11 @@ public interface IRAdapter {
 	 */
 	public int getExpressionType(long expression);
 	
-	public String getString();
+	public IRexpString getString(String name) throws RAdapterException;
 
 	public long setString(String string);
 	
-	public String[] getStrings();
+	public String[] getStrings(long expression);
 	
 	public long setStrings(String[] strings);
 	

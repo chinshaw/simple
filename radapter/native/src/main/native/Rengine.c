@@ -49,7 +49,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_rniGetVersion
     return (jlong) JRI_API;
 }
 
-JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_rniSetupR
+JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_setupR
   (JNIEnv *env, jobject this, jobjectArray a)
 {
       int initRes;
@@ -102,7 +102,7 @@ JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_rniSetupR
       return initRes;
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_rniParse
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_parse
   (JNIEnv *env, jobject this, jstring str, jint parts)
 {
       ParseStatus ps;
@@ -129,7 +129,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_rniParse
  * 
  * @return 0 if an evaluation error ocurred or exp is 0
  */
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_rniEval
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_eval
   (JNIEnv *env, jobject this, jlong exp, jlong rho)
 {
       SEXP es = R_NilValue, exps = L2SEXP(exp);
@@ -266,7 +266,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_rniJavaToXref
   return SEXP2L(R_MakeExternalPtr(go, R_NilValue, R_NilValue));
 }
 
-JNIEXPORT jstring JNICALL Java_com_simple_radapter_NativeAdapter_setString
+JNIEXPORT jstring JNICALL Java_com_simple_radapter_NativeAdapter_getString
   (JNIEnv *env, jobject this, jlong exp)
 {
       return jri_putString(env, L2SEXP(exp), 0);
@@ -309,7 +309,7 @@ JNIEXPORT jlongArray JNICALL Java_com_simple_radapter_NativeAdapter_rniGetVector
     return jri_putSEXPLArray(env, L2SEXP(exp));
 }
 
-JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_rniExpType
+JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_getExpressionType
   (JNIEnv *env, jobject this, jlong exp)
 {
     return exp ? TYPEOF(L2SEXP(exp)) : 0;
@@ -329,7 +329,7 @@ JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_rniRunMainLoop
       run_Rmainloop();
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_rniPutString
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_setString
 (JNIEnv *env, jobject this, jstring s)
 {
     return SEXP2L(jri_getString(env, s));
