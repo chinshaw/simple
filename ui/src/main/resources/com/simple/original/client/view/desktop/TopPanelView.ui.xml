@@ -1,0 +1,83 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view"
+	xmlns:d="urn:import:com.simple.original.client.view.desktop">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+	.leftPanel {
+		float: left;
+	}
+	
+	.rightPanel {
+		float: right;
+		overflow: hidden;
+	}
+	
+	.rightPanel>div {
+		margin-right: 8px;
+	}
+	
+	.username {
+		margin-top: 9px;
+		min-width: 5em;
+		max-width: 10em;
+		overflow: hidden;
+		text-decoration: underline;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	
+	.rightPanel .search {
+		border-radius: 5em;
+		padding: 5px;
+		margin-top: 4px;
+	}
+	
+	.left {
+		float: left;
+	}
+	</ui:style>
+
+	<g:HTMLPanel>
+		<div class="{style.leftPanel}">
+			<div class="{style.left}" style="margin-right: 2em; margin-left: 1em; padding-top:11px; ">Artisan Analytics</div>
+			<g:MenuBar addStyleNames="{style.left}">
+				<g:MenuItem text="Browse &#x25BE;">
+					<g:MenuBar vertical="true" animationEnabled="true"
+						focusOnHoverEnabled="true">
+						<g:MenuItem ui:field="dashboards">Dashboards
+						</g:MenuItem>
+						<g:MenuItem ui:field="dataProviders">DataProviders
+						</g:MenuItem>
+						<g:MenuItem ui:field="favorites">Favorites
+						</g:MenuItem>
+						<g:MenuItem ui:field="operations">Analytics
+							Operations</g:MenuItem>
+						<g:MenuItem ui:field="runTask">Run
+							Task</g:MenuItem>
+						<g:MenuItem ui:field="tasks">Analytics
+							Tasks</g:MenuItem>
+						<g:MenuItem ui:field="scheduling">Scheduling
+						</g:MenuItem>
+					</g:MenuBar>
+				</g:MenuItem>
+				<g:MenuItem addStyleNames="{resources.style.topPanel}" text="Help">
+				</g:MenuItem>
+			</g:MenuBar>
+		</div>
+
+		<div class="{style.rightPanel}">
+			<div style="float:left;">
+				<input type="text" ui:field="search" class="{style.search} {resources.style.search}"></input>
+			</div>
+			<div style="float:left">
+
+			</div>
+			<div style="float:left">
+				<div ui:field="username" class="{style.username}"></div>
+			</div>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder>

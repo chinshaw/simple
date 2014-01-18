@@ -1,11 +1,6 @@
 package com.simple.original.client.activity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -19,23 +14,15 @@ import com.simple.original.api.domain.RecordFecthType;
 import com.simple.original.api.domain.SortOrder;
 import com.simple.original.client.place.AnalyticsTaskBuilderPlace;
 import com.simple.original.client.place.AnalyticsTaskCopyPlace;
-import com.simple.original.client.place.ReportAdminSubscriptionPlace;
 import com.simple.original.client.place.TasksPlace;
-import com.simple.original.client.proxy.AnalyticsTaskMonitorProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
 import com.simple.original.client.service.DaoBaseDataProvider;
 import com.simple.original.client.service.DaoRequestFactory.DaoRequest;
 import com.simple.original.client.view.IAnalyticsTaskView;
-import com.simple.original.client.view.widgets.AnalyticsPopupPanel;
 import com.simple.original.client.view.widgets.ImportScriptsPopup;
 
 public class AnalyticsTasksActivity extends AbstractActivity<TasksPlace, IAnalyticsTaskView> implements IAnalyticsTaskView.Presenter {
 
-	private String sortColumn = null;
-	private SortOrder sortOrder = SortOrder.DESCENDING;
-	private final String NAME_COLUMN = "name";
-	private final String DESCRIPTION_COLUMN = "description";
-	private final String PUBLIC_OWNER_COLUMN = "owner";
 
 	/**
 	 * This is the variable used to get the List item selected by the Current
@@ -47,7 +34,7 @@ public class AnalyticsTasksActivity extends AbstractActivity<TasksPlace, IAnalyt
 	 * The AnalyticsDataProvider is used for fetching analytics tasks from the
 	 * server and update the table accordingly.
 	 */
-	class AnalyticsDataProvider extends DaoBaseDataProvider<AnalyticsTaskProxy> {
+	private class AnalyticsDataProvider extends DaoBaseDataProvider<AnalyticsTaskProxy> {
 
 		@Override
 		public String[] getWithProperties() {
@@ -61,7 +48,6 @@ public class AnalyticsTasksActivity extends AbstractActivity<TasksPlace, IAnalyt
 			return null;
 		}
 
-	
 	}
 
 	/**
@@ -206,41 +192,7 @@ public class AnalyticsTasksActivity extends AbstractActivity<TasksPlace, IAnalyt
 		display.getAnalyticsTasksTable().setVisibleRangeAndClearData(display.getAnalyticsTasksTable().getVisibleRange(), true);
 	}
 
-	/**
-	 * This method is used to display a popup for the tasks which are linked by
-	 * alert definitions
-	 */
-	public void displayDeleteTasks(final List<AnalyticsTaskMonitorProxy> alerts, final Set<Long> taskIdList) {
-		Map<String, List<String>> mapData = new HashMap<String, List<String>>();
-		Set<String> taskNamesList = new HashSet<String>();
-
-		for (AnalyticsTaskMonitorProxy alert : alerts) {
-			taskNamesList.add(alert.getAnalyticsTask().getName());
-			if (mapData.containsKey(alert.getAnalyticsTask().getName())) {
-				List<String> alertNamesList = mapData.get(alert.getAnalyticsTask().getName());
-				alertNamesList.add(alert.getName());
-				mapData.put(alert.getAnalyticsTask().getName(), alertNamesList);
-			} else {
-				List<String> alertNames = new ArrayList<String>();
-				alertNames.add(alert.getName());
-				mapData.put(alert.getAnalyticsTask().getName(), alertNames);
-			}
-		}
-
-		AnalyticsPopupPanel analyticsPopupPanel = new AnalyticsPopupPanel(false);
-		analyticsPopupPanel.setMessage(" Cannot Delete as Alerts are Related to Tasks ");
-
-		for (String key : mapData.keySet()) {
-			List<String> alertNamesList = mapData.get(key);
-			analyticsPopupPanel.setMessage("Alert(s) related to TaskName : \"" + key + "\"");
-			for (String alertName : alertNamesList) {
-				analyticsPopupPanel.setMessage("\"" + alertName + "\"");
-			}
-		}
-		analyticsPopupPanel.showPopup();
-		display.setEnabledDeleteTask(true);
-	}
-
+	
 	/**
 	 * This method is called on the check box Selection/Deselection.
 	 */
@@ -269,12 +221,4 @@ public class AnalyticsTasksActivity extends AbstractActivity<TasksPlace, IAnalyt
 		}
 	}
 
-	/**
-	 * This method is used to redirect to report subscription screen when
-	 * subscriptions link in report manager screen is clicked.
-	 */
-	@Override
-	public void onSubscription(AnalyticsTaskProxy analyticsTask) {
-		placeController().goTo(new ReportAdminSubscriptionPlace(analyticsTask.getId()));
-	}
 }

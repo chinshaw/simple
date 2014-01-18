@@ -33,7 +33,8 @@
 		<module>ui</module>
 		<module>security</module>
 		<module>reporting</module>
-		<module>radapter</module>
+		<!-- Disabling until complete -->
+	<!--	<module>radapter</module> -->
 	</modules>
 
 	<scm>

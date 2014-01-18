@@ -25,8 +25,4 @@ public interface IAnalyticsOperationOutput extends IRequestFactoryEntity {
 	String getName();
 
 	void setName(String name);
-	
-	List<? extends IAnalyticsTaskMonitor> getMonitors();
-	
-	
 }

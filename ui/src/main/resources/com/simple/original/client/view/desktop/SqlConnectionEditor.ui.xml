@@ -1,0 +1,58 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:t="urn:import:com.simple.original.client.view.widgets">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+		
+	</ui:style>
+
+	<g:DockLayoutPanel styleName="{resources.style.content}"
+		unit="PX">
+		<g:center>
+			<g:HTMLPanel styleName="">
+				<label class="{resources.style.tabbedPanelLabel}">Data Provider</label>
+				<div class="{resources.style.tabbedPanel} ">
+					<g:ValueListBox ui:field="availableDrivers"></g:ValueListBox>
+
+					<label>Data Provider Name</label>
+					<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="name">
+              			<t:valuebox>
+                  			<g:TextBox />
+              			</t:valuebox>
+          			</t:ValueBoxEditorDecorator>
+					
+					<label>Hostname / IP address</label>
+					<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="host">
+              			<t:valuebox>
+                  			<g:TextBox />
+              			</t:valuebox>
+          			</t:ValueBoxEditorDecorator>
+
+
+					<label>Username</label>
+					<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="userName">
+              			<t:valuebox>
+                  			<g:TextBox />
+              			</t:valuebox>
+          			</t:ValueBoxEditorDecorator>
+					
+					<label>Password</label>
+					<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="password">
+              			<t:valuebox>
+                  			<g:PasswordTextBox />
+              			</t:valuebox>
+          			</t:ValueBoxEditorDecorator>
+
+					<br />
+					<div style="float:right;">
+						<g:Button ui:field="clear">Clear</g:Button>
+						<g:Button ui:field="save">Save</g:Button>
+					</div>
+				</div>
+			</g:HTMLPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder>

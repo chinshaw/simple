@@ -39,7 +39,7 @@ import com.simple.original.client.proxy.UIDateInputModelProxy;
 import com.simple.original.client.proxy.UIUserInputModelProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.desktop.CompositeAnalyticsOperationInputEditor.BaseInputEditor;
-import com.simple.original.client.view.desktop.InputsEditorWorking.UIDateInputEditor;
+import com.simple.original.client.view.desktop.InputsEditor.UIDateInputEditor;
 import com.simple.original.client.view.widgets.PolymorphicListEditor;
 import com.simple.original.client.view.widgets.ListEditorWrapper.EditorProvider;
 

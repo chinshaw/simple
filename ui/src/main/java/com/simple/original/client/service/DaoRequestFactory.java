@@ -12,7 +12,6 @@ import com.google.web.bindery.requestfactory.shared.SkipInterfaceValidation;
 import com.simple.domain.dao.AnalyticsOperationDao;
 import com.simple.domain.dao.AnalyticsTaskDao;
 import com.simple.domain.dao.AnalyticsTaskExecutionDao;
-import com.simple.domain.dao.AnalyticsTaskMonitorDao;
 import com.simple.domain.dao.DaoBase;
 import com.simple.domain.dao.MetricDao;
 import com.simple.domain.dao.PersonDao;
@@ -20,13 +19,11 @@ import com.simple.domain.dao.SqlDataProviderDriverDao;
 import com.simple.domain.model.ui.dashboard.DashboardDao;
 import com.simple.original.api.domain.RecordFecthType;
 import com.simple.original.api.domain.SortOrder;
-import com.simple.original.client.proxy.AlertViolationDataProxy;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationNameProxy;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
-import com.simple.original.client.proxy.AnalyticsTaskMonitorProxy;
 import com.simple.original.client.proxy.AnalyticsTaskNameProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
 import com.simple.original.client.proxy.ApplicationBookmarkProxy;
@@ -49,7 +46,6 @@ import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.proxy.RDataProviderProxy;
 import com.simple.original.client.proxy.SqlConnectionProxy;
 import com.simple.original.client.proxy.SqlDataProviderProxy;
-import com.simple.original.client.proxy.SubscriptionProxy;
 import com.simple.original.client.proxy.UIComplexInputModelProxy;
 import com.simple.original.client.proxy.UIDateInputModelProxy;
 import com.simple.original.client.proxy.UIUserInputModelProxy;
@@ -291,50 +287,17 @@ public interface DaoRequestFactory extends RequestFactory {
 		Request<Integer> getMetricMatrixRowCount(Long matrixId);
 	}
 
-	@Service(value = AnalyticsTaskMonitorDao.class, locator = InjectingServiceLocator.class)
-	public interface AlertSubscriptionRequest extends DaoRequest<AnalyticsTaskMonitorProxy> {
-
-		Request<List<SubscriptionProxy>> getSubscriptions(int start, int max, RecordFecthType recordType, String searchText, String searchColumn, String sortColumn,
-				SortOrder sortOrder);
-
-		Request<Void> saveAlertSubscriptions(List<Long> alertsToBeSubscribed, List<Long> alertsToBeUnSubscribed);
-	}
-
-	@ExtraTypes({ MetricProxy.class, MetricNumberProxy.class, MetricIntegerProxy.class, MetricDoubleProxy.class, MetricStringProxy.class, MetricCollectionProxy.class,
-			MetricPlotProxy.class })
-	@Service(value = AnalyticsTaskMonitorDao.class, locator = InjectingServiceLocator.class)
-	public interface AlertDefinitionRequest extends DaoRequest<AnalyticsTaskMonitorProxy> {
-
-		@Override
-		Request<Long> save(AnalyticsTaskMonitorProxy obj);
-
-		@Override
-		Request<AnalyticsTaskMonitorProxy> find(Long alertId);
-
-		Request<Integer> deleteList(Set<Long> idsToDelete);
-
-		Request<Void> deleteSelectedAlertDefinitions(Set<Long> alertDefinitionId);
-
-		Request<List<AnalyticsTaskMonitorProxy>> findAlertsRelatedToTask(Set<Long> idsToDelete);
-
-	}
 
 	@Service(value = AnalyticsTaskExecutionDao.class, locator = InjectingServiceLocator.class)
 	public interface AnalyticsTaskExecutionRequest extends DaoRequest<AnalyticsTaskExecutionProxy> {
 
 		Request<List<AnalyticsTaskExecutionProxy>> findRange(Long analyticsTaskId, int start, int end);
 
-		Request<List<AlertViolationDataProxy>> getAlertViolationsData(AnalyticsTaskExecutionProxy analyticsTaskExecution);
-
 		Request<Void> clearAllHistory();
 
 		// Request<List<String>> getChartsPath(AnalyticsTaskExecutionProxy
 		// analyticsTaskExecution);
 	}
-
-	public AlertDefinitionRequest alertDefinitionRequest();
-
-	public AlertSubscriptionRequest alertSubscriptionRequest();
 
 	public PersonRequest personRequest();
 

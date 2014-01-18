@@ -10,24 +10,18 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.ResettableEventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.simple.original.client.activity.AdministrationActivity;
-import com.simple.original.client.activity.AlertDefinitionActivity;
-import com.simple.original.client.activity.AlertDefinitionEditActivity;
 import com.simple.original.client.activity.AnalyticsOperationBuilderActivity;
 import com.simple.original.client.activity.AnalyticsOperationsActivity;
 import com.simple.original.client.activity.AnalyticsTaskBuilderActivity;
 import com.simple.original.client.activity.AnalyticsTaskExecActivity;
 import com.simple.original.client.activity.AnalyticsTaskSchedulerActivity;
-import com.simple.original.client.activity.AnalyticsTaskSubscriptionActivity;
 import com.simple.original.client.activity.AnalyticsTasksActivity;
 import com.simple.original.client.activity.AnalyticsTasksSchedulerActivity;
 import com.simple.original.client.activity.DashboardsActivity;
 import com.simple.original.client.activity.DataProvidersActivity;
-import com.simple.original.client.activity.EmailNotificationActivity;
 import com.simple.original.client.activity.LoginActivity;
-import com.simple.original.client.activity.MonitoringTaskLimitActivity;
 import com.simple.original.client.activity.PreferencesActivity;
 import com.simple.original.client.activity.ServerLogsActivity;
-import com.simple.original.client.activity.SubscriptionActivity;
 import com.simple.original.client.activity.TopPanelActivity;
 import com.simple.original.client.activity.WelcomeActivity;
 import com.simple.original.client.dashboard.activity.DashboardActivity;
@@ -38,53 +32,37 @@ import com.simple.original.client.place.PlaceController;
 import com.simple.original.client.place.TopActivityMapper;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.IAdministrationView;
-import com.simple.original.client.view.IAlertDefinitionEditView;
-import com.simple.original.client.view.IAlertDefinitionView;
-import com.simple.original.client.view.IAlertDetailsView;
 import com.simple.original.client.view.IAnalyticsTaskDesignerView;
 import com.simple.original.client.view.IAnalyticsTaskExecutionView;
 import com.simple.original.client.view.IAnalyticsTaskSchedulerDetailsView;
 import com.simple.original.client.view.IAnalyticsTaskSchedulerView;
-import com.simple.original.client.view.IAnalyticsTaskSubscriptionView;
 import com.simple.original.client.view.IAnalyticsTaskView;
 import com.simple.original.client.view.IAnalyticsTasksSchedulerView;
 import com.simple.original.client.view.IDashboardsView;
 import com.simple.original.client.view.IDataProvidersView;
-import com.simple.original.client.view.IEmailNotificationView;
-import com.simple.original.client.view.IFactoryAlertsView;
 import com.simple.original.client.view.ILoginView;
 import com.simple.original.client.view.IMasterLayoutPanel;
-import com.simple.original.client.view.IMonitoringTaskLimitView;
 import com.simple.original.client.view.IOperationBuilderView;
 import com.simple.original.client.view.IOperationsView;
 import com.simple.original.client.view.IPreferencesView;
 import com.simple.original.client.view.IServerLogsView;
-import com.simple.original.client.view.ISubscriptionView;
 import com.simple.original.client.view.ITopPanelView;
 import com.simple.original.client.view.IWelcomeView;
-import com.simple.original.client.view.desktop.AlertDefinitionEditView;
-import com.simple.original.client.view.desktop.AlertDefinitionView;
-import com.simple.original.client.view.desktop.AlertDetailsView;
 import com.simple.original.client.view.desktop.AnalyticsOperationBuilderView;
 import com.simple.original.client.view.desktop.AnalyticsOperationsView;
 import com.simple.original.client.view.desktop.AnalyticsTaskDesignerView;
 import com.simple.original.client.view.desktop.AnalyticsTaskExecView;
 import com.simple.original.client.view.desktop.AnalyticsTaskSchedulerDetailsView;
 import com.simple.original.client.view.desktop.AnalyticsTaskSchedulerView;
-import com.simple.original.client.view.desktop.AnalyticsTaskSubscriptionView;
 import com.simple.original.client.view.desktop.AnalyticsTasksSchedulerView;
 import com.simple.original.client.view.desktop.AnalyticsTasksView;
 import com.simple.original.client.view.desktop.ApplicationAdministrationView;
 import com.simple.original.client.view.desktop.DashboardsView;
 import com.simple.original.client.view.desktop.DataProvidersView;
-import com.simple.original.client.view.desktop.EmailNotificationView;
-import com.simple.original.client.view.desktop.FactoryAlertsView;
 import com.simple.original.client.view.desktop.LoginView;
 import com.simple.original.client.view.desktop.MasterLayoutPanel;
-import com.simple.original.client.view.desktop.MonitoringTaskLimitView;
 import com.simple.original.client.view.desktop.PreferencesView;
 import com.simple.original.client.view.desktop.ServerLogsView;
-import com.simple.original.client.view.desktop.SubscriptionView;
 import com.simple.original.client.view.desktop.TopPanelView;
 import com.simple.original.client.view.desktop.WelcomeView;
 import com.simple.original.client.view.widgets.LoggerPanel;
@@ -104,8 +82,6 @@ public class IOCDesktopModule extends AbstractGinModule {
 		// bind(AbstractActivity.class);
 		// bind(AbstractTaskBuilderActivity.class);
 		bind(AdministrationActivity.class);
-		bind(AlertDefinitionActivity.class);
-		bind(AlertDefinitionEditActivity.class);
 		bind(AnalyticsOperationBuilderActivity.class);
 		bind(AnalyticsOperationsActivity.class);
 		bind(AnalyticsTaskBuilderActivity.class);
@@ -117,13 +93,9 @@ public class IOCDesktopModule extends AbstractGinModule {
 		bind(DashboardsActivity.class);
 		bind(DashboardDesignerActivity.class);
 		bind(DataProvidersActivity.class);
-		bind(EmailNotificationActivity.class);
 		bind(LoginActivity.class);
-		bind(MonitoringTaskLimitActivity.class);
 		bind(PreferencesActivity.class);
-		bind(AnalyticsTaskSubscriptionActivity.class);
 		bind(ServerLogsActivity.class);
-		bind(SubscriptionActivity.class);
 		bind(TopPanelActivity.class);
 		bind(WelcomeActivity.class);
 
@@ -141,30 +113,17 @@ public class IOCDesktopModule extends AbstractGinModule {
 
 		bind(IAdministrationView.class).to(ApplicationAdministrationView.class).in(Singleton.class);
 		bind(IDataProvidersView.class).to(DataProvidersView.class).in(Singleton.class);
-		bind(IAlertDefinitionView.class).to(AlertDefinitionView.class).in(Singleton.class);
-
-		bind(IEmailNotificationView.class).to(EmailNotificationView.class).in(Singleton.class);
-		bind(IMonitoringTaskLimitView.class).to(MonitoringTaskLimitView.class).in(Singleton.class);
-
-		bind(IFactoryAlertsView.class).to(FactoryAlertsView.class).in(Singleton.class);
-
+	
 		bind(LoggerPanel.class).in(Singleton.class);
 		bind(NotificationPanel.class).in(Singleton.class);
 
-		/**
-		 * This is the view for Alert Creation/Modification.
-		 */
-		bind(IAlertDefinitionEditView.class).to(AlertDefinitionEditView.class).in(Singleton.class);
-
+	
 		bind(IDashboardsView.class).to(DashboardsView.class).in(Singleton.class);
-		bind(IAlertDetailsView.class).to(AlertDetailsView.class).in(Singleton.class);
-
+	
 		bind(ILoginView.class).to(LoginView.class).in(Singleton.class);
 		bind(IMasterLayoutPanel.class).to(MasterLayoutPanel.class).in(Singleton.class);
 		bind(IPreferencesView.class).to(PreferencesView.class).in(Singleton.class);
-		bind(IAnalyticsTaskSubscriptionView.class).to(AnalyticsTaskSubscriptionView.class).in(Singleton.class);
 		bind(IServerLogsView.class).to(ServerLogsView.class).in(Singleton.class);
-		bind(ISubscriptionView.class).to(SubscriptionView.class).in(Singleton.class);
 		bind(ITopPanelView.class).to(TopPanelView.class);
 		bind(IWelcomeView.class).to(WelcomeView.class).in(Singleton.class);
 

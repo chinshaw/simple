@@ -130,7 +130,7 @@ public class SortableDragAndDropHandler implements DropEventHandler, OverDroppab
 	 */
 	private void createPlaceHolder(Widget draggable, int initialPosition) {
 		placeHolder = new SimplePanel();
-		placeHolder.addStyleName(Resources.INSTANCE.style().placeHolder());
+		placeHolder.addStyleName(Resources.INSTANCE.style().dndPlaceHolder());
 		placeHolder.setHeight("" + $(draggable).height() + "px");
 		placeHolder.setWidth("" + $(draggable).width() + "px");
 

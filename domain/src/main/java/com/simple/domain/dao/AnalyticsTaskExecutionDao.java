@@ -1,6 +1,5 @@
 package com.simple.domain.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -8,12 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import com.simple.domain.model.AlertViolationData;
 import com.simple.domain.model.AnalyticsTaskExecution;
-import com.simple.domain.model.metric.Metric;
-import com.simple.domain.model.metric.MetricDouble;
-import com.simple.original.api.analytics.IAnalyticsTaskExecution;
-import com.simple.original.api.analytics.IViolation;
 import com.simple.original.api.domain.RecordFecthType;
 import com.simple.original.api.domain.SortOrder;
 
@@ -197,48 +191,6 @@ public class AnalyticsTaskExecutionDao extends DaoBase<AnalyticsTaskExecution> i
 	    
 	    return (Long)query.getSingleResult();
 	}
-
-	/**
-	 * populates violations data in AlertViolationData - datamodel
-	 * 
-	 * @param taskExecution
-	 * @return
-	 */
-	public List<AlertViolationData> getAlertViolationsData(IAnalyticsTaskExecution taskExecution){
-
-		List<Metric> listOfMetrics = (List<Metric>) taskExecution.getExecutionMetrics();
-		List<AlertViolationData> alertViolationDataList = new ArrayList<AlertViolationData>();
-		
-		if(listOfMetrics != null && listOfMetrics.size() > 0){
-			for(int var1 = 0; var1 < listOfMetrics.size(); var1++){
-				if(listOfMetrics.get(var1) instanceof MetricDouble){
-					MetricDouble metricNumber = (MetricDouble)listOfMetrics.get(var1);
-					for(IViolation violation : listOfMetrics.get(var1).getViolations()){
-						
-						String startDate = taskExecution.getStartTime().toString();
-
-						//String lowRange = String.valueOf(metricNumber.getLowRange());
-						//String midRange = String.valueOf((metricNumber.getMidRange().getMinimum()+metricNumber.getMidRange().getMaximum())/2);
-						//String highRange = String.valueOf(metricNumber.getHighRange());
-
-						AlertViolationData violationData = new AlertViolationData();
-
-						violationData.setRuleName(violation.getRuleName());
-						violationData.setChartStatistics(String.valueOf(metricNumber.getValue()));
-						violationData.setStartDate(startDate);
-						//violationData.setUCL(highRange);
-						//violationData.setLCL(lowRange);
-						//violationData.setPCenter(midRange);
-
-						logger.info("violationData -> "+violationData.getRuleName());
-						alertViolationDataList.add(violationData);
-					}
-				}
-			}
-		}
-		return alertViolationDataList;
-	}
-	
 	
 	/**
 	 * Loops over the analtyics task executions and deletes the executions cascading to their metrics.

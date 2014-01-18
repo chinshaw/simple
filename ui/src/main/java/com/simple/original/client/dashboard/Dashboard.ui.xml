@@ -36,7 +36,7 @@
 		}
 	</ui:style>
 
-	<g:DockLayoutPanel styleName="{resources.style.contentPanel}"
+	<g:DockLayoutPanel styleName="{resources.style.content}"
 		unit="PX">
 		<g:center>
 			<g:FlowPanel>

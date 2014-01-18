@@ -44,9 +44,6 @@ public interface IAnalyticsTaskView extends IView {
 		public void onCopyAnalyticsTask();
 
 		public void onCheckBoxClicked(Boolean value);
-
-		public void onSubscription(AnalyticsTaskProxy analyticsTask);
-
     }
 
     public void setPresenter(Presenter presenter);

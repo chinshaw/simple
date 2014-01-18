@@ -1,0 +1,120 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:t="urn:import:com.simple.original.client.view.widgets" xmlns:d="urn:import:com.simple.original.client.view.desktop">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+	.codePanel {
+		position: relative;
+	}
+	
+	.codePanel img {
+		position: absolute;
+		top: 0;
+		right: 0;
+		cursor: pointer;
+		z-index: 20;
+	}
+	
+	.codeEditor {
+		border-radius: 5px;
+		width: 100%;
+		border: 1px solid #CCC;
+	}
+	</ui:style>
+
+	<g:HTMLPanel ui:field="contentPanel" styleName="{resources.style.content}">
+		<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+		<!-- <t:EnumEditor ui:field="typeEditor"></t:EnumEditor> -->
+		<div class="{resources.style.contentBlock}">
+			<div class="{resources.style.title}">
+				<label>Properties</label>
+				<hr style="display:inline;"></hr>
+			</div>
+			<section class="{resources.style.content}">
+				<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
+				<br style="clear:both;" />
+				<label>
+					<span style="color:red; padding-right:1px;">*</span>
+					Name
+				</label>
+				<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="name">
+					<t:valuebox>
+						<g:TextBox />
+					</t:valuebox>
+				</t:ValueBoxEditorDecorator>
+
+				<label>Description</label>
+				<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="description">
+					<t:valuebox>
+						<g:TextArea />
+					</t:valuebox>
+				</t:ValueBoxEditorDecorator>
+			</section>
+		</div>
+
+
+
+		<br />
+		<div class="{resources.style.contentBlock}">
+			<div class="{resources.style.title}">
+				<label>Operation Data Providers</label>
+				<hr style="display:inline;"></hr>
+			</div>
+			<div class="{resources.style.content}">
+				<d:InputsEditor ui:field="dataProviders" resources="{resources}" />
+			</div>
+		</div>
+
+		<br />
+		<div class="{resources.style.contentBlock}">
+			<div class="{resources.style.title}">
+				<label>Operation Inputs</label>
+				<hr style="display:inline;"></hr>
+			</div>
+			<div class="{resources.style.content}">
+				<d:InputsEditor ui:field="inputsEditor" resources="{resources}" />
+			</div>
+		</div>
+
+		<br />
+		<div class="{resources.style.contentBlock}">
+			<div class="{resources.style.title}">
+				<label>Operation Code</label>
+				<hr style="display:inline;"></hr>
+			</div>
+			<div class="{resources.style.content}">
+				<br style="clear:both;" />
+				<div class="{style.codePanel}">
+					<t:CodeEditorPanel styleName="{style.codeEditor}" ui:field="code" />
+					<g:Image url="{resources.fullScreen.getURL}" ui:field="codeFullScreen" />
+				</div>
+				<div style="text-align:left; padding:5px;">
+					<g:Button ui:field="testScript">Test</g:Button>
+				</div>
+			</div>
+		</div>
+
+		<br />
+		<!-- Outputs panel -->
+		<div class="{resources.style.contentBlock}">
+			<div class="{resources.style.title}">
+				<label>Operation Outputs</label>
+				<hr style="display:inline;"></hr>
+			</div>
+			<div class="{resources.style.content}">
+				<d:AnalyticsOperationOutputEditor ui:field="outputsEditor"></d:AnalyticsOperationOutputEditor>
+				<g:ListBox ui:field="availableOutputTypes"></g:ListBox>
+				<g:Button styleName="{resources.style.textButton}" ui:field="addOutput">
+					add
+				</g:Button>
+			</div>
+		</div>
+		<br />
+		<div class="{resources.style.buttonCollection}" style="text-align: right; margin-bottom: 2em;">
+			<g:Button ui:field="cancel">Cancel</g:Button>
+			<g:Button ui:field="save">Save</g:Button>
+		</div>
+	</g:HTMLPanel>
+</ui:UiBinder>

@@ -22,10 +22,8 @@ import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.events.EntityCreateEvent;
 import com.simple.original.client.events.NotificationEvent;
-import com.simple.original.client.proxy.MonitorAlertProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.resources.ResourcesFactory;
-import com.simple.original.client.utils.ClientUtils;
 import com.simple.original.client.view.widgets.AnimationBuilder.AnimationCompletionHandler;
 import com.simple.original.shared.NotificationCriticality;
 
@@ -195,8 +193,5 @@ public class NotificationPanel extends Composite implements NotificationEvent.Ha
 	 */
 	@Override
 	public void onEntityCreated(EntityCreateEvent event) {
-		if (event.getEntityName().equals(ClientUtils.getClassSimpleName(MonitorAlertProxy.class))) {
-			showMessage("A new Alert has been generated.", NotificationCriticality.CRITICAL);
-		}
 	}
 }

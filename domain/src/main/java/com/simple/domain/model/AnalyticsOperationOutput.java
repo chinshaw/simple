@@ -1,15 +1,9 @@
 package com.simple.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
@@ -56,13 +50,6 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	private boolean required = false;
 
 	/**
-	 * All the attached monitors to this output, this is used when evaluating
-	 * outputs to see whether an alert should be fired.
-	 */
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Monitor> monitors = new ArrayList<Monitor>();
-
-	/**
 	 * This is the operation that owns this output.
 	 */
 	// @ManyToOne
@@ -98,7 +85,6 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 			IAnalyticsOperationOutput.Type outputType) {
 		this.name = name;
 		this.outputType = outputType;
-		this.monitors = new ArrayList<Monitor>();
 	}
 
 	/**
@@ -179,42 +165,7 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 		this.description = description;
 	}
 
-	/**
-	 * Get all the monitors that are watching this metric.
-	 * 
-	 * @return
-	 */
-	public List<Monitor> getMonitors() {
-		return monitors;
-	}
-
-	/**
-	 * These are monitors that have been setup to watch for violations on this
-	 * particular output. When this output is collected from an operation it
-	 * will be check to validate that it does not have a violation attached and
-	 * if it does this may fire an alert.
-	 * 
-	 * @param monitors
-	 */
-	public void setMonitors(List<Monitor> monitors) {
-		this.monitors = monitors;
-	}
-
-	/**
-	 * Get the operation that owns this output.
-	 * 
-	 * @return
-	 * 
-	 *         public AnalyticsOperation getOperation() { return operation; }
-	 */
-
-	/**
-	 * Set the analytics operation that owns this output.
-	 * 
-	 * public void setOperation(AnalyticsOperation operation) { this.operation =
-	 * operation; }
-	 */
-
+	
 	/**
 	 * Clone will clone the entire operation this will call the
 	 * {@link DatastoreObject} class's clone method which will reset the id to
@@ -224,7 +175,4 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 		return (AnalyticsOperationOutput) super.clone();
 	}
 
-	public void addMonitor(Monitor monitor) {
-		monitors.add(monitor);
-	}
 }

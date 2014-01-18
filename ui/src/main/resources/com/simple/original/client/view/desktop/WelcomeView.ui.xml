@@ -1,0 +1,47 @@
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view.widgets"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:d="urn:import:com.simple.original.client.view.desktop">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+	
+	</ui:style>
+	<g:HTMLPanel styleName="{resources.style.content}">
+		<div
+			style="padding: 15px; background-color: #F0F0F0;border: 1px solid #CCCCCC;">
+			<div style="display:block">
+				<h3 style="font-weight:bold;"></h3>
+			</div>
+
+			<div style="overflow:auto;">
+				<g:FocusPanel ui:field="dashboards" styleName="{resources.style.navBox}">
+					<g:Label>Dashboards</g:Label>
+				</g:FocusPanel>
+				<g:FocusPanel ui:field="dataproviders" styleName="{resources.style.navBox}">
+					<g:Label>Data Providers</g:Label>
+				</g:FocusPanel>
+				<g:FocusPanel ui:field="operations" styleName="{resources.style.navBox}">
+					<g:Label>Analytics Operations</g:Label>
+				</g:FocusPanel>
+				<g:FocusPanel ui:field="execute" styleName="{resources.style.navBox}">
+					<g:Label>Execute Task</g:Label>
+				</g:FocusPanel>
+				<g:FocusPanel ui:field="scheduler" styleName="{resources.style.navBox}">
+					<g:Label>Scheduler</g:Label>
+				</g:FocusPanel>
+				<g:FocusPanel ui:field="monitor" styleName="{resources.style.navBox}">
+					<g:Label>Monitors</g:Label>
+				</g:FocusPanel>
+				<g:FocusPanel ui:field="jobs" styleName="{resources.style.navBox}">
+					<g:Label>Hadoop</g:Label>
+				</g:FocusPanel>
+				<g:FocusPanel ui:field="hadoop" styleName="{resources.style.navBox}">
+					<g:Label>Documentation</g:Label>
+				</g:FocusPanel>
+
+			</div>
+		</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

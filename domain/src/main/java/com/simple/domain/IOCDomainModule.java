@@ -5,7 +5,6 @@ import com.google.inject.persist.jpa.JpaPersistModule;
 import com.simple.domain.dao.AnalyticsOperationDao;
 import com.simple.domain.dao.AnalyticsTaskDao;
 import com.simple.domain.dao.AnalyticsTaskExecutionDao;
-import com.simple.domain.dao.AnalyticsTaskMonitorDao;
 import com.simple.domain.dao.DaoBase;
 import com.simple.domain.dao.MetricDao;
 import com.simple.domain.dao.PersonDao;
@@ -26,7 +25,6 @@ public class IOCDomainModule extends AbstractModule {
 		bind(AnalyticsOperationDao.class);
 		bind(AnalyticsTaskDao.class);
 		bind(AnalyticsTaskExecutionDao.class);
-		bind(AnalyticsTaskMonitorDao.class);
 		bind(MetricDao.class);
 		bind(PersonDao.class);
 		bind(SqlDataProviderDriverDao.class);

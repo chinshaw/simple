@@ -108,7 +108,7 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     //DataProviderOperationEditor dataProviders;
 
     @UiField
-    InputsEditorWorking inputsEditor;
+    InputsEditor inputsEditor;
 
     @Editor.Ignore
     @UiFactory

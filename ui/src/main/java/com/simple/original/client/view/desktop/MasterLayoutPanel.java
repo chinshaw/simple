@@ -1,7 +1,5 @@
 package com.simple.original.client.view.desktop;
 
-import java.util.logging.Logger;
-
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Composite;
@@ -18,30 +16,24 @@ public class MasterLayoutPanel extends Composite implements IMasterLayoutPanel {
 
 	private static final DockLayoutPanel dockPanel = new DockLayoutPanel(Unit.PX);
 
-	public class LayoutPanelImpl extends SimpleLayoutPanel {
+	public class LayoutPanel extends SimpleLayoutPanel {
 		public void setWidget(IsWidget activityWidget) {
 			Widget widget = Widget.asWidgetOrNull(activityWidget);
 			if (widget == null) {
-				// Logger.getLogger("FOO").info("Resizing widget to nothing " +
-				// getWidget());
-				// If we are setting a null widget then we need to resize the
-				// panel to notthing.
-
 				try {
 					dockPanel.setWidgetSize(this, 0);
 				} catch (Exception e) {
-					Logger.getLogger("FOO").info("Removing widget " + getWidget());
+					throw new RuntimeException("Unable to hide widget for panel ", e);
 				}
 			}
-			// SimpleLayoutPanel handles the null check so we are good with
-			// this.
 			super.setWidget(widget);
 		}
 	}
 
-	private LayoutPanelImpl controlPanel = new LayoutPanelImpl();
+	private LayoutPanel controlPanel = new LayoutPanel();
 
 	// Can't set the size on center so this is a simple layout panel.
+	//private SlidingPanel centerPanel = new SlidingPanel();
 	private SlidingPanel centerPanel = new SlidingPanel();
 
 	@Inject
@@ -51,8 +43,7 @@ public class MasterLayoutPanel extends Composite implements IMasterLayoutPanel {
 		dockPanel.add(centerPanel);
 		// dockPanel.animate(1000);
 
-		centerPanel.getElement().setId("contentPanel");
-
+		centerPanel.setStyleName(resources.style().contentContainer());
 	}
 
 	@Override
