@@ -1,8 +1,13 @@
 package com.simple.radapter;
 
 import com.simple.radapter.api.IRAdapter;
+import com.simple.radapter.api.IRexp;
+import com.simple.radapter.api.IRexpString;
+import com.simple.radapter.exceptions.RAdapterException;
 
 public class NativeAdapter implements IRAdapter {
+	
+	public static final String[] DEFAULT_R_ARGS = {"--vanilla"};
 	
 	static {
 		try {
@@ -13,8 +18,34 @@ public class NativeAdapter implements IRAdapter {
 		}
 	}
 	
+	private final String[] rArgs;
+	
+	public NativeAdapter() {
+		this(DEFAULT_R_ARGS);
+	}
+	
+	public NativeAdapter(String[] rArgs) {
+		this.rArgs = rArgs;
+	}
+	
 	public static final int GLOBAL_ENVIRONMENT = 0;
 
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * Calls setup on the r environment, which is required to be run before
+	 * running any R commands.
+	 */
+	public void connect() throws RAdapterException {
+		int configured = setupR(rArgs);
+		if (configured != 0) {
+			throw new RAdapterException("Unable to connect to the R environment, R error code " + configured);
+		} 
+	}
+	
+	
+	public synchronized native int setupR(String[] rArgs);
 	
 	/**
 	 * Parse a string into an R expression
@@ -46,13 +77,33 @@ public class NativeAdapter implements IRAdapter {
 	public synchronized native int getExpressionType(long expression);
 
 	@Override
-	public synchronized native String getString();
+	public IRexpString getString(String name) throws RAdapterException {
+		return getTypedRexp(name);
+	}
+	
+	public <T extends IRexp<?>> T getTypedRexp(String name) throws RAdapterException {
+		return (T) getRexp(name);
+	}
+	
+	private IRexp<?> getRexp(String name) throws RAdapterException {
+		long parsed = parse(name, 1);
+		if (parsed != 0) {
+			long evaled = eval(parsed, IRAdapter.GLOBAL_ENVIRONMENT);
+			if (evaled == 0) {
+				throw new RAdapterException("Unable to retrieve variable from workspace: " + name);
+			}
+			IRexp<?> rexp = RexpUtils.convert(this, evaled);
+			return rexp;
+		}
+		throw new RAdapterException("Invalid rexp " + name);
+	}
+	
+	public synchronized native String[] getStrings(long expression);
+	
+	public synchronized native String getString(long expression);
 
 	@Override
 	public synchronized native long setString(String string);
-
-	@Override
-	public synchronized native String[] getStrings();
 
 	@Override
 	public synchronized native long setStrings(String[] strings);

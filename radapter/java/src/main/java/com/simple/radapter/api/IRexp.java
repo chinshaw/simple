@@ -1,7 +1,7 @@
 package com.simple.radapter.api;
 
-public interface IRexp<T> {
+public interface IRexp<V> {
 	
-	public T getValue();
+	public V getValue();
 	
 }

@@ -6,9 +6,7 @@ import com.simple.radapter.api.IRexp;
 import com.simple.radapter.exceptions.RAdapterException;
 
 public class NativeEngine implements IEngine {
-
-
-
+	
 	private IRAdapter adapter;
 
 	public NativeEngine() {

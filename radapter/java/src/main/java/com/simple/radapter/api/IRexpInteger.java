@@ -1,5 +1,5 @@
 package com.simple.radapter.api;
 
-public interface IRexpInteger {
+public interface IRexpInteger extends IRexp<Integer> {
 
 }
