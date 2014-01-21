@@ -26,8 +26,6 @@ public interface Resources extends ClientBundle, CellTable.Resources,
 		public String alertNotificationLabel();
 
 		public String alertNotificationCloseButton();
-		
-		public String button();
 
 		public String buttonCollection();
 
@@ -40,6 +38,8 @@ public interface Resources extends ClientBundle, CellTable.Resources,
 		public String dashboardExampleTable();
 		
 		public String dateSlider();
+		
+		public String delete();
 
 		public String draggableLabel();
 		
@@ -88,7 +88,13 @@ public interface Resources extends ClientBundle, CellTable.Resources,
 		public String textButton();
 
 		public String topPanel();
-
+		
+		/**
+		 * This is the header at the top just below the title menu bar.
+		 * @return
+		 */
+		public String topHeader();
+		
 		public String updating();
 
 		public String updatingImage();
@@ -110,9 +116,6 @@ public interface Resources extends ClientBundle, CellTable.Resources,
 		public String titleTextCell();
 
 		public String widgetSelectorPanel();
-		
-
-		public String topHeader();
 
 		public String linkableWidget();
 

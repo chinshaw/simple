@@ -6,21 +6,21 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
-		.inputBlock {
-			padding: 0;
-			margin: 0;
-			display: block;
-		}
-		
-		.inputBlock div {
-			float: left;
-			padding-right: 5px;
-			padding-top: 5px;
-		}
-		
-		.inputBlock div select {
-			display: block;
-		}
+	.inputBlock {
+		padding: 0;
+		margin: 0;
+		display: block;
+	}
+	
+	.inputBlock div {
+		float: left;
+		padding-right: 5px;
+		padding-top: 5px;
+	}
+	
+	.inputBlock div select {
+		display: block;
+	}
 	</ui:style>
 
 	<g:HTMLPanel>
@@ -34,7 +34,8 @@
 				<g:TextBox ui:field="name"></g:TextBox>
 			</div>
 			<div style="position:relative; top: 16px; margin-left:20px">
-				<g:Button  styleName="{resources.style.textButton}" ui:field="removeInput">remove
+				<g:Button styleName="{resources.style.textButton}"
+					ui:field="removeInput">remove
 				</g:Button>
 			</div>
 			<br style="clear:both" />

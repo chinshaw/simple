@@ -27,20 +27,25 @@ public interface AnalyticsOperationProxy extends DatastoreObjectProxy {
         }
     }
         
-    public abstract String getName();
+    public String getName();
 
-    public abstract void setName(String name);
+    public void setName(String name);
 
-    public abstract String getDescription();
+    public String getDescription();
 
-    public abstract void setDescription(String description);
+    public void setDescription(String description);
 
+    public List<DataProviderInputProxy> getDataProviders();
+    
+    
+    public void setDataProviders(List<DataProviderInputProxy> dataProviders);
+    
     /**
      * Get script inputs.
      * 
      * @return
      */
-    public abstract List<AnalyticsOperationInputProxy> getInputs();
+    public List<AnalyticsOperationInputProxy> getInputs();
 
     /**
      * Set script inputs.
@@ -83,6 +88,5 @@ public interface AnalyticsOperationProxy extends DatastoreObjectProxy {
      * @return
      */
     public PersonProxy getOwner();
-
-    
+      
 }

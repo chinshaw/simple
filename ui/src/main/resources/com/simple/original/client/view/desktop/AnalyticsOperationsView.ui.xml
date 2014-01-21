@@ -31,20 +31,11 @@
 		padding: 5px 0px;
 	}
 	
-	.dock {
-		
-	}
-	
-	.top {
-		background-color: #F5F5F5;
-		border-bottom: 1px solid #CCC;
-		padding: 0px 20px;
-	}
 	</ui:style>
 
-	<g:DockLayoutPanel styleName="{style.dock}">
+	<g:DockLayoutPanel>
 		<g:north size="75">
-			<g:HTMLPanel styleName="{style.top}">
+			<g:HTMLPanel styleName="{resources.style.topHeader}">
 				<div style="display:block;">
 					<div class="{resources.style.header}" style="float:left;">
 						<h1 style="line-height: 75px;">Analytics Operations</h1>

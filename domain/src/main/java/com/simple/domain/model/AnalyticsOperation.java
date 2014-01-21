@@ -74,8 +74,7 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 	 * This is the data provider for this analytics task. This could be dynamic
 	 * and the script never change.
 	 */
-	@OneToMany
-	@JoinTable(name = "analyticstask_dataproviders", joinColumns = { @JoinColumn(name = "fk_analyticstask_id") }, inverseJoinColumns = { @JoinColumn(name = "fk_dataprovider_id") })
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<DataProviderInput> dataProviders = new ArrayList<DataProviderInput>();
 
 	
@@ -95,7 +94,7 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 	 * execution cycle.
 	 */
 	@OrderColumn
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = AnalyticsOperationOutput.class)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = AnalyticsOperationOutput.class)
 	//@JoinTable(name = "analyticsoperation_outputs", joinColumns = { @JoinColumn(name = "fk_analyticsoperation_id") }, inverseJoinColumns = { @JoinColumn(name = "fk_analyticsoperation_output_id") })
 	private List<AnalyticsOperationOutput> outputs = new ArrayList<AnalyticsOperationOutput>();
 

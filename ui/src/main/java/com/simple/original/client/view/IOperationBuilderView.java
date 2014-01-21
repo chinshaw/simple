@@ -1,11 +1,10 @@
 package com.simple.original.client.view;
 
 import com.google.gwt.editor.client.Editor;
+import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.exceptions.SimpleException;
-import com.simple.original.client.proxy.AnalyticsOperationDataProviderProxy;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.view.widgets.ErrorPanel;
@@ -36,16 +35,14 @@ public interface IOperationBuilderView extends IView, Editor<RAnalyticsOperation
 
         Enum<?>[] getAvailableOutputTypes();
 
-        AnalyticsOperationDataProviderProxy createDataProvider();
-
 		void onSave(String name, boolean publicFlag);
 
-		void onTestScript();
+		void onTest();
     }
 
     void setPresenter(Presenter presenter);
 
-    RequestFactoryEditorDriver<RAnalyticsOperationProxy, ?> getEditorDriver();
+    SimpleBeanEditorDriver<RAnalyticsOperationProxy, ?> getEditorDriver();
 
     @Ignore
     public CheckBox getIsPublic();
@@ -54,7 +51,5 @@ public interface IOperationBuilderView extends IView, Editor<RAnalyticsOperation
     public String getOperationName();
     
     public ErrorPanel getErrorPanel();
-
-    void scrollToTop();
 
 }

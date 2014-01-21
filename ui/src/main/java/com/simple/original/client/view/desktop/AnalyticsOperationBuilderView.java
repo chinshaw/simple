@@ -12,6 +12,7 @@ import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -19,7 +20,9 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.requestfactory.gwt.client.HasRequestContext;
 import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
+import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.exceptions.SimpleException;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
@@ -35,7 +38,7 @@ import com.simple.original.client.view.widgets.ValueBoxEditorDecorator;
  * @author chinshaw
  * 
  */
-public class AnalyticsOperationBuilderView extends AbstractView implements IOperationBuilderView, Editor<RAnalyticsOperationProxy> {
+public class AnalyticsOperationBuilderView extends AbstractView implements IOperationBuilderView, Editor<RAnalyticsOperationProxy>, HasRequestContext<RAnalyticsOperationProxy> {
 
     public interface EditorDriver extends RequestFactoryEditorDriver<RAnalyticsOperationProxy, AnalyticsOperationBuilderView> {
     }
@@ -104,8 +107,8 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     /**
      * Editor that will edit the selected data providers.
      */
-    //@UiField
-    //DataProviderOperationEditor dataProviders;
+    @UiField
+    DataProviderInputsEditor dataProviders;
 
     @UiField
     InputsEditor inputsEditor;
@@ -138,6 +141,9 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     // private RAnalyticsOperationProxy analyticsOperation = null;
 
     private EditorDriver driver = GWT.create(EditorDriver.class);
+
+
+	private RequestContext context;
 
     /**
      * @param eventBus
@@ -222,11 +228,6 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
         presenter.onSave(name.asEditor().getValue(), isPublic.getValue());
     }
     
-    @UiHandler("testScript")
-    void onTestScript(ClickEvent clickEvent) {
-    	presenter.onTestScript();
-    }
-
     /**
 	 * @return the isPublic
 	 */
@@ -247,14 +248,23 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
         return driver;
     }
 
-    @Override
-    public void scrollToTop() {
-        contentPanel.getElement().getParentElement().setScrollTop(0);
-    }
-
-
 	@Override
 	public String getOperationName() {
 		return name.getTitle();
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	public void setRequestContext(RequestContext context) {
+		this.context = context;
+		// Have to set the request context on the sub editors.
+		dataProviders.setRequestContext(context);
+	}
+	
+	@UiHandler("test")
+	void onTest(ClickEvent click) {
+		presenter.onTest();
 	}
 }

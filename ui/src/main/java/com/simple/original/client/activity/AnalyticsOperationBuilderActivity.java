@@ -7,28 +7,29 @@ import java.util.logging.Logger;
 import javax.validation.ConstraintViolation;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
-import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.exceptions.SimpleException;
 import com.simple.original.client.place.AnalyticsOperationPlace;
 import com.simple.original.client.place.AnalyticsOperationsPlace;
-import com.simple.original.client.proxy.AnalyticsOperationDataProviderProxy;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
+import com.simple.original.client.proxy.DataProviderInputProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.service.DaoRequestFactory.AnalyticsOperationRequest;
 import com.simple.original.client.view.IOperationBuilderView;
 import com.simple.original.client.view.IOperationBuilderView.Presenter;
 
-public class AnalyticsOperationBuilderActivity extends AbstractActivity<AnalyticsOperationPlace, IOperationBuilderView> implements Presenter {
+public class AnalyticsOperationBuilderActivity extends
+		AbstractActivity<AnalyticsOperationPlace, IOperationBuilderView>
+		implements Presenter {
 
-	private static final Logger logger = Logger.getLogger(AnalyticsOperationBuilderActivity.class.getName());
+	private static final Logger logger = Logger
+			.getLogger(AnalyticsOperationBuilderActivity.class.getName());
 
 	/**
 	 * This is the request context for the
@@ -61,21 +62,23 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 	 * actual editing on the view.
 	 */
 	private void createAndEditOperation() {
-		logger.fine("Creating new operation to edit");
-		RAnalyticsOperationProxy operation = context.create(RAnalyticsOperationProxy.class);
+		RAnalyticsOperationProxy operation = context
+				.create(RAnalyticsOperationProxy.class);
+		operation.setDataProviders(new ArrayList<DataProviderInputProxy>());
 		operation.setInputs(new ArrayList<AnalyticsOperationInputProxy>());
 		operation.setOutputs(new ArrayList<AnalyticsOperationOutputProxy>());
 		edit(operation);
 	}
 
 	private void findAndEditOperation(Long operationId) {
-		dao().createAnalyticsOperationRequest().find(operationId).with("*").fire(new Receiver<AnalyticsOperationProxy>() {
+		dao().createAnalyticsOperationRequest().find(operationId).with("*")
+				.fire(new Receiver<AnalyticsOperationProxy>() {
 
-			@Override
-			public void onSuccess(AnalyticsOperationProxy operation) {
-				edit((RAnalyticsOperationProxy) operation);
-			}
-		});
+					@Override
+					public void onSuccess(AnalyticsOperationProxy operation) {
+						edit((RAnalyticsOperationProxy) operation);
+					}
+				});
 	}
 
 	/**
@@ -101,9 +104,12 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 			}
 
 			@Override
-			public void onConstraintViolation(Set<ConstraintViolation<?>> violations) {
+			public void onConstraintViolation(
+					Set<ConstraintViolation<?>> violations) {
 				for (ConstraintViolation<?> violation : violations) {
-					display.showError(violation.getPropertyPath() + " " + violation.getMessage());
+					GWT.log("Constraint violation " + violation.getPropertyPath() + violation.getMessage());
+					display.showError(violation.getPropertyPath() + " "
+							+ violation.getMessage());
 				}
 			}
 		});
@@ -116,18 +122,14 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 	 * validate unique name and save/update editing proxy
 	 */
 	@Override
-	public void onSave(String name, boolean publicFlag) {
-		Window.alert("DOING SAVE");
-		display.getErrorPanel().clear();
-		final RequestContext flushedContext = display.getEditorDriver().flush();
+	public void onSave() {
+		AnalyticsOperationProxy flushedContext = display.getEditorDriver().flush();
 		flushedContext.fire(new Receiver<Void>() {
 
 			@Override
 			public void onSuccess(Void response) {
-				GWT.log("GOT SUCCESSSSS");
 
 			}
-
 		});
 	}
 
@@ -141,10 +143,12 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 	 * class type and creat it that way but that is no longer needed.
 	 */
 	@Override
-	public AnalyticsOperationOutputProxy createOutput(IAnalyticsOperationOutput.Type outputType) throws SimpleException {
+	public AnalyticsOperationOutputProxy createOutput(
+			IAnalyticsOperationOutput.Type outputType) throws SimpleException {
 		logger.fine("Cretaing output with type " + outputType.name());
 
-		AnalyticsOperationOutputProxy output = context.create(AnalyticsOperationOutputProxy.class);
+		AnalyticsOperationOutputProxy output = context
+				.create(AnalyticsOperationOutputProxy.class);
 		output.setOutputType(outputType);
 
 		return output;
@@ -155,17 +159,12 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 		return IAnalyticsOperationOutput.Type.values();
 	}
 
-	/**
-	 * Used to create a data provider from the current context.
-	 */
 	@Override
-	public AnalyticsOperationDataProviderProxy createDataProvider() {
-		AnalyticsOperationDataProviderProxy dataProvider = context.create(AnalyticsOperationDataProviderProxy.class);
-		return dataProvider;
-	}
-
-	@Override
-	public void onTestScript() {
+	public void onTest() {
+		AnalyticsOperationRequest context  = display.getEditorDriver().flush();
+		context.
+		AnalyticsOperationProxy operation = (AnalyticsOperationProxy) driver.flush();
 		
+		GWT.log("Operation is " + operation.getName());
 	}
 }

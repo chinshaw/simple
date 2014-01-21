@@ -26,99 +26,107 @@ import com.simple.original.client.view.widgets.AnimationBuilder;
 import com.simple.original.client.view.widgets.AnimationBuilder.AnimationCompletionHandler;
 import com.simple.original.client.view.widgets.EnumEditor;
 
-public class AnalyticsOperationOutputEditor extends Composite implements IsEditor<ListEditor<AnalyticsOperationOutputProxy, OutputEditor>> {
+public class AnalyticsOperationOutputEditor extends Composite implements
+		IsEditor<ListEditor<AnalyticsOperationOutputProxy, OutputEditor>> {
 
-    @UiTemplate("AnalyticsOperationOutputEditor.ui.xml")
-    public interface OutputEditorBinder extends UiBinder<Widget, OutputEditor> {
-    }
+	@UiTemplate("AnalyticsOperationOutputEditor.ui.xml")
+	public interface OutputEditorBinder extends UiBinder<Widget, OutputEditor> {
+	}
 
-      class OutputEditor extends Composite implements Editor<AnalyticsOperationOutputProxy> {
+	class OutputEditor extends Composite implements
+			Editor<AnalyticsOperationOutputProxy> {
 
-        @UiField(provided = true)
-        EnumEditor<IAnalyticsOperationOutput.Type> outputType = new EnumEditor<IAnalyticsOperationOutput.Type>(IAnalyticsOperationOutput.Type.class);
+		@UiField(provided = true)
+		EnumEditor<IAnalyticsOperationOutput.Type> outputType = new EnumEditor<IAnalyticsOperationOutput.Type>(
+				IAnalyticsOperationOutput.Type.class);
 
-        @UiField
-        TextBox name;
+		@UiField
+		TextBox name;
 
-        @UiField
-        Button removeInput;
-        
-        private int index;
-        
-        
-        /**
-         * Default constructor takes an index of the Editor objects location.
-         * The index is used to delete this object.
-         * 
-         * @param index
-         */
-        public OutputEditor(int index) {
-            initWidget(GWT.<OutputEditorBinder> create(OutputEditorBinder.class).createAndBindUi(this));
-            this.index = index;
-        }
+		@UiField
+		Button removeInput;
 
-        @UiHandler("removeInput")
-        void removeOutput(ClickEvent clickEvent) {
-        	editor.getList().remove(index);
-        	List<OutputEditor> editors = editor.getEditors();
-        	// reorder
-            for (int i = index, j = editors.size(); i < j; i++) {
-                   (editors.get(i)).setIndex(i);
-            }
-        }
-        
-        public void setIndex(int index) {
-        	this.index = index;
-        }
-    }
+		private int index;
 
-    /**
-     * This is our editor used to edit our ScriptInputProxy classes.
-     */
-    private final ListEditor<AnalyticsOperationOutputProxy, OutputEditor> editor;
-    /**
-     * This is our container that holds our output editor widgets.
-     */
-    private final FlowPanel container = new FlowPanel();
+		/**
+		 * Default constructor takes an index of the Editor objects location.
+		 * The index is used to delete this object.
+		 * 
+		 * @param index
+		 */
+		public OutputEditor(int index) {
+			initWidget(GWT
+					.<OutputEditorBinder> create(OutputEditorBinder.class)
+					.createAndBindUi(this));
+			this.index = index;
+		}
 
-    public AnalyticsOperationOutputEditor(final Resources resources) {
-        initWidget(container);
-        
-        editor = ListEditor.of(new EditorSource<OutputEditor>() {
+		@UiHandler("removeInput")
+		void removeOutput(ClickEvent clickEvent) {
+			editor.getList().remove(index);
+			List<OutputEditor> editors = editor.getEditors();
+			// reorder
+			for (int i = index, j = editors.size(); i < j; i++) {
+				(editors.get(i)).setIndex(i);
+			}
+		}
 
-            public List<OutputEditor> create(int count, int index) {
-                container.clear();
-                List<OutputEditor> toReturn = new ArrayList<OutputEditor>(count);
-                for (int i = 0; i < count; i++) {
-                    toReturn.add(create(index + i));
-                }
-                return toReturn;
-            }
+		public void setIndex(int index) {
+			this.index = index;
+		}
+	}
 
-            @Override
-            public void dispose(final OutputEditor editor) {
-                AnimationCompletionHandler completionHandler = new AnimationCompletionHandler() {
-                    @Override
-                    public void onAnimationsComplete() {
-                        editor.removeFromParent();
-                    }
-                };
-                AnimationBuilder.create(editor.getElement()).addFadeOutAnimation().addSlideUpAnimation().addCompletionHandler(completionHandler).run(500);
-            }
+	/**
+	 * This is our editor used to edit our ScriptInputProxy classes.
+	 */
+	private final ListEditor<AnalyticsOperationOutputProxy, OutputEditor> editor;
+	/**
+	 * This is our container that holds our output editor widgets.
+	 */
+	private final FlowPanel container = new FlowPanel();
 
-            @Override
-            public OutputEditor create(final int index) {
-                final OutputEditor outputEditor = new OutputEditor(index);
-                AnimationBuilder builder = AnimationBuilder.create(outputEditor.getElement()).addFadeInAnimation().addSlideDownAnimation();
-                container.insert(outputEditor, index);
-                builder.run(500);
-                return outputEditor;
-            }
-        });
-    }
+	public AnalyticsOperationOutputEditor(final Resources resources) {
+		initWidget(container);
 
-    @Override
-    public ListEditor<AnalyticsOperationOutputProxy, OutputEditor> asEditor() {
-        return editor;
-    }
+		editor = ListEditor.of(new EditorSource<OutputEditor>() {
+
+			public List<OutputEditor> create(int count, int index) {
+				container.clear();
+				List<OutputEditor> toReturn = new ArrayList<OutputEditor>(count);
+				for (int i = 0; i < count; i++) {
+					toReturn.add(create(index + i));
+				}
+				return toReturn;
+			}
+
+			@Override
+			public void dispose(final OutputEditor editor) {
+				AnimationCompletionHandler completionHandler = new AnimationCompletionHandler() {
+					@Override
+					public void onAnimationsComplete() {
+						editor.removeFromParent();
+					}
+				};
+				AnimationBuilder.create(editor.getElement())
+						.addFadeOutAnimation().addSlideUpAnimation()
+						.addCompletionHandler(completionHandler).run(500);
+			}
+
+			@Override
+			public OutputEditor create(final int index) {
+				final OutputEditor outputEditor = new OutputEditor(index);
+				AnimationBuilder builder = AnimationBuilder
+						.create(outputEditor.getElement()).addFadeInAnimation()
+						.addSlideDownAnimation();
+				container.insert(outputEditor, index);
+				builder.run(500);
+				return outputEditor;
+			}
+		});
+	}
+
+	@Override
+	public ListEditor<AnalyticsOperationOutputProxy, OutputEditor> asEditor() {
+		return editor;
+	}
 }
