@@ -10,6 +10,7 @@ import com.google.web.bindery.requestfactory.shared.RequestFactory;
 import com.google.web.bindery.requestfactory.shared.Service;
 import com.simple.original.api.exceptions.AnalyticsTaskException;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
+import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
 import com.simple.original.client.proxy.DashboardProxy;
 import com.simple.original.client.proxy.DataProviderProxy;
@@ -62,6 +63,8 @@ public interface ServiceRequestFactory extends RequestFactory {
         Request<DashboardProxy> getPreviousExecution(Long analyticsTaskExecutionId);
 
         Request<DashboardProxy> getLatestDashboard(Long analyticsTaskId);
+
+		Request<AnalyticsTaskExecutionProxy> executeOperation(RAnalyticsOperationProxy operation);
     }
     
 

@@ -76,7 +76,15 @@ public class AnalyticsOperationBuilderActivity extends
 
 					@Override
 					public void onSuccess(AnalyticsOperationProxy operation) {
-						edit((RAnalyticsOperationProxy) operation);
+						if (!(operation instanceof RAnalyticsOperationProxy)) {
+							throw new RuntimeException(
+									"Operation is not of type R");
+						}
+
+						RAnalyticsOperationProxy editable = (RAnalyticsOperationProxy) context
+								.edit(operation);
+						edit(editable);
+
 					}
 				});
 	}
@@ -88,8 +96,17 @@ public class AnalyticsOperationBuilderActivity extends
 	 * @param operation
 	 */
 	private void edit(RAnalyticsOperationProxy operation) {
+		logger.fine("Editing operation " + operation);
+		display.getEditorDriver().edit(operation);
+		display.setRequestContext(context);
+	}
 
-		// add a request to save the operation when it is done being edited.
+	/**
+	 * validate unique name and save/update editing proxy
+	 */
+	@Override
+	public void onSave() {
+		AnalyticsOperationProxy operation = display.getEditorDriver().flush();
 		context.save(operation).to(new Receiver<Long>() {
 
 			public void onFailure(ServerFailure error) {
@@ -107,30 +124,14 @@ public class AnalyticsOperationBuilderActivity extends
 			public void onConstraintViolation(
 					Set<ConstraintViolation<?>> violations) {
 				for (ConstraintViolation<?> violation : violations) {
-					GWT.log("Constraint violation " + violation.getPropertyPath() + violation.getMessage());
+					GWT.log("Constraint violation "
+							+ violation.getPropertyPath()
+							+ violation.getMessage());
 					display.showError(violation.getPropertyPath() + " "
 							+ violation.getMessage());
 				}
 			}
-		});
-
-		logger.fine("Editing operation " + operation);
-		display.getEditorDriver().edit(operation, context);
-	}
-
-	/**
-	 * validate unique name and save/update editing proxy
-	 */
-	@Override
-	public void onSave() {
-		AnalyticsOperationProxy flushedContext = display.getEditorDriver().flush();
-		flushedContext.fire(new Receiver<Void>() {
-
-			@Override
-			public void onSuccess(Void response) {
-
-			}
-		});
+		}).fire();
 	}
 
 	@Override
@@ -161,10 +162,7 @@ public class AnalyticsOperationBuilderActivity extends
 
 	@Override
 	public void onTest() {
-		AnalyticsOperationRequest context  = display.getEditorDriver().flush();
-		context.
-		AnalyticsOperationProxy operation = (AnalyticsOperationProxy) driver.flush();
-		
-		GWT.log("Operation is " + operation.getName());
+		RAnalyticsOperationProxy operation = display.getEditorDriver().flush();
+		service().analyticsRequest().executeOperation(operation);
 	}
 }

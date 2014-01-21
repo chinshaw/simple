@@ -6,13 +6,13 @@ package com.simple.original.client.view.desktop;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.HasEditorErrors;
+import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.requestfactory.gwt.client.HasRequestContext;
-import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.exceptions.SimpleException;
@@ -40,7 +39,7 @@ import com.simple.original.client.view.widgets.ValueBoxEditorDecorator;
  */
 public class AnalyticsOperationBuilderView extends AbstractView implements IOperationBuilderView, Editor<RAnalyticsOperationProxy>, HasRequestContext<RAnalyticsOperationProxy> {
 
-    public interface EditorDriver extends RequestFactoryEditorDriver<RAnalyticsOperationProxy, AnalyticsOperationBuilderView> {
+    public interface EditorDriver extends SimpleBeanEditorDriver<RAnalyticsOperationProxy, AnalyticsOperationBuilderView> {
     }
 
     /**
@@ -225,7 +224,7 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
      */
     @UiHandler("save")
     void onSaveAnalytics(ClickEvent clickEvent) {
-        presenter.onSave(name.asEditor().getValue(), isPublic.getValue());
+        presenter.onSave();
     }
     
     /**
@@ -244,7 +243,7 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     /**
 	 * @return the name
 	 */
-    public RequestFactoryEditorDriver<RAnalyticsOperationProxy, ?> getEditorDriver() {
+    public SimpleBeanEditorDriver<RAnalyticsOperationProxy, ?> getEditorDriver() {
         return driver;
     }
 
@@ -261,6 +260,7 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
 		this.context = context;
 		// Have to set the request context on the sub editors.
 		dataProviders.setRequestContext(context);
+		inputsEditor.setRequestContext(context);
 	}
 	
 	@UiHandler("test")
