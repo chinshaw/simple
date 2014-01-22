@@ -7,7 +7,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.simple.original.api.domain.GroupMembership;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsTaskNameProxy;
-import com.simple.original.client.service.ServiceRequestFactory.AnalyticsRequest;
+import com.simple.original.client.service.ServiceRequestFactory.DashboardRequest;
 
 public interface IAnalyticsTaskExecutionView extends IView {
 
@@ -48,5 +48,5 @@ public interface IAnalyticsTaskExecutionView extends IView {
 
 	SimpleBeanEditorDriver<List<AnalyticsOperationInputProxy>, ?> getInputsEditorDriver();
 
-	void setRequestContext(AnalyticsRequest factory);
+	void setRequestContext(DashboardRequest factory);
 }

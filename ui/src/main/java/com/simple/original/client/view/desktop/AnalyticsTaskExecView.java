@@ -26,7 +26,7 @@ import com.simple.original.api.domain.GroupMembership;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsTaskNameProxy;
 import com.simple.original.client.resources.Resources;
-import com.simple.original.client.service.ServiceRequestFactory.AnalyticsRequest;
+import com.simple.original.client.service.ServiceRequestFactory.DashboardRequest;
 import com.simple.original.client.view.IAnalyticsTaskExecutionView;
 import com.simple.original.client.view.widgets.EnumEditor;
 import com.simple.original.client.view.widgets.ErrorPanel;
@@ -187,7 +187,7 @@ public class AnalyticsTaskExecView extends AbstractView implements IAnalyticsTas
     }
 
     @Override
-    public void setRequestContext(AnalyticsRequest request) {
+    public void setRequestContext(DashboardRequest request) {
         taskInputsEditor.setRequestContext(request);
     }
 

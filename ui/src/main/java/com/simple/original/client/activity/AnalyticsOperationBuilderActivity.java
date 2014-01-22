@@ -19,8 +19,10 @@ import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.DataProviderInputProxy;
+import com.simple.original.client.proxy.ProxyUtils;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.service.DaoRequestFactory.AnalyticsOperationRequest;
+import com.simple.original.client.service.ServiceRequestFactory.OperationRequest;
 import com.simple.original.client.view.IOperationBuilderView;
 import com.simple.original.client.view.IOperationBuilderView.Presenter;
 
@@ -160,9 +162,23 @@ public class AnalyticsOperationBuilderActivity extends
 		return IAnalyticsOperationOutput.Type.values();
 	}
 
+	/**
+	 * This is a little quirky behind the scenes because we have to clone
+	 * the proxy to another context. This is because the edit context owns the bean
+	 * and it will throw an exception if we try to send it to another context to 
+	 * execute the operation. We use proxy utils to clone the proxy to another context.
+	 * 
+	 * 
+	 * 
+	 */
 	@Override
 	public void onTest() {
 		RAnalyticsOperationProxy operation = display.getEditorDriver().flush();
-		service().analyticsRequest().executeOperation(operation);
+
+		OperationRequest testRequest = service().operationRequest();
+		RAnalyticsOperationProxy clone = ProxyUtils.cloneProxyToNewContext(
+				RAnalyticsOperationProxy.class, operation, testRequest);
+
+		testRequest.executeOperation(clone).fire();
 	}
 }

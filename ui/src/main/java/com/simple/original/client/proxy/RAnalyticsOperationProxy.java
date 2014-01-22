@@ -7,9 +7,9 @@ import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 @ProxyFor(value = RAnalyticsOperation.class, locator = RequestFactoryEntityLocator.class)
 public interface RAnalyticsOperationProxy extends AnalyticsOperationProxy {
 
-    public static String[] EDIT_PROPERTIES = { "rcode" };
+	public static String[] EDIT_PROPERTIES = { "rcode" };
 
-    public String getCode();
+	public String getCode();
 
-    public void setCode(String code);
+	public void setCode(String code);
 }

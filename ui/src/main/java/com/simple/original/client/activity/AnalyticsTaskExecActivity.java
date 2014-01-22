@@ -28,7 +28,7 @@ import com.simple.original.client.proxy.AnalyticsTaskNameProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
 import com.simple.original.client.proxy.CloneUtils;
 import com.simple.original.client.service.DaoRequestFactory.AnalyticsTaskRequest;
-import com.simple.original.client.service.ServiceRequestFactory.AnalyticsRequest;
+import com.simple.original.client.service.ServiceRequestFactory.DashboardRequest;
 import com.simple.original.client.view.IAnalyticsTaskExecutionView;
 import com.simple.original.client.view.IAnalyticsTaskExecutionView.Filter;
 import com.simple.original.client.view.IAnalyticsTaskExecutionView.Presenter;
@@ -37,7 +37,7 @@ public class AnalyticsTaskExecActivity extends AbstractActivity<AnalyticsTaskExe
 
 	private static final String LAST_SELECTED_TASK_COOKIE = "default_task_id";
 
-	private AnalyticsRequest inputsRequest;
+	private DashboardRequest inputsRequest;
 
 	// TODO THIS NEEDS TO GO SOMEWHERE ELSE.
 	private class SaveAnalyticsTaskNamePopup extends PopupPanel implements HasClickHandlers {
