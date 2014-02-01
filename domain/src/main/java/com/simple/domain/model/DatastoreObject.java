@@ -24,7 +24,7 @@ public abstract class DatastoreObject implements IDatastoreObject, Cloneable, Se
     public Long getId() {
         return id;
     }
-
+    
     protected String getIdAsString() {
         return id.toString();
     }

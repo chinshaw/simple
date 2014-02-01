@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
@@ -229,7 +228,7 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 	 * 
 	 * @param id
 	 */
-	protected void setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -29,7 +29,7 @@ import com.simple.original.client.place.LatestDashboardPlace;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
 import com.simple.original.client.proxy.DashboardProxy;
-import com.simple.original.client.service.ServiceRequestFactory.AnalyticsRequest;
+import com.simple.original.client.service.ServiceRequestFactory.DashboardRequest;
 import com.simple.original.client.utils.ClientUtils;
 import com.simple.original.client.view.IDashboardView;
 import com.simple.original.client.view.IDashboardView.Presenter;
@@ -104,7 +104,7 @@ public class DashboardActivity extends
 	private static final Logger logger = Logger
 			.getLogger(DashboardActivity.class.getName());
 
-	private AnalyticsRequest request;
+	private DashboardRequest request;
 
 	private DashboardProxy dashboard;
 
@@ -169,12 +169,12 @@ public class DashboardActivity extends
 		eventBus().fireEvent(new DashboardChangedEvent(dashboard));
 	}
 
-	protected AnalyticsRequest getDashboardUpdateRequest() {
+	protected DashboardRequest getDashboardUpdateRequest() {
 		DashboardPlace dashboardPlace = (DashboardPlace) place();
 
 		List<AnalyticsOperationInputProxy> arguments = dashboardPlace
 				.getArguments();
-		request = service().analyticsRequest();
+		request = service().dashboardRequest();
 
 		List<AnalyticsOperationInputProxy> inputs = new ArrayList<AnalyticsOperationInputProxy>();
 
@@ -202,7 +202,7 @@ public class DashboardActivity extends
 		return request;
 	}
 
-	private void runDashboardTask(AnalyticsRequest request) {
+	private void runDashboardTask(DashboardRequest request) {
 		showUpdatingPanel(true);
 		request.fire();
 	}
@@ -257,7 +257,7 @@ public class DashboardActivity extends
 			logger.info("There were no inputs");
 			return;
 		}
-		request = service().analyticsRequest();
+		request = service().dashboardRequest();
 		AnalyticsInputEditor inputsEditor = display.getInputsEditor();
 		List<AnalyticsOperationInputProxy> editable = edit(request, inputs);
 

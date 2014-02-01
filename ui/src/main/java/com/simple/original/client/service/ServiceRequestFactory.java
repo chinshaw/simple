@@ -8,9 +8,8 @@ import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.RequestFactory;
 import com.google.web.bindery.requestfactory.shared.Service;
-import com.simple.original.api.exceptions.AnalyticsTaskException;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
-import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
+import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
 import com.simple.original.client.proxy.DashboardProxy;
 import com.simple.original.client.proxy.DataProviderProxy;
@@ -35,6 +34,7 @@ import com.simple.original.client.proxy.UIDateInputModelProxy;
 import com.simple.original.client.proxy.UIUserInputModelProxy;
 import com.simple.original.client.proxy.ViolationProxy;
 import com.simple.original.server.service.AdministrationService;
+import com.simple.original.server.service.AnalyticsService;
 import com.simple.original.server.service.DashboardService;
 import com.simple.original.server.service.InjectingServiceLocator;
 import com.simple.original.server.service.LoggingService;
@@ -44,102 +44,108 @@ import com.simple.original.shared.NotificationCriticality;
 
 public interface ServiceRequestFactory extends RequestFactory {
 
-    /**
-     * Service stub for methods in ItemListDao
-     * 
-     * TODO Enhance RequestFactory to enable service stubs to extend a base
-     * interface so we don't have to repeat methods from the base ObjectifyDao
-     * in each stub
-     */
-    @ExtraTypes({ MetricCollectionProxy.class, MetricMatrixProxy.class, MetricIntegerProxy.class, MetricDoubleProxy.class, MetricStringProxy.class,
-            MetricPlotProxy.class, RAnalyticsOperationProxy.class, JavaAnalyticsOperationProxy.class, NumberRangeProxy.class, DashboardProxy.class,
-             AnalyticsOperationInputProxy.class,
-            UIUserInputModelProxy.class, UIComplexInputModelProxy.class, UIDateInputModelProxy.class, ViolationProxy.class, LinkableDashboardProxy.class })
-    @Service(value = DashboardService.class, locator = InjectingServiceLocator.class)
-    public interface AnalyticsRequest extends RequestContext {
+	@ExtraTypes({RAnalyticsOperationProxy.class})
+	@Service(value = AnalyticsService.class, locator = InjectingServiceLocator.class)
+	public interface OperationRequest extends RequestContext {
 
-       	Request<DashboardProxy> executeInteractive(Long taskId, List<AnalyticsOperationInputProxy> inputs, List<DataProviderProxy> dataProviders);
+		Request<Void> executeOperation(AnalyticsOperationProxy editable);
 
-        Request<DashboardProxy> getPreviousExecution(Long analyticsTaskExecutionId);
+	}
 
-        Request<DashboardProxy> getLatestDashboard(Long analyticsTaskId);
+	/**
+	 * Dashboard request for dealing with dashboards.
+	 * 
+	 * @author chris
+	 */
+	@ExtraTypes({ MetricCollectionProxy.class, MetricMatrixProxy.class,
+			MetricIntegerProxy.class, MetricDoubleProxy.class,
+			MetricStringProxy.class, MetricPlotProxy.class,
+			RAnalyticsOperationProxy.class, JavaAnalyticsOperationProxy.class,
+			NumberRangeProxy.class, DashboardProxy.class,
+			AnalyticsOperationInputProxy.class, UIUserInputModelProxy.class,
+			UIComplexInputModelProxy.class, UIDateInputModelProxy.class,
+			ViolationProxy.class, LinkableDashboardProxy.class })
+	@Service(value = DashboardService.class, locator = InjectingServiceLocator.class)
+	public interface DashboardRequest extends RequestContext {
 
-		Request<AnalyticsTaskExecutionProxy> executeOperation(RAnalyticsOperationProxy operation);
-    }
-    
+		Request<DashboardProxy> executeInteractive(Long taskId,
+				List<AnalyticsOperationInputProxy> inputs,
+				List<DataProviderProxy> dataProviders);
 
-    @Service(value = AdministrationService.class)
-    public interface AdministrationServiceRequest extends RequestContext {
-        Request<Void> sendNotification(NotificationCriticality criticality, String notification);
-    }
+		Request<DashboardProxy> getPreviousExecution(
+				Long analyticsTaskExecutionId);
 
-    @Service(value = LoggingService.class)
-    public interface LoggingServiceRequest extends RequestContext {
-        Request<String> getServerLog(int lineCount);
+		Request<DashboardProxy> getLatestDashboard(Long analyticsTaskId);
 
-        Request<String> getTaskEngineLog(int lineCount);
+	}
 
-        Request<String> getRLog(int lineCount);
-    }
+	@Service(value = AdministrationService.class)
+	public interface AdministrationServiceRequest extends RequestContext {
+		Request<Void> sendNotification(NotificationCriticality criticality,
+				String notification);
+	}
 
-    @ExtraTypes({ QuartzCronTriggerProxy.class, AnalyticsOperationInputProxy.class, UIDateInputModelProxy.class, UIUserInputModelProxy.class, UIComplexInputModelProxy.class,})
-    @Service(value = SchedulerService.class)
-    public interface SchedulerRequest extends RequestContext {
-        /**
-         * This is used to schedule a analytics task to be run at a scheduled
-         * time. This time could be recurring or a 1 time execution.
-         * 
-         * @see AnalyticsService#analyticsTask
-         * @param analyticsTaskId
-         *            The i
-         * @param inputs
-         * @param cronExpression
-         * @param description
-         * @return
-         * @throws AnalyticsTaskException
-         */
-        Request<Void> scheduleAnalyticsTask(Long analyticsTaskId, List<AnalyticsOperationInputProxy> inputs, String cronExpression, String description, Date startDate);
+	@Service(value = LoggingService.class)
+	public interface LoggingServiceRequest extends RequestContext {
+		Request<String> getServerLog(int lineCount);
 
-        Request<List<QuartzTriggerProxy>> getScheduledJobs();
-        
-        Request<List<QuartzTriggerProxy>> searchSchedules(String searchString);
+		Request<String> getTaskEngineLog(int lineCount);
 
-        Request<Void> unscheduleJob(String keyName, String groupName);
+		Request<String> getRLog(int lineCount);
+	}
 
-        Request<Void> pauseTrigger(QuartzTriggerKeyProxy triggerKey);
+	@ExtraTypes({ QuartzCronTriggerProxy.class,
+			AnalyticsOperationInputProxy.class, UIDateInputModelProxy.class,
+			UIUserInputModelProxy.class, UIComplexInputModelProxy.class, })
+	@Service(value = SchedulerService.class)
+	public interface SchedulerRequest extends RequestContext {
 
-        Request<Void> resumeTrigger(QuartzTriggerKeyProxy triggerKey);
+		Request<Void> scheduleAnalyticsTask(Long analyticsTaskId,
+				List<AnalyticsOperationInputProxy> inputs,
+				String cronExpression, String description, Date startDate);
 
-        Request<QuartzTriggerProxy> getTrigger(String keyName, String groupName);
+		Request<List<QuartzTriggerProxy>> getScheduledJobs();
 
-        Request<Void> fireTriggerNow(QuartzTriggerKeyProxy triggerKey);
+		Request<List<QuartzTriggerProxy>> searchSchedules(String searchString);
 
-        Request<Void> fireJobNow(QuartzJobKeyProxy jobKey);
+		Request<Void> unscheduleJob(String keyName, String groupName);
 
-        Request<Date> rescheduleJob(QuartzTriggerKeyProxy triggerKey, QuartzTriggerProxy trigger);
+		Request<Void> pauseTrigger(QuartzTriggerKeyProxy triggerKey);
 
-        Request<AnalyticsTaskProxy> getTaskForTrigger(QuartzJobKeyProxy jobKey);
+		Request<Void> resumeTrigger(QuartzTriggerKeyProxy triggerKey);
 
-        Request<String> getTriggerState(QuartzTriggerKeyProxy triggerKey);
+		Request<QuartzTriggerProxy> getTrigger(String keyName, String groupName);
 
-        Request<List<QuartzJobExecutionContextProxy>> getAllRunningJobs();
+		Request<Void> fireTriggerNow(QuartzTriggerKeyProxy triggerKey);
 
-        Request<Boolean> cancelRunningTask(QuartzJobKeyProxy jobKey);
-    }
+		Request<Void> fireJobNow(QuartzJobKeyProxy jobKey);
 
-    @Service(value = SqlDriverService.class)
-    public interface SqlDataProviderRequest extends RequestContext {
-        Request<Boolean> testConnection(SqlConnectionProxy driver);
-    }
+		Request<Date> rescheduleJob(QuartzTriggerKeyProxy triggerKey,
+				QuartzTriggerProxy trigger);
 
+		Request<AnalyticsTaskProxy> getTaskForTrigger(QuartzJobKeyProxy jobKey);
 
-    public AnalyticsRequest analyticsRequest();
+		Request<String> getTriggerState(QuartzTriggerKeyProxy triggerKey);
 
-    public SchedulerRequest schedulerRequest();
+		Request<List<QuartzJobExecutionContextProxy>> getAllRunningJobs();
 
-    public LoggingServiceRequest loggingServiceRequest();
+		Request<Boolean> cancelRunningTask(QuartzJobKeyProxy jobKey);
+	}
 
-    public AdministrationServiceRequest adminiStrationServiceReqest();
+	@Service(value = SqlDriverService.class)
+	public interface SqlDataProviderRequest extends RequestContext {
+		Request<Boolean> testConnection(SqlConnectionProxy driver);
+	}
 
-    public SqlDataProviderRequest sqlDataProviderRequest();
+	public OperationRequest operationRequest();
+	
+	public DashboardRequest dashboardRequest();
+
+	public SchedulerRequest schedulerRequest();
+
+	public LoggingServiceRequest loggingServiceRequest();
+
+	public AdministrationServiceRequest adminiStrationServiceReqest();
+
+	public SqlDataProviderRequest sqlDataProviderRequest();
 }
