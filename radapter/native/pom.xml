@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.simple</groupId>
@@ -27,9 +28,9 @@
 				<extensions>true</extensions>
 				<configuration>
 					<!-- trigger javah -->
-					<javahOS>linux</javahOS>
+					<javahOS>osx</javahOS>
 					<javahClassNames>
-						<javahClassName>com.simple.radapter.impl.NativeAdapter</javahClassName>
+						<javahClassName>com.simple.radapter.NativeAdapter</javahClassName>
 					</javahClassNames>
 					<javahSearchJNIFromDependencies>true</javahSearchJNIFromDependencies>
 					<sources>
@@ -42,24 +43,26 @@
 							</includes>
 						</source>
 
+						<source>
+							<directory>/Library/Frameworks/R.framework/Versions/3.0/Resources/include/</directory>
+							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
+						</source>
 
 						<source>
-						<directory>/usr/share/R/include</directory>
-						<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
-						</source> 
-			
+							<directory>/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/include/darwin/</directory>
+							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
+						</source>
 					</sources>
 					<compilerStartOptions>
 						<compilerStartOption>-fpic</compilerStartOption>
 					</compilerStartOptions>
 
-
-					 <linkerStartOptions>
-						 <linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -lR</linkerStartOption> 
-					 </linkerStartOptions>
-					 <linkerEndOptions>
-						 <linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -lR</linkerStartOption> 
-					 </linkerEndOptions>
+					<linkerStartOptions>
+						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/ -L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -ljvm -lR</linkerStartOption>
+					</linkerStartOptions>
+					<linkerEndOptions>
+						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/ -ljvm -L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -lR</linkerStartOption>
+					</linkerEndOptions>
 				</configuration>
 			</plugin>
 		</plugins>

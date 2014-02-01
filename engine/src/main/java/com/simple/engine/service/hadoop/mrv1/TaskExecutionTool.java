@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop;
+package com.simple.engine.service.hadoop.mrv1;
 
 import java.io.IOException;
 

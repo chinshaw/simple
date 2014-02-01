@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "jri.h"
-#include "com_simple_radapter_impl_NativeAdapter.h"
+#include "com_simple_radapter_NativeAdapter.h"
 #include "rjava.h"
 #include <Rversion.h>
 #include <R_ext/Parse.h>

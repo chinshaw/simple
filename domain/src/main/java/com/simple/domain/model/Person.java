@@ -24,6 +24,7 @@ import org.hibernate.annotations.Index;
 
 import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.domain.GroupMembership;
+import com.simple.original.security.api.IHasCredentials;
 
 /**
  * The person is virtual factories representation of a person / user. This
@@ -43,7 +44,7 @@ import com.simple.original.api.domain.GroupMembership;
 		@NamedQuery(name = "Person.findByEmail", query = "select p from Person as p where p.email = :email"),
 		@NamedQuery(name = "Person.findByName", query = "select p from Person as p where p.name in (:n)") })
 public class Person extends RequestFactoryEntity implements
-		IPerson {
+		IPerson, IHasCredentials  {
 
 	/**
 	 * Serialization ID.
@@ -169,5 +170,10 @@ public class Person extends RequestFactoryEntity implements
 	
 	public GroupMembership getUserGroup() {
 		return null;
+	}
+
+	@Override
+	public String getUserName() {
+		return email;
 	}
 }

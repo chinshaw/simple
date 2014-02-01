@@ -5,22 +5,72 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
-		.centered {
-			color: #2A5669;
-			margin: 20% auto 0;
-			max-width: 500px;
-			opacity: 1;
-			transition: opacity 400ms ease-in-out 0s;
-		}
-		
-		
-		.submit-btn:hover,.valid .submit-btn,.submit-btn:active {
-			background: none repeat scroll 0 0 #62B4D2;
-			color: #3491B3;
-		}
+	.centered {
+		color: #2A5669;
+		margin: 20% auto 0;
+		width: 500px;
+	}
+	
+	.loginView {
+		background: none repeat scroll 0 0 #F6F8F8;
+		font-size: 110%;
+	}
+	
+	.loginView input {
+		-moz-border-bottom-colors: none;
+		-moz-border-left-colors: none;
+		-moz-border-right-colors: none;
+		-moz-border-top-colors: none;
+		-moz-box-sizing: border-box;
+		border-color: -moz-use-text-color -moz-use-text-color
+			-moz-use-text-color #FFFFFF;
+		border-image: none;
+		border-style: none none none solid;
+		border-width: medium medium medium 0.3rem;
+		color: #2A5669;
+		display: block;
+		font-family: 'Gotham SSm A', 'Gotham SSm B', sans-serif;
+		font-size: 0.9em;
+		font-weight: 500;
+		height: 100%;
+		margin: 0;
+		padding: 1rem 1.3rem;
+		width: 100%;
+	}
+	
+	.loginView input:focus {
+		border-left: 0.3rem solid #4EAACC;
+		outline: medium none;
+		padding: 1rem 1.5rem 1rem 1.3rem;
+		box-shadow: none;
+		border-radius: 0px;
+	}
+	
+	.loginView button {
+		background: none repeat scroll 0 0 #A3CDDD;
+		border: medium none;
+		color: #7EB9CF;
+		cursor: pointer;
+		display: block;
+		font-family: 'Gotham SSm A', 'Gotham SSm B', sans-serif;
+		font-size: 0.9em;
+		font-weight: 500;
+		padding: 1rem 1.5rem;
+		text-align: left;
+		text-transform: uppercase;
+		transition: literal("background 300ms ease-in-out 0s, color 300ms ease-in-out 0s");
+		width: 100%;
+		border-radius: 0px;
+	}
+	
+	.loginView button:hover,.loginView button:active {
+		background: none repeat scroll 0 0 #62B4D2;
+		color: #3491B3;
+	}
 	</ui:style>
 
-	<g:DockLayoutPanel ui:field="dockLayoutPanel" unit="PX" stylePrimaryName="{resources.style.loginView}">
+	<g:DockLayoutPanel ui:field="dockLayoutPanel" unit="PX"
+		stylePrimaryName="{style.loginView}">
 		<g:center>
 			<g:HTMLPanel>
 				<div class="{style.centered}">
@@ -28,8 +78,7 @@
 					<t:DefaultTextBox ui:field="username" defaultText="username"></t:DefaultTextBox>
 					<t:DefaultPasswordBox ui:field="password"
 						defaultText="password"></t:DefaultPasswordBox>
-					<g:Button styleName="{resources.style.submitBtn}"
-						ui:field="signin">Sign in...</g:Button>
+					<g:Button ui:field="signin">Sign in...</g:Button>
 				</div>
 			</g:HTMLPanel>
 		</g:center>

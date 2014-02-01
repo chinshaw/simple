@@ -22,5 +22,6 @@ public class IOCApplication extends GuiceServletContextListener {
 	public Module getModule() {
 		return Modules.combine(new IOCSecurityModule(), new IOCEngineModule(),
 				new IOCServletModule());
+		
 	}
 }

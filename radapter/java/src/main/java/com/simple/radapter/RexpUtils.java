@@ -2,7 +2,6 @@ package com.simple.radapter;
 
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.IRexp;
-import com.simple.radapter.api.IRexpString;
 import com.simple.radapter.api.RConstants;
 import com.simple.radapter.exceptions.RAdapterException;
 
@@ -18,6 +17,7 @@ public class RexpUtils {
 				return new RexpString(strings[0]); 
 			}
 			
+		
 			RexpCollection<IRexpString> strCollection = new RexpCollection<IRexpString>();
 			
 			for (int i = 0; i < strings.length; i++) {
@@ -25,6 +25,12 @@ public class RexpUtils {
 			}
 			
 			return strCollection;
+		
+			return null;
+		}
+		
+		if (expressionType == RConstants.REALSXP) {
+			
 		}
 
 		

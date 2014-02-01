@@ -29,13 +29,13 @@ import com.simple.domain.model.metric.Metric;
 import com.simple.domain.model.metric.MetricCollection;
 import com.simple.domain.model.metric.MetricDouble;
 import com.simple.domain.model.metric.MetricMatrix;
+import com.simple.domain.model.metric.MetricMatrix.DoubleColumn;
+import com.simple.domain.model.metric.MetricMatrix.IntegerColumn;
+import com.simple.domain.model.metric.MetricMatrix.StringColumn;
 import com.simple.domain.model.metric.MetricPlot;
 import com.simple.domain.model.metric.MetricString;
 import com.simple.domain.model.metric.NumberRange;
 import com.simple.domain.model.metric.Violation;
-import com.simple.domain.model.metric.MetricMatrix.DoubleColumn;
-import com.simple.domain.model.metric.MetricMatrix.IntegerColumn;
-import com.simple.domain.model.metric.MetricMatrix.StringColumn;
 import com.simple.original.api.analytics.Criticality;
 import com.simple.original.api.analytics.IHasViolations;
 import com.simple.original.api.analytics.IMetric;
@@ -252,32 +252,32 @@ public class MetricUtils {
         return metric;
     }
 
-    public static Metric createMetric(String name, REXP rexp) throws REXPMismatchException, RAnalyticsException {
+    public static Metric createMetric(String name, REXP workspaceRexp) throws REXPMismatchException, RAnalyticsException {
         Metric metric = null;
 
-        if (rexp.inherits(METRIC_NUMBER)) {
+        if (workspaceRexp.inherits(METRIC_NUMBER)) {
             metric = new MetricDouble(name);
-            bind((MetricDouble) metric, rexp);
-        } else if (rexp.inherits(METRIC_MATRIX)) {
+            bind((MetricDouble) metric, workspaceRexp);
+        } else if (workspaceRexp.inherits(METRIC_MATRIX)) {
             metric = new MetricMatrix(name);
-            bind((MetricMatrix) metric, rexp);
-        } else if (rexp.inherits(METRIC_STRING)) {
+            bind((MetricMatrix) metric, workspaceRexp);
+        } else if (workspaceRexp.inherits(METRIC_STRING)) {
             metric = new MetricString(name);
-            bind((MetricString) metric, rexp);
-        } else if (rexp.inherits(METRIC_COLLECTION)) {
+            bind((MetricString) metric, workspaceRexp);
+        } else if (workspaceRexp.inherits(METRIC_COLLECTION)) {
             metric = new MetricCollection(name);
-            bind((MetricCollection) metric, rexp);
-        } else if (rexp.inherits(METRIC_PLOT)) {
+            bind((MetricCollection) metric, workspaceRexp);
+        } else if (workspaceRexp.inherits(METRIC_PLOT)) {
             metric = new MetricPlot(name);
-            bind((MetricPlot)metric, rexp);
-        } else if (rexp instanceof REXPRaw) {
+            bind((MetricPlot)metric, workspaceRexp);
+        } else if (workspaceRexp instanceof REXPRaw) {
             // REXPRaw should be a plot.
             metric = new MetricPlot(name);
-            bind((MetricPlot) metric, rexp);
+            bind((MetricPlot) metric, workspaceRexp);
         }
 
         if (metric == null) {
-            throw new IllegalArgumentException("Invalid rexp class type " + rexp.toDebugString());
+            throw new IllegalArgumentException("Invalid rexp class type " + workspaceRexp.toDebugString());
         }
 
         return metric;

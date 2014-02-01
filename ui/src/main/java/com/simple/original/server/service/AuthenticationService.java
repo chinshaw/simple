@@ -73,14 +73,14 @@ public class AuthenticationService {
 
 	}
 	
-	public IPerson getCurrentPerson() throws AuthenticationException {
+	public Person getCurrentPerson() throws AuthenticationException {
 		Subject currentUser = SecurityUtils.getSubject();
 		if (! currentUser.isAuthenticated()) {
 			throw new AuthenticationException();
 		}
 		
 		Session session = currentUser.getSession();
-		IPerson person = (IPerson) session.getAttribute(ISession.CURRENT_PERSON);
+		Person person = (Person) session.getAttribute(ISession.CURRENT_PERSON);
 		
 		logger.info("The person is " + person);
 		return person;

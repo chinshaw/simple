@@ -32,7 +32,7 @@ public class NativeEngine implements IEngine {
 	}
 
 	@Override
-	public void assign(String variableName, IRexp rexp) throws RAdapterException {
+	public void assign(String variableName, IRexp<?> rexp) throws RAdapterException {
 
 	}
 

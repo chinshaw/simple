@@ -42,13 +42,18 @@ input,textarea,select {
 	padding: 5px;
 }
 
+input {
+	width: 20em;
+}
+
 input:focus, textarea:focus, select:focus {
 	border-color: #6EA2DE;
     box-shadow: 0px 0px 5px #6EA2DE;
 }
 
-input {
-	width: 20em;
+
+input[type='checkbox'] {
+	width: auto;
 }
 
 textarea {
@@ -58,9 +63,6 @@ textarea {
 	border-radius: 3px;
 }
 
-input[type='checkbox'] {
-	width: auto;
-}
 
 label {
 	display: inline-block;
@@ -145,8 +147,6 @@ button.delete {
 		background-color: #3B73AF;
 }
 
-
-
 .abstractDashboardWidget:hover {
 	background-color: blue;
 }
@@ -195,43 +195,7 @@ button.delete {
 	margin-bottom: 2em;
 }
 
-.loginView input {
-	font-family: 'Gotham SSm A', 'Gotham SSm B', sans-serif;
-	font-size: 0.9em;
-	font-weight: 500;
-	height: 100%;
-	width: 100%;
-	margin: 0;
-	padding: 1rem 1.5rem 1rem 1.3rem;
-	border-radius: 0;	
-}
 
-.loginView input:focus {
-	border-left: 0.3rem solid #4EAACC;
-	outline: medium none;
-
-}
-
-.submitBtn  {
-	background: none repeat scroll 0 0 #A3CDDD;
-	border: medium none;
-	color: #7EB9CF;
-	cursor: pointer;
-	display: block;
-	font-family: 'Gotham SSm A', 'Gotham SSm B', sans-serif;
-	font-size: 0.9em;
-	font-weight: 500;
-	padding: 1rem 1.5rem;
-	text-align: left;
-	text-transform: uppercase;
-	transition: literal("background 300ms ease-in-out 0s, color 300ms ease-in-out 0s");
-	width: 100%;
-}
-
-.submitBtn:hover, .submitBtn:active  {
-	background: none repeat scroll 0 0 #62B4D2;
-	color: #3491B3;
-}
 
 .topHeader {
 	background-color: #F5F5F5;

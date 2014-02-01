@@ -1,10 +1,13 @@
 package com.simple.original.server.servlet;
 
 import java.util.HashMap;
+import org.apache.shiro.mgt.SecurityManager;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 
 import com.google.inject.Injector;
 import com.google.inject.Provides;
@@ -13,13 +16,21 @@ import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.google.web.bindery.requestfactory.server.ExceptionHandler;
 import com.google.web.bindery.requestfactory.server.ServiceLayerDecorator;
+import com.simple.original.security.api.ICredentialLocator;
 import com.simple.original.server.NotificationServlet;
+import com.simple.original.server.WebCredentialsLocator;
 import com.simple.original.server.service.InjectingServiceLocator;
 
 public class IOCServletModule extends ServletModule {
 
 	@Override
 	protected void configureServlets() {
+
+		bind(SecurityManager.class).to(DefaultWebSecurityManager.class).in(
+				Scopes.SINGLETON);
+		bind(ICredentialLocator.class).to(WebCredentialsLocator.class).in(
+				Scopes.SINGLETON);
+
 		bind(ExceptionHandler.class).to(SimpleExceptionHandler.class);
 		bind(ServiceLayerDecorator.class).to(
 				InjectedServiceLayerDecorator.class);
@@ -28,7 +39,7 @@ public class IOCServletModule extends ServletModule {
 		bind(AnalyticsTaskBackupRestoreServlet.class).in(Scopes.SINGLETON);
 		bind(AnalyticsExportServlet.class).in(Scopes.SINGLETON);
 		bind(NotificationServlet.class).in(Scopes.SINGLETON);
-		
+
 		serve("/rf/public").with(InjectedRequestFactoryServlet.class);
 		serve("/rf/secure/dao").with(InjectedRequestFactoryServlet.class);
 		serve("/rf/secure/analytics").with(InjectedRequestFactoryServlet.class);

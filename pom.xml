@@ -14,9 +14,6 @@
 	</issueManagement>
 
 	<properties>
-		<!-- Convenience property to set the GWT version -->
-		<shiro.version>1.2.2</shiro.version>
-		<guice.version>3.0</guice.version>
 
 		<!-- GWT needs at least java 1.6 -->
 		<maven.compiler.source>1.6</maven.compiler.source>
@@ -24,6 +21,10 @@
 		<!-- Don't let your Mac use a crazy non-standard encoding -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		
+		<shiro.version>1.2.2</shiro.version>
+		<guice.version>3.0</guice.version>		
+		<protobuf.version>2.5.0</protobuf.version>
 	</properties>
 
 	<modules>
@@ -34,7 +35,7 @@
 		<module>security</module>
 		<module>reporting</module>
 		<!-- Disabling until complete -->
-	<!--	<module>radapter</module> -->
+		<!-- <module>radapter</module> -->
 	</modules>
 
 	<scm>

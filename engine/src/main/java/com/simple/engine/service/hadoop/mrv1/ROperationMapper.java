@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop;
+package com.simple.engine.service.hadoop.mrv1;
 
 import java.io.IOException;
 import java.util.Map;
@@ -14,14 +14,19 @@ import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
 
 import com.simple.domain.model.AnalyticsOperation;
+import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
+import com.simple.engine.service.r.REXPProtos;
 import com.simple.engine.service.r.jri.ConsoleIO;
 import com.simple.original.api.exceptions.RAnalyticsException;
+import com.twitter.elephantbird.mapreduce.io.ProtobufWritable;
 
-public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
+public class ROperationMapper extends Mapper<Text, Text, Text, ProtobufWritable<REXPProtos.REXP>> {
 
 	private static final Logger logger = Logger.getLogger(ROperationMapper.class.getName());
 
+	private ProtobufWritable<REXPProtos.REXP> protoWritable = ProtobufWritable.newInstance(REXPProtos.REXP.class);
+	
 	private static final String args[] = { "--vanilla" };
 
 	private Rengine engine;
@@ -55,20 +60,20 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 		
 		logger.fine("Calling jri run script");
 		
-		REXP rexp = engine.eval("eval(parse(text=.tmpCode.))");
+		REXP execution = engine.eval("eval(parse(text=.tmpCode.))");
 
-		logger.fine("Outp REXP " + rexp.toString());
-		
-		try {
-			REXP imageTest = getMetricPlotFromWorkspace(engine, "temp.png");
-		} catch (RAnalyticsException e) {
-			e.printStackTrace();
+		for (AnalyticsOperationOutput output : rOperation.getOutputs()) {
+			logger.info("Fetching output " + output.getName());
+			REXP rexp = engine.eval(output.getName());
+			
+			
 		}
-
+		
 		debugWorkspace(engine);
 		engine.rniStop(0);
 		engine.end();
 	}
+
 
 	/**
 	 * This will try to fetch the plot from the workspace in one of two ways.
@@ -92,7 +97,11 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 		return engine.eval("paste(readBin(\"" + plotVaribleName + "\", what=\"raw\", n=1e6), collapse=\"\")");
 		//return engine.eval("readBin(\"" + plotVaribleName + "\", \"what=raw\", n=999999)");
 	}
-
+	
+	private static REXP getMetricFromWorkspace(Rengine engine, String variable) {
+		return engine.eval(variable);
+	}
+	
 	private void debugWorkspace(Rengine engine) {
 		REXP workspace = engine.eval("ls()");
 		
@@ -107,4 +116,6 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 			System.out.println(entry.getKey() + " -> " + entry.getValue());
 		}
 	}
+	
+	
 }

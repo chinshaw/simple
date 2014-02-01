@@ -10,6 +10,7 @@ import com.simple.domain.model.Preferences;
 import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.exceptions.NoSuchUserException;
 import com.simple.original.api.exceptions.NotAuthenticatedException;
+import com.simple.original.security.api.IHasCredentials;
 
 /**
  * PersonDao is the means of performing crud updates on person objects in our

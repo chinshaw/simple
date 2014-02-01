@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop;
+package com.simple.engine.service.hadoop.mrv1;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -43,7 +43,7 @@ public class OperationExecutor implements IAnalyticsOperationExecutor {
 			throws AnalyticsOperationException {
 
 		try {
-			return _execute(userInputs, operation, dataProviders);
+			return _execute(jobOwner, userInputs, operation, dataProviders);
 		} catch (RAnalyticsException e) {
 			throw new AnalyticsOperationException(
 					"Unable to execute operation " + operation.getName(), e);
@@ -54,9 +54,15 @@ public class OperationExecutor implements IAnalyticsOperationExecutor {
 	public void execute(String jobOwner, AnalyticsOperation operation,
 			List<DataProvider> dataProviders)
 			throws AnalyticsOperationException {
+		try {
+			_execute(jobOwner, null, operation, dataProviders);
+		} catch (RAnalyticsException e) {
+			throw new AnalyticsOperationException(
+					"Unable to execute operation " + operation.getName(), e);
+		}
 	}
 
-	private synchronized HashMap<Long, Metric> _execute(
+	private synchronized HashMap<Long, Metric> _execute(String jobOwner,
 			List<AnalyticsOperationInput> operationInputs,
 			AnalyticsOperation operation, List<DataProvider> dataProviders)
 			throws RAnalyticsException {
@@ -79,22 +85,23 @@ public class OperationExecutor implements IAnalyticsOperationExecutor {
 		}
 
 		try {
-			// configuration.set("fs.defaultFS", "hdfs://127.0.0.1:9000");
+			configuration.set("fs.defaultFS", "hdfs://127.0.0.1:9000");
 			configuration.set("mapreduce.framework.name", "yarn");
 			configuration.set("yarn.resourcemanager.address", "localhost:8032");
 			// configuration.set("yarn.nodemanager.aux-services",
 			// "mapreduce.shuffle");
 
-			// Job job = createJob(configuration);
-			// job.setJar("/Users/chris/devel/workspace/simple/engine/target/simple-analytics-engine-1.1-SNAPSHOT.jar");
+			Job job = createJob(configuration);
+			job.setJar("/Users/chris/devel/workspace/simple/engine/target/simple-analytics-engine-1.1-SNAPSHOT.jar");
 			// job.setJarByClass(ROperationMapper.class);
-			// job.waitForCompletion(true);
+			job.waitForCompletion(true);
 
 			// ToolRunner tr = new ToolRunner();
 
 			ToolRunner.run(configuration, new OperationTool(), new String[] {});
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Unable to execute job", e);
+			throw new RAnalyticsException("Unable to execute operation", e);
 		}
 
 		return null;

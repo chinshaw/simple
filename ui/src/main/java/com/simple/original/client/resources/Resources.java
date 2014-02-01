@@ -121,8 +121,6 @@ public interface Resources extends ClientBundle, CellTable.Resources,
 
 		public String constraintErrorLabel();
 
-		public String loginView();
-
 		public String violationInfo();
 
 		public String title();
@@ -158,8 +156,6 @@ public interface Resources extends ClientBundle, CellTable.Resources,
 		public String designerGaugeWidget();
 
 		public String modalDialogBox();
-
-		public String submitBtn();
 
 		public String selectorWidget();
 
