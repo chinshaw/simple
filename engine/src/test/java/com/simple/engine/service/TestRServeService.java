@@ -28,7 +28,7 @@ public class TestRServeService {
 	public void runHelloWorld() throws AnalyticsOperationException {
 		RAnalyticsOperation operation = new RAnalyticsOperation("runTestScript");
 		operation.setCode("print ( \"Hello, world!\", quote = FALSE )");
-		provider.execute(operation, null);
+		provider.execute("test-runHelloWorld", operation, null);
 	}
 	
 	
@@ -36,7 +36,7 @@ public class TestRServeService {
 	public void testInteger() throws AnalyticsOperationException {
 		RAnalyticsOperation operation = new RAnalyticsOperation("runTestScript");
 		operation.setCode("print ( \"Hello, world!\", quote = FALSE )");
-		provider.execute(operation, null);
+		provider.execute("testInteger", operation, null);
 	}
 	
 	@Test

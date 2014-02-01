@@ -1,12 +1,12 @@
-package com.simple.original.security;
+package com.simple.original.security.api;
 
-import com.simple.domain.model.Person;
+import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.domain.GroupMembership;
-import com.simple.original.api.security.ISession;
+import com.simple.original.security.AuthenticationException;
 
 public interface ISecurity {
 
-    public abstract Person createNewPerson(String email) throws Exception;
+    public abstract IPerson createNewPerson(String email) throws Exception;
     
     public abstract boolean authenticate(String user, String password) throws AuthenticationException;
     
@@ -18,7 +18,7 @@ public interface ISecurity {
      * 
      * @param user
      */
-    public abstract void logout(Person user);
+    public abstract void logout(IPerson user);
 
     /**
      * Clear the session an log out the user.
@@ -31,7 +31,7 @@ public interface ISecurity {
      * an environment variable when logged in, this is the current user.
      * @return Current user logged in.
      */
-    public abstract Person getCurrentPerson();
+    public abstract IPerson getCurrentPerson();
 
     public abstract boolean isUserAuthenticated();
 

@@ -1,8 +1,9 @@
-package com.simple.original.security;
+package com.simple.original.server.service;
+
+import java.util.logging.Logger;
 
 import javax.inject.Singleton;
 
-import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -12,10 +13,12 @@ import org.apache.shiro.subject.Subject;
 import com.google.inject.Inject;
 import com.simple.domain.dao.PersonDao;
 import com.simple.domain.model.Person;
-import com.simple.original.api.security.ISession;
+import com.simple.original.api.analytics.IPerson;
+import com.simple.original.security.AuthenticationException;
+import com.simple.original.security.api.ISession;
 
 @Singleton
-public class AuthenticationService implements IAuthenticationProvider {
+public class AuthenticationService {
 
 	private static final Logger logger = Logger
 			.getLogger(AuthenticationService.class.getName());
@@ -40,7 +43,6 @@ public class AuthenticationService implements IAuthenticationProvider {
 	 *             if there is a problem authenticating.
 	 * @throws AuthenticationException
 	 */
-	@Override
 	public Person doAuthenticate(String username, String password)
 			throws AuthenticationException {
 
@@ -55,15 +57,12 @@ public class AuthenticationService implements IAuthenticationProvider {
 			Session session = currentUser.getSession(true);
 			
 			Person person = personDao.findUser(username);
-			
-			System.out.println("DOING AUTHETNCATION ANS SETTING PERSON TO BE " + person.getName());
-			
 			logger.info("Setting current person to be " + person.getName());
 			session.setAttribute(ISession.CURRENT_PERSON, person);
 
 			return person;
 		} catch (IncorrectCredentialsException ice) {
-			logger.error("Incorrect credentials " + username);
+			logger.info("Incorrect credentials " + username);
 			throw new AuthenticationException("invalid username or password");
 		} catch (org.apache.shiro.authc.AuthenticationException ex) {
 			throw new AuthenticationException("Unable to authenticate", ex);
@@ -74,16 +73,16 @@ public class AuthenticationService implements IAuthenticationProvider {
 
 	}
 	
-	public Person getCurrentPerson() throws AuthenticationException {
+	public IPerson getCurrentPerson() throws AuthenticationException {
 		Subject currentUser = SecurityUtils.getSubject();
 		if (! currentUser.isAuthenticated()) {
 			throw new AuthenticationException();
 		}
 		
 		Session session = currentUser.getSession();
-		Person person = (Person) session.getAttribute(ISession.CURRENT_PERSON);
+		IPerson person = (IPerson) session.getAttribute(ISession.CURRENT_PERSON);
 		
-		System.out.println("The person is " + person);
+		logger.info("The person is " + person);
 		return person;
 	}
 }

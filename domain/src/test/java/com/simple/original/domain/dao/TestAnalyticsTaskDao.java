@@ -28,7 +28,7 @@ import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.exceptions.DomainException;
 import com.simple.original.api.exceptions.SimpleException;
-import com.simple.original.api.security.ISession;
+import com.simple.original.security.api.ISession;
 
 public class TestAnalyticsTaskDao extends DaoTest {
 

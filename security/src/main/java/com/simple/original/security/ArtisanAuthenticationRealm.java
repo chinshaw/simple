@@ -2,8 +2,9 @@ package com.simple.original.security;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -18,26 +19,31 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 import com.google.inject.Inject;
-import com.simple.domain.dao.PersonDao;
-import com.simple.domain.model.Person;
 import com.simple.original.api.analytics.IPerson;
+import com.simple.original.security.api.ICredentialLocator;
+import com.simple.original.security.api.IHasCredentials;
+import org.apache.shiro.mgt.SecurityManager;
 
 
-public class ShiroAuthenticationRealm extends AuthorizingRealm {
+public class ArtisanAuthenticationRealm extends AuthorizingRealm {
 	
 	
 	private static final Logger logger = Logger
-			.getLogger(ShiroAuthenticationRealm.class.getName());
+			.getLogger(ArtisanAuthenticationRealm.class.getName());
 
-	private PersonDao personDao;
+	private ICredentialLocator credentialsLocator;
 	
-	public ShiroAuthenticationRealm() {
+	@Inject
+	public ArtisanAuthenticationRealm(SecurityManager securityManager, ICredentialLocator credentialsLocator) {
+		this.credentialsLocator = credentialsLocator;
+		SecurityUtils.setSecurityManager(securityManager);
 	}
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
 
+		
 		logger.info("Doing auth");
 		// null usernames are invalid
 		if (principals == null) {
@@ -49,7 +55,7 @@ public class ShiroAuthenticationRealm extends AuthorizingRealm {
 
 		Set<String> permissions = null;
 
-		Person person = (Person) personDao.findUser(username);
+		IHasCredentials person = credentialsLocator.find(username);
 
 		// Retrieve roles and permissions from database
 		Set<String> roleNames = getRolesForUser(person);
@@ -60,7 +66,7 @@ public class ShiroAuthenticationRealm extends AuthorizingRealm {
 		return info;
 	}
 
-	
+	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(
 			AuthenticationToken token) {
 
@@ -73,14 +79,14 @@ public class ShiroAuthenticationRealm extends AuthorizingRealm {
 					"Null usernames are not allowed by this realm.");
 		}
 
-		Person person = (Person) personDao.findUser(username);
+		IHasCredentials hasCredentials =  credentialsLocator.find(username);
 
-		if (person == null) {
+		if (hasCredentials == null) {
 			throw new AuthenticationException("invalid username account");
 		}
 
 		SimpleAuthenticationInfo info = null;
-		String password = person.getPassword();
+		String password = hasCredentials.getPassword();
 
 		if (password == null) {
 			throw new UnknownAccountException("No account found for user ["
@@ -88,7 +94,7 @@ public class ShiroAuthenticationRealm extends AuthorizingRealm {
 		}
 
 		info = new SimpleAuthenticationInfo(username, password.toCharArray(),
-				person.getName());
+				hasCredentials.getName());
 
 		return info;
 	}
@@ -99,9 +105,9 @@ public class ShiroAuthenticationRealm extends AuthorizingRealm {
 	 * @param person
 	 * @return
 	 */
-	protected Set<String> getRolesForUser(Person person) {
+	protected Set<String> getRolesForUser(IHasCredentials hasCredentials) {
 		Set<String> roleNames = new HashSet<String>();
-		Set<IPerson.Role> roles = person.getRoles();
+		Set<IPerson.Role> roles = hasCredentials.getRoles();
 
 		if (roles != null && roles.size() > 0) {
 
@@ -116,10 +122,4 @@ public class ShiroAuthenticationRealm extends AuthorizingRealm {
 	protected String getSaltForUser(String username) {
 		return username;
 	}
-	
-	@Inject
-	public void setPersonDao(PersonDao personDao) {
-		this.personDao = personDao;
-	}
-	
 }

@@ -11,9 +11,19 @@ import com.simple.original.api.exceptions.RAnalyticsException;
 
 public interface IAnalyticsOperationExecutor {
 
-    public abstract HashMap<Long, Metric>  execute(List<AnalyticsOperationInput> userInputs, AnalyticsOperation operation, List<DataProvider> dataProviders) throws AnalyticsOperationException;
+    /**
+     * This is a synchronous execution of an operation. 
+     * 
+     * @param jobOwner The owner of the job, used for job tracking.
+     * @param userInputs List of user inputs for the operation.
+     * @param operation The actual operation that will be executed on the cluster.
+     * @param dataProviders List of 
+     * @return
+     * @throws AnalyticsOperationException
+     */
+	HashMap<Long, Metric>  execute(String jobOwner, List<AnalyticsOperationInput> userInputs, AnalyticsOperation operation, List<DataProvider> dataProviders) throws AnalyticsOperationException;
     
-    public abstract void execute(AnalyticsOperation operation, List<DataProvider> dataProvider) throws AnalyticsOperationException;
+    public abstract void execute(String jobOwner, AnalyticsOperation operation, List<DataProvider> dataProvider) throws AnalyticsOperationException;
 
     public abstract boolean isOperationSuccessful();
 

@@ -12,7 +12,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
-import com.simple.original.api.security.ISession;
+import com.simple.original.security.api.ISession;
 
 public class IOCSecurityModule extends AbstractModule {
 
@@ -20,9 +20,8 @@ public class IOCSecurityModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		
-		bind(Realm.class).to(ShiroAuthenticationRealm.class).in(Scopes.SINGLETON);
+		bind(Realm.class).to(ArtisanAuthenticationRealm.class).in(Scopes.SINGLETON);
 		// bindRealm().toConstructor(IniRealm.class.getConstructor(Ini.class));
-		bind(IAuthenticationProvider.class).to(AuthenticationService.class);
 		bind(ISession.class).to(ShiroSession.class);
 		// Have to expose the ISession for the dao classes.
 	}

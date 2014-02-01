@@ -9,7 +9,6 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
@@ -28,7 +27,7 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 	private Rengine engine;
 
 	public ROperationMapper() {
-		engine = new Rengine(args, true, new ConsoleIO());
+		engine = new Rengine(args, false, new ConsoleIO());
 	}
 
 	public void run(Context context) throws IOException, InterruptedException {
@@ -42,26 +41,24 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 			e.printStackTrace();
 		}
 		
-		try {
-			Class<? extends InputFormat<?,?>> inFormatter = context.getInputFormatClass();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-
 		RAnalyticsOperation rOperation = (RAnalyticsOperation) operation;
 
+		logger.finest("Calling wait for engine");
 		if (!engine.waitForR()) {
 			throw new RuntimeException("Unable to connect to R");
 		}
 		
+		logger.finest("Assigning code to operation " + rOperation.getCode());
 		engine.assign(".tmpCode.", rOperation.getCode());
 
 		// Get stdout from the script and send it to the log.
 		
+		logger.fine("Calling jri run script");
+		
 		REXP rexp = engine.eval("eval(parse(text=.tmpCode.))");
 
+		logger.fine("Outp REXP " + rexp.toString());
+		
 		try {
 			REXP imageTest = getMetricPlotFromWorkspace(engine, "temp.png");
 		} catch (RAnalyticsException e) {
@@ -69,6 +66,7 @@ public class ROperationMapper extends Mapper<Text, Text, Text, Text> {
 		}
 
 		debugWorkspace(engine);
+		engine.rniStop(0);
 		engine.end();
 	}
 

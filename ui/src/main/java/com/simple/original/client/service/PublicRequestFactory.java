@@ -8,7 +8,7 @@ import com.google.web.bindery.requestfactory.shared.Service;
 import com.simple.domain.dao.PersonDao;
 import com.simple.original.client.proxy.PersonProxy;
 import com.simple.original.client.proxy.PreferencesProxy;
-import com.simple.original.security.AuthenticationService;
+import com.simple.original.server.service.AuthenticationService;
 import com.simple.original.server.service.InjectingServiceLocator;
 
 public interface PublicRequestFactory extends RequestFactory {

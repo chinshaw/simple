@@ -28,8 +28,8 @@ import com.simple.domain.model.ui.ComplexInput;
 import com.simple.domain.model.ui.DateInput;
 import com.simple.domain.model.ui.StringInput;
 import com.simple.engine.service.AnalyticsOperationException;
-import com.simple.engine.service.IAnalyticsOperationExecutor;
 import com.simple.engine.service.AnalyticsTaskService;
+import com.simple.engine.service.IAnalyticsOperationExecutor;
 import com.simple.engine.service.r.MetricUtils;
 import com.simple.original.api.analytics.IAnalyticsOperationInput;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput;
@@ -62,13 +62,13 @@ public class RServeService implements IAnalyticsOperationExecutor {
 	 * Execute a task without any user inputs.
 	 */
 	@Override
-	public void execute(AnalyticsOperation operation,
+	public void execute(String jobOwner, AnalyticsOperation operation,
 			List<DataProvider> dataProvider) throws AnalyticsOperationException {
-		execute(null, operation, dataProvider);
+		execute(jobOwner, null, operation, dataProvider);
 	}
 
 	@Override
-	public HashMap<Long, Metric> execute(
+	public HashMap<Long, Metric> execute(String jobOwner,
 			List<AnalyticsOperationInput> userInputs,
 			AnalyticsOperation operation, List<DataProvider> dataProviders)
 			throws AnalyticsOperationException {
@@ -287,7 +287,8 @@ public class RServeService implements IAnalyticsOperationExecutor {
 
 				switch (outputOrigin.getOutputType()) {
 				case GRAPHIC:
-					logger.fine("Retrieving workspace variable " + outputOrigin.getName());
+					logger.fine("Retrieving workspace variable "
+							+ outputOrigin.getName());
 					workspaceRexp = this
 							.getMetricPlotFromWorkspace(outputOrigin.getName());
 					break;

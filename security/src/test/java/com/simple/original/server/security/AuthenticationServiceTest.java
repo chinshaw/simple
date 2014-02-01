@@ -1,69 +1,50 @@
 package com.simple.original.server.security;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.subject.Subject;
 import org.junit.Test;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
-import com.simple.domain.IOCDomainModule;
-import com.simple.domain.dao.PersonDao;
-import com.simple.domain.model.Person;
-import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.exceptions.DomainException;
-import com.simple.original.security.AuthenticationException;
-import com.simple.original.security.IAuthenticationProvider;
-import com.simple.original.security.IOCSecurityModule;
+import com.simple.original.security.ArtisanAuthenticationRealm;
 
 public class AuthenticationServiceTest {
 
 	@Inject
-	private PersonDao personDao;
-
-	@Inject
-	private IAuthenticationProvider authService;
+	ArtisanAuthenticationRealm realm;
 
 	public AuthenticationServiceTest() {
-		Guice.createInjector(new IOCDomainModule(), new IOCSecurityModule())
-				.injectMembers(this);
-
+		Guice.createInjector(new IOCTestSecurityModule()).injectMembers(this);
+		SecurityUtils.setSecurityManager(new DefaultSecurityManager(realm));
 	}
 
-	@Test(expected = AuthenticationException.class) 
+	@Test(expected = AuthenticationException.class)
 	public void testDoAuthenticateFailure() throws AuthenticationException,
 			DomainException {
-		Person person = new Person();
 
-		person.setEmail("chris.hinshaw@simple.com");
-		person.setPassword("password");
-		person.setName("Chris Hinshaw");
-		person.getRoles().add(IPerson.Role.ADMIN);
+		UsernamePasswordToken token = new UsernamePasswordToken("adf",
+				"password");
 
-		personDao.save(person);
+		Subject currentUser = SecurityUtils.getSubject();
 
-		String username = "chris";
-		String password = "password";
-
-		authService.doAuthenticate(username, password);
+		currentUser.login(token);
 	}
 
 	@Test
-	public void testDoAuthenticateSuccess() throws AuthenticationException, DomainException {
-		Person person = new Person();
+	public void testDoAuthenticateSuccess() throws AuthenticationException,
+			DomainException {
 
-		person.setEmail("chris.hinshaw@simple.com");
-		person.setPassword("password");
-		person.setName("Chris Hinshaw");
-		person.getRoles().add(IPerson.Role.ADMIN);
-
-		personDao.save(person);
-
-		String username = "chris.hinshaw@simple.com";
+		String username = "testuser@test.com";
 		String password = "password";
 
-		authService.doAuthenticate(username, password);
-	}
-	
-	@Test
-	public void testAuthenticationGWT() {
-		
+		UsernamePasswordToken token = new UsernamePasswordToken(username,
+				password);
+
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.login(token);
 	}
 }

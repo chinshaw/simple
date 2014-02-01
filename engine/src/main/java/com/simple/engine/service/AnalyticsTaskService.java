@@ -218,28 +218,19 @@ public class AnalyticsTaskService {
 		}
 
 		OperationLogHandler operationLogHandler = null;
-
 		AnalyticsTaskExecution taskExecution = new AnalyticsTaskExecution(task);
-
 		List<AnalyticsOperation> analyticsOperations = task.getOperations();
-
 		taskExecution.setStartTime(new Date());
 
 		try {
-			// Adding our custom logger for just this iteration of the task,
-			// this will be cleaned up
-			// in the finally method to resolve a memory leak bug.
-			operationLogHandler = new OperationLogHandler();
-			logger.setUseParentHandlers(false);
-			logger.addHandler(operationLogHandler);
 
 			logger.fine("Number of operations is " + analyticsOperations.size());
 			for (AnalyticsOperation analyticsOperation : analyticsOperations) {
 				if (analyticsOperation instanceof RAnalyticsOperation) {
 					logger.fine("Executing " + analyticsOperation.getName());
-
+					
 					try {
-						Map<Long, Metric> outputs = provider.execute(
+						Map<Long, Metric> outputs = provider.execute("joe user",
 								inputs, analyticsOperation,
 								task.getDataProviders());
 

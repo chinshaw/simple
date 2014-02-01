@@ -27,7 +27,7 @@ public class HadoopBasicTest {
 	
 	@Test
 	public void testGraphic() throws IOException, AnalyticsOperationException {
-		String script = ScriptUtils.getScriptCode("/com/simple/engine/rscripts/BollingerScript_Hadoop.R");
+		String script = ScriptUtils.getScriptCode("/com/simple/engine/rscripts/BollingerScript.R");
 		RAnalyticsOperation operation = new RAnalyticsOperation("runTestScript");
 		operation.getOutputs().add(new AnalyticsOperationOutput("temp.png", Type.BINARY));
 		//operation.addOutput(new AnalyticsOperationOutput("metricPlot",IAnalyticsOperationOutput.Type.GRAPHIC));

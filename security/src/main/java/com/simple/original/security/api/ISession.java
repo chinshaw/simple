@@ -1,4 +1,4 @@
-package com.simple.original.api.security;
+package com.simple.original.security.api;
 
 import com.simple.original.api.analytics.IPerson;
 

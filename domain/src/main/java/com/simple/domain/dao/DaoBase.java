@@ -27,7 +27,7 @@ import com.simple.original.api.domain.SortOrder;
 import com.simple.original.api.exceptions.DomainException;
 import com.simple.original.api.exceptions.SimpleException;
 import com.simple.original.api.exceptions.TooManyResultsException;
-import com.simple.original.api.security.ISession;
+import com.simple.original.security.api.ISession;
 
 public class DaoBase<T extends IDatastoreObject> {
 
