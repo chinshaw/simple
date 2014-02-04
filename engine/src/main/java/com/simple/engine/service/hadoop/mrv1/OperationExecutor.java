@@ -13,7 +13,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.util.ToolRunner;
 
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.RAnalyticsOperation;
@@ -26,6 +25,7 @@ import com.simple.engine.service.IAnalyticsOperationExecutor;
 import com.simple.engine.service.hadoop.io.HttpInputFormat;
 import com.simple.engine.service.hadoop.io.NullInputFormat;
 import com.simple.original.api.exceptions.RAnalyticsException;
+import com.twitter.elephantbird.mapreduce.io.ProtobufWritable;
 
 public class OperationExecutor implements IAnalyticsOperationExecutor {
 
@@ -86,19 +86,20 @@ public class OperationExecutor implements IAnalyticsOperationExecutor {
 
 		try {
 			configuration.set("fs.defaultFS", "hdfs://127.0.0.1:9000");
-			configuration.set("mapreduce.framework.name", "yarn");
-			configuration.set("yarn.resourcemanager.address", "localhost:8032");
+			//configuration.set("mapreduce.framework.name", "yarn");
+			//configuration.set("yarn.resourcemanager.address", "localhost:8032");
 			// configuration.set("yarn.nodemanager.aux-services",
 			// "mapreduce.shuffle");
 
 			Job job = createJob(configuration);
 			job.setJar("/Users/chris/devel/workspace/simple/engine/target/simple-analytics-engine-1.1-SNAPSHOT.jar");
 			// job.setJarByClass(ROperationMapper.class);
-			job.waitForCompletion(true);
 
-			// ToolRunner tr = new ToolRunner();
+			
+			boolean success = job.waitForCompletion(true);
+			
 
-			ToolRunner.run(configuration, new OperationTool(), new String[] {});
+			//ToolRunner.run(configuration, new OperationTool(), new String[] {});
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Unable to execute job", e);
 			throw new RAnalyticsException("Unable to execute operation", e);
@@ -136,7 +137,6 @@ public class OperationExecutor implements IAnalyticsOperationExecutor {
 		job.setJobName(jobName);
 		job.setJarByClass(OperationExecutor.class);
 		job.setMapperClass(ROperationMapper.class);
-
 		return job;
 	}
 

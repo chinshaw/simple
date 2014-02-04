@@ -1,4 +1,4 @@
-package com.simple.radapter.exceptions;
+package com.simple.radapter.api;
 
 public class RAdapterException extends Exception {
 

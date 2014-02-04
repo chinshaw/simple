@@ -13,10 +13,10 @@
 
 	<properties>
 		<protobuf.version>2.5.0</protobuf.version>
-
 	</properties>
 
 	<build>
+		<finalName>libradapter.dylib</finalName>
 		<plugins>
 			<plugin>
 				<groupId>com.github.igor-petruk.protobuf</groupId>

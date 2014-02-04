@@ -6,7 +6,7 @@
 #include "Rdecl.h"
 #include "Rcallbacks.h"
 
-#include "com_simple_radapter_NativeAdapter.h"
+#include "com_simple_radapter_NativeEngine.h"
 #include <R_ext/Parse.h>
 
 #ifndef Win32

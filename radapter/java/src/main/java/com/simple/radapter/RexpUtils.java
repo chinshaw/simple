@@ -1,13 +1,14 @@
 package com.simple.radapter;
 
-import com.simple.radapter.api.IRAdapter;
+import com.simple.radapter.api.IEngine;
 import com.simple.radapter.api.IRexp;
+import com.simple.radapter.api.IRexpString;
+import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.api.RConstants;
-import com.simple.radapter.exceptions.RAdapterException;
 
-public class RexpUtils {
+class RexpUtils {
 	
-	public static IRexp<?> convert(IRAdapter adapter, long expression) throws RAdapterException{
+	public static IRexp<?> convert(IEngine adapter, long expression) throws RAdapterException{
 		
 		int expressionType = adapter.getExpressionType(expression);
 		
@@ -25,8 +26,11 @@ public class RexpUtils {
 			}
 			
 			return strCollection;
+		}
 		
-			return null;
+		// Is an integer type
+		if (expressionType == RConstants.INTSXP) {
+			
 		}
 		
 		if (expressionType == RConstants.REALSXP) {

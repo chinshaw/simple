@@ -221,4 +221,8 @@ BollingerBands <- function(instrument) {
   
 }
 
+
+
 X <- BollingerBands("IBM")
+
+y <- "some value"

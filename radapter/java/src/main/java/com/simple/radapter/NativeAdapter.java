@@ -1,84 +1,101 @@
 package com.simple.radapter;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Logger;
+
+import com.simple.radapter.api.IEngine;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.IRexp;
-import com.simple.radapter.api.IRexpString;
-import com.simple.radapter.exceptions.RAdapterException;
+import com.simple.radapter.api.RAdapterException;
 
 public class NativeAdapter implements IRAdapter {
-	
-	public static final String[] DEFAULT_R_ARGS = {"--vanilla"};
-	
-	static {
-		try {
-			System.loadLibrary("radapter");
-		} catch (UnsatisfiedLinkError e) {
-			String searchPath = System.getProperty("java.library.path");
-			throw new RuntimeException("Unable to find native library in the following paths " + searchPath, e);
-		}
-	}
-	
-	private final String[] rArgs;
-	
-	public NativeAdapter() {
-		this(DEFAULT_R_ARGS);
-	}
-	
-	public NativeAdapter(String[] rArgs) {
-		this.rArgs = rArgs;
-	}
-	
-	public static final int GLOBAL_ENVIRONMENT = 0;
 
+	private static final Logger logger = Logger.getLogger(NativeAdapter.class
+			.getName());
+
+	private IEngine engine;
+
+	private boolean started;
+
+	public NativeAdapter() {
+	}
+
+	public NativeAdapter(IEngine engine) {
+		this.engine = engine;
+	}
 
 	/**
 	 * {@inheritDoc}
-	 * 
-	 * Calls setup on the r environment, which is required to be run before
-	 * running any R commands.
 	 */
+	@Override
 	public void connect() throws RAdapterException {
-		int configured = setupR(rArgs);
-		if (configured != 0) {
-			throw new RAdapterException("Unable to connect to the R environment, R error code " + configured);
-		} 
+		if (started) {
+			throw new RAdapterException("Only one connection at a time per jvm");
+		}
+		engine.startSession();
+		started = true;
 	}
-	
-	
-	public synchronized native int setupR(String[] rArgs);
-	
-	/**
-	 * Parse a string into an R expression
-	 * @param command R command to execute
-	 * @param parts Number of parts contained in the string
-	 * @return 
-	 */
-	public synchronized native long parse(String command, int parts);
-	
-	/**
-	 * 
-	 * @param exp R expression, this can be created from parse
-	 * @param environment Environment to use, 0 for global environment
-	 * @return
-	 */
-	public synchronized native long eval(long exp, long environment);
-	
-	/**
-	 * Used to assign an expression into the workspace, the expression needs to be 
-	 * created using the parse function.
-	 * @param name The environment variable to assign the expression to.
-	 * @param exp The R expression created using the parse function.
-	 * @param environment Environment to use.
-	 * @return
-	 */
-	public synchronized native boolean assign(String name, long exp, long environment);
 
 	@Override
-	public synchronized native int getExpressionType(long expression);
+	public void disconnect() {
+
+	}
 
 	@Override
-	public IRexpString getString(String name) throws RAdapterException {
-		return getTypedRexp(name);
+	public IRexp<?> exec(String command) throws RAdapterException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IRexp<?> execScript(String script) throws RAdapterException {
+		setString(".tmpCode.", script);
+		return eval("eval(parse(text=.tmpCode.))");
+	}
+
+	@Override
+	public IRexp<?> execScript(File file) throws RAdapterException {
+		if (file == null) {
+			throw new IllegalArgumentException("File cannot be null");
+		}
+
+		logger.fine("Reading file " + file.getPath());
+
+		String scriptCode = null;
+
+		FileReader reader = null;
+		BufferedReader br = null;
+		try {
+			try {
+				reader = new FileReader(file);
+				br = new BufferedReader(reader);
+
+				StringBuilder sb = new StringBuilder();
+				String line = br.readLine();
+
+				while (line != null) {
+					sb.append(line);
+					sb.append(System.lineSeparator());
+					line = br.readLine();
+				}
+				scriptCode = sb.toString();
+
+			} catch (Exception e) {
+				if (e instanceof IOException) {
+					throw new Exception("Unable to read the file " + file.getAbsolutePath());
+				}
+			} finally {
+				reader.close();
+				br.close();
+			}
+		} catch (Exception e) {
+			throw new RAdapterException("Unable to parse your script ", e);
+		}
+
+		return execScript(scriptCode);
 	}
 	
 	public <T extends IRexp<?>> T getTypedRexp(String name) throws RAdapterException {
@@ -86,46 +103,39 @@ public class NativeAdapter implements IRAdapter {
 	}
 	
 	private IRexp<?> getRexp(String name) throws RAdapterException {
-		long parsed = parse(name, 1);
+		long parsed = engine.parse(name, 1);
 		if (parsed != 0) {
-			long evaled = eval(parsed, IRAdapter.GLOBAL_ENVIRONMENT);
+			long evaled = engine.eval(parsed, IRAdapter.GLOBAL_ENVIRONMENT);
 			if (evaled == 0) {
 				throw new RAdapterException("Unable to retrieve variable from workspace: " + name);
 			}
-			IRexp<?> rexp = RexpUtils.convert(this, evaled);
+			IRexp<?> rexp = RexpUtils.convert(engine, evaled);
 			return rexp;
 		}
 		throw new RAdapterException("Invalid rexp " + name);
 	}
-	
-	public synchronized native String[] getStrings(long expression);
-	
-	public synchronized native String getString(long expression);
 
 	@Override
-	public synchronized native long setString(String string);
+	public void setString(String var, String value) {
+		long exp = engine.setString(value);
+		engine.assign("test1", exp, IRAdapter.GLOBAL_ENVIRONMENT);
+	}
 
 	@Override
-	public synchronized native long setStrings(String[] strings);
+	public String getString(String var) throws RAdapterException {
+		return engine.getString(var);
 
-	@Override
-	public synchronized native int[] getInts();
+	}
 
-	@Override
-	public synchronized native long setInts(int[] ints); 
+	private IRexp<?> eval(String code) throws RAdapterException {
+		long expression = engine.parse(code, 1);
 
-	@Override
-	public synchronized native double[] getDoubles();
+		if (expression == 0) {
+			throw new RAdapterException("Unable to parse code");
+		}
 
-	@Override
-	public synchronized native long setDoubles(double[] doubles);
+		expression = engine.eval(expression, IRAdapter.GLOBAL_ENVIRONMENT);
+		return RexpUtils.convert(engine, expression);
+	}
 
-	@Override
-	public synchronized native long[] getVector();
-
-	@Override
-	public synchronized native boolean[] getBooleans();
-
-	@Override
-	public synchronized native long setBooleans(boolean[] booleans);
 }

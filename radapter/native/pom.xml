@@ -7,10 +7,10 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.simple.radapter</groupId>
-	<artifactId>radapter-native</artifactId>
+	<artifactId>libradapter</artifactId>
 	<name>simple-analytics-radapter</name>
 	<description>Java to R adapter</description>
-	<packaging>so</packaging>
+	<packaging>dylib</packaging>
 
 	<dependencies>
 		<dependency>
@@ -30,7 +30,7 @@
 					<!-- trigger javah -->
 					<javahOS>osx</javahOS>
 					<javahClassNames>
-						<javahClassName>com.simple.radapter.NativeAdapter</javahClassName>
+						<javahClassName>com.simple.radapter.NativeEngine</javahClassName>
 					</javahClassNames>
 					<javahSearchJNIFromDependencies>true</javahSearchJNIFromDependencies>
 					<sources>

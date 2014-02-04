@@ -34,7 +34,8 @@ public class HadoopBasicTest {
 		logger.info("testGraphic");
 		String script = ScriptUtils.getScriptCode("/com/simple/engine/rscripts/BollingerScript.R");
 		RAnalyticsOperation operation = new RAnalyticsOperation("runTestScript");
-		operation.getOutputs().add(new AnalyticsOperationOutput("bollinger.png", Type.BINARY));
+		//operation.addOutput(new AnalyticsOperationOutput("temp.png", Type.BINARY));
+		operation.addOutput(new AnalyticsOperationOutput("y", Type.AUTO));
 		operation.setCode(script);
 		HttpDataProvider dp = new HttpDataProvider("http://ichart.finance.yahoo.com/table.csv?s=HPQ&a=00&b=12&c=2013&d=00&e=15&f=2014&g=d&ignore=.csv");
 		List<DataProvider> dps = new ArrayList<DataProvider>();

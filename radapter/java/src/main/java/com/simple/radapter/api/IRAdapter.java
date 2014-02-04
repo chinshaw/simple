@@ -1,67 +1,42 @@
 package com.simple.radapter.api;
 
-import com.simple.radapter.exceptions.RAdapterException;
+import java.io.File;
 
 public interface IRAdapter {
 
 	public static final int GLOBAL_ENVIRONMENT = 0;
-	
-	public void connect() throws RAdapterException;
-	
-	/**
-	 * Parse a string into an R expression
-	 * @param command R command to execute
-	 * @param parts Number of parts contained in the string
-	 * @return 
-	 */
-	public long parse(String command, int parts);
-	
-	/**
-	 * 
-	 * @param exp R expression, this can be created from parse
-	 * @param environment Environment to use, 0 for global environment
-	 * @return
-	 */
-	public long eval(long exp, long environment);
-	
-	
-	/**
-	 * Used to assign an expression into the workspace, the expression needs to be 
-	 * created using the parse function.
-	 * @param name The environment variable to assign the expression to.
-	 * @param exp The R expression created using the parse function.
-	 * @param environment Environment to use.
-	 * @return
-	 */
-	public boolean assign(String name, long exp, long environment);
-	
-	
-	/**
-	 * Get the type of the expression;
-	 * @param expression
-	 * @return
-	 */
-	public int getExpressionType(long expression);
-	
-	public IRexpString getString(String name) throws RAdapterException;
 
-	public long setString(String string);
+	/**
+	 * Connect is used to connect to R, this must be called before any other
+	 * operations may be called. Depending on the engine being used it may be
+	 * necessary to configure the engine with it's parameters prior to
+	 * connecting.
+	 * 
+	 * @throws RAdapterException
+	 */
+	public void connect() throws RAdapterException;
+
+	/**
+	 * Called to disconnect from the R environment and clean up the workspace.
+	 * This will call the engines stop.
+	 */
+	public void disconnect();
+
+	public IRexp<?> exec(String command) throws RAdapterException;
+
+	public IRexp<?> execScript(String script) throws RAdapterException;
+
+	public IRexp<?> execScript(File file) throws RAdapterException;
 	
-	public String[] getStrings(long expression);
+	/**
+	 * This will assign a string into the workspace.
+	 * 
+	 * @param var
+	 * @param value
+	 */
+	public void setString(String var, String value) throws RAdapterException;;
+
+	public String getString(String var) throws RAdapterException;
+
 	
-	public long setStrings(String[] strings);
-	
-	public int[] getInts();
-	
-	public long setInts(int[] ints);
-	
-	public double[] getDoubles();
-	
-	public long setDoubles(double[] doubles);
-	
-	public long[] getVector();
-	
-	public boolean[] getBooleans();
-	
-	public long setBooleans(boolean[] booleans);	
 }

@@ -64,9 +64,9 @@ public class OperationTool implements Tool {
 		job.setMapperClass(ROperationMapper.class);
 		
 		
-		listJobConfProperties();
+	//	listJobConfProperties();
 		getJobTrackerHostPort();
-
+		
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
 

@@ -17,6 +17,9 @@
         <dependent-module archiveName="simple-analytics-engine-1.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/simple-analytics-engine/simple-analytics-engine">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="radapter-client-1.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/radapter-client/radapter-client">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="simple-analytics-reporting-1.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/simple-analytics-reporting/simple-analytics-reporting">
             <dependency-type>uses</dependency-type>
         </dependent-module>
