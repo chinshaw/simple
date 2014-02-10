@@ -9,7 +9,7 @@ public class AdapterFactory {
 	
 	public static final IRAdapter createAdapter() {
 		if (adapter == null) {
-			adapter = new NativeAdapter(new NativeEngine());
+			adapter = new NativeAdapter();
 		}
 		return adapter;
 	}

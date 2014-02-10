@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "jri.h"
-#include "com_simple_radapter_NativeEngine.h"
+#include "com_simple_radapter_NativeAdapter.h"
 #include "rjava.h"
 #include <Rversion.h>
 #include <R_ext/Parse.h>
@@ -43,13 +43,13 @@ extern int UserBreak;
 #include <unistd.h>
 #endif
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniGetVersion
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniGetVersion
 (JNIEnv *env, jclass this)
 {
     return (jlong) JRI_API;
 }
 
-JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeEngine_jniSetupR
+JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_jniSetupR
   (JNIEnv *env, jobject this, jobjectArray a)
 {
       int initRes;
@@ -102,7 +102,7 @@ JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeEngine_jniSetupR
       return initRes;
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniParse
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniParse
   (JNIEnv *env, jobject this, jstring str, jint parts)
 {
       ParseStatus ps;
@@ -129,7 +129,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniParse
  * 
  * @return 0 if an evaluation error ocurred or exp is 0
  */
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniEval
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniEval
   (JNIEnv *env, jobject this, jlong exp, jlong rho)
 {
       SEXP es = R_NilValue, exps = L2SEXP(exp);
@@ -168,7 +168,7 @@ static void safeAssign(void *data) {
     defineVar(s->sym, s->val, s->rho);
 }
 
-JNIEXPORT jboolean JNICALL Java_com_simple_radapter_NativeEngine_jniAssign
+JNIEXPORT jboolean JNICALL Java_com_simple_radapter_NativeAdapter_jniAssign
 (JNIEnv *env, jobject this, jstring symName, jlong valL, jlong rhoL)
 {
     struct safeAssign_s s;
@@ -183,43 +183,43 @@ JNIEXPORT jboolean JNICALL Java_com_simple_radapter_NativeEngine_jniAssign
     return R_ToplevelExec(safeAssign, (void*) &s) ? JNI_TRUE : JNI_FALSE;
 }
 
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniProtect
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_jniProtect
 (JNIEnv *env, jobject this, jlong exp)
 {
 	PROTECT(L2SEXP(exp));
 }
 
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniUnprotect
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_jniUnprotect
 (JNIEnv *env, jobject this, jint count)
 {
 	UNPROTECT(count);
 }
 
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniRelease
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_jniRelease
 (JNIEnv *env, jobject this, jlong exp)
 {
 	if (exp) R_ReleaseObject(L2SEXP(exp));
 }
 
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniPreserve
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_jniPreserve
 (JNIEnv *env, jobject this, jlong exp)
 {
 	if (exp) R_PreserveObject(L2SEXP(exp));
 }
 
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniPrintValue
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_jniPrintValue
 (JNIEnv *env, jobject this, jlong exp)
 {
 	Rf_PrintValue(exp ? L2SEXP(exp) : R_NilValue);
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniParentEnv
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniParentEnv
 (JNIEnv *env, jobject this, jlong exp)
 {
   return SEXP2L(ENCLOS(exp ? L2SEXP(exp) : R_GlobalEnv));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniFindVar
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniFindVar
 (JNIEnv *env, jobject this, jstring symName, jlong rho)
 {
 	SEXP sym = jri_installString(env, symName);
@@ -228,13 +228,13 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniFindVar
 	return SEXP2L(Rf_findVar(sym, rho ? L2SEXP(rho) : R_GlobalEnv));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniListEnv
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniListEnv
 (JNIEnv *env, jobject this, jlong rho, jboolean all)
 {
 	return SEXP2L(R_lsInternal(rho ? L2SEXP(rho) : R_GlobalEnv, all));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniSpecialObject
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniSpecialObject
 (JNIEnv *env, jobject this, jint which)
 {
   switch (which) {
@@ -250,7 +250,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniSpecialObject
   return 0;
 }
 
-JNIEXPORT jobject JNICALL Java_com_simple_radapter_NativeEngine_jniXrefToJava
+JNIEXPORT jobject JNICALL Java_com_simple_radapter_NativeAdapter_jniXrefToJava
 (JNIEnv *env, jobject this, jlong exp)
 {
 	SEXP xp = L2SEXP(exp);
@@ -258,7 +258,7 @@ JNIEXPORT jobject JNICALL Java_com_simple_radapter_NativeEngine_jniXrefToJava
 	return (jobject) EXTPTR_PTR(xp);
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniJavaToXref
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniJavaToXref
 (JNIEnv *env, jobject this, jobject o)
 {
   /* this is pretty much from Rglue.c of rJava */
@@ -266,56 +266,56 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniJavaToXref
   return SEXP2L(R_MakeExternalPtr(go, R_NilValue, R_NilValue));
 }
 
-JNIEXPORT jstring JNICALL Java_com_simple_radapter_NativeEngine_jniGetString
+JNIEXPORT jstring JNICALL Java_com_simple_radapter_NativeAdapter_jniGetString
   (JNIEnv *env, jobject this, jlong exp)
 {
       return jri_putString(env, L2SEXP(exp), 0);
 }
 
 
-JNIEXPORT jobjectArray JNICALL Java_com_simple_radapter_NativeEngine_jniGetStrings
+JNIEXPORT jobjectArray JNICALL Java_com_simple_radapter_NativeAdapter_jniGetStrings
   (JNIEnv *env, jobject this, jlong exp)
 {
       return jri_putStringArray(env, L2SEXP(exp));
 }
 
-JNIEXPORT jintArray JNICALL Java_com_simple_radapter_NativeEngine_jniGetIntArray
+JNIEXPORT jintArray JNICALL Java_com_simple_radapter_NativeAdapter_jniGetInts
   (JNIEnv *env, jobject this, jlong exp)
 {
       return jri_putIntArray(env, L2SEXP(exp));
 }
 
-JNIEXPORT jbyteArray JNICALL Java_com_simple_radapter_NativeEngine_jniGetRawArray
+JNIEXPORT jbyteArray JNICALL Java_com_simple_radapter_NativeAdapter_jniGetRawArray
   (JNIEnv *env, jobject this, jlong exp)
 {
       return jri_putByteArray(env, L2SEXP(exp));
 }
 
-JNIEXPORT jintArray JNICALL Java_com_simple_radapter_NativeEngine_jniGetBoolArrayI
+JNIEXPORT jintArray JNICALL Java_com_simple_radapter_NativeAdapter_jniGetBoolArrayI
   (JNIEnv *env, jobject this, jlong exp)
 {
       return jri_putBoolArrayI(env, L2SEXP(exp));
 }
 
-JNIEXPORT jintArray JNICALL Java_com_simple_radapter_NativeEngine_jniGetDoubleArray
+JNIEXPORT jintArray JNICALL Java_com_simple_radapter_NativeAdapter_jniGetDoubles
   (JNIEnv *env, jobject this, jlong exp)
 {
       return jri_putDoubleArray(env, L2SEXP(exp));
 }
 
-JNIEXPORT jlongArray JNICALL Java_com_simple_radapter_NativeEngine_jniGetVector
+JNIEXPORT jlongArray JNICALL Java_com_simple_radapter_NativeAdapter_jniGetVector
 (JNIEnv *env, jobject this, jlong exp)
 {
     return jri_putSEXPLArray(env, L2SEXP(exp));
 }
 
-JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeEngine_jniGetExpressionType
+JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_jniGetExpressionType
   (JNIEnv *env, jobject this, jlong exp)
 {
     return exp ? TYPEOF(L2SEXP(exp)) : 0;
 }
 
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniIdle
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_jniIdle
   (JNIEnv *env, jobject this)
 {
 #ifndef Win32
@@ -323,61 +323,61 @@ JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniIdle
 #endif
 }
 
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniRunMainLoop
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_jniRunMainLoop
   (JNIEnv *env, jobject this)
 {
       run_Rmainloop();
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniSetString
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniSetString
 (JNIEnv *env, jobject this, jstring s)
 {
     return SEXP2L(jri_getString(env, s));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniPutStringArray
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniSetStrings
 (JNIEnv *env, jobject this, jobjectArray a)
 {
     return SEXP2L(jri_getStringArray(env, a));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniPutIntArray
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniSetInts
 (JNIEnv *env, jobject this, jintArray a)
 {
     return SEXP2L(jri_getIntArray(env, a));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniPutRawArray
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniPutRawArray
 (JNIEnv *env, jobject this, jbyteArray a)
 {
     return SEXP2L(jri_getByteArray(env, a));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniPutBoolArrayI
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniPutBoolArrayI
 (JNIEnv *env, jobject this, jintArray a)
 {
     return SEXP2L(jri_getBoolArrayI(env, a));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniPutBoolArray
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniPutBoolArray
 (JNIEnv *env, jobject this, jbooleanArray a)
 {
     return SEXP2L(jri_getBoolArray(env, a));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniPutDoubleArray
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniSetDoubles
 (JNIEnv *env, jobject this, jdoubleArray a)
 {
     return SEXP2L(jri_getDoubleArray(env, a));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniPutVector
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniPutVector
 (JNIEnv *env, jobject this, jlongArray a)
 {
     return SEXP2L(jri_getSEXPLArray(env, a));
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniGetAttr
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniGetAttr
 (JNIEnv *env, jobject this, jlong exp, jstring name)
 {
     SEXP an = jri_installString(env, name);
@@ -388,7 +388,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniGetAttr
     }
 }
 
-JNIEXPORT jobjectArray JNICALL Java_com_simple_radapter_NativeEngine_jniGetAttrNames
+JNIEXPORT jobjectArray JNICALL Java_com_simple_radapter_NativeAdapter_jniGetAttrNames
 (JNIEnv *env, jobject this, jlong exp)
 {
     SEXP o = L2SEXP(exp);
@@ -419,7 +419,7 @@ JNIEXPORT jobjectArray JNICALL Java_com_simple_radapter_NativeEngine_jniGetAttrN
     return sa;
 }
 
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniSetAttr
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_jniSetAttr
 (JNIEnv *env, jobject this, jlong exp, jstring aName, jlong attr)
 {
     SEXP an = jri_installString(env, aName);
@@ -435,19 +435,19 @@ JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniSetAttr
     
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniInstallSymbol
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniInstallSymbol
 (JNIEnv *env, jobject this, jstring s)
 {
     return SEXP2L(jri_installString(env, s));
 }
 
-JNIEXPORT jstring JNICALL Java_com_simple_radapter_NativeEngine_jniGetSymbolName
+JNIEXPORT jstring JNICALL Java_com_simple_radapter_NativeAdapter_jniGetSymbolName
 (JNIEnv *env, jobject this, jlong exp)
 {
 	return jri_putSymbolName(env, L2SEXP(exp));
 }
 
-JNIEXPORT jboolean JNICALL Java_com_simple_radapter_NativeEngine_jniInherits
+JNIEXPORT jboolean JNICALL Java_com_simple_radapter_NativeAdapter_jniInherits
 (JNIEnv *env, jobject this, jlong exp, jstring s)
 {
 	jboolean res = 0;
@@ -460,7 +460,7 @@ JNIEXPORT jboolean JNICALL Java_com_simple_radapter_NativeEngine_jniInherits
 	return res;
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniCons
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniCons
 (JNIEnv *env, jobject this, jlong head, jlong tail, jlong tag, jboolean lang)
 {
   SEXP l;
@@ -473,7 +473,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniCons
   return SEXP2L(l);
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniCAR
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniCAR
 (JNIEnv *env, jobject this, jlong exp)
 {
     if (exp) {
@@ -483,7 +483,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniCAR
     return 0;
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniCDR
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniCDR
 (JNIEnv *env, jobject this, jlong exp)
 {
     if (exp) {
@@ -493,7 +493,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniCDR
     return 0;
 }
 
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniTAG
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniTAG
 (JNIEnv *env, jobject this, jlong exp)
 {
     if (exp) {
@@ -504,7 +504,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniTAG
 }
 
 /* creates a list from SEXPs provided in long[] */
-JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniPutList
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniPutList
 (JNIEnv *env, jobject this, jlongArray o)
 {
     SEXP t=R_NilValue;
@@ -521,13 +521,13 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeEngine_jniPutList
         t=CONS((ap[i]==0)?R_NilValue:L2SEXP(ap[i]), t);
         i++;
     }
-    (*env)->ReleaseLongArrayElements(env, o, ap, 0);    
+    (*env)->ReleaseLongArrayElements(env, o, ap, 0);
     
     return SEXP2L(t);
 }
 
 /* retrieves a list (shallow copy) and returns the SEXPs in long[] */
-JNIEXPORT jlongArray JNICALL Java_com_simple_radapter_NativeEngine_jniGetList
+JNIEXPORT jlongArray JNICALL Java_com_simple_radapter_NativeAdapter_jniGetList
 (JNIEnv *env, jobject this, jlong exp)
 {
     SEXP e=L2SEXP(exp);
@@ -573,7 +573,7 @@ JNIEXPORT jlongArray JNICALL Java_com_simple_radapter_NativeEngine_jniGetList
 /* by default those are disabled as it's a problem on Win32 ... */
 #ifdef JRI_ENV_CALLS
 
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniSetEnv
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_jniSetEnv
 (JNIEnv *env, jclass this, jstring key, jstring val) {
     const char *cKey, *cVal;
     if (!key || !val) return;
@@ -592,7 +592,7 @@ JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniSetEnv
     (*env)->ReleaseStringUTFChars(env, val, cVal);
 }
 
-JNIEXPORT jstring JNICALL Java_com_simple_radapter_NativeEngine_jniGetEnv
+JNIEXPORT jstring JNICALL Java_com_simple_radapter_NativeAdapter_jniGetEnv
 (JNIEnv *env, jclass this, jstring key) {
     const char *cKey, *cVal;
     if (!key) return;
@@ -609,23 +609,23 @@ JNIEXPORT jstring JNICALL Java_com_simple_radapter_NativeEngine_jniGetEnv
 
 #endif
 
-JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeEngine_jniSetupRJava
+JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_jniSetupRJava
 (JNIEnv *env, jobject this, jint _in, jint _out) {
   RJava_setup(_in, _out);
   return 0;
 }
 
-JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeEngine_jniRJavaLock
+JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_jniRJavaLock
 (JNIEnv *env, jobject this) {
   return RJava_request_lock();
 }
 
-JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeEngine_jniRJavaUnlock
+JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_jniRJavaUnlock
 (JNIEnv *env, jobject this) {
   return RJava_clear_lock();
 }
 
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniPrint
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_jniPrint
 (JNIEnv *env, jobject this, jstring s, jint oType) {
   if (s) {
     const char *c = (*env)->GetStringUTFChars(env, s, 0);
@@ -639,7 +639,7 @@ JNIEXPORT void JNICALL Java_com_simple_radapter_NativeEngine_jniPrint
   }
 }
 
-JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeEngine_jniStop
+JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_jniStop
 (JNIEnv *env, jobject this, jint flag) {
 #ifdef Win32
     UserBreak=1;

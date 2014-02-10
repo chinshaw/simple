@@ -4,8 +4,6 @@ import java.io.File;
 
 public interface IRAdapter {
 
-	public static final int GLOBAL_ENVIRONMENT = 0;
-
 	/**
 	 * Connect is used to connect to R, this must be called before any other
 	 * operations may be called. Depending on the engine being used it may be
@@ -22,8 +20,8 @@ public interface IRAdapter {
 	 */
 	public void disconnect();
 
-	public IRexp<?> exec(String command) throws RAdapterException;
-
+	IRexp<?> execCommand(String command) throws RAdapterException;
+	
 	public IRexp<?> execScript(String script) throws RAdapterException;
 
 	public IRexp<?> execScript(File file) throws RAdapterException;
@@ -38,5 +36,18 @@ public interface IRAdapter {
 
 	public String getString(String var) throws RAdapterException;
 
+	public IRexp<?> get(String var) throws RAdapterException;	
 	
+	/*
+	public int getInt(String var);
+	
+	public void setInt(String var, int val);
+
+	public int getExpressionType(long expression);
+
+	void setDoubles(String var, double[] doubles);
+
+	void setBooleans(String var, boolean[] booleans);
+	*/
+
 }

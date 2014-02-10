@@ -41,7 +41,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -86,7 +85,7 @@
 			<artifactId>simple-analytics-domain</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.simple.radapter</groupId>
 			<artifactId>radapter-client</artifactId>

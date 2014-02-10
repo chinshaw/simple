@@ -1,23 +1,23 @@
 package com.simple.radapter;
 
-import com.simple.radapter.api.IEngine;
+import com.simple.radapter.api.INativeEngine;
 import com.simple.radapter.api.IRexp;
+import com.simple.radapter.api.IRexpCollection;
 import com.simple.radapter.api.IRexpString;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.api.RConstants;
 
 class RexpUtils {
 	
-	public static IRexp<?> convert(IEngine adapter, long expression) throws RAdapterException{
+	public static IRexp<?> convert(INativeEngine engine, long expression) throws RAdapterException{
 		
-		int expressionType = adapter.getExpressionType(expression);
+		int expressionType = engine.getExpressionType(expression);
 		
 		if (expressionType == RConstants.STRSXP) {
-			String[] strings = adapter.getStrings(expression);
+			String[] strings = engine.getStrings(expression);
 			if (strings.length == 1) {
 				return new RexpString(strings[0]); 
 			}
-			
 		
 			RexpCollection<IRexpString> strCollection = new RexpCollection<IRexpString>();
 			
@@ -27,6 +27,24 @@ class RexpUtils {
 			
 			return strCollection;
 		}
+		
+		
+		// R type 14 
+		if (expressionType == RConstants.REALSXP) {
+			double[] doubles = engine.getDoubles(expression);
+			IRexpCollection<IRexp<Double>> doubleCollection = new RexpCollection<IRexp<Double>>();
+			
+			if (doubles.length == 1) {
+				return new RexpDouble(doubles[0]);
+			}
+			
+			for (double d : doubles) {
+				doubleCollection.getValue().add(new RexpDouble(d));
+			}
+			
+			return doubleCollection;
+		}
+		
 		
 		// Is an integer type
 		if (expressionType == RConstants.INTSXP) {

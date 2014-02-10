@@ -84,6 +84,7 @@ public class OperationExecutor implements IAnalyticsOperationExecutor {
 			e.printStackTrace();
 		}
 
+		boolean success = false;
 		try {
 			configuration.set("fs.defaultFS", "hdfs://127.0.0.1:9000");
 			//configuration.set("mapreduce.framework.name", "yarn");
@@ -96,13 +97,16 @@ public class OperationExecutor implements IAnalyticsOperationExecutor {
 			// job.setJarByClass(ROperationMapper.class);
 
 			
-			boolean success = job.waitForCompletion(true);
+			success = job.waitForCompletion(true);
 			
-
 			//ToolRunner.run(configuration, new OperationTool(), new String[] {});
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Unable to execute job", e);
 			throw new RAnalyticsException("Unable to execute operation", e);
+		}
+		
+		if (success != true) {
+			throw new RAnalyticsException("Job failed");
 		}
 
 		return null;
