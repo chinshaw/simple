@@ -4,22 +4,14 @@
 #include <R.h>
 #include <Rinternals.h>
 
-#define SEXP2L(s) ((jlong)(s))
-#ifdef WIN64
-#define L2SEXP(s) ((SEXP)((jlong)(s)))
-#else
-#define L2SEXP(s) ((SEXP)((jlong)((unsigned long)(s))))
-#endif
+/**
+ * radapter.c
+ */
+REXP eval_script(const char *cmd);
+SEXP rexpress(const char *cmd);
+int initR(int argc, char *argv[]);
+int stopR();
 
-
-
-const char *parseExceptionClassName = "com/simple/radapter/api/ParseException";
-
-
-SEXP getString(JNIEnv *env, jstring s);
-
-
-jint throwParseException(JNIEnv *env, char *message);
 
 #endif
 
