@@ -9,7 +9,33 @@
 	<artifactId>libradapter</artifactId>
 	<name>simple-analytics-radapter</name>
 	<description>Java to R adapter</description>
-	<packaging>dylib</packaging>
+	<packaging>pom</packaging>
+
+	<profiles>
+		<profile>
+			<id>all</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>nix</module>
+			</modules>
+		</profile>
+		<!-- profile for linux -->
+		<profile>
+			<id>linux</id>
+			<modules>
+				<module>nix</module>
+			</modules>
+		</profile>
+		<!-- profile for mac os -->
+		<profile>
+			<id>osx</id>
+			<modules>
+				<module>osx</module>
+			</modules>
+		</profile>
+	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -18,66 +44,4 @@
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>native-maven-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<!-- trigger javah -->
-					<javahOS>osx</javahOS>
-					<javahClassNames>
-						<javahClassName>com.simple.radapter.NativeAdapter</javahClassName>
-					</javahClassNames>
-					<javahSearchJNIFromDependencies>true</javahSearchJNIFromDependencies>
-					<sources>
-						<source>
-							<directory>
-								./src/main/native
-							</directory>
-							<includes>
-								<include>**/*.c</include>
-							</includes>
-						</source>
-
-						<source>
-							<directory>/Library/Frameworks/R.framework/Versions/3.0/Resources/include/</directory>
-							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
-						</source>
-
-						<source>
-							<directory>/usr/share/R/include/</directory>
-							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
-						</source>
-
-						<source>
-							<directory>/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/include/darwin/</directory>
-							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
-						</source>
-
-						<source>
-							<directory>/usr/lib/jvm/jdk1.6.0_45/include/linux</directory>
-							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
-						</source>
-					</sources>
-					<compilerStartOptions>
-						<compilerStartOption>-fpic</compilerStartOption>
-					</compilerStartOptions>
-
-					<linkerStartOptions>
-						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/
-							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -ljvm -lR</linkerStartOption>
-					</linkerStartOptions>
-					<linkerEndOptions>
-						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/ -ljvm
-							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -lR</linkerStartOption>
-					</linkerEndOptions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>

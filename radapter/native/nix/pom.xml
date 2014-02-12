@@ -6,10 +6,10 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.simple.radapter</groupId>
-	<artifactId>libradapter</artifactId>
-	<name>simple-analytics-radapter</name>
+	<artifactId>simple-analytics-radapter-jni-nix</artifactId>
+	<name>simple-analytics-radapter unix</name>
 	<description>Java to R adapter</description>
-	<packaging>dylib</packaging>
+	<packaging>so</packaging>
 
 	<dependencies>
 		<dependency>
@@ -20,7 +20,6 @@
 	</dependencies>
 
 	<build>
-
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -28,7 +27,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<!-- trigger javah -->
-					<javahOS>osx</javahOS>
+					<javahOS>linux</javahOS>
 					<javahClassNames>
 						<javahClassName>com.simple.radapter.NativeAdapter</javahClassName>
 					</javahClassNames>
@@ -36,7 +35,7 @@
 					<sources>
 						<source>
 							<directory>
-								./src/main/native
+								../src/main/native
 							</directory>
 							<includes>
 								<include>**/*.c</include>
@@ -44,12 +43,12 @@
 						</source>
 
 						<source>
-							<directory>/Library/Frameworks/R.framework/Versions/3.0/Resources/include/</directory>
+							<directory>/usr/share/R/include/</directory>
 							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
 						</source>
 
 						<source>
-							<directory>/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/include/darwin/</directory>
+							<directory>/usr/lib/jvm/jdk1.6.0_45/include/linux</directory>
 							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
 						</source>
 					</sources>
@@ -58,12 +57,10 @@
 					</compilerStartOptions>
 
 					<linkerStartOptions>
-						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/
-							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -ljvm -lR</linkerStartOption>
+						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -ljvm -lR</linkerStartOption>
 					</linkerStartOptions>
 					<linkerEndOptions>
-						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/ -ljvm
-							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -lR</linkerStartOption>
+						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -ljvm -lR</linkerStartOption>
 					</linkerEndOptions>
 				</configuration>
 			</plugin>
