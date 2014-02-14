@@ -32,66 +32,6 @@ const char *jri_char_utf8(SEXP);
 const char *programName = "radapter";
 
 
-JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_initR
-(JNIEnv *env, jobject this, jobjectArray a)
-{
-
-      int initRes;
-      char *fallbackArgv[]={"Rengine",0};
-      char **argv=fallbackArgv;
-      int argc=1;
-      
-#ifdef JRI_DEBUG
-      printf("jniSetupR\n");
-#endif
-	  
-      engineObj=(*env)->NewGlobalRef(env, this);
-      engineClass=(*env)->NewGlobalRef(env, (*env)->GetObjectClass(env, engineObj));
-      eenv=env;
-      
-      if (a) { /* retrieve the content of the String[] and construct argv accordingly */
-          int len = (int)(*env)->GetArrayLength(env, a);
-          if (len>0) {              
-              int i=0;
-              argv=(char**) malloc(sizeof(char*)*(len+2));
-              argv[0]=fallbackArgv[0];
-              while (i < len) {
-                  jobject o=(*env)->GetObjectArrayElement(env, a, i);
-                  i++;
-                  if (o) {
-                      const char *c;
-                      c=(*env)->GetStringUTFChars(env, o, 0);
-                      if (!c)
-                          argv[i]="";
-                      else {
-			  argv[i] = strdup(c);
-                          (*env)->ReleaseStringUTFChars(env, o, c);
-                      }
-                  } else
-                      argv[i]="";
-              }
-              argc=len+1;
-              argv[argc]=0;
-          }
-      }
-
-      if (argc==2 && !strcmp(argv[1],"--zero-init")) {/* special case for direct embedding (exp!) */
-	initRinside();
-	return 0;
-      }
-      
-      initRes=initR(argc, argv);
-      /* we don't release the argv in case R still needs it later (even if it shouldn't), but it's not really a significant leak */
-      
-      return initRes;
-}
-
-
-
-JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_endR(JNIEnv *env, jobject this, jint exitCode) {
-	Rf_endEmbeddedR(exitCode);
-}
-
 /*
  * @param rho long reflection of the environment where to evaluate
  *

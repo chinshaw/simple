@@ -1,11 +1,14 @@
-
+#include "com_simple_radapter_NativeAdapter.h"
+#include "globals.h"
+#include <R.h>
 #include <Rinternals.h>
 #include <Rembedded.h>
 #include <Rversion.h>
 #include <R_ext/Parse.h>
-#include "Radapter.h"
+#include <jni.h>
 
 
+#include "protobuf/protoutils.h"
 
 /* the # of arguments to R_ParseVector changed since R 2.5.0 */
 #if R_VERSION < R_Version(2,5,0)
@@ -31,52 +34,88 @@ char *default_args[] = {"--gui=none", "--silent"};
 
 //  Whether or not R is initialized.
 static int initialized = 0;
-/*
-int initR(int argc, char *argv[]) {
-	if (initialized) {
-		fprintf(stderr, "R is initialized, you need to either call stopR");
-		return 1;
-	}
-	
-	if (argv == NULL) {
-		argc = 2;
-		argv = default_args;
-	}
 
-	Rf_initEmbeddedR(argc, argv);
-	initialized = 1;
+/**
+ * This is used to initialize the r environment
+ */
+JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_initR
+(JNIEnv *env, jobject this, jobjectArray a)
+{
 
+      int initRes;
+      char *fallbackArgv[]={"Rengine",0};
+      char **argv=fallbackArgv;
+      int argc=1;
+      
+      engineObj=(*env)->NewGlobalRef(env, this);
+      engineClass=(*env)->NewGlobalRef(env, (*env)->GetObjectClass(env, engineObj));
+      eenv=env;
+      
+      if (a) { /* retrieve the content of the String[] and construct argv accordingly */
+          int len = (int)(*env)->GetArrayLength(env, a);
+          if (len>0) {              
+              int i=0;
+              argv=(char**) malloc(sizeof(char*)*(len+2));
+              argv[0]=fallbackArgv[0];
+              while (i < len) {
+                  jobject o=(*env)->GetObjectArrayElement(env, a, i);
+                  i++;
+                  if (o) {
+                      const char *c;
+                      c=(*env)->GetStringUTFChars(env, o, 0);
+                      if (!c)
+                          argv[i]="";
+                      else {
+			  argv[i] = strdup(c);
+                          (*env)->ReleaseStringUTFChars(env, o, c);
+                      }
+                  } else
+                      argv[i]="";
+              }
+              argc=len+1;
+              argv[argc]=0;
+          }
+      }
+
+      if (argc==2 && !strcmp(argv[1],"--zero-init")) {/* special case for direct embedding (exp!) */
+	initRinside();
 	return 0;
+      }
+      
+      initRes=initR(argc, argv);
+      /* we don't release the argv in case R still needs it later (even if it shouldn't), but it's not really a significant leak */
+      
+      return initRes;
 }
 
 
-int stopR() {
-	initialized = 0;
-	Rf_endEmbeddedR(0);
-	return 0;
-}
-*/
+JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_endR(JNIEnv *env, jobject this, jint exitCode) {
+        Rf_endEmbeddedR(exitCode);
+}  
 
-REXP eval_script(const char *command) 
+JNIEXPORT jbyteArray JNICALL eval_script(JNIEnv *env, jobject this, const char *command) 
 {
 	REXP rexp = REXP__INIT;
 	if (! initialized) {
 		fprintf(stderr, "R has not been initialized, need to call initR");
-		return rexp;
+		return NULL;
 	}	
-	/*
-	ParseStatus status;
-
-	SEXP sexp = R_ParseVector(mkString(command), 1, &status, R_NilValue);
-	if (TYPEOF(sexp) == EXPRSXP) { // parse returns an expr vector, you want the first 
-		sexp = eval(VECTOR_ELT(sexp, 0), R_GlobalEnv);
-		PrintValue(sexp);
-	}
-	*/
 	SEXP sexp = rexpress(command);
 	sexpToRexp(&rexp, sexp);
 
-	return rexp;
+
+	ProtobufCMessage *message = &rexp;
+	size_t packedSize = protobuf_c_message_get_packed_size(message);
+	void *packed = malloc (packedSize);
+	protobuf_c_message_pack(message, packed);
+
+	
+	jbyteArray result = (*env)->NewByteArray(env, packedSize);
+	(*env)->SetByteArrayRegion(env, jbyteArray, 0, packedSize, packed);
+	
+	PROTOBUF_C_BUFFER_SIMPLE_CLEAR (message);
+
+	return result;
 }
 
 
