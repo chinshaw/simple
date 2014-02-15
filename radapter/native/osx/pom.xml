@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.simple</groupId>
-		<artifactId>simple-analytics</artifactId>
+		<groupId>com.simple.radapter</groupId>
+		<artifactId>radapter-native</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.simple.radapter</groupId>
@@ -19,8 +20,45 @@
 		</dependency>
 	</dependencies>
 
+	<properties>
+		<protocc.output>${project.build.directory}/generated-sources/protoc-c</protocc.output>
+		<main.basedir>${project.parent.parent.basedir}</main.basedir>
+	</properties>
+
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<!-- 
+					<execution>
+						<id>mkdir</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>mkdir</executable>
+							<arguments>-p ${protocc.output}</arguments>
+						</configuration>
+					</execution>
+					 -->
+					<execution>
+						<id>protoc-c</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>protoc-c</executable>
+							<arguments>--c_out=${protocc.output} --proto_path=${protobuf.dir} ${protobuf.dir}/rexp.proto</arguments>
+						</configuration>
+
+					</execution>
+				</executions>
+			</plugin>
+			
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>native-maven-plugin</artifactId>
@@ -33,6 +71,15 @@
 					</javahClassNames>
 					<javahSearchJNIFromDependencies>true</javahSearchJNIFromDependencies>
 					<sources>
+						<source>
+							<directory>
+								${protocc.output}
+							</directory>
+							<includes>
+								<include>**/**</include>
+							</includes>
+						</source>
+
 						<source>
 							<directory>
 								../src/main/native
@@ -57,11 +104,15 @@
 					</compilerStartOptions>
 
 					<linkerStartOptions>
-						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/
-							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -ljvm -lR</linkerStartOption>
+						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT
+							-L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/
+							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/
+							-ljvm -lR</linkerStartOption>
 					</linkerStartOptions>
 					<linkerEndOptions>
-						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/ -ljvm
+						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT
+							-L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/
+							-ljvm
 							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -lR</linkerStartOption>
 					</linkerEndOptions>
 				</configuration>
