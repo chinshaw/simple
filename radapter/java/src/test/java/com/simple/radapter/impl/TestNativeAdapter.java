@@ -10,38 +10,41 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.simple.radapter.AdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.IRexp;
 import com.simple.radapter.api.IRexpDouble;
 import com.simple.radapter.api.RAdapterException;
+import com.simple.radapter.protobuf.REXPProtos.REXP;
 
 public class TestNativeAdapter {
 
-	private static final Logger logger = Logger.getLogger(TestNativeAdapter.class.getName());
-	
+	private static final Logger logger = Logger
+			.getLogger(TestNativeAdapter.class.getName());
+
 	private static final IRAdapter adapter = AdapterFactory.createAdapter();
-	
+
 	@BeforeClass
 	public static final void start() throws RAdapterException {
 		adapter.connect();
 	}
-	
+
 	@AfterClass
 	public static final void stop() {
 		adapter.disconnect();
 	}
-	
+
 	@Test
 	public void testAssignString() throws RAdapterException {
 		logger.info("testAssignString");
 		String value = "testAssignString";
 		adapter.setString("test1", value);
-		
+
 		String testValue = adapter.getString("test1");
 		assertTrue(testValue.equals(value));
 	}
-	
+
 	@Test
 	public void testEvalCommand() {
 		logger.info("testEval");
@@ -55,7 +58,7 @@ public class TestNativeAdapter {
 			fail(e.getMessage());
 		}
 	}
-	
+
 	@Test
 	public void testEvalScript() {
 		logger.info("testEval");
@@ -63,18 +66,39 @@ public class TestNativeAdapter {
 		try {
 			IRexp<?> rexp = adapter.execScript(command);
 			assertNotNull(rexp);
-			
-			
-			System.out.println("Rexp is "+ rexp.getValue());
-			
+
+			System.out.println("Rexp is " + rexp.getValue());
+
 			String question = adapter.getString("question");
 			assertTrue(question.equals("meaning of life"));
-			
+
 			IRexpDouble answer = (IRexpDouble) adapter.get("answer");
 			assertTrue(answer.getValue() == 42);
-			
+
 			logger.info("Question " + question + " answer " + answer);
+
+		} catch (RAdapterException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testPb() {
+		logger.info("testPb");
+		String command = "question <- 'meaning of life'; answer <- 42;";
+		try {
+			REXP rexp = null;
+			try {
+				rexp = adapter.executeScript(command);
+			} catch (InvalidProtocolBufferException e) {
+				fail("Invalid protobuf returned");
+			}
+			assertNotNull(rexp);
 			
+			System.out.println("Rexp is " + rexp.getRclass() + " "
+					+ rexp.getSingleRealValue());
+
+			assertTrue(rexp.getSingleRealValue() == 42);
 		} catch (RAdapterException e) {
 			fail(e.getMessage());
 		}

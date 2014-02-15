@@ -1,13 +1,4 @@
-#include "com_simple_radapter_NativeAdapter.h"
-#include <Rinternals.h>
-#include <Rembedded.h>
-#include <Rversion.h>
-#include <R_ext/Parse.h>
-
-#include "globals.h"
 #include "RadapterJni.h"
-
-
 
 
 /* the # of arguments to R_ParseVector changed since R 2.5.0 */
@@ -28,8 +19,45 @@
 const char *jri_char_utf8(SEXP);
 #endif
 
+/**
+ * Global definitions
+ */
+jobject engineObj;
+jclass engineClass;
+JNIEnv *eenv;
 
 const char *programName = "radapter";
+
+const char *parseExceptionClassName = "com/simple/radapter/api/ParseException";
+
+void jri_error(char *fmt, ...) {
+    va_list v;
+    va_start(v,fmt);
+    vprintf(fmt,v);
+    va_end(v);
+}
+
+
+
+SEXP rexpress(const char* cmd)
+{
+	SEXP cmdSexp, cmdexpr, ans = R_NilValue;
+	int i;
+	ParseStatus status;
+	PROTECT(cmdSexp = Rf_allocVector(STRSXP, 1));
+	SET_STRING_ELT(cmdSexp, 0, Rf_mkChar(cmd));
+	cmdexpr = PROTECT(R_ParseVector(cmdSexp, -1, &status, R_NilValue));
+	if (status != PARSE_OK) {
+		UNPROTECT(2);
+		Rf_error("invalid call: %s", cmd);
+		return(R_NilValue);
+	}
+	for(i = 0; i < Rf_length(cmdexpr); i++)
+		ans = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
+	UNPROTECT(2);
+	return(ans);
+}
+
 
 
 /*
@@ -85,6 +113,7 @@ JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniParse
 }
 
 
+
 /** jobjRefInt object : string */
 SEXP getString(JNIEnv *env, jstring s) {
     SEXP r;
@@ -93,7 +122,7 @@ SEXP getString(JNIEnv *env, jstring s) {
     if (!s) return ScalarString(R_NaString);
     c = (*env)->GetStringUTFChars(env, s, 0);
     if (!c) {
-	throwParseException(env, "getString : can't retrieve string content");
+    	throwParseException(env, "getString : can't retrieve string content");
     }
 
     PROTECT(r = allocVector(STRSXP,1));
@@ -103,10 +132,39 @@ SEXP getString(JNIEnv *env, jstring s) {
     return r;
 }
 
+SEXP installString(JNIEnv *env, jstring s) {
+    SEXP r;
+    const char *c;
+
+    if (!s) return R_NilValue;
+    c=(*env)->GetStringUTFChars(env, s, 0);
+    if (!c) {
+        jri_error("jri_getString: can't retrieve string content");
+        return R_NilValue;
+    }
+    r = install(c);
+    (*env)->ReleaseStringUTFChars(env, s, c);
+    return r;
+}
+
+
 jint throwParseException(JNIEnv *env, char *message) {
 
 	jclass		 exClass;
 
 	exClass = (*env)->FindClass( env, parseExceptionClassName);
 	return (*env)->ThrowNew( env, exClass, message );
+}
+
+
+void jri_checkExceptions(JNIEnv *env, int describe)
+{
+    jthrowable t=(*env)->ExceptionOccurred(env);
+    if (t) {
+#ifndef JRI_DEBUG
+        if (describe)
+#endif
+            (*env)->ExceptionDescribe(env);
+        (*env)->ExceptionClear(env);
+    }
 }

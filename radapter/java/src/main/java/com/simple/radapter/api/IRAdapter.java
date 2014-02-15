@@ -2,6 +2,9 @@ package com.simple.radapter.api;
 
 import java.io.File;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.simple.radapter.protobuf.REXPProtos.REXP;
+
 public interface IRAdapter {
 
 	/**
@@ -25,6 +28,8 @@ public interface IRAdapter {
 	public IRexp<?> execScript(String script) throws RAdapterException;
 
 	public IRexp<?> execScript(File file) throws RAdapterException;
+	
+	public REXP executeScript(String script) throws RAdapterException, InvalidProtocolBufferException;
 	
 	/**
 	 * This will assign a string into the workspace.

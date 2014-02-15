@@ -1,5 +1,5 @@
 #include "com_simple_radapter_NativeAdapter.h"
-#include "globals.h"
+
 #include <R.h>
 #include <Rinternals.h>
 #include <Rembedded.h>
@@ -7,6 +7,9 @@
 #include <R_ext/Parse.h>
 #include <jni.h>
 
+#include "Rinit.h"
+#include "RadapterJni.h"
+#include "Rcallbacks.h"
 
 #include "protobuf/protoutils.h"
 
@@ -17,124 +20,125 @@
 #define RPROTOSERVE_ParseVector(A,B,C) R_ParseVector(A,B,C,R_NilValue)
 #endif
 
-
 /* string encoding handling */
 #if (R_VERSION < R_Version(2,8,0)) || (defined DISABLE_ENCODING)
 #define mkRChar(X) mkChar(X)
 #else
 #define USE_ENCODING 1
-cetype_t string_encoding = CE_NATIVE;  /* default is native */
+cetype_t string_encoding = CE_NATIVE; /* default is native */
 #define mkRChar(X) mkCharCE((X), string_encoding)
 #endif
 
-
 // Default arguments if not specified.
-char *default_args[] = {"--gui=none", "--silent"};
+static char *default_args[] = { "--gui=none", "--silent" };
 
+struct safeAssign_s {
+	SEXP sym, val, rho;
+};
 
-//  Whether or not R is initialized.
-static int initialized = 0;
+static void safeAssign(void *data) {
+	struct safeAssign_s *s = (struct safeAssign_s*) data;
+	defineVar(s->sym, s->val, s->rho);
+}
 
 /**
  * This is used to initialize the r environment
  */
-JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_initR
-(JNIEnv *env, jobject this, jobjectArray a)
-{
+JNIEXPORT jint JNICALL Java_com_simple_radapter_NativeAdapter_initR(JNIEnv *env,
+		jobject this, jobjectArray a) {
+	int initRes;
+	char *fallbackArgv[] = { "Rengine", 0 };
+	char **argv = fallbackArgv;
+	int argc = 1;
 
-      int initRes;
-      char *fallbackArgv[]={"Rengine",0};
-      char **argv=fallbackArgv;
-      int argc=1;
-      
-      engineObj=(*env)->NewGlobalRef(env, this);
-      engineClass=(*env)->NewGlobalRef(env, (*env)->GetObjectClass(env, engineObj));
-      eenv=env;
-      
-      if (a) { /* retrieve the content of the String[] and construct argv accordingly */
-          int len = (int)(*env)->GetArrayLength(env, a);
-          if (len>0) {              
-              int i=0;
-              argv=(char**) malloc(sizeof(char*)*(len+2));
-              argv[0]=fallbackArgv[0];
-              while (i < len) {
-                  jobject o=(*env)->GetObjectArrayElement(env, a, i);
-                  i++;
-                  if (o) {
-                      const char *c;
-                      c=(*env)->GetStringUTFChars(env, o, 0);
-                      if (!c)
-                          argv[i]="";
-                      else {
-			  argv[i] = strdup(c);
-                          (*env)->ReleaseStringUTFChars(env, o, c);
-                      }
-                  } else
-                      argv[i]="";
-              }
-              argc=len+1;
-              argv[argc]=0;
-          }
-      }
+	engineObj = (*env)->NewGlobalRef(env, this);
+	engineClass = (*env)->NewGlobalRef(env,
+			(*env)->GetObjectClass(env, engineObj));
+	eenv = env;
 
-      if (argc==2 && !strcmp(argv[1],"--zero-init")) {/* special case for direct embedding (exp!) */
-	initRinside();
-	return 0;
-      }
-      
-      initRes=initR(argc, argv);
-      /* we don't release the argv in case R still needs it later (even if it shouldn't), but it's not really a significant leak */
-      
-      return initRes;
+	if (a) { /* retrieve the content of the String[] and construct argv accordingly */
+		int len = (int) (*env)->GetArrayLength(env, a);
+		if (len > 0) {
+			int i = 0;
+			argv = (char**) malloc(sizeof(char*) * (len + 2));
+			argv[0] = fallbackArgv[0];
+			while (i < len) {
+				jobject o = (*env)->GetObjectArrayElement(env, a, i);
+				i++;
+				if (o) {
+					const char *c;
+					c = (*env)->GetStringUTFChars(env, o, 0);
+					if (!c)
+						argv[i] = "";
+					else {
+						argv[i] = strdup(c);
+						(*env)->ReleaseStringUTFChars(env, o, c);
+					}
+				} else
+					argv[i] = "";
+			}
+			argc = len + 1;
+			argv[argc] = 0;
+		}
+	}
+
+	if (argc == 2 && !strcmp(argv[1], "--zero-init")) {/* special case for direct embedding (exp!) */
+		initRinside();
+		return 0;
+	}
+
+	initRes = initR(argc, argv);
+	/* we don't release the argv in case R still needs it later (even if it shouldn't), but it's not really a significant leak */
+
+	return initRes;
 }
 
-
 JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_endR(JNIEnv *env, jobject this, jint exitCode) {
-        Rf_endEmbeddedR(exitCode);
-}  
+	Rf_endEmbeddedR(exitCode);
+}
 
-JNIEXPORT jbyteArray JNICALL eval_script(JNIEnv *env, jobject this, const char *command) 
-{
+JNIEXPORT jbyteArray JNICALL Java_com_simple_radapter_NativeAdapter_evalScript(
+		JNIEnv *env, jobject this, jstring jStringCommand) {
+
+    const char *command = (*env)->GetStringUTFChars(env, jStringCommand, 0);
+
 	REXP rexp = REXP__INIT;
-	if (! initialized) {
-		fprintf(stderr, "R has not been initialized, need to call initR");
-		return NULL;
-	}	
+
 	SEXP sexp = rexpress(command);
 	sexpToRexp(&rexp, sexp);
 
+	fprintf(stderr, "Real value is %f\n", rexp.singlerealvalue);
 
-	ProtobufCMessage *message = &rexp;
-	size_t packedSize = protobuf_c_message_get_packed_size(message);
-	void *packed = malloc (packedSize);
-	protobuf_c_message_pack(message, packed);
+	size_t packedSize = rexp__get_packed_size(&rexp);
+	void *packed = malloc(packedSize);
+	rexp__pack(&rexp, packed);
 
-	
 	jbyteArray result = (*env)->NewByteArray(env, packedSize);
-	(*env)->SetByteArrayRegion(env, jbyteArray, 0, packedSize, packed);
-	
-	PROTOBUF_C_BUFFER_SIMPLE_CLEAR (message);
+	(*env)->SetByteArrayRegion(env, result, 0, packedSize, packed);
 
+	//PROTOBUF_C_BUFFER_SIMPLE_CLEAR (message);
+
+	(*env)->ReleaseStringUTFChars(env, jStringCommand, command);
 	return result;
 }
 
+JNIEXPORT jlong JNICALL Java_com_simple_radapter_NativeAdapter_jniSetString(
+		JNIEnv *env, jobject this, jstring s) {
+	return SEXP2L(getString(env, s));
+}
 
-SEXP rexpress(const char* cmd)
-{
-	SEXP cmdSexp, cmdexpr, ans = R_NilValue;
-	int i;
-	ParseStatus status;
-	PROTECT(cmdSexp = Rf_allocVector(STRSXP, 1));
-	SET_STRING_ELT(cmdSexp, 0, Rf_mkChar(cmd));
-	cmdexpr = PROTECT(R_ParseVector(cmdSexp, -1, &status, R_NilValue));
-	if (status != PARSE_OK) {
-		UNPROTECT(2);
-		Rf_error("invalid call: %s", cmd);
-		return(R_NilValue);
-	}
-	for(i = 0; i < Rf_length(cmdexpr); i++)
-		ans = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
-	UNPROTECT(2);
-	return(ans);
+JNIEXPORT jboolean JNICALL Java_com_simple_radapter_NativeAdapter_jniAssign(
+		JNIEnv *env, jobject this, jstring symName, jlong valL, jlong rhoL) {
+	struct safeAssign_s s;
+
+	s.sym = installString(env, symName);
+	if (!s.sym || s.sym == R_NilValue)
+		return JNI_FALSE;
+
+	s.rho = rhoL ? L2SEXP(rhoL) : R_GlobalEnv;
+	s.val = valL ? L2SEXP(valL) : R_NilValue;
+
+	/* we have to use R_ToplevelExec because defineVar may fail on locked bindings */
+	return R_ToplevelExec(safeAssign, (void*) &s) ? JNI_TRUE : JNI_FALSE;
 }
 

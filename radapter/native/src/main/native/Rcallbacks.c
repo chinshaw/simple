@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#include "jri.h"
-#include "globals.h"
-#include "Rdecl.h"
 #include "Rcallbacks.h"
+#include "Rdecl.h"
 
-#include "com_simple_radapter_NativeAdapter.h"
+#include "RadapterJni.h"
 #include <R_ext/Parse.h>
 
 #ifndef Win32

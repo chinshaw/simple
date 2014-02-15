@@ -3,7 +3,12 @@
 
 #include <R.h>
 #include <Rinternals.h>
+#include <Rembedded.h>
+#include <Rversion.h>
+#include <R_ext/Parse.h>
+
 #include <jni.h>
+
 
 #define SEXP2L(s) ((jlong)(s))
 #ifdef WIN64
@@ -13,17 +18,45 @@
 #endif
 
 
-
+/**
+ * Global definitions
+ */
 extern jobject engineObj;
 extern jclass engineClass;
 extern JNIEnv *eenv;
 
-const char *parseExceptionClassName = "com/simple/radapter/api/ParseException";
-
-SEXP getString(JNIEnv *env, jstring s);
 
 
+int initR(int argc, char *argv[]);
+
+int stopR();
+
+
+/**
+ * Get a string from the environment by its var name
+ */
+SEXP getString(JNIEnv *env, jstring var);
+
+/**
+ * install a string in the R environment
+ */
+SEXP installString(JNIEnv *env, jstring s);
+
+/**
+ * Execute a a single command.
+ */
+SEXP rexpress(const char *cmd);
+
+
+
+/**
+ * Error handling from jni
+ */
 jint throwParseException(JNIEnv *env, char *message);
+
+
+
+void jri_checkExceptions(JNIEnv *env, int describe);
 
 #endif
 

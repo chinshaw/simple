@@ -185,7 +185,18 @@ void fill_rexp(REXP *rexp, const SEXP robj){
 		break;
 		case REALSXP:
 		rexp->rclass = REXP__RCLASS__REAL;
-		for (i=0; i<LENGTH(robj); i++) {
+
+		// If it's a single value
+		if (LENGTH(robj) == 1) {
+			fprintf(stderr, "Setting single value of rexp to %f\n",(REAL(robj)[0]));
+			rexp->singlerealvalue = (REAL(robj)[0]);
+			rexp->has_singlerealvalue = 1;
+			break;
+		}
+
+		// Otherwise we have an array
+		for (i= 0; i <LENGTH(robj); i++) {
+			fprintf(stderr, "Setting value of rexp to %f\n",(REAL(robj)[i]));
 			rexp->realvalue = &(REAL(robj)[i]);
 		}
 		break;

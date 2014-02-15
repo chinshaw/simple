@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.simple.radapter.api.EvalException;
 import com.simple.radapter.api.INativeEngine;
 import com.simple.radapter.api.IRAdapter;
@@ -14,6 +15,8 @@ import com.simple.radapter.api.ParseException;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.api.RCallbackAdapter;
 import com.simple.radapter.api.RConstants;
+import com.simple.radapter.protobuf.REXPProtos;
+import com.simple.radapter.protobuf.REXPProtos.REXP;
 
 public class NativeAdapter implements IRAdapter, INativeEngine {
 
@@ -28,6 +31,22 @@ public class NativeAdapter implements IRAdapter, INativeEngine {
 		}
 	}
 
+
+	// Member variables
+
+	private static final Logger logger = Logger.getLogger(NativeAdapter.class
+			.getName());
+
+	public static final int GLOBAL_ENVIRONMENT = 0;
+
+	/**
+	 * Is it started, R is single threaded
+	 */
+	private static boolean started = false;
+
+	public static final String[] DEFAULT_R_ARGS = { "--vanilla" };
+
+	
 	private final String[] rArgs;
 
 	private RCallbackAdapter console;
@@ -67,6 +86,14 @@ public class NativeAdapter implements IRAdapter, INativeEngine {
 	public IRexp<?> execScript(String script) throws RAdapterException {
 		setString(".tmpCode.", script);
 		return execCommand("eval(parse(text=.tmpCode.))");
+	}
+	
+	public REXP executeScript(String script) throws RAdapterException, InvalidProtocolBufferException {
+		setString(".tmpCode.", script);
+		byte[] packed = evalScript("eval(parse(text=.tmpCode.))");
+		
+		REXP rexp = REXPProtos.REXP.parseFrom(packed);
+		return rexp;
 	}
 
 	@Override
@@ -325,6 +352,8 @@ public class NativeAdapter implements IRAdapter, INativeEngine {
 	public synchronized native void jniProtect(long exp);
 
 	public synchronized native void jniUnprotect(int count);
+	
+	public synchronized native byte[] evalScript(String command);
 
 	/**
 	 * JRI: R_WriteConsole call-back from R
@@ -388,20 +417,6 @@ public class NativeAdapter implements IRAdapter, INativeEngine {
 	 */
 	public void jriSaveHistory(String filename) {
 	}
-
-	// Member variables
-
-	private static final Logger logger = Logger.getLogger(NativeAdapter.class
-			.getName());
-
-	public static final int GLOBAL_ENVIRONMENT = 0;
-
-	/**
-	 * Is it started, R is single threaded
-	 */
-	private static boolean started = false;
-
-	public static final String[] DEFAULT_R_ARGS = { "--vanilla" };
 
 
 }

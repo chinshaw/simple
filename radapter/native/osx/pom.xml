@@ -21,7 +21,7 @@
 	</dependencies>
 
 	<properties>
-		<protocc.output>${project.build.directory}/generated-sources/protoc-c</protocc.output>
+		<protocc.output>${project.build.directory}/native/protobufcc</protocc.output>
 		<main.basedir>${project.parent.parent.basedir}</main.basedir>
 	</properties>
 
@@ -31,7 +31,6 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
-					<!-- 
 					<execution>
 						<id>mkdir</id>
 						<phase>generate-sources</phase>
@@ -40,10 +39,12 @@
 						</goals>
 						<configuration>
 							<executable>mkdir</executable>
-							<arguments>-p ${protocc.output}</arguments>
+							<arguments>
+								<argument>-p</argument>
+								<argument>${protocc.output}</argument>
+							</arguments>
 						</configuration>
 					</execution>
-					 -->
 					<execution>
 						<id>protoc-c</id>
 						<phase>generate-sources</phase>
@@ -51,14 +52,24 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>protoc-c</executable>
-							<arguments>--c_out=${protocc.output} --proto_path=${protobuf.dir} ${protobuf.dir}/rexp.proto</arguments>
+							<executable>/usr/local/bin/protoc-c</executable>
+							<arguments>
+								<argument>
+									--c_out=${protocc.output}
+								</argument>
+								<argument>
+									--proto_path=${protobuf.dir}
+								</argument>
+								<argument>
+									${protobuf.dir}/rexp.proto
+								</argument>
+							</arguments>
 						</configuration>
 
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>native-maven-plugin</artifactId>
@@ -76,7 +87,7 @@
 								${protocc.output}
 							</directory>
 							<includes>
-								<include>**/**</include>
+								<include>**/*.c</include>
 							</includes>
 						</source>
 
@@ -107,7 +118,8 @@
 						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT
 							-L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/
 							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/
-							-ljvm -lR</linkerStartOption>
+							-L/usr/local/lib
+							-ljvm -lR -lprotobuf-c</linkerStartOption>
 					</linkerStartOptions>
 					<linkerEndOptions>
 						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT
