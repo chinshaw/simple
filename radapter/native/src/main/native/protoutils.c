@@ -139,22 +139,23 @@ void sexpToRexp(REXP *rexp, const SEXP model) {
  */
 void fill_rexp(REXP* rexp, const SEXP model) {
 
-	SEXP xx = ATTRIB(model);
+
 	int i;
-	/*
+	SEXP xx = ATTRIB(model);
 	if (xx != R_NilValue) {
 		SEXP s = ATTRIB(model);
 		for (; s != R_NilValue; s = CDR(s)) {
 			Rf_PrintValue(s);
-			rexp->attrname = (CHAR(PRINTNAME(TAG(s))));
 			REXP attrvalue = REXP__INIT;
+			rexp->attrname = (CHAR(PRINTNAME(TAG(s))));
+
 			rexp->attrvalue = &attrvalue;
 			fill_rexp(rexp->attrvalue, CAR(s));
 		}
 	}
-	*/
 
 	fprintf(stderr, "Type of model is %d\n", TYPEOF(model));
+
 	switch (TYPEOF(model)) {
 	case LGLSXP: //# define LGLSXP      10    /* logical vectors */
 		rexp->rclass = REXP__RCLASS__LGLSXP;
@@ -176,19 +177,22 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 		}
 		break;
 	case INTSXP: // #define INTSXP      13    /* integer vectors */
-		rexp->rclass = REXP__RCLASS__INTSXP;
-		rexp->n_intvalue = LENGTH(model);
-
 		// factors have internal type INTSXP too
 		if (Rf_inherits(model, "factor")) {
+			Rf_PrintValue(model);
+			//Rf_PrintValue(CAR(model));
 			int levelCount = Rf_nlevels(model);
 			if (levelCount > 0) {
-				fprintf(stderr, "Got a factor with count %d", levelCount);
-				SEXP levels = Rf_getAttrib(model, Rf_install("levels"));
+				fprintf(stderr, "Got a factor with count %d\n", levelCount);
+				SEXP levels = GET_LEVELS(model);
+
 				fill_rexp(rexp, levels);
 			}
+			break;
 		}
 
+		rexp->rclass = REXP__RCLASS__INTSXP;
+		rexp->n_intvalue = LENGTH(model);
 		rexp->intvalue = malloc(sizeof(rexp->intvalue) * (rexp->n_intvalue));
 		for (i = 0; i < rexp->n_intvalue; i++) {
 			fprintf(stderr, "Setting value of rexp to %d %d\n",i,  (INTEGER(model)[i]));
@@ -236,6 +240,7 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 		rexp->rclass = REXP__RCLASS__STRSXP;
 
 		rexp->n_stringvalue = LENGTH(model);
+		fprintf(stderr, "Number of strings %d\n", rexp->n_stringvalue);
 		rexp->stringvalue = malloc(sizeof(rexp->stringvalue) * rexp->n_stringvalue);
 		for (i = 0; i < rexp->n_stringvalue; i++) {
 			rexp->stringvalue[i] = CHAR(STRING_ELT(model, i));
