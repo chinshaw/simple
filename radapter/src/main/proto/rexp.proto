@@ -2,46 +2,57 @@ option java_package = "com.simple.radapter.protobuf";
 option java_outer_classname = "REXPProtos";
 message REXP {
   enum RClass {
-    STRING	= 0;
-    RAW		= 1;
-    REAL	= 2;
-    COMPLEX	= 3;
-    INTEGER	= 4;
-    LIST	= 5;
-    LOGICAL	= 6;
-    NULLTYPE	= 7;
-    REAL1       = 8;
-    INTEGER1    = 10;
-    STRING1     = 9;
+	NILSXP			= 0;    /* nil = NULL */
+ 	SYMSXP			= 1;    /* symbols */
+ 	LISTSXP			= 2;    /* lists of dotted pairs */
+ 	CLOSXP			= 3;    /* closures */
+  	ENVSXP			= 4;    /* environments */
+	PROMSXP			= 5;    /* promises: [un]evaluated closure arguments */
+ 	LANGSXP			= 6;    /* language constructs (special lists) */
+ 	SPECIALSXP		= 7;    /* special forms */
+ 	BUILTINSXP		= 8;    /* builtin non-special forms */
+  	CHARSXP			= 9;    /* "scalar" string type (internal only)*/
+ 	LGLSXP			= 10;    /* logical vectors */
+	INTSXP 			= 13;    /* integer vectors */
+   	REALSXP			= 14;    /* real variables */
+    CPLXSXP			= 15;    /* complex variables */
+   	STRSXP			= 16;    /* string vectors */
+  	DOTSXP			= 17;    /* dot-dot-dot object */
+   	ANYSXP			= 18;    /* make "any" args work.
+                             Used in specifying types for symbol
+                             registration to mean anything is okay  */
+   	VECSXP			= 19;    /* generic vectors */
+    EXPRSXP			= 20;    /* expressions vectors */
+ 	BCODESXP		= 21;    /* byte code */
+    EXTPTRSXP		= 22;    /* external pointer */
+    WEAKREFSXP		= 23;    /* weak reference */
+	RAWSXP			= 24;    /* raw bytes */
+    S4SXP			= 25;    /* S4, non-vector */
+    NEWSXP			= 30;    /* fresh node creaed in new page */
+    FREESXP			= 31;    /* node released by GC */
 
+    FUNSXP			= 99;    /* Closure or Builtin or Special */
   }
+  
   enum RBOOLEAN {
     F	= 0;
     T	= 1;
     NA	= 2;
   }
 
-  required RClass   rclass		= 1 ; 
+  required RClass   rclass			= 1 ; 
   repeated double   realValue		= 2 [packed=true];
   repeated sint32   intValue		= 3 [packed=true];
   repeated RBOOLEAN booleanValue	= 4;
-  repeated STRING   stringValue		= 5;
+  repeated string   stringValue		= 5;
   optional bytes    rawValue		= 6;
   repeated CMPLX    complexValue	= 7;
   repeated REXP	    rexpValue		= 8;
   repeated string   attrName		= 11;
   repeated REXP     attrValue		= 12;
-  optional double   singleRealValue		= 13;
-  optional STRING   singleStringValue		= 15;
-  optional sint32   singleIntegerValue		= 16;
-
 }
 
 
-message STRING {
-  optional string strval = 1;
-  optional bool isNA = 2 [default=false];
-}
 message CMPLX {
   optional double real = 1 [default=0];
   required double imag = 2;
@@ -53,23 +64,8 @@ message Script {
 
 message EvalResponse {
   optional sint32	exit_code	= 1;
-	
 }
 
 service ScriptService {
   rpc Eval (Script) returns (EvalResponse);
 }
-
-
-//message PROMISE {
-//  optional REXP environment;
-//  optional REXP attributes;
-//  optional REXP value;
-//  optional REXP expression;
-//}
-//message CLOSURE {
-//  optional attributes
-//
-//
-//
-//}

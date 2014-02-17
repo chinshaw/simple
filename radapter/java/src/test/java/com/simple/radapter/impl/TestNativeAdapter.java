@@ -96,9 +96,107 @@ public class TestNativeAdapter {
 			assertNotNull(rexp);
 			
 			System.out.println("Rexp is " + rexp.getRclass() + " "
-					+ rexp.getSingleRealValue());
+					+ rexp.getRealValue(0));
 
-			assertTrue(rexp.getSingleRealValue() == 42);
+			assertTrue(rexp.getRealValue(0)== 42);
+		} catch (RAdapterException e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void testRealArray() {
+		logger.info("testRealArray");
+		String command = "question <- 'meaning of life'; answer <- c(4, 2);";
+		try {
+			REXP rexp = null;
+			try {
+				rexp = adapter.executeScript(command);
+			} catch (InvalidProtocolBufferException e) {
+				fail("Invalid protobuf returned");
+			}
+			assertNotNull(rexp);
+			
+			System.out.println("Count of real " + rexp.getRealValueCount());
+			
+			for ( int i = 0; i < rexp.getRealValueCount(); i++) {
+				System.out.println("rexp value is " + rexp.getRealValue(i));
+			}
+			
+			assertTrue(rexp.getRealValue(0) == 4);
+			assertTrue(rexp.getRealValue(1) == 2);
+
+		} catch (RAdapterException e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void testStringArray() {
+		logger.info("testStringArray");
+		String command = "question <- c('meaning', 'of', 'life');";
+		try {
+			REXP rexp = null;
+			try {
+				rexp = adapter.executeScript(command);
+			} catch (InvalidProtocolBufferException e) {
+				fail("Invalid protobuf returned");
+			}
+			assertNotNull(rexp);
+			
+			assertTrue(rexp.getStringValueCount() > 0);
+			System.out.println("rexp value " + rexp.getStringValue(0));
+			System.out.println("rexp value " + rexp.getStringValue(1));
+			System.out.println("rexp value " + rexp.getStringValue(2));
+			
+		} catch (RAdapterException e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void testList() {
+		logger.info("testStringArray");
+		String command = "question <- c('meaning', 'of', 'life');";
+		try {
+			REXP rexp = null;
+			try {
+				rexp = adapter.executeScript(command);
+			} catch (InvalidProtocolBufferException e) {
+				fail("Invalid protobuf returned");
+			}
+			assertNotNull(rexp);
+			
+			assertTrue(rexp.getStringValueCount() > 0);
+			
+		} catch (RAdapterException e) {
+			fail(e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void testDataFrame() {
+		logger.info("testDataFrame");
+		String command = "d <- c(1,2,3,4); e <- c(\"red\", \"white\", \"red\", NA); f <- c(TRUE,TRUE,TRUE,FALSE); mydata <- data.frame(d,e,f);";
+		//String command = "d <- c(1,2,3,4); mydata <- data.frame(d);";
+		
+		try {
+			REXP rexp = null;
+			try {
+				rexp = adapter.executeScript(command);
+			} catch (InvalidProtocolBufferException e) {
+				fail("Invalid protobuf returned");
+			}
+			
+			assertNotNull(rexp);
+			System.out.println("TYpe is " + rexp.getRclass());
+			for (REXP child : rexp.getRexpValueList()) {
+				System.out.println("TYpe is " + child.getRclass());
+			}
 		} catch (RAdapterException e) {
 			fail(e.getMessage());
 		}

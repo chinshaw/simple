@@ -63,30 +63,25 @@ public final class REXPProtos {
      */
     com.simple.radapter.protobuf.REXPProtos.REXP.RBOOLEAN getBooleanValue(int index);
 
-    // repeated .STRING stringValue = 5;
+    // repeated string stringValue = 5;
     /**
-     * <code>repeated .STRING stringValue = 5;</code>
+     * <code>repeated string stringValue = 5;</code>
      */
-    java.util.List<com.simple.radapter.protobuf.REXPProtos.STRING> 
-        getStringValueList();
+    java.util.List<java.lang.String>
+    getStringValueList();
     /**
-     * <code>repeated .STRING stringValue = 5;</code>
-     */
-    com.simple.radapter.protobuf.REXPProtos.STRING getStringValue(int index);
-    /**
-     * <code>repeated .STRING stringValue = 5;</code>
+     * <code>repeated string stringValue = 5;</code>
      */
     int getStringValueCount();
     /**
-     * <code>repeated .STRING stringValue = 5;</code>
+     * <code>repeated string stringValue = 5;</code>
      */
-    java.util.List<? extends com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder> 
-        getStringValueOrBuilderList();
+    java.lang.String getStringValue(int index);
     /**
-     * <code>repeated .STRING stringValue = 5;</code>
+     * <code>repeated string stringValue = 5;</code>
      */
-    com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder getStringValueOrBuilder(
-        int index);
+    com.google.protobuf.ByteString
+        getStringValueBytes(int index);
 
     // optional bytes rawValue = 6;
     /**
@@ -192,40 +187,6 @@ public final class REXPProtos {
      */
     com.simple.radapter.protobuf.REXPProtos.REXPOrBuilder getAttrValueOrBuilder(
         int index);
-
-    // optional double singleRealValue = 13;
-    /**
-     * <code>optional double singleRealValue = 13;</code>
-     */
-    boolean hasSingleRealValue();
-    /**
-     * <code>optional double singleRealValue = 13;</code>
-     */
-    double getSingleRealValue();
-
-    // optional .STRING singleStringValue = 15;
-    /**
-     * <code>optional .STRING singleStringValue = 15;</code>
-     */
-    boolean hasSingleStringValue();
-    /**
-     * <code>optional .STRING singleStringValue = 15;</code>
-     */
-    com.simple.radapter.protobuf.REXPProtos.STRING getSingleStringValue();
-    /**
-     * <code>optional .STRING singleStringValue = 15;</code>
-     */
-    com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder getSingleStringValueOrBuilder();
-
-    // optional sint32 singleIntegerValue = 16;
-    /**
-     * <code>optional sint32 singleIntegerValue = 16;</code>
-     */
-    boolean hasSingleIntegerValue();
-    /**
-     * <code>optional sint32 singleIntegerValue = 16;</code>
-     */
-    int getSingleIntegerValue();
   }
   /**
    * Protobuf type {@code REXP}
@@ -366,10 +327,10 @@ public final class REXPProtos {
             }
             case 42: {
               if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-                stringValue_ = new java.util.ArrayList<com.simple.radapter.protobuf.REXPProtos.STRING>();
+                stringValue_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000010;
               }
-              stringValue_.add(input.readMessage(com.simple.radapter.protobuf.REXPProtos.STRING.PARSER, extensionRegistry));
+              stringValue_.add(input.readBytes());
               break;
             }
             case 50: {
@@ -409,29 +370,6 @@ public final class REXPProtos {
               attrValue_.add(input.readMessage(com.simple.radapter.protobuf.REXPProtos.REXP.PARSER, extensionRegistry));
               break;
             }
-            case 105: {
-              bitField0_ |= 0x00000004;
-              singleRealValue_ = input.readDouble();
-              break;
-            }
-            case 122: {
-              com.simple.radapter.protobuf.REXPProtos.STRING.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
-                subBuilder = singleStringValue_.toBuilder();
-              }
-              singleStringValue_ = input.readMessage(com.simple.radapter.protobuf.REXPProtos.STRING.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(singleStringValue_);
-                singleStringValue_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000008;
-              break;
-            }
-            case 128: {
-              bitField0_ |= 0x00000010;
-              singleIntegerValue_ = input.readSInt32();
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -450,7 +388,7 @@ public final class REXPProtos {
           booleanValue_ = java.util.Collections.unmodifiableList(booleanValue_);
         }
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
-          stringValue_ = java.util.Collections.unmodifiableList(stringValue_);
+          stringValue_ = new com.google.protobuf.UnmodifiableLazyStringList(stringValue_);
         }
         if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           complexValue_ = java.util.Collections.unmodifiableList(complexValue_);
@@ -501,112 +439,476 @@ public final class REXPProtos {
     public enum RClass
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>STRING = 0;</code>
+       * <code>NILSXP = 0;</code>
+       *
+       * <pre>
+       * nil = NULL 
+       * </pre>
        */
-      STRING(0, 0),
+      NILSXP(0, 0),
       /**
-       * <code>RAW = 1;</code>
+       * <code>SYMSXP = 1;</code>
+       *
+       * <pre>
+       * symbols 
+       * </pre>
        */
-      RAW(1, 1),
+      SYMSXP(1, 1),
       /**
-       * <code>REAL = 2;</code>
+       * <code>LISTSXP = 2;</code>
+       *
+       * <pre>
+       * lists of dotted pairs 
+       * </pre>
        */
-      REAL(2, 2),
+      LISTSXP(2, 2),
       /**
-       * <code>COMPLEX = 3;</code>
+       * <code>CLOSXP = 3;</code>
+       *
+       * <pre>
+       * closures 
+       * </pre>
        */
-      COMPLEX(3, 3),
+      CLOSXP(3, 3),
       /**
-       * <code>INTEGER = 4;</code>
+       * <code>ENVSXP = 4;</code>
+       *
+       * <pre>
+       * environments 
+       * </pre>
        */
-      INTEGER(4, 4),
+      ENVSXP(4, 4),
       /**
-       * <code>LIST = 5;</code>
+       * <code>PROMSXP = 5;</code>
+       *
+       * <pre>
+       * promises: [un]evaluated closure arguments 
+       * </pre>
        */
-      LIST(5, 5),
+      PROMSXP(5, 5),
       /**
-       * <code>LOGICAL = 6;</code>
+       * <code>LANGSXP = 6;</code>
+       *
+       * <pre>
+       * language constructs (special lists) 
+       * </pre>
        */
-      LOGICAL(6, 6),
+      LANGSXP(6, 6),
       /**
-       * <code>NULLTYPE = 7;</code>
+       * <code>SPECIALSXP = 7;</code>
+       *
+       * <pre>
+       * special forms 
+       * </pre>
        */
-      NULLTYPE(7, 7),
+      SPECIALSXP(7, 7),
       /**
-       * <code>REAL1 = 8;</code>
+       * <code>BUILTINSXP = 8;</code>
+       *
+       * <pre>
+       * builtin non-special forms 
+       * </pre>
        */
-      REAL1(8, 8),
+      BUILTINSXP(8, 8),
       /**
-       * <code>INTEGER1 = 10;</code>
+       * <code>CHARSXP = 9;</code>
+       *
+       * <pre>
+       * "scalar" string type (internal only)
+       * </pre>
        */
-      INTEGER1(9, 10),
+      CHARSXP(9, 9),
       /**
-       * <code>STRING1 = 9;</code>
+       * <code>LGLSXP = 10;</code>
+       *
+       * <pre>
+       * logical vectors 
+       * </pre>
        */
-      STRING1(10, 9),
+      LGLSXP(10, 10),
+      /**
+       * <code>INTSXP = 13;</code>
+       *
+       * <pre>
+       * integer vectors 
+       * </pre>
+       */
+      INTSXP(11, 13),
+      /**
+       * <code>REALSXP = 14;</code>
+       *
+       * <pre>
+       * real variables 
+       * </pre>
+       */
+      REALSXP(12, 14),
+      /**
+       * <code>CPLXSXP = 15;</code>
+       *
+       * <pre>
+       * complex variables 
+       * </pre>
+       */
+      CPLXSXP(13, 15),
+      /**
+       * <code>STRSXP = 16;</code>
+       *
+       * <pre>
+       * string vectors 
+       * </pre>
+       */
+      STRSXP(14, 16),
+      /**
+       * <code>DOTSXP = 17;</code>
+       *
+       * <pre>
+       * dot-dot-dot object 
+       * </pre>
+       */
+      DOTSXP(15, 17),
+      /**
+       * <code>ANYSXP = 18;</code>
+       *
+       * <pre>
+       * make "any" args work.
+       *Used in specifying types for symbol
+       *registration to mean anything is okay  
+       * </pre>
+       */
+      ANYSXP(16, 18),
+      /**
+       * <code>VECSXP = 19;</code>
+       *
+       * <pre>
+       * generic vectors 
+       * </pre>
+       */
+      VECSXP(17, 19),
+      /**
+       * <code>EXPRSXP = 20;</code>
+       *
+       * <pre>
+       * expressions vectors 
+       * </pre>
+       */
+      EXPRSXP(18, 20),
+      /**
+       * <code>BCODESXP = 21;</code>
+       *
+       * <pre>
+       * byte code 
+       * </pre>
+       */
+      BCODESXP(19, 21),
+      /**
+       * <code>EXTPTRSXP = 22;</code>
+       *
+       * <pre>
+       * external pointer 
+       * </pre>
+       */
+      EXTPTRSXP(20, 22),
+      /**
+       * <code>WEAKREFSXP = 23;</code>
+       *
+       * <pre>
+       * weak reference 
+       * </pre>
+       */
+      WEAKREFSXP(21, 23),
+      /**
+       * <code>RAWSXP = 24;</code>
+       *
+       * <pre>
+       * raw bytes 
+       * </pre>
+       */
+      RAWSXP(22, 24),
+      /**
+       * <code>S4SXP = 25;</code>
+       *
+       * <pre>
+       * S4, non-vector 
+       * </pre>
+       */
+      S4SXP(23, 25),
+      /**
+       * <code>NEWSXP = 30;</code>
+       *
+       * <pre>
+       * fresh node creaed in new page 
+       * </pre>
+       */
+      NEWSXP(24, 30),
+      /**
+       * <code>FREESXP = 31;</code>
+       *
+       * <pre>
+       * node released by GC 
+       * </pre>
+       */
+      FREESXP(25, 31),
+      /**
+       * <code>FUNSXP = 99;</code>
+       *
+       * <pre>
+       * Closure or Builtin or Special 
+       * </pre>
+       */
+      FUNSXP(26, 99),
       ;
 
       /**
-       * <code>STRING = 0;</code>
+       * <code>NILSXP = 0;</code>
+       *
+       * <pre>
+       * nil = NULL 
+       * </pre>
        */
-      public static final int STRING_VALUE = 0;
+      public static final int NILSXP_VALUE = 0;
       /**
-       * <code>RAW = 1;</code>
+       * <code>SYMSXP = 1;</code>
+       *
+       * <pre>
+       * symbols 
+       * </pre>
        */
-      public static final int RAW_VALUE = 1;
+      public static final int SYMSXP_VALUE = 1;
       /**
-       * <code>REAL = 2;</code>
+       * <code>LISTSXP = 2;</code>
+       *
+       * <pre>
+       * lists of dotted pairs 
+       * </pre>
        */
-      public static final int REAL_VALUE = 2;
+      public static final int LISTSXP_VALUE = 2;
       /**
-       * <code>COMPLEX = 3;</code>
+       * <code>CLOSXP = 3;</code>
+       *
+       * <pre>
+       * closures 
+       * </pre>
        */
-      public static final int COMPLEX_VALUE = 3;
+      public static final int CLOSXP_VALUE = 3;
       /**
-       * <code>INTEGER = 4;</code>
+       * <code>ENVSXP = 4;</code>
+       *
+       * <pre>
+       * environments 
+       * </pre>
        */
-      public static final int INTEGER_VALUE = 4;
+      public static final int ENVSXP_VALUE = 4;
       /**
-       * <code>LIST = 5;</code>
+       * <code>PROMSXP = 5;</code>
+       *
+       * <pre>
+       * promises: [un]evaluated closure arguments 
+       * </pre>
        */
-      public static final int LIST_VALUE = 5;
+      public static final int PROMSXP_VALUE = 5;
       /**
-       * <code>LOGICAL = 6;</code>
+       * <code>LANGSXP = 6;</code>
+       *
+       * <pre>
+       * language constructs (special lists) 
+       * </pre>
        */
-      public static final int LOGICAL_VALUE = 6;
+      public static final int LANGSXP_VALUE = 6;
       /**
-       * <code>NULLTYPE = 7;</code>
+       * <code>SPECIALSXP = 7;</code>
+       *
+       * <pre>
+       * special forms 
+       * </pre>
        */
-      public static final int NULLTYPE_VALUE = 7;
+      public static final int SPECIALSXP_VALUE = 7;
       /**
-       * <code>REAL1 = 8;</code>
+       * <code>BUILTINSXP = 8;</code>
+       *
+       * <pre>
+       * builtin non-special forms 
+       * </pre>
        */
-      public static final int REAL1_VALUE = 8;
+      public static final int BUILTINSXP_VALUE = 8;
       /**
-       * <code>INTEGER1 = 10;</code>
+       * <code>CHARSXP = 9;</code>
+       *
+       * <pre>
+       * "scalar" string type (internal only)
+       * </pre>
        */
-      public static final int INTEGER1_VALUE = 10;
+      public static final int CHARSXP_VALUE = 9;
       /**
-       * <code>STRING1 = 9;</code>
+       * <code>LGLSXP = 10;</code>
+       *
+       * <pre>
+       * logical vectors 
+       * </pre>
        */
-      public static final int STRING1_VALUE = 9;
+      public static final int LGLSXP_VALUE = 10;
+      /**
+       * <code>INTSXP = 13;</code>
+       *
+       * <pre>
+       * integer vectors 
+       * </pre>
+       */
+      public static final int INTSXP_VALUE = 13;
+      /**
+       * <code>REALSXP = 14;</code>
+       *
+       * <pre>
+       * real variables 
+       * </pre>
+       */
+      public static final int REALSXP_VALUE = 14;
+      /**
+       * <code>CPLXSXP = 15;</code>
+       *
+       * <pre>
+       * complex variables 
+       * </pre>
+       */
+      public static final int CPLXSXP_VALUE = 15;
+      /**
+       * <code>STRSXP = 16;</code>
+       *
+       * <pre>
+       * string vectors 
+       * </pre>
+       */
+      public static final int STRSXP_VALUE = 16;
+      /**
+       * <code>DOTSXP = 17;</code>
+       *
+       * <pre>
+       * dot-dot-dot object 
+       * </pre>
+       */
+      public static final int DOTSXP_VALUE = 17;
+      /**
+       * <code>ANYSXP = 18;</code>
+       *
+       * <pre>
+       * make "any" args work.
+       *Used in specifying types for symbol
+       *registration to mean anything is okay  
+       * </pre>
+       */
+      public static final int ANYSXP_VALUE = 18;
+      /**
+       * <code>VECSXP = 19;</code>
+       *
+       * <pre>
+       * generic vectors 
+       * </pre>
+       */
+      public static final int VECSXP_VALUE = 19;
+      /**
+       * <code>EXPRSXP = 20;</code>
+       *
+       * <pre>
+       * expressions vectors 
+       * </pre>
+       */
+      public static final int EXPRSXP_VALUE = 20;
+      /**
+       * <code>BCODESXP = 21;</code>
+       *
+       * <pre>
+       * byte code 
+       * </pre>
+       */
+      public static final int BCODESXP_VALUE = 21;
+      /**
+       * <code>EXTPTRSXP = 22;</code>
+       *
+       * <pre>
+       * external pointer 
+       * </pre>
+       */
+      public static final int EXTPTRSXP_VALUE = 22;
+      /**
+       * <code>WEAKREFSXP = 23;</code>
+       *
+       * <pre>
+       * weak reference 
+       * </pre>
+       */
+      public static final int WEAKREFSXP_VALUE = 23;
+      /**
+       * <code>RAWSXP = 24;</code>
+       *
+       * <pre>
+       * raw bytes 
+       * </pre>
+       */
+      public static final int RAWSXP_VALUE = 24;
+      /**
+       * <code>S4SXP = 25;</code>
+       *
+       * <pre>
+       * S4, non-vector 
+       * </pre>
+       */
+      public static final int S4SXP_VALUE = 25;
+      /**
+       * <code>NEWSXP = 30;</code>
+       *
+       * <pre>
+       * fresh node creaed in new page 
+       * </pre>
+       */
+      public static final int NEWSXP_VALUE = 30;
+      /**
+       * <code>FREESXP = 31;</code>
+       *
+       * <pre>
+       * node released by GC 
+       * </pre>
+       */
+      public static final int FREESXP_VALUE = 31;
+      /**
+       * <code>FUNSXP = 99;</code>
+       *
+       * <pre>
+       * Closure or Builtin or Special 
+       * </pre>
+       */
+      public static final int FUNSXP_VALUE = 99;
 
 
       public final int getNumber() { return value; }
 
       public static RClass valueOf(int value) {
         switch (value) {
-          case 0: return STRING;
-          case 1: return RAW;
-          case 2: return REAL;
-          case 3: return COMPLEX;
-          case 4: return INTEGER;
-          case 5: return LIST;
-          case 6: return LOGICAL;
-          case 7: return NULLTYPE;
-          case 8: return REAL1;
-          case 10: return INTEGER1;
-          case 9: return STRING1;
+          case 0: return NILSXP;
+          case 1: return SYMSXP;
+          case 2: return LISTSXP;
+          case 3: return CLOSXP;
+          case 4: return ENVSXP;
+          case 5: return PROMSXP;
+          case 6: return LANGSXP;
+          case 7: return SPECIALSXP;
+          case 8: return BUILTINSXP;
+          case 9: return CHARSXP;
+          case 10: return LGLSXP;
+          case 13: return INTSXP;
+          case 14: return REALSXP;
+          case 15: return CPLXSXP;
+          case 16: return STRSXP;
+          case 17: return DOTSXP;
+          case 18: return ANYSXP;
+          case 19: return VECSXP;
+          case 20: return EXPRSXP;
+          case 21: return BCODESXP;
+          case 22: return EXTPTRSXP;
+          case 23: return WEAKREFSXP;
+          case 24: return RAWSXP;
+          case 25: return S4SXP;
+          case 30: return NEWSXP;
+          case 31: return FREESXP;
+          case 99: return FUNSXP;
           default: return null;
         }
       }
@@ -836,40 +1138,34 @@ public final class REXPProtos {
       return booleanValue_.get(index);
     }
 
-    // repeated .STRING stringValue = 5;
+    // repeated string stringValue = 5;
     public static final int STRINGVALUE_FIELD_NUMBER = 5;
-    private java.util.List<com.simple.radapter.protobuf.REXPProtos.STRING> stringValue_;
+    private com.google.protobuf.LazyStringList stringValue_;
     /**
-     * <code>repeated .STRING stringValue = 5;</code>
+     * <code>repeated string stringValue = 5;</code>
      */
-    public java.util.List<com.simple.radapter.protobuf.REXPProtos.STRING> getStringValueList() {
+    public java.util.List<java.lang.String>
+        getStringValueList() {
       return stringValue_;
     }
     /**
-     * <code>repeated .STRING stringValue = 5;</code>
-     */
-    public java.util.List<? extends com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder> 
-        getStringValueOrBuilderList() {
-      return stringValue_;
-    }
-    /**
-     * <code>repeated .STRING stringValue = 5;</code>
+     * <code>repeated string stringValue = 5;</code>
      */
     public int getStringValueCount() {
       return stringValue_.size();
     }
     /**
-     * <code>repeated .STRING stringValue = 5;</code>
+     * <code>repeated string stringValue = 5;</code>
      */
-    public com.simple.radapter.protobuf.REXPProtos.STRING getStringValue(int index) {
+    public java.lang.String getStringValue(int index) {
       return stringValue_.get(index);
     }
     /**
-     * <code>repeated .STRING stringValue = 5;</code>
+     * <code>repeated string stringValue = 5;</code>
      */
-    public com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder getStringValueOrBuilder(
-        int index) {
-      return stringValue_.get(index);
+    public com.google.protobuf.ByteString
+        getStringValueBytes(int index) {
+      return stringValue_.getByteString(index);
     }
 
     // optional bytes rawValue = 6;
@@ -1026,74 +1322,17 @@ public final class REXPProtos {
       return attrValue_.get(index);
     }
 
-    // optional double singleRealValue = 13;
-    public static final int SINGLEREALVALUE_FIELD_NUMBER = 13;
-    private double singleRealValue_;
-    /**
-     * <code>optional double singleRealValue = 13;</code>
-     */
-    public boolean hasSingleRealValue() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional double singleRealValue = 13;</code>
-     */
-    public double getSingleRealValue() {
-      return singleRealValue_;
-    }
-
-    // optional .STRING singleStringValue = 15;
-    public static final int SINGLESTRINGVALUE_FIELD_NUMBER = 15;
-    private com.simple.radapter.protobuf.REXPProtos.STRING singleStringValue_;
-    /**
-     * <code>optional .STRING singleStringValue = 15;</code>
-     */
-    public boolean hasSingleStringValue() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional .STRING singleStringValue = 15;</code>
-     */
-    public com.simple.radapter.protobuf.REXPProtos.STRING getSingleStringValue() {
-      return singleStringValue_;
-    }
-    /**
-     * <code>optional .STRING singleStringValue = 15;</code>
-     */
-    public com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder getSingleStringValueOrBuilder() {
-      return singleStringValue_;
-    }
-
-    // optional sint32 singleIntegerValue = 16;
-    public static final int SINGLEINTEGERVALUE_FIELD_NUMBER = 16;
-    private int singleIntegerValue_;
-    /**
-     * <code>optional sint32 singleIntegerValue = 16;</code>
-     */
-    public boolean hasSingleIntegerValue() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional sint32 singleIntegerValue = 16;</code>
-     */
-    public int getSingleIntegerValue() {
-      return singleIntegerValue_;
-    }
-
     private void initFields() {
-      rclass_ = com.simple.radapter.protobuf.REXPProtos.REXP.RClass.STRING;
+      rclass_ = com.simple.radapter.protobuf.REXPProtos.REXP.RClass.NILSXP;
       realValue_ = java.util.Collections.emptyList();
       intValue_ = java.util.Collections.emptyList();
       booleanValue_ = java.util.Collections.emptyList();
-      stringValue_ = java.util.Collections.emptyList();
+      stringValue_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       rawValue_ = com.google.protobuf.ByteString.EMPTY;
       complexValue_ = java.util.Collections.emptyList();
       rexpValue_ = java.util.Collections.emptyList();
       attrName_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       attrValue_ = java.util.Collections.emptyList();
-      singleRealValue_ = 0D;
-      singleStringValue_ = com.simple.radapter.protobuf.REXPProtos.STRING.getDefaultInstance();
-      singleIntegerValue_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1150,7 +1389,7 @@ public final class REXPProtos {
         output.writeEnum(4, booleanValue_.get(i).getNumber());
       }
       for (int i = 0; i < stringValue_.size(); i++) {
-        output.writeMessage(5, stringValue_.get(i));
+        output.writeBytes(5, stringValue_.getByteString(i));
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(6, rawValue_);
@@ -1166,15 +1405,6 @@ public final class REXPProtos {
       }
       for (int i = 0; i < attrValue_.size(); i++) {
         output.writeMessage(12, attrValue_.get(i));
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeDouble(13, singleRealValue_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(15, singleStringValue_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeSInt32(16, singleIntegerValue_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1223,9 +1453,14 @@ public final class REXPProtos {
         size += dataSize;
         size += 1 * booleanValue_.size();
       }
-      for (int i = 0; i < stringValue_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, stringValue_.get(i));
+      {
+        int dataSize = 0;
+        for (int i = 0; i < stringValue_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(stringValue_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getStringValueList().size();
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1251,18 +1486,6 @@ public final class REXPProtos {
       for (int i = 0; i < attrValue_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(12, attrValue_.get(i));
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeDoubleSize(13, singleRealValue_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(15, singleStringValue_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeSInt32Size(16, singleIntegerValue_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1372,11 +1595,9 @@ public final class REXPProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getStringValueFieldBuilder();
           getComplexValueFieldBuilder();
           getRexpValueFieldBuilder();
           getAttrValueFieldBuilder();
-          getSingleStringValueFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1385,7 +1606,7 @@ public final class REXPProtos {
 
       public Builder clear() {
         super.clear();
-        rclass_ = com.simple.radapter.protobuf.REXPProtos.REXP.RClass.STRING;
+        rclass_ = com.simple.radapter.protobuf.REXPProtos.REXP.RClass.NILSXP;
         bitField0_ = (bitField0_ & ~0x00000001);
         realValue_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1393,12 +1614,8 @@ public final class REXPProtos {
         bitField0_ = (bitField0_ & ~0x00000004);
         booleanValue_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000008);
-        if (stringValueBuilder_ == null) {
-          stringValue_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
-        } else {
-          stringValueBuilder_.clear();
-        }
+        stringValue_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
         rawValue_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000020);
         if (complexValueBuilder_ == null) {
@@ -1421,16 +1638,6 @@ public final class REXPProtos {
         } else {
           attrValueBuilder_.clear();
         }
-        singleRealValue_ = 0D;
-        bitField0_ = (bitField0_ & ~0x00000400);
-        if (singleStringValueBuilder_ == null) {
-          singleStringValue_ = com.simple.radapter.protobuf.REXPProtos.STRING.getDefaultInstance();
-        } else {
-          singleStringValueBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000800);
-        singleIntegerValue_ = 0;
-        bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
 
@@ -1478,15 +1685,12 @@ public final class REXPProtos {
           bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.booleanValue_ = booleanValue_;
-        if (stringValueBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010)) {
-            stringValue_ = java.util.Collections.unmodifiableList(stringValue_);
-            bitField0_ = (bitField0_ & ~0x00000010);
-          }
-          result.stringValue_ = stringValue_;
-        } else {
-          result.stringValue_ = stringValueBuilder_.build();
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          stringValue_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              stringValue_);
+          bitField0_ = (bitField0_ & ~0x00000010);
         }
+        result.stringValue_ = stringValue_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000002;
         }
@@ -1524,22 +1728,6 @@ public final class REXPProtos {
         } else {
           result.attrValue_ = attrValueBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.singleRealValue_ = singleRealValue_;
-        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        if (singleStringValueBuilder_ == null) {
-          result.singleStringValue_ = singleStringValue_;
-        } else {
-          result.singleStringValue_ = singleStringValueBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
-          to_bitField0_ |= 0x00000010;
-        }
-        result.singleIntegerValue_ = singleIntegerValue_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1589,31 +1777,15 @@ public final class REXPProtos {
           }
           onChanged();
         }
-        if (stringValueBuilder_ == null) {
-          if (!other.stringValue_.isEmpty()) {
-            if (stringValue_.isEmpty()) {
-              stringValue_ = other.stringValue_;
-              bitField0_ = (bitField0_ & ~0x00000010);
-            } else {
-              ensureStringValueIsMutable();
-              stringValue_.addAll(other.stringValue_);
-            }
-            onChanged();
+        if (!other.stringValue_.isEmpty()) {
+          if (stringValue_.isEmpty()) {
+            stringValue_ = other.stringValue_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureStringValueIsMutable();
+            stringValue_.addAll(other.stringValue_);
           }
-        } else {
-          if (!other.stringValue_.isEmpty()) {
-            if (stringValueBuilder_.isEmpty()) {
-              stringValueBuilder_.dispose();
-              stringValueBuilder_ = null;
-              stringValue_ = other.stringValue_;
-              bitField0_ = (bitField0_ & ~0x00000010);
-              stringValueBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getStringValueFieldBuilder() : null;
-            } else {
-              stringValueBuilder_.addAllMessages(other.stringValue_);
-            }
-          }
+          onChanged();
         }
         if (other.hasRawValue()) {
           setRawValue(other.getRawValue());
@@ -1706,15 +1878,6 @@ public final class REXPProtos {
             }
           }
         }
-        if (other.hasSingleRealValue()) {
-          setSingleRealValue(other.getSingleRealValue());
-        }
-        if (other.hasSingleStringValue()) {
-          mergeSingleStringValue(other.getSingleStringValue());
-        }
-        if (other.hasSingleIntegerValue()) {
-          setSingleIntegerValue(other.getSingleIntegerValue());
-        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1765,7 +1928,7 @@ public final class REXPProtos {
       private int bitField0_;
 
       // required .REXP.RClass rclass = 1;
-      private com.simple.radapter.protobuf.REXPProtos.REXP.RClass rclass_ = com.simple.radapter.protobuf.REXPProtos.REXP.RClass.STRING;
+      private com.simple.radapter.protobuf.REXPProtos.REXP.RClass rclass_ = com.simple.radapter.protobuf.REXPProtos.REXP.RClass.NILSXP;
       /**
        * <code>required .REXP.RClass rclass = 1;</code>
        */
@@ -1795,7 +1958,7 @@ public final class REXPProtos {
        */
       public Builder clearRclass() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        rclass_ = com.simple.radapter.protobuf.REXPProtos.REXP.RClass.STRING;
+        rclass_ = com.simple.radapter.protobuf.REXPProtos.REXP.RClass.NILSXP;
         onChanged();
         return this;
       }
@@ -2004,244 +2167,97 @@ public final class REXPProtos {
         return this;
       }
 
-      // repeated .STRING stringValue = 5;
-      private java.util.List<com.simple.radapter.protobuf.REXPProtos.STRING> stringValue_ =
-        java.util.Collections.emptyList();
+      // repeated string stringValue = 5;
+      private com.google.protobuf.LazyStringList stringValue_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureStringValueIsMutable() {
         if (!((bitField0_ & 0x00000010) == 0x00000010)) {
-          stringValue_ = new java.util.ArrayList<com.simple.radapter.protobuf.REXPProtos.STRING>(stringValue_);
+          stringValue_ = new com.google.protobuf.LazyStringArrayList(stringValue_);
           bitField0_ |= 0x00000010;
          }
       }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.simple.radapter.protobuf.REXPProtos.STRING, com.simple.radapter.protobuf.REXPProtos.STRING.Builder, com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder> stringValueBuilder_;
-
       /**
-       * <code>repeated .STRING stringValue = 5;</code>
+       * <code>repeated string stringValue = 5;</code>
        */
-      public java.util.List<com.simple.radapter.protobuf.REXPProtos.STRING> getStringValueList() {
-        if (stringValueBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(stringValue_);
-        } else {
-          return stringValueBuilder_.getMessageList();
-        }
+      public java.util.List<java.lang.String>
+          getStringValueList() {
+        return java.util.Collections.unmodifiableList(stringValue_);
       }
       /**
-       * <code>repeated .STRING stringValue = 5;</code>
+       * <code>repeated string stringValue = 5;</code>
        */
       public int getStringValueCount() {
-        if (stringValueBuilder_ == null) {
-          return stringValue_.size();
-        } else {
-          return stringValueBuilder_.getCount();
-        }
+        return stringValue_.size();
       }
       /**
-       * <code>repeated .STRING stringValue = 5;</code>
+       * <code>repeated string stringValue = 5;</code>
        */
-      public com.simple.radapter.protobuf.REXPProtos.STRING getStringValue(int index) {
-        if (stringValueBuilder_ == null) {
-          return stringValue_.get(index);
-        } else {
-          return stringValueBuilder_.getMessage(index);
-        }
+      public java.lang.String getStringValue(int index) {
+        return stringValue_.get(index);
       }
       /**
-       * <code>repeated .STRING stringValue = 5;</code>
+       * <code>repeated string stringValue = 5;</code>
        */
-      public Builder setStringValue(
-          int index, com.simple.radapter.protobuf.REXPProtos.STRING value) {
-        if (stringValueBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureStringValueIsMutable();
-          stringValue_.set(index, value);
-          onChanged();
-        } else {
-          stringValueBuilder_.setMessage(index, value);
-        }
-        return this;
+      public com.google.protobuf.ByteString
+          getStringValueBytes(int index) {
+        return stringValue_.getByteString(index);
       }
       /**
-       * <code>repeated .STRING stringValue = 5;</code>
+       * <code>repeated string stringValue = 5;</code>
        */
       public Builder setStringValue(
-          int index, com.simple.radapter.protobuf.REXPProtos.STRING.Builder builderForValue) {
-        if (stringValueBuilder_ == null) {
-          ensureStringValueIsMutable();
-          stringValue_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          stringValueBuilder_.setMessage(index, builderForValue.build());
-        }
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureStringValueIsMutable();
+        stringValue_.set(index, value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .STRING stringValue = 5;</code>
-       */
-      public Builder addStringValue(com.simple.radapter.protobuf.REXPProtos.STRING value) {
-        if (stringValueBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureStringValueIsMutable();
-          stringValue_.add(value);
-          onChanged();
-        } else {
-          stringValueBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .STRING stringValue = 5;</code>
+       * <code>repeated string stringValue = 5;</code>
        */
       public Builder addStringValue(
-          int index, com.simple.radapter.protobuf.REXPProtos.STRING value) {
-        if (stringValueBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureStringValueIsMutable();
-          stringValue_.add(index, value);
-          onChanged();
-        } else {
-          stringValueBuilder_.addMessage(index, value);
-        }
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureStringValueIsMutable();
+        stringValue_.add(value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .STRING stringValue = 5;</code>
-       */
-      public Builder addStringValue(
-          com.simple.radapter.protobuf.REXPProtos.STRING.Builder builderForValue) {
-        if (stringValueBuilder_ == null) {
-          ensureStringValueIsMutable();
-          stringValue_.add(builderForValue.build());
-          onChanged();
-        } else {
-          stringValueBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .STRING stringValue = 5;</code>
-       */
-      public Builder addStringValue(
-          int index, com.simple.radapter.protobuf.REXPProtos.STRING.Builder builderForValue) {
-        if (stringValueBuilder_ == null) {
-          ensureStringValueIsMutable();
-          stringValue_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          stringValueBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .STRING stringValue = 5;</code>
+       * <code>repeated string stringValue = 5;</code>
        */
       public Builder addAllStringValue(
-          java.lang.Iterable<? extends com.simple.radapter.protobuf.REXPProtos.STRING> values) {
-        if (stringValueBuilder_ == null) {
-          ensureStringValueIsMutable();
-          super.addAll(values, stringValue_);
-          onChanged();
-        } else {
-          stringValueBuilder_.addAllMessages(values);
-        }
+          java.lang.Iterable<java.lang.String> values) {
+        ensureStringValueIsMutable();
+        super.addAll(values, stringValue_);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .STRING stringValue = 5;</code>
+       * <code>repeated string stringValue = 5;</code>
        */
       public Builder clearStringValue() {
-        if (stringValueBuilder_ == null) {
-          stringValue_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
-          onChanged();
-        } else {
-          stringValueBuilder_.clear();
-        }
+        stringValue_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .STRING stringValue = 5;</code>
+       * <code>repeated string stringValue = 5;</code>
        */
-      public Builder removeStringValue(int index) {
-        if (stringValueBuilder_ == null) {
-          ensureStringValueIsMutable();
-          stringValue_.remove(index);
-          onChanged();
-        } else {
-          stringValueBuilder_.remove(index);
-        }
+      public Builder addStringValueBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureStringValueIsMutable();
+        stringValue_.add(value);
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .STRING stringValue = 5;</code>
-       */
-      public com.simple.radapter.protobuf.REXPProtos.STRING.Builder getStringValueBuilder(
-          int index) {
-        return getStringValueFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .STRING stringValue = 5;</code>
-       */
-      public com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder getStringValueOrBuilder(
-          int index) {
-        if (stringValueBuilder_ == null) {
-          return stringValue_.get(index);  } else {
-          return stringValueBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .STRING stringValue = 5;</code>
-       */
-      public java.util.List<? extends com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder> 
-           getStringValueOrBuilderList() {
-        if (stringValueBuilder_ != null) {
-          return stringValueBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(stringValue_);
-        }
-      }
-      /**
-       * <code>repeated .STRING stringValue = 5;</code>
-       */
-      public com.simple.radapter.protobuf.REXPProtos.STRING.Builder addStringValueBuilder() {
-        return getStringValueFieldBuilder().addBuilder(
-            com.simple.radapter.protobuf.REXPProtos.STRING.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .STRING stringValue = 5;</code>
-       */
-      public com.simple.radapter.protobuf.REXPProtos.STRING.Builder addStringValueBuilder(
-          int index) {
-        return getStringValueFieldBuilder().addBuilder(
-            index, com.simple.radapter.protobuf.REXPProtos.STRING.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .STRING stringValue = 5;</code>
-       */
-      public java.util.List<com.simple.radapter.protobuf.REXPProtos.STRING.Builder> 
-           getStringValueBuilderList() {
-        return getStringValueFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.simple.radapter.protobuf.REXPProtos.STRING, com.simple.radapter.protobuf.REXPProtos.STRING.Builder, com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder> 
-          getStringValueFieldBuilder() {
-        if (stringValueBuilder_ == null) {
-          stringValueBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.simple.radapter.protobuf.REXPProtos.STRING, com.simple.radapter.protobuf.REXPProtos.STRING.Builder, com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder>(
-                  stringValue_,
-                  ((bitField0_ & 0x00000010) == 0x00000010),
-                  getParentForChildren(),
-                  isClean());
-          stringValue_ = null;
-        }
-        return stringValueBuilder_;
       }
 
       // optional bytes rawValue = 6;
@@ -3093,189 +3109,6 @@ public final class REXPProtos {
         return attrValueBuilder_;
       }
 
-      // optional double singleRealValue = 13;
-      private double singleRealValue_ ;
-      /**
-       * <code>optional double singleRealValue = 13;</code>
-       */
-      public boolean hasSingleRealValue() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
-      }
-      /**
-       * <code>optional double singleRealValue = 13;</code>
-       */
-      public double getSingleRealValue() {
-        return singleRealValue_;
-      }
-      /**
-       * <code>optional double singleRealValue = 13;</code>
-       */
-      public Builder setSingleRealValue(double value) {
-        bitField0_ |= 0x00000400;
-        singleRealValue_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional double singleRealValue = 13;</code>
-       */
-      public Builder clearSingleRealValue() {
-        bitField0_ = (bitField0_ & ~0x00000400);
-        singleRealValue_ = 0D;
-        onChanged();
-        return this;
-      }
-
-      // optional .STRING singleStringValue = 15;
-      private com.simple.radapter.protobuf.REXPProtos.STRING singleStringValue_ = com.simple.radapter.protobuf.REXPProtos.STRING.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.simple.radapter.protobuf.REXPProtos.STRING, com.simple.radapter.protobuf.REXPProtos.STRING.Builder, com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder> singleStringValueBuilder_;
-      /**
-       * <code>optional .STRING singleStringValue = 15;</code>
-       */
-      public boolean hasSingleStringValue() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
-      }
-      /**
-       * <code>optional .STRING singleStringValue = 15;</code>
-       */
-      public com.simple.radapter.protobuf.REXPProtos.STRING getSingleStringValue() {
-        if (singleStringValueBuilder_ == null) {
-          return singleStringValue_;
-        } else {
-          return singleStringValueBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .STRING singleStringValue = 15;</code>
-       */
-      public Builder setSingleStringValue(com.simple.radapter.protobuf.REXPProtos.STRING value) {
-        if (singleStringValueBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          singleStringValue_ = value;
-          onChanged();
-        } else {
-          singleStringValueBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000800;
-        return this;
-      }
-      /**
-       * <code>optional .STRING singleStringValue = 15;</code>
-       */
-      public Builder setSingleStringValue(
-          com.simple.radapter.protobuf.REXPProtos.STRING.Builder builderForValue) {
-        if (singleStringValueBuilder_ == null) {
-          singleStringValue_ = builderForValue.build();
-          onChanged();
-        } else {
-          singleStringValueBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000800;
-        return this;
-      }
-      /**
-       * <code>optional .STRING singleStringValue = 15;</code>
-       */
-      public Builder mergeSingleStringValue(com.simple.radapter.protobuf.REXPProtos.STRING value) {
-        if (singleStringValueBuilder_ == null) {
-          if (((bitField0_ & 0x00000800) == 0x00000800) &&
-              singleStringValue_ != com.simple.radapter.protobuf.REXPProtos.STRING.getDefaultInstance()) {
-            singleStringValue_ =
-              com.simple.radapter.protobuf.REXPProtos.STRING.newBuilder(singleStringValue_).mergeFrom(value).buildPartial();
-          } else {
-            singleStringValue_ = value;
-          }
-          onChanged();
-        } else {
-          singleStringValueBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000800;
-        return this;
-      }
-      /**
-       * <code>optional .STRING singleStringValue = 15;</code>
-       */
-      public Builder clearSingleStringValue() {
-        if (singleStringValueBuilder_ == null) {
-          singleStringValue_ = com.simple.radapter.protobuf.REXPProtos.STRING.getDefaultInstance();
-          onChanged();
-        } else {
-          singleStringValueBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000800);
-        return this;
-      }
-      /**
-       * <code>optional .STRING singleStringValue = 15;</code>
-       */
-      public com.simple.radapter.protobuf.REXPProtos.STRING.Builder getSingleStringValueBuilder() {
-        bitField0_ |= 0x00000800;
-        onChanged();
-        return getSingleStringValueFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .STRING singleStringValue = 15;</code>
-       */
-      public com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder getSingleStringValueOrBuilder() {
-        if (singleStringValueBuilder_ != null) {
-          return singleStringValueBuilder_.getMessageOrBuilder();
-        } else {
-          return singleStringValue_;
-        }
-      }
-      /**
-       * <code>optional .STRING singleStringValue = 15;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          com.simple.radapter.protobuf.REXPProtos.STRING, com.simple.radapter.protobuf.REXPProtos.STRING.Builder, com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder> 
-          getSingleStringValueFieldBuilder() {
-        if (singleStringValueBuilder_ == null) {
-          singleStringValueBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.simple.radapter.protobuf.REXPProtos.STRING, com.simple.radapter.protobuf.REXPProtos.STRING.Builder, com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder>(
-                  singleStringValue_,
-                  getParentForChildren(),
-                  isClean());
-          singleStringValue_ = null;
-        }
-        return singleStringValueBuilder_;
-      }
-
-      // optional sint32 singleIntegerValue = 16;
-      private int singleIntegerValue_ ;
-      /**
-       * <code>optional sint32 singleIntegerValue = 16;</code>
-       */
-      public boolean hasSingleIntegerValue() {
-        return ((bitField0_ & 0x00001000) == 0x00001000);
-      }
-      /**
-       * <code>optional sint32 singleIntegerValue = 16;</code>
-       */
-      public int getSingleIntegerValue() {
-        return singleIntegerValue_;
-      }
-      /**
-       * <code>optional sint32 singleIntegerValue = 16;</code>
-       */
-      public Builder setSingleIntegerValue(int value) {
-        bitField0_ |= 0x00001000;
-        singleIntegerValue_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional sint32 singleIntegerValue = 16;</code>
-       */
-      public Builder clearSingleIntegerValue() {
-        bitField0_ = (bitField0_ & ~0x00001000);
-        singleIntegerValue_ = 0;
-        onChanged();
-        return this;
-      }
-
       // @@protoc_insertion_point(builder_scope:REXP)
     }
 
@@ -3285,558 +3118,6 @@ public final class REXPProtos {
     }
 
     // @@protoc_insertion_point(class_scope:REXP)
-  }
-
-  public interface STRINGOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // optional string strval = 1;
-    /**
-     * <code>optional string strval = 1;</code>
-     */
-    boolean hasStrval();
-    /**
-     * <code>optional string strval = 1;</code>
-     */
-    java.lang.String getStrval();
-    /**
-     * <code>optional string strval = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getStrvalBytes();
-
-    // optional bool isNA = 2 [default = false];
-    /**
-     * <code>optional bool isNA = 2 [default = false];</code>
-     */
-    boolean hasIsNA();
-    /**
-     * <code>optional bool isNA = 2 [default = false];</code>
-     */
-    boolean getIsNA();
-  }
-  /**
-   * Protobuf type {@code STRING}
-   */
-  public static final class STRING extends
-      com.google.protobuf.GeneratedMessage
-      implements STRINGOrBuilder {
-    // Use STRING.newBuilder() to construct.
-    private STRING(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private STRING(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final STRING defaultInstance;
-    public static STRING getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public STRING getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private STRING(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              bitField0_ |= 0x00000001;
-              strval_ = input.readBytes();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              isNA_ = input.readBool();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.simple.radapter.protobuf.REXPProtos.internal_static_STRING_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.simple.radapter.protobuf.REXPProtos.internal_static_STRING_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.simple.radapter.protobuf.REXPProtos.STRING.class, com.simple.radapter.protobuf.REXPProtos.STRING.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<STRING> PARSER =
-        new com.google.protobuf.AbstractParser<STRING>() {
-      public STRING parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new STRING(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<STRING> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional string strval = 1;
-    public static final int STRVAL_FIELD_NUMBER = 1;
-    private java.lang.Object strval_;
-    /**
-     * <code>optional string strval = 1;</code>
-     */
-    public boolean hasStrval() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional string strval = 1;</code>
-     */
-    public java.lang.String getStrval() {
-      java.lang.Object ref = strval_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          strval_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string strval = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getStrvalBytes() {
-      java.lang.Object ref = strval_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        strval_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    // optional bool isNA = 2 [default = false];
-    public static final int ISNA_FIELD_NUMBER = 2;
-    private boolean isNA_;
-    /**
-     * <code>optional bool isNA = 2 [default = false];</code>
-     */
-    public boolean hasIsNA() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional bool isNA = 2 [default = false];</code>
-     */
-    public boolean getIsNA() {
-      return isNA_;
-    }
-
-    private void initFields() {
-      strval_ = "";
-      isNA_ = false;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getStrvalBytes());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBool(2, isNA_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getStrvalBytes());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, isNA_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.simple.radapter.protobuf.REXPProtos.STRING parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.simple.radapter.protobuf.REXPProtos.STRING parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.simple.radapter.protobuf.REXPProtos.STRING parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.simple.radapter.protobuf.REXPProtos.STRING parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.simple.radapter.protobuf.REXPProtos.STRING parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.simple.radapter.protobuf.REXPProtos.STRING parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.simple.radapter.protobuf.REXPProtos.STRING parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.simple.radapter.protobuf.REXPProtos.STRING parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.simple.radapter.protobuf.REXPProtos.STRING parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.simple.radapter.protobuf.REXPProtos.STRING parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.simple.radapter.protobuf.REXPProtos.STRING prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code STRING}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.simple.radapter.protobuf.REXPProtos.STRINGOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.simple.radapter.protobuf.REXPProtos.internal_static_STRING_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.simple.radapter.protobuf.REXPProtos.internal_static_STRING_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.simple.radapter.protobuf.REXPProtos.STRING.class, com.simple.radapter.protobuf.REXPProtos.STRING.Builder.class);
-      }
-
-      // Construct using com.simple.radapter.protobuf.REXPProtos.STRING.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        strval_ = "";
-        bitField0_ = (bitField0_ & ~0x00000001);
-        isNA_ = false;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.simple.radapter.protobuf.REXPProtos.internal_static_STRING_descriptor;
-      }
-
-      public com.simple.radapter.protobuf.REXPProtos.STRING getDefaultInstanceForType() {
-        return com.simple.radapter.protobuf.REXPProtos.STRING.getDefaultInstance();
-      }
-
-      public com.simple.radapter.protobuf.REXPProtos.STRING build() {
-        com.simple.radapter.protobuf.REXPProtos.STRING result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.simple.radapter.protobuf.REXPProtos.STRING buildPartial() {
-        com.simple.radapter.protobuf.REXPProtos.STRING result = new com.simple.radapter.protobuf.REXPProtos.STRING(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.strval_ = strval_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.isNA_ = isNA_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.simple.radapter.protobuf.REXPProtos.STRING) {
-          return mergeFrom((com.simple.radapter.protobuf.REXPProtos.STRING)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.simple.radapter.protobuf.REXPProtos.STRING other) {
-        if (other == com.simple.radapter.protobuf.REXPProtos.STRING.getDefaultInstance()) return this;
-        if (other.hasStrval()) {
-          bitField0_ |= 0x00000001;
-          strval_ = other.strval_;
-          onChanged();
-        }
-        if (other.hasIsNA()) {
-          setIsNA(other.getIsNA());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.simple.radapter.protobuf.REXPProtos.STRING parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.simple.radapter.protobuf.REXPProtos.STRING) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // optional string strval = 1;
-      private java.lang.Object strval_ = "";
-      /**
-       * <code>optional string strval = 1;</code>
-       */
-      public boolean hasStrval() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional string strval = 1;</code>
-       */
-      public java.lang.String getStrval() {
-        java.lang.Object ref = strval_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          strval_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string strval = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getStrvalBytes() {
-        java.lang.Object ref = strval_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          strval_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string strval = 1;</code>
-       */
-      public Builder setStrval(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        strval_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string strval = 1;</code>
-       */
-      public Builder clearStrval() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        strval_ = getDefaultInstance().getStrval();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string strval = 1;</code>
-       */
-      public Builder setStrvalBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        strval_ = value;
-        onChanged();
-        return this;
-      }
-
-      // optional bool isNA = 2 [default = false];
-      private boolean isNA_ ;
-      /**
-       * <code>optional bool isNA = 2 [default = false];</code>
-       */
-      public boolean hasIsNA() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional bool isNA = 2 [default = false];</code>
-       */
-      public boolean getIsNA() {
-        return isNA_;
-      }
-      /**
-       * <code>optional bool isNA = 2 [default = false];</code>
-       */
-      public Builder setIsNA(boolean value) {
-        bitField0_ |= 0x00000002;
-        isNA_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bool isNA = 2 [default = false];</code>
-       */
-      public Builder clearIsNA() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        isNA_ = false;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:STRING)
-    }
-
-    static {
-      defaultInstance = new STRING(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:STRING)
   }
 
   public interface CMPLXOrBuilder
@@ -5205,11 +4486,6 @@ public final class REXPProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_REXP_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_STRING_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_STRING_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_CMPLX_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -5233,27 +4509,28 @@ public final class REXPProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\031src/main/proto/rexp.proto\"\225\004\n\004REXP\022\034\n\006" +
+      "\n\031src/main/proto/rexp.proto\"\213\005\n\004REXP\022\034\n\006" +
       "rclass\030\001 \002(\0162\014.REXP.RClass\022\025\n\trealValue\030" +
       "\002 \003(\001B\002\020\001\022\024\n\010intValue\030\003 \003(\021B\002\020\001\022$\n\014boole" +
-      "anValue\030\004 \003(\0162\016.REXP.RBOOLEAN\022\034\n\013stringV" +
-      "alue\030\005 \003(\0132\007.STRING\022\020\n\010rawValue\030\006 \001(\014\022\034\n" +
-      "\014complexValue\030\007 \003(\0132\006.CMPLX\022\030\n\trexpValue" +
-      "\030\010 \003(\0132\005.REXP\022\020\n\010attrName\030\013 \003(\t\022\030\n\tattrV" +
-      "alue\030\014 \003(\0132\005.REXP\022\027\n\017singleRealValue\030\r \001" +
-      "(\001\022\"\n\021singleStringValue\030\017 \001(\0132\007.STRING\022\032" +
-      "\n\022singleIntegerValue\030\020 \001(\021\"\214\001\n\006RClass\022\n\n",
-      "\006STRING\020\000\022\007\n\003RAW\020\001\022\010\n\004REAL\020\002\022\013\n\007COMPLEX\020" +
-      "\003\022\013\n\007INTEGER\020\004\022\010\n\004LIST\020\005\022\013\n\007LOGICAL\020\006\022\014\n" +
-      "\010NULLTYPE\020\007\022\t\n\005REAL1\020\010\022\014\n\010INTEGER1\020\n\022\013\n\007" +
-      "STRING1\020\t\" \n\010RBOOLEAN\022\005\n\001F\020\000\022\005\n\001T\020\001\022\006\n\002N" +
-      "A\020\002\"-\n\006STRING\022\016\n\006strval\030\001 \001(\t\022\023\n\004isNA\030\002 " +
-      "\001(\010:\005false\"&\n\005CMPLX\022\017\n\004real\030\001 \001(\001:\0010\022\014\n\004" +
-      "imag\030\002 \002(\001\"\026\n\006Script\022\014\n\004code\030\001 \002(\t\"!\n\014Ev" +
-      "alResponse\022\021\n\texit_code\030\001 \001(\0212/\n\rScriptS" +
-      "ervice\022\036\n\004Eval\022\007.Script\032\r.EvalResponseB*" +
-      "\n\034com.simple.radapter.protobufB\nREXPProt",
-      "os"
+      "anValue\030\004 \003(\0162\016.REXP.RBOOLEAN\022\023\n\013stringV" +
+      "alue\030\005 \003(\t\022\020\n\010rawValue\030\006 \001(\014\022\034\n\014complexV" +
+      "alue\030\007 \003(\0132\006.CMPLX\022\030\n\trexpValue\030\010 \003(\0132\005." +
+      "REXP\022\020\n\010attrName\030\013 \003(\t\022\030\n\tattrValue\030\014 \003(" +
+      "\0132\005.REXP\"\344\002\n\006RClass\022\n\n\006NILSXP\020\000\022\n\n\006SYMSX" +
+      "P\020\001\022\013\n\007LISTSXP\020\002\022\n\n\006CLOSXP\020\003\022\n\n\006ENVSXP\020\004" +
+      "\022\013\n\007PROMSXP\020\005\022\013\n\007LANGSXP\020\006\022\016\n\nSPECIALSXP",
+      "\020\007\022\016\n\nBUILTINSXP\020\010\022\013\n\007CHARSXP\020\t\022\n\n\006LGLSX" +
+      "P\020\n\022\n\n\006INTSXP\020\r\022\013\n\007REALSXP\020\016\022\013\n\007CPLXSXP\020" +
+      "\017\022\n\n\006STRSXP\020\020\022\n\n\006DOTSXP\020\021\022\n\n\006ANYSXP\020\022\022\n\n" +
+      "\006VECSXP\020\023\022\013\n\007EXPRSXP\020\024\022\014\n\010BCODESXP\020\025\022\r\n\t" +
+      "EXTPTRSXP\020\026\022\016\n\nWEAKREFSXP\020\027\022\n\n\006RAWSXP\020\030\022" +
+      "\t\n\005S4SXP\020\031\022\n\n\006NEWSXP\020\036\022\013\n\007FREESXP\020\037\022\n\n\006F" +
+      "UNSXP\020c\" \n\010RBOOLEAN\022\005\n\001F\020\000\022\005\n\001T\020\001\022\006\n\002NA\020" +
+      "\002\"&\n\005CMPLX\022\017\n\004real\030\001 \001(\001:\0010\022\014\n\004imag\030\002 \002(" +
+      "\001\"\026\n\006Script\022\014\n\004code\030\001 \002(\t\"!\n\014EvalRespons" +
+      "e\022\021\n\texit_code\030\001 \001(\0212/\n\rScriptService\022\036\n",
+      "\004Eval\022\007.Script\032\r.EvalResponseB*\n\034com.sim" +
+      "ple.radapter.protobufB\nREXPProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5265,27 +4542,21 @@ public final class REXPProtos {
           internal_static_REXP_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_REXP_descriptor,
-              new java.lang.String[] { "Rclass", "RealValue", "IntValue", "BooleanValue", "StringValue", "RawValue", "ComplexValue", "RexpValue", "AttrName", "AttrValue", "SingleRealValue", "SingleStringValue", "SingleIntegerValue", });
-          internal_static_STRING_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_STRING_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_STRING_descriptor,
-              new java.lang.String[] { "Strval", "IsNA", });
+              new java.lang.String[] { "Rclass", "RealValue", "IntValue", "BooleanValue", "StringValue", "RawValue", "ComplexValue", "RexpValue", "AttrName", "AttrValue", });
           internal_static_CMPLX_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(1);
           internal_static_CMPLX_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_CMPLX_descriptor,
               new java.lang.String[] { "Real", "Imag", });
           internal_static_Script_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_Script_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_Script_descriptor,
               new java.lang.String[] { "Code", });
           internal_static_EvalResponse_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_EvalResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_EvalResponse_descriptor,

@@ -10,8 +10,7 @@
 #include "Rinit.h"
 #include "RadapterJni.h"
 #include "Rcallbacks.h"
-
-#include "protobuf/protoutils.h"
+#include "protoutils.h"
 
 /* the # of arguments to R_ParseVector changed since R 2.5.0 */
 #if R_VERSION < R_Version(2,5,0)
@@ -107,7 +106,7 @@ JNIEXPORT jbyteArray JNICALL Java_com_simple_radapter_NativeAdapter_evalScript(
 	SEXP sexp = rexpress(command);
 	sexpToRexp(&rexp, sexp);
 
-	fprintf(stderr, "Real value is %f\n", rexp.singlerealvalue);
+	fprintf(stderr, "Count of children in vector %zu\n", rexp.n_rexpvalue);
 
 	size_t packedSize = rexp__get_packed_size(&rexp);
 	void *packed = malloc(packedSize);
