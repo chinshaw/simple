@@ -241,9 +241,9 @@ void fill_rexp(REXP* rexp, const SEXP robj) {
 		rexp->rexpvalue = (REXP **) malloc(sizeof(REXP *) * rexp->n_rexpvalue);
 		for (i = 0; i < rexp->n_rexpvalue; i++) {
 			REXP subval = REXP__INIT;
-			fill_rexp(&subval, VECTOR_ELT(robj, i));
 			REXP *sv = malloc(sizeof(subval));
 			*sv = subval;
+			fill_rexp(sv, VECTOR_ELT(robj, i));
 			rexp->rexpvalue[i] = sv;
 		}
 		break;
