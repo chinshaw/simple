@@ -17,6 +17,7 @@ import com.simple.radapter.api.IRexp;
 import com.simple.radapter.api.IRexpDouble;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
+import com.simple.radapter.protobuf.REXPProtos.REXP.RClass;
 
 public class TestNativeAdapter {
 
@@ -196,6 +197,11 @@ public class TestNativeAdapter {
 			System.out.println("TYpe is " + rexp.getRclass());
 			for (REXP child : rexp.getRexpValueList()) {
 				System.out.println("TYpe is " + child.getRclass());
+				if (child.getRclass() == RClass.STRSXP) {
+				    for (String str : child.getStringValueList()) {
+				        System.out.println("String is " + str);
+				    }
+				}
 			}
 		} catch (RAdapterException e) {
 			fail(e.getMessage());

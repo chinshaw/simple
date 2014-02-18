@@ -1,15 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.simple</groupId>
-		<artifactId>simple-analytics</artifactId>
+		<groupId>com.simple.radapter</groupId>
+		<artifactId>radapter-native</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.simple.radapter</groupId>
 	<artifactId>simple-analytics-radapter-jni-nix</artifactId>
 	<name>simple-analytics-radapter unix</name>
 	<description>Java to R adapter</description>
 	<packaging>so</packaging>
+
+	<properties>
+		<protocc.output>${project.build.directory}/native/protobufcc</protocc.output>
+		<main.basedir>${project.parent.parent.basedir}</main.basedir>
+	</properties>
+
 
 	<dependencies>
 		<dependency>
@@ -19,8 +24,52 @@
 		</dependency>
 	</dependencies>
 
+
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>mkdir</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>mkdir</executable>
+							<arguments>
+								<argument>-p</argument>
+								<argument>${protocc.output}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>protoc-c</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>/usr/local/bin/protoc-c</executable>
+							<arguments>
+								<argument>
+									--c_out=${protocc.output}
+								</argument>
+								<argument>
+									--proto_path=${protobuf.dir}
+								</argument>
+								<argument>
+									${protobuf.dir}/rexp.proto
+								</argument>
+							</arguments>
+						</configuration>
+
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>native-maven-plugin</artifactId>
@@ -33,6 +82,15 @@
 					</javahClassNames>
 					<javahSearchJNIFromDependencies>true</javahSearchJNIFromDependencies>
 					<sources>
+						<source>F
+							<directory>
+								${protocc.output}
+							</directory>
+							<includes>
+								<include>**/*.c</include>
+							</includes>
+						</source>
+
 						<source>
 							<directory>
 								../src/main/native
@@ -53,18 +111,20 @@
 						</source>
 					</sources>
 					<compilerStartOptions>
-						<compilerStartOption>-fpic</compilerStartOption>
+						<compilerStartOption>-g -fpic</compilerStartOption>
 					</compilerStartOptions>
 
 					<linkerStartOptions>
-						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -ljvm -lR</linkerStartOption>
+						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -ljvm -lR -lprotobuf-c</linkerStartOption>
 					</linkerStartOptions>
 					<linkerEndOptions>
-						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -ljvm -lR</linkerStartOption>
+						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -ljvm -lR -lprotobuf-c</linkerStartOption>
 					</linkerEndOptions>
+
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

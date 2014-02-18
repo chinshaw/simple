@@ -23,7 +23,7 @@
  }
  */
 
-// call (void)Rf_PrintValue(robj) in gdb
+// call (void)Rf_PrintValue(model) in gdb
 
 /*
  SEXP rexpToSexp(const REXP *rexp){
@@ -129,37 +129,43 @@
  }
  */
 
-void sexpToRexp(REXP *rexp, const SEXP robj) {
-	fill_rexp(rexp, robj);
+void sexpToRexp(REXP *rexp, const SEXP model) {
+	fill_rexp(rexp, model);
 }
 
 /**
  * Copy the properties from the sexp object to
  * the rexp object
  */
-void fill_rexp(REXP* rexp, const SEXP robj) {
+void fill_rexp(REXP* rexp, const SEXP model) {
+	fprintf(stderr, "Type of model is %d\n", TYPEOF(model));
 
-	SEXP xx = ATTRIB(robj);
-	int i;
-	/*
+
+	SEXP xx = ATTRIB(model);
 	if (xx != R_NilValue) {
-		SEXP s = ATTRIB(robj);
-		for (; s != R_NilValue; s = CDR(s)) {
+		SEXP s = ATTRIB(model);
+		fprintf(stderr, "SIZE OF ATTRIBUTES %d", LENGTH(s));
+
+		for (int i = 0; s != R_NilValue; i++, s = CDR(s)) {
 			Rf_PrintValue(s);
-			rexp->attrname = (CHAR(PRINTNAME(TAG(s))));
-			REXP attrvalue = REXP__INIT;
-			rexp->attrvalue = &attrvalue;
-			fill_rexp(rexp->attrvalue, CAR(s));
+
+			//REXP *attribute = malloc(sizeof(REXP));
+			//*attribute = REXP_INIT;
+			//fill_rexp(attribute, CAR(s));
+
+			//rexp->attrname[i] = (CHAR(PRINTNAME(TAG(s))));
+
+
 		}
 	}
-	*/
 
-	fprintf(stderr, "Type of robj is %d\n", TYPEOF(robj));
-	switch (TYPEOF(robj)) {
+	int i;
+
+	switch (TYPEOF(model)) {
 	case LGLSXP: //# define LGLSXP      10    /* logical vectors */
 		rexp->rclass = REXP__RCLASS__LGLSXP;
-		for (i = 0; i < LENGTH(robj); i++) {
-			int d = LOGICAL(robj)[i];
+		for (i = 0; i < LENGTH(model); i++) {
+			int d = LOGICAL(model)[i];
 			switch (d) {
 			REXP__RBOOLEAN value;
 		case 0:
@@ -176,45 +182,58 @@ void fill_rexp(REXP* rexp, const SEXP robj) {
 		}
 		break;
 	case INTSXP: // #define INTSXP      13    /* integer vectors */
-		rexp->rclass = REXP__RCLASS__INTSXP;
-		rexp->n_intvalue = LENGTH(robj);
+		// factors have internal type INTSXP too
+		if (Rf_inherits(model, "factor")) {
+			Rf_PrintValue(model);
+			//Rf_PrintValue(CAR(model));
+			int levelCount = Rf_nlevels(model);
+			if (levelCount > 0) {
+				fprintf(stderr, "Got a factor with count %d\n", levelCount);
+				SEXP levels = GET_LEVELS(model);
 
+				fill_rexp(rexp, levels);
+			}
+			break;
+		}
+
+		rexp->rclass = REXP__RCLASS__INTSXP;
+		rexp->n_intvalue = LENGTH(model);
 		rexp->intvalue = malloc(sizeof(rexp->intvalue) * (rexp->n_intvalue));
 		for (i = 0; i < rexp->n_intvalue; i++) {
-			fprintf(stderr, "Setting value of rexp to %d %d\n",i,  (INTEGER(robj)[i]));
-			rexp->intvalue[0] = (INTEGER(robj)[i]);
+			fprintf(stderr, "Setting value of rexp to %d %d\n",i,  (INTEGER(model)[i]));
+			rexp->intvalue[0] = (INTEGER(model)[i]);
 		}
 
 		break;
 	case REALSXP: //#define REALSXP     14    /* real variables */
 		rexp->rclass = REXP__RCLASS__REALSXP;
-		rexp->n_realvalue = LENGTH(robj);
+		rexp->n_realvalue = LENGTH(model);
 
 		rexp->realvalue = malloc(sizeof(rexp->realvalue) * (rexp->n_realvalue));
 		for (i = 0; i < rexp->n_realvalue; i++) {
-			fprintf(stderr, "Setting value of rexp to %d %f\n",i,  (REAL(robj)[i]));
-			rexp->realvalue[i] = (REAL(robj)[i]);
+			fprintf(stderr, "Setting value of rexp to %d %f\n",i,  (REAL(model)[i]));
+			rexp->realvalue[i] = (REAL(model)[i]);
 		}
 		break;
 	case RAWSXP: { //#define RAWSXP      24    /* raw bytes */
 		rexp->rclass = REXP__RCLASS__RAWSXP;
-		int l = LENGTH(robj);
+		int l = LENGTH(model);
 		ProtobufCBinaryData binData;
 
-		//binData.data = (RAW(robj), l);
+		//binData.data = (RAW(model), l);
 		//binData.len = l;
 
 		//rexp->rawvalue = binData;
 
-		//rexp->rawvalue = (RAW(robj),l);
+		//rexp->rawvalue = (RAW(model),l);
 		break;
 	}
 	case CPLXSXP: { //#define CPLXSXP     15    /* complex variables */
 		rexp->rclass = REXP__RCLASS__CPLXSXP;
-		for (i = 0; i < LENGTH(robj); i++) {
+		for (i = 0; i < LENGTH(model); i++) {
 			CMPLX mp = CMPLX__INIT;
-			mp.real = COMPLEX(robj)[i].r;
-			mp.imag = COMPLEX(robj)[i].i;
+			mp.real = COMPLEX(model)[i].r;
+			mp.imag = COMPLEX(model)[i].i;
 		}
 		break;
 	}
@@ -225,25 +244,27 @@ void fill_rexp(REXP* rexp, const SEXP robj) {
 	case STRSXP: { // #define STRSXP      16    /* string vectors */
 		rexp->rclass = REXP__RCLASS__STRSXP;
 
-		rexp->n_stringvalue = LENGTH(robj);
+		rexp->n_stringvalue = LENGTH(model);
+		fprintf(stderr, "Number of strings %d\n", rexp->n_stringvalue);
 		rexp->stringvalue = malloc(sizeof(rexp->stringvalue) * rexp->n_stringvalue);
 		for (i = 0; i < rexp->n_stringvalue; i++) {
-			rexp->stringvalue[i] = CHAR(STRING_ELT(robj, i));
+			rexp->stringvalue[i] = CHAR(STRING_ELT(model, i));
 		}
 		break;
 	}
 
 	case VECSXP: { // #define VECSXP      19    /* generic vectors */
 		rexp->rclass = REXP__RCLASS__VECSXP;
-		rexp->n_rexpvalue = LENGTH(robj);
+		rexp->n_rexpvalue = LENGTH(model);
 
 		fprintf(stderr, "Size of vector is %zu\n", rexp->n_rexpvalue);
 		rexp->rexpvalue = (REXP **) malloc(sizeof(REXP *) * rexp->n_rexpvalue);
 		for (i = 0; i < rexp->n_rexpvalue; i++) {
 			REXP subval = REXP__INIT;
-			REXP *sv = malloc(sizeof(subval));
+
+			REXP *sv = malloc(sizeof(REXP));
 			*sv = subval;
-			fill_rexp(sv, VECTOR_ELT(robj, i));
+			fill_rexp(sv, VECTOR_ELT(model, i));
 			rexp->rexpvalue[i] = sv;
 		}
 		break;

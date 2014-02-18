@@ -101,9 +101,9 @@ JNIEXPORT jbyteArray JNICALL Java_com_simple_radapter_NativeAdapter_evalScript(
 
     const char *command = (*env)->GetStringUTFChars(env, jStringCommand, 0);
 
-	REXP rexp = REXP__INIT;
-
 	SEXP sexp = rexpress(command);
+
+	REXP rexp = REXP__INIT;
 	sexpToRexp(&rexp, sexp);
 
 	fprintf(stderr, "Count of children in vector %zu\n", rexp.n_rexpvalue);

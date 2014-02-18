@@ -6,19 +6,10 @@
 		<artifactId>radapter-native</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.simple.radapter</groupId>
 	<artifactId>simple-analytics-radapter-jni-osx</artifactId>
 	<name>simple-analytics-radapter osx</name>
 	<description>Java to R adapter</description>
 	<packaging>dylib</packaging>
-
-	<dependencies>
-		<dependency>
-			<groupId>com.simple.radapter</groupId>
-			<artifactId>radapter-client</artifactId>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>
-	</dependencies>
 
 	<properties>
 		<protocc.output>${project.build.directory}/native/protobufcc</protocc.output>
