@@ -144,7 +144,7 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 	SEXP xx = ATTRIB(model);
 	if (xx != R_NilValue) {
 		SEXP s = ATTRIB(model);
-		fprintf(stderr, "SIZE OF ATTRIBUTES %d", LENGTH(s));
+		//fprintf(stderr, "SIZE OF ATTRIBUTES %d", LENGTH(s));
 
 		for (int i = 0; s != R_NilValue; i++, s = CDR(s)) {
 			Rf_PrintValue(s);
@@ -190,7 +190,8 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 			if (levelCount > 0) {
 				fprintf(stderr, "Got a factor with count %d\n", levelCount);
 				SEXP levels = GET_LEVELS(model);
-
+				//SEXP values = Rf_getAttrib(model, Rf_install("[1]"));
+				Rf_PrintValue(levels);
 				fill_rexp(rexp, levels);
 			}
 			break;
