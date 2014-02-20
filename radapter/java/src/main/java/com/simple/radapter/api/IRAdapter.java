@@ -22,37 +22,14 @@ public interface IRAdapter {
 	 * This will call the engines stop.
 	 */
 	public void disconnect();
-
-	IRexp<?> execCommand(String command) throws RAdapterException;
 	
-	public IRexp<?> execScript(String script) throws RAdapterException;
 
-	public IRexp<?> execScript(File file) throws RAdapterException;
+    public REXP get(String var) throws RAdapterException, InvalidProtocolBufferException;   
+    
+    public REXP set(String var, REXP rexp) throws RAdapterException;  
+    
+    public REXP exec(File file) throws RAdapterException, InvalidProtocolBufferException;
 	
-	public REXP executeScript(String script) throws RAdapterException, InvalidProtocolBufferException;
+	public REXP exec(String script) throws RAdapterException, InvalidProtocolBufferException;
 	
-	/**
-	 * This will assign a string into the workspace.
-	 * 
-	 * @param var
-	 * @param value
-	 */
-	public void setString(String var, String value) throws RAdapterException;;
-
-	public String getString(String var) throws RAdapterException;
-
-	public IRexp<?> get(String var) throws RAdapterException;	
-	
-	/*
-	public int getInt(String var);
-	
-	public void setInt(String var, int val);
-
-	public int getExpressionType(long expression);
-
-	void setDoubles(String var, double[] doubles);
-
-	void setBooleans(String var, boolean[] booleans);
-	*/
-
 }

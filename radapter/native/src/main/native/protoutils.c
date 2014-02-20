@@ -141,12 +141,15 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 	fprintf(stderr, "Type of model is %d\n", TYPEOF(model));
 
 
+
 	SEXP xx = ATTRIB(model);
+
+	int i;
 	if (xx != R_NilValue) {
 		SEXP s = ATTRIB(model);
 		//fprintf(stderr, "SIZE OF ATTRIBUTES %d", LENGTH(s));
 
-		for (int i = 0; s != R_NilValue; i++, s = CDR(s)) {
+		for (i = 0; s != R_NilValue; i++, s = CDR(s)) {
 			Rf_PrintValue(s);
 
 			//REXP *attribute = malloc(sizeof(REXP));
@@ -154,12 +157,9 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 			//fill_rexp(attribute, CAR(s));
 
 			//rexp->attrname[i] = (CHAR(PRINTNAME(TAG(s))));
-
-
 		}
 	}
 
-	int i;
 
 	switch (TYPEOF(model)) {
 	case LGLSXP: //# define LGLSXP      10    /* logical vectors */
@@ -181,30 +181,13 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 			}
 		}
 		break;
-	case INTSXP: // #define INTSXP      13    /* integer vectors */
-		// factors have internal type INTSXP too
-		if (Rf_inherits(model, "factor")) {
-			Rf_PrintValue(model);
-			//Rf_PrintValue(CAR(model));
-			int levelCount = Rf_nlevels(model);
-			if (levelCount > 0) {
-				fprintf(stderr, "Got a factor with count %d\n", levelCount);
-				SEXP levels = GET_LEVELS(model);
-				//SEXP values = Rf_getAttrib(model, Rf_install("[1]"));
-				Rf_PrintValue(levels);
-				fill_rexp(rexp, levels);
-			}
-			break;
-		}
-
-		rexp->rclass = REXP__RCLASS__INTSXP;
-		rexp->n_intvalue = LENGTH(model);
-		rexp->intvalue = malloc(sizeof(rexp->intvalue) * (rexp->n_intvalue));
-		for (i = 0; i < rexp->n_intvalue; i++) {
-			fprintf(stderr, "Setting value of rexp to %d %d\n",i,  (INTEGER(model)[i]));
-			rexp->intvalue[0] = (INTEGER(model)[i]);
-		}
-
+	case INTSXP: // #define INTSXP      13    integer vectors
+	{
+		SEXP call = PROTECT( Rf_lang2( Rf_install( "as.character" ), model) ) ;
+		SEXP res  = PROTECT( Rf_eval( call, R_GlobalEnv ) ) ;
+		UNPROTECT(2);
+		fill_rexp(rexp , res);
+	}
 		break;
 	case REALSXP: //#define REALSXP     14    /* real variables */
 		rexp->rclass = REXP__RCLASS__REALSXP;

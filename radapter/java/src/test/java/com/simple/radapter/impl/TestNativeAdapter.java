@@ -13,8 +13,6 @@ import org.junit.Test;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.simple.radapter.AdapterFactory;
 import com.simple.radapter.api.IRAdapter;
-import com.simple.radapter.api.IRexp;
-import com.simple.radapter.api.IRexpDouble;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
 import com.simple.radapter.protobuf.REXPProtos.REXP.RClass;
@@ -36,52 +34,21 @@ public class TestNativeAdapter {
 		adapter.disconnect();
 	}
 
-	@Test
-	public void testAssignString() throws RAdapterException {
-		logger.info("testAssignString");
-		String value = "testAssignString";
-		adapter.setString("test1", value);
-
-		String testValue = adapter.getString("test1");
-		assertTrue(testValue.equals(value));
-	}
 
 	@Test
-	public void testEvalCommand() {
+	public void testEvalCommand() throws InvalidProtocolBufferException {
 		logger.info("testEval");
 		String command = "x <- 'meaning of life';";
 		try {
-			IRexp<?> rexp = adapter.execCommand(command);
+			REXP rexp = adapter.exec(command);
 			assertNotNull(rexp);
-			String strValue = adapter.getString("x");
-			assertTrue(strValue.equals("meaning of life"));
+			REXP strValue = adapter.get("x");
+			assertTrue(strValue.getStringValue(0).equals("meaning of life"));
 		} catch (RAdapterException e) {
 			fail(e.getMessage());
 		}
 	}
 
-	@Test
-	public void testEvalScript() {
-		logger.info("testEval");
-		String command = "question <- 'meaning of life'; answer <- 42;";
-		try {
-			IRexp<?> rexp = adapter.execScript(command);
-			assertNotNull(rexp);
-
-			System.out.println("Rexp is " + rexp.getValue());
-
-			String question = adapter.getString("question");
-			assertTrue(question.equals("meaning of life"));
-
-			IRexpDouble answer = (IRexpDouble) adapter.get("answer");
-			assertTrue(answer.getValue() == 42);
-
-			logger.info("Question " + question + " answer " + answer);
-
-		} catch (RAdapterException e) {
-			fail(e.getMessage());
-		}
-	}
 
 	@Test
 	public void testPb() {
@@ -90,7 +57,7 @@ public class TestNativeAdapter {
 		try {
 			REXP rexp = null;
 			try {
-				rexp = adapter.executeScript(command);
+				rexp = adapter.exec(command);
 			} catch (InvalidProtocolBufferException e) {
 				fail("Invalid protobuf returned");
 			}
@@ -113,7 +80,7 @@ public class TestNativeAdapter {
 		try {
 			REXP rexp = null;
 			try {
-				rexp = adapter.executeScript(command);
+				rexp = adapter.exec(command);
 			} catch (InvalidProtocolBufferException e) {
 				fail("Invalid protobuf returned");
 			}
@@ -141,7 +108,7 @@ public class TestNativeAdapter {
 		try {
 			REXP rexp = null;
 			try {
-				rexp = adapter.executeScript(command);
+				rexp = adapter.exec(command);
 			} catch (InvalidProtocolBufferException e) {
 				fail("Invalid protobuf returned");
 			}
@@ -165,7 +132,7 @@ public class TestNativeAdapter {
 		try {
 			REXP rexp = null;
 			try {
-				rexp = adapter.executeScript(command);
+				rexp = adapter.exec(command);
 			} catch (InvalidProtocolBufferException e) {
 				fail("Invalid protobuf returned");
 			}
@@ -183,28 +150,51 @@ public class TestNativeAdapter {
 	public void testDataFrame() {
 		logger.info("testDataFrame");
 		String command = "d <- c(1,2,3,4); e <- c(\"red\", \"white\", \"red\", NA); f <- c(TRUE,TRUE,TRUE,FALSE); mydata <- data.frame(d,e,f);";
+		//String command = "e <- c(\"red\", \"white\", \"red\", NA);  mydata <- data.frame(e);";
 		//String command = "d <- c(1,2,3,4); mydata <- data.frame(d);";
 		
 		try {
 			REXP rexp = null;
 			try {
-				rexp = adapter.executeScript(command);
+				rexp = adapter.exec(command);
 			} catch (InvalidProtocolBufferException e) {
 				fail("Invalid protobuf returned");
 			}
 			
 			assertNotNull(rexp);
-			System.out.println("TYpe is " + rexp.getRclass());
-			for (REXP child : rexp.getRexpValueList()) {
-				System.out.println("TYpe is " + child.getRclass());
-				if (child.getRclass() == RClass.STRSXP) {
-				    for (String str : child.getStringValueList()) {
-				        System.out.println("String is " + str);
-				    }
-				}
-			}
+			assertTrue(rexp.getRclass() == RClass.VECSXP);
+			System.out.println("count is " + rexp.getRexpValueCount());
+			assertTrue(rexp.getRexpValueCount() == 3);
+			assertTrue(rexp.getRexpValueList().get(0).getRclass() == RClass.REALSXP);
+			assertTrue(rexp.getRexpValueList().get(1).getRclass() == RClass.STRSXP);
+			assertTrue(rexp.getRexpValueList().get(2).getRclass() == RClass.LGLSXP);
+			
 		} catch (RAdapterException e) {
 			fail(e.getMessage());
 		}
+	}
+	
+	@Test
+	public void testGetREXP() throws InvalidProtocolBufferException {
+	    String command = "e <- c(\"red\", \"white\", \"red\", NA);  mydata <- data.frame(e);";
+	    try {
+            REXP rexp = null;
+            try {
+                rexp = adapter.exec(command);
+            } catch (InvalidProtocolBufferException e) {
+                fail("Invalid protobuf returned");
+            }
+            
+            assertNotNull(rexp);
+    
+            
+            rexp = adapter.get("e");
+            assertNotNull(rexp);
+            System.out.println("rexp is " + rexp.getRclass());
+            
+            
+        } catch (RAdapterException e) {
+            fail(e.getMessage());
+        }	    
 	}
 }
