@@ -34,7 +34,6 @@ public class TestNativeAdapter {
 		adapter.disconnect();
 	}
 
-
 	@Test
 	public void testEvalCommand() throws InvalidProtocolBufferException {
 		logger.info("testEval");
@@ -48,7 +47,6 @@ public class TestNativeAdapter {
 			fail(e.getMessage());
 		}
 	}
-
 
 	@Test
 	public void testPb() {
@@ -77,6 +75,7 @@ public class TestNativeAdapter {
 	public void testRealArray() {
 		logger.info("testRealArray");
 		String command = "question <- 'meaning of life'; answer <- c(4, 2);";
+		
 		try {
 			REXP rexp = null;
 			try {
@@ -169,6 +168,10 @@ public class TestNativeAdapter {
 			assertTrue(rexp.getRexpValueList().get(1).getRclass() == RClass.STRSXP);
 			assertTrue(rexp.getRexpValueList().get(2).getRclass() == RClass.LGLSXP);
 			
+			for (String str : rexp.getRexpValueList().get(1).getStringValueList()) {
+			    System.out.println(str);
+			}
+			
 		} catch (RAdapterException e) {
 			fail(e.getMessage());
 		}
@@ -187,7 +190,6 @@ public class TestNativeAdapter {
             
             assertNotNull(rexp);
     
-            
             rexp = adapter.get("e");
             assertNotNull(rexp);
             System.out.println("rexp is " + rexp.getRclass());

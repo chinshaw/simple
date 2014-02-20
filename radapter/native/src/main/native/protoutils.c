@@ -23,7 +23,52 @@
  }
  */
 
+int convertLogical[3] = { 0, 1, 2 };
 // call (void)Rf_PrintValue(model) in gdb
+SEXP rexpToSexp(const REXP *rexp) {
+
+	SEXP s = R_NilValue;
+
+	int i;
+	switch (rexp->rclass) {
+	case REXP__RCLASS__NILSXP:
+		return (R_NilValue);
+
+	case REXP__RCLASS__LGLSXP: {
+		PROTECT(s = Rf_allocVector(LGLSXP, rexp->n_booleanvalue));
+		for (i = 0; i < rexp->n_booleanvalue; i++) {
+			REXP__RBOOLEAN v = rexp->booleanvalue[i];
+			LOGICAL(s)[i] = convertLogical[1 * v];
+		}
+		break;
+	}
+	case REXP__RCLASS__INTSXP: {
+		PROTECT(s = Rf_allocVector(INTSXP, rexp->n_intvalue));
+		for (i = 0; i < rexp->n_intvalue; i++) {
+			INTEGER(s)[i] = rexp->intvalue[i];
+		}
+		break;
+	}
+	case REXP__RCLASS__REALSXP: {
+		PROTECT(s = Rf_allocVector(REALSXP, rexp->n_realvalue));
+		for (i = 0; i < rexp->n_realvalue; i++)
+			REAL(s)[i] = rexp->realvalue[i];
+	}
+	case REXP__RCLASS__STRSXP: {
+		PROTECT(s = Rf_allocVector(STRSXP, rexp->n_stringvalue));
+		char *st;
+		for (i = 0; i < rexp->n_stringvalue; i++) {
+			// TODO handle NA
+
+			st = rexp->stringvalue[i];
+			SEXP y = Rf_mkChar(st);
+			SET_STRING_ELT(s, i, y);
+		}
+
+	}
+	}
+	return (s);
+}
 
 /*
  SEXP rexpToSexp(const REXP *rexp){
@@ -31,29 +76,8 @@
  int length;
  static int convertLogical[3]={0,1,NA_LOGICAL};
  switch(rexp->rclass()){
- case REXP__RCLASS__NULLTYPE:
- return(R_NilValue);
- case REXP__RCLASS__LOGICAL:
- length = rexp.booleanvalue_size();
- PROTECT(s = Rf_allocVector(LGLSXP,length));
- for (int i = 0; i<length; i++)
- {
- REXP__RBOOLEAN v = rexp.booleanvalue(i);
- LOGICAL(s)[i] = convertLogical[1*v];
- }
- break;
- case REXP__RCLASS__INTEGER:
- length = rexp.intvalue_size();
- PROTECT(s = Rf_allocVector(INTSXP,length));
- for (int i = 0; i<length; i++)
- INTEGER(s)[i] = rexp.intvalue(i);
- break;
- case REXP__RCLASS__REAL
- length = rexp.realvalue_size();
- PROTECT(s = Rf_allocVector(REALSXP,length));
- for (int i = 0; i<length; i++)
- REAL(s)[i] = rexp.realvalue(i);
- break;
+
+
  case REXP__RCLASS__RAW:
  {
  const string& r = rexp.rawvalue();
@@ -140,8 +164,6 @@ void sexpToRexp(REXP *rexp, const SEXP model) {
 void fill_rexp(REXP* rexp, const SEXP model) {
 	fprintf(stderr, "Type of model is %d\n", TYPEOF(model));
 
-
-
 	SEXP xx = ATTRIB(model);
 
 	int i;
@@ -159,7 +181,6 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 			//rexp->attrname[i] = (CHAR(PRINTNAME(TAG(s))));
 		}
 	}
-
 
 	switch (TYPEOF(model)) {
 	case LGLSXP: //# define LGLSXP      10    /* logical vectors */
@@ -183,10 +204,10 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 		break;
 	case INTSXP: // #define INTSXP      13    integer vectors
 	{
-		SEXP call = PROTECT( Rf_lang2( Rf_install( "as.character" ), model) ) ;
-		SEXP res  = PROTECT( Rf_eval( call, R_GlobalEnv ) ) ;
-		UNPROTECT(2);
-		fill_rexp(rexp , res);
+		//SEXP call = PROTECT( Rf_lang2( Rf_install( "as.character" ), model) ) ;
+		//SEXP res  = PROTECT( Rf_eval( call, R_GlobalEnv ) ) ;
+		//UNPROTECT(2);
+		fill_rexp(rexp, Rf_asCharacterFactor(model));
 	}
 		break;
 	case REALSXP: //#define REALSXP     14    /* real variables */
@@ -195,7 +216,8 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 
 		rexp->realvalue = malloc(sizeof(rexp->realvalue) * (rexp->n_realvalue));
 		for (i = 0; i < rexp->n_realvalue; i++) {
-			fprintf(stderr, "Setting value of rexp to %d %f\n",i,  (REAL(model)[i]));
+			fprintf(stderr, "Setting value of rexp to %d %f\n", i,
+					(REAL(model)[i]));
 			rexp->realvalue[i] = (REAL(model)[i]);
 		}
 		break;
@@ -230,7 +252,8 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 
 		rexp->n_stringvalue = LENGTH(model);
 		fprintf(stderr, "Number of strings %d\n", rexp->n_stringvalue);
-		rexp->stringvalue = malloc(sizeof(rexp->stringvalue) * rexp->n_stringvalue);
+		rexp->stringvalue = malloc(
+				sizeof(rexp->stringvalue) * rexp->n_stringvalue);
 		for (i = 0; i < rexp->n_stringvalue; i++) {
 			rexp->stringvalue[i] = CHAR(STRING_ELT(model, i));
 		}
