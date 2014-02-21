@@ -1,6 +1,7 @@
 package com.simple.radapter;
 
 import com.simple.radapter.api.IRexpString;
+import com.simple.radapter.protobuf.REXPProtos.REXP;
 
 public class RexpString extends Rexp implements IRexpString {
 
@@ -18,6 +19,12 @@ public class RexpString extends Rexp implements IRexpString {
 	@Override
 	public String getValue() {
 		return value;
+	}
+
+	@Override
+	public REXP getProtoBuf() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

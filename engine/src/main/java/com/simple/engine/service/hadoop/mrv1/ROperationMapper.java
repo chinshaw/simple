@@ -16,11 +16,11 @@ import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.original.api.exceptions.RAnalyticsException;
 import com.simple.radapter.AdapterFactory;
 import com.simple.radapter.api.IRAdapter;
-import com.simple.radapter.api.IRexp;
 import com.simple.radapter.api.RAdapterException;
+import com.simple.radapter.protobuf.REXPProtos.REXP;
 
 public class ROperationMapper extends
-		Mapper<Text, Text, Text, IRexp<?>> {
+		Mapper<Text, Text, Text, REXP> {
 
 	private static final Logger logger = Logger
 			.getLogger(ROperationMapper.class.getName());
@@ -54,14 +54,14 @@ public class ROperationMapper extends
 		logger.finest("Assigning code to operation " + code);
 		
 		try {
-			adapter.execScript(code);
+			adapter.exec(code);
 		} catch (RAdapterException e) {
 			e.printStackTrace();
 		}
 
 		for (AnalyticsOperationOutput output : operation.getOutputs()) {
 			logger.info("Fetching output " + output.getName());
-			IRexp<?> rexp = null;
+			REXP rexp = null;
 			try {
 				rexp = adapter.get(output.getName());
 			} catch (RAdapterException e) {

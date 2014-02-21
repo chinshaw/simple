@@ -30,18 +30,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.github.igor-petruk.protobuf</groupId>
-				<artifactId>protobuf-maven-plugin</artifactId>
-				<version>0.6.3</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4</version>
@@ -49,7 +37,6 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
-
 				</configuration>
 				<executions>
 					<execution>
@@ -61,9 +48,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
-
 	</build>
 
 
@@ -122,23 +107,12 @@
 			<version>11.0.2</version>
 		</dependency>
 
-
-		<!-- serialization -->
-		<dependency>
-			<groupId>com.google.protobuf</groupId>
-			<artifactId>protobuf-java</artifactId>
-			<version>${protobuf.version}</version>
-		</dependency>
-
 		<!-- Provides protobuf, thrift and hadoop utilities -->
 		<dependency>
 			<groupId>com.twitter.elephantbird</groupId>
 			<artifactId>elephant-bird-core</artifactId>
 			<version>4.4</version>
 		</dependency>
-
-
-
 	</dependencies>
 
 </project>

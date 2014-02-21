@@ -1,6 +1,7 @@
 package com.simple.radapter;
 
 import com.simple.radapter.api.IRexpDouble;
+import com.simple.radapter.protobuf.REXPProtos.REXP;
 
 public class RexpDouble implements IRexpDouble {
 
@@ -17,5 +18,11 @@ public class RexpDouble implements IRexpDouble {
 	
 	public void setDouble(double value) {
 		this.value = value;
+	}
+
+	@Override
+	public REXP getProtoBuf() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
