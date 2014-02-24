@@ -1,3 +1,6 @@
 [submodule "externals/simple-wiki"]
 	path = externals/simple-wiki
 	url = https://github.com/chinshaw/simple.wiki
+[submodule "externals/hadoop-lzo"]
+	path = externals/hadoop-lzo
+	url = https://github.com/twitter/hadoop-lzo.git

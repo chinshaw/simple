@@ -2,7 +2,6 @@ package com.simple.engine.service.hadoop.mrv1;
 
 import java.util.List;
 
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -46,6 +45,7 @@ public class OperationConfig extends Configuration {
 		}
 	}
 	
+	
 	public static final String OPERATION = "mapreduce.artisan.operation";
 	
 	public static final String DATA_PROVIDER_PARAMS = "mapreduce.artisan.dataproviders";
@@ -61,7 +61,7 @@ public class OperationConfig extends Configuration {
 		super(configuration);
 	}
 	
-	public List<DataProvider> getDataProviders() throws JAXBException {
+	public List<DataProvider> getDataProviders() throws ConfigurationException {
 		String xml = get(DATA_PROVIDER_PARAMS);
 		if (xml == null || xml.isEmpty()) {
 			return null;
@@ -71,26 +71,29 @@ public class OperationConfig extends Configuration {
 		return wrapper.dataProviders;
 	}
 	
-	public void setDataProviders(List<DataProvider> dataProviders) throws JAXBException {
+	public void setDataProviders(List<DataProvider> dataProviders) throws ConfigurationException {
 		set(DATA_PROVIDER_PARAMS, ConfigurationUtils.serializeToXml(DPWrapper.class, new DPWrapper(dataProviders)));
 	}
 	
-	public List<AnalyticsOperationInput> getOperationInputs() throws JAXBException {
+	public List<AnalyticsOperationInput> getOperationInputs() throws ConfigurationException {
 		String xml = get(OPERATION_INPUT_PARAMS);
 		INWrapper wrapper = ConfigurationUtils.unserializeXml(INWrapper.class, xml);
 		return wrapper.inputs;
 	}
 	
-	public void setOperationInputs(List<AnalyticsOperationInput> inputs) throws JAXBException {
+	public void setOperationInputs(List<AnalyticsOperationInput> inputs) throws ConfigurationException {
 		set(OPERATION_INPUT_PARAMS, ConfigurationUtils.serializeToXml(INWrapper.class, new INWrapper(inputs)));
 	}
 	
-	public AnalyticsOperation getOperation() throws JAXBException {
+	public AnalyticsOperation getOperation() throws ConfigurationException {
 		String xml = get(OPERATION);
+		if (xml == null) {
+			throw new ConfigurationException("operation xml == null");
+		}
 		return ConfigurationUtils.unserializeXml(AnalyticsOperation.class, xml);
 	}
 	
-	public void setOperation(AnalyticsOperation operation) throws JAXBException {
+	public void setOperation(AnalyticsOperation operation) throws ConfigurationException {
 		set(OPERATION, ConfigurationUtils.serializeToXml(AnalyticsOperation.class, operation));
 	}
 

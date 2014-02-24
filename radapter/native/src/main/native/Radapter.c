@@ -99,14 +99,12 @@ JNIEXPORT void JNICALL Java_com_simple_radapter_NativeAdapter_endR(JNIEnv *env, 
 JNIEXPORT jbyteArray JNICALL Java_com_simple_radapter_NativeAdapter_evalScript(
 		JNIEnv *env, jobject this, jstring jStringCommand) {
 
-    const char *command = (*env)->GetStringUTFChars(env, jStringCommand, 0);
+	const char *command = (*env)->GetStringUTFChars(env, jStringCommand, 0);
 
 	SEXP sexp = rexpress(command);
 
 	REXP rexp = REXP__INIT;
 	sexpToRexp(&rexp, sexp);
-
-	fprintf(stderr, "Count of children in vector %zu\n", rexp.n_rexpvalue);
 
 	size_t packedSize = rexp__get_packed_size(&rexp);
 	void *packed = malloc(packedSize);

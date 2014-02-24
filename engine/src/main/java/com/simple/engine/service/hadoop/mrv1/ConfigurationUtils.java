@@ -28,12 +28,12 @@ public class ConfigurationUtils {
 		}
 		return serializedOperation;
 	}
-	
+
 	public static <T> T unSerializeObject(String serializedObject) throws IOException, ClassNotFoundException {
 		if (serializedObject == null || serializedObject.isEmpty()) {
 			return null;
 		}
-		
+
 		T unserializedObject = null;
 		ObjectInputStream is = null;
 		try {
@@ -41,30 +41,55 @@ public class ConfigurationUtils {
 			is = new ObjectInputStream(baos);
 			unserializedObject = (T) is.readObject();
 		} finally {
-			if (is!= null) {
-				is.close();	
+			if (is != null) {
+				is.close();
 			}
-			
+
 		}
-		
+
 		return unserializedObject;
 	}
-	
-	public static String serializeToXml(Class<?> clazz, Object object) throws JAXBException {
-		JAXBContext context = JAXBContext.newInstance(clazz);
-		Marshaller marshaller = context.createMarshaller();
-		
-		StringWriter strWriter = new StringWriter();
-		marshaller.marshal(object, strWriter);
-		
-		return strWriter.toString();
+
+	/**
+	 * Used to serialize a class to xml, this is useful for adding an object to the configuration
+	 * for the mr job to parse.
+	 * @param clazz
+	 * @param object
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	public static String serializeToXml(Class<?> clazz, Object object) throws ConfigurationException {
+		try {
+			JAXBContext context = JAXBContext.newInstance(clazz);
+			Marshaller marshaller = context.createMarshaller();
+
+			StringWriter strWriter = new StringWriter();
+			marshaller.marshal(object, strWriter);
+			return strWriter.toString();
+		} catch (JAXBException jax) {
+			throw new ConfigurationException("unable to serialize object to xml", jax);
+		}
 	}
-	
-	public static <T> T unserializeXml(Class<T> clazz, String xml) throws JAXBException {
-		JAXBContext context = JAXBContext.newInstance(clazz);
-		Unmarshaller unmarshaller = context.createUnmarshaller();
-		
-		StringReader strReader = new StringReader(xml);
-		return (T) unmarshaller.unmarshal(strReader);
+
+	/**
+	 * Unserialize xml object from string, this uses jaxb and requires the object have the correct
+	 * annotations. Also be careful because if they xml changes the xml will have to be updated
+	 * manually to support the new schema.
+	 * @param clazz
+	 * @param xml
+	 * @return
+	 * @throws ConfigurationException
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T unserializeXml(Class<T> clazz, String xml) throws ConfigurationException {
+		try {
+			JAXBContext context = JAXBContext.newInstance(clazz);
+			Unmarshaller unmarshaller = context.createUnmarshaller();
+
+			StringReader strReader = new StringReader(xml);
+			return (T) unmarshaller.unmarshal(strReader);
+		} catch (JAXBException jax) {
+			throw new ConfigurationException("unable to parse configuration xml ", jax);
+		}
 	}
 }

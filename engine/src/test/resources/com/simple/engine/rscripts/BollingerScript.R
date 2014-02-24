@@ -191,7 +191,7 @@ plotVolumeBars <- function(X) {
 
 BollingerBands <- function(instrument) {
   library("Cairo")
-  Cairo(file = "temp.png", width=1024, height = 800, type="png",  units = "px", dpi = "auto")
+  Cairo(file = "/tmp/instrument.png", width=1024, height = 800, type="png",  units = "px", dpi = "auto")
   X <- getData(instrument)
   useObs <- 100                         # use this many observations
   X <- computeBollingerBands(X, 20, 2)
@@ -221,8 +221,4 @@ BollingerBands <- function(instrument) {
   
 }
 
-
-
 X <- BollingerBands("IBM")
-
-y <- "some value"

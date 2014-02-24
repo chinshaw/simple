@@ -31,5 +31,7 @@ public interface IRAdapter {
     public REXP exec(File file) throws RAdapterException, InvalidProtocolBufferException;
 	
 	public REXP exec(String script) throws RAdapterException, InvalidProtocolBufferException;
+
+	public REXP getPlot(String string) throws RAdapterException, InvalidProtocolBufferException;
 	
 }

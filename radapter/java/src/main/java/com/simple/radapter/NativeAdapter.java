@@ -140,6 +140,13 @@ public class NativeAdapter implements IRAdapter {
         return exec(var);
     }
     
+
+    public REXP getPlot(String plotName) throws InvalidProtocolBufferException, RAdapterException {
+		String command = "readBin(\"" + plotName
+				+ "\", what=\"raw\", n=1e6)";
+		return exec(command);
+    }
+    
     @Override
     public REXP set(String var, REXP rexp) throws RAdapterException {
         // TODO Auto-generated method stub

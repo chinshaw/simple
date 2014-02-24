@@ -7,8 +7,6 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import javax.xml.bind.JAXBException;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
@@ -22,19 +20,19 @@ import com.simple.domain.model.dataprovider.HttpDataProvider;
 import com.simple.engine.service.hadoop.io.HttpInputFormat;
 import com.simple.engine.service.hadoop.io.NullInputFormat;
 
+@Deprecated
 public class OperationTool implements Tool {
 
-	private static final Logger logger = Logger.getLogger(OperationTool.class
-			.getName());
+	private static final Logger logger = Logger.getLogger(OperationTool.class.getName());
 
 	private Configuration configuration;
 
 	@Override
-	public int run(String args[]) throws IOException, InterruptedException,
-			ClassNotFoundException, JAXBException {
+	public int run(String args[]) throws IOException, InterruptedException, ClassNotFoundException, ConfigurationException {
+
 		Configuration configuration = getConf();
 		Job job = Job.getInstance(configuration);
-		job.setJar("/Users/chris/devel/workspace/simple/engine/target/simple-analytics-engine-1.1-SNAPSHOT-jar-with-dependencies.jar");
+		// job.setJar("/Users/chris/devel/workspace/simple/engine/target/simple-analytics-engine-1.1-SNAPSHOT-jar-with-dependencies.jar");
 		job.setUser("chris");
 
 		OperationConfig opConfig = new OperationConfig(configuration);
@@ -60,13 +58,12 @@ public class OperationTool implements Tool {
 		FileOutputFormat.setOutputPath(job, new Path(outputPath));
 
 		job.setJobName(jobName);
-		job.setJarByClass(OperationExecutor.class);
+		job.setJarByClass(OperationDriver.class);
 		job.setMapperClass(ROperationMapper.class);
-		
-		
-	//	listJobConfProperties();
+
+		// listJobConfProperties();
 		getJobTrackerHostPort();
-		
+
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
 

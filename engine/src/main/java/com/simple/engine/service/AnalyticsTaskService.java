@@ -19,6 +19,7 @@ import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.metric.Metric;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.engine.service.hadoop.mrv1.ConfigurationException;
 import com.simple.original.api.analytics.IAnalyticsTaskExecution;
 import com.simple.original.api.analytics.IAnalyticsTaskExecution.TaskCompletionStatus;
 import com.simple.original.api.exceptions.AnalyticsTaskException;
@@ -242,7 +243,7 @@ public class AnalyticsTaskService {
 									.setCompletionStatus(IAnalyticsTaskExecution.TaskCompletionStatus.FAILED);
 						}
 
-					} catch (AnalyticsOperationException e) {
+					} catch (AnalyticsOperationException | ConfigurationException e) {
 						taskExecution.setExecutionLog(operationLogHandler.dumpLog());
 						logger.log(Level.SEVERE, "R AnalyticsException occurred ", e);
 						systemLogger.log(Level.SEVERE, "Error occurred", e);

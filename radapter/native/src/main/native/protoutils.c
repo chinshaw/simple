@@ -172,7 +172,7 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 		//fprintf(stderr, "SIZE OF ATTRIBUTES %d", LENGTH(s));
 
 		for (i = 0; s != R_NilValue; i++, s = CDR(s)) {
-			Rf_PrintValue(s);
+			//Rf_PrintValue(s);
 
 			//REXP *attribute = malloc(sizeof(REXP));
 			//*attribute = REXP_INIT;
@@ -204,10 +204,10 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 		break;
 	case INTSXP: // #define INTSXP      13    integer vectors
 	{
-		//SEXP call = PROTECT( Rf_lang2( Rf_install( "as.character" ), model) ) ;
-		//SEXP res  = PROTECT( Rf_eval( call, R_GlobalEnv ) ) ;
-		//UNPROTECT(2);
-		fill_rexp(rexp, Rf_asCharacterFactor(model));
+		if (inherits(model, "factor")) {
+			fill_rexp(rexp, Rf_asCharacterFactor(model));
+		}
+
 	}
 		break;
 	case REALSXP: //#define REALSXP     14    /* real variables */
@@ -216,25 +216,27 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 
 		rexp->realvalue = malloc(sizeof(rexp->realvalue) * (rexp->n_realvalue));
 		for (i = 0; i < rexp->n_realvalue; i++) {
-			fprintf(stderr, "Setting value of rexp to %d %f\n", i,
-					(REAL(model)[i]));
 			rexp->realvalue[i] = (REAL(model)[i]);
 		}
 		break;
 	case RAWSXP: { //#define RAWSXP      24    /* raw bytes */
 		rexp->rclass = REXP__RCLASS__RAWSXP;
-		int l = LENGTH(model);
-		ProtobufCBinaryData binData;
+		rexp->has_rawvalue = 1;
 
-		//binData.data = (RAW(model), l);
-		//binData.len = l;
+		// set length of rexp;
+		int rawLength = LENGTH(model);
+		rexp->rawvalue.len = rawLength;
 
-		//rexp->rawvalue = binData;
+		// set the raw data for the rexp
+		uint8_t *data = (uint8_t *) RAW(model);
+		rexp->rawvalue.data = malloc(rawLength);
 
-		//rexp->rawvalue = (RAW(model),l);
+		memcpy(rexp->rawvalue.data, data, rawLength);
+
 		break;
 	}
 	case CPLXSXP: { //#define CPLXSXP     15    /* complex variables */
+
 		rexp->rclass = REXP__RCLASS__CPLXSXP;
 		for (i = 0; i < LENGTH(model); i++) {
 			CMPLX mp = CMPLX__INIT;
@@ -251,7 +253,6 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 		rexp->rclass = REXP__RCLASS__STRSXP;
 
 		rexp->n_stringvalue = LENGTH(model);
-		fprintf(stderr, "Number of strings %d\n", rexp->n_stringvalue);
 		rexp->stringvalue = malloc(
 				sizeof(rexp->stringvalue) * rexp->n_stringvalue);
 		for (i = 0; i < rexp->n_stringvalue; i++) {

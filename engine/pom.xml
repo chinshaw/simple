@@ -21,6 +21,10 @@
 			</snapshots>
 			<url>file://${project.basedir}/../local_repo</url>
 		</repository>
+		<repository>
+			<id>twitter-twttr</id>
+			<url>http://maven.twttr.com/</url>
+		</repository>
 	</repositories>
 
 	<properties>
@@ -113,6 +117,13 @@
 			<artifactId>elephant-bird-core</artifactId>
 			<version>4.4</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.hadoop.gplcompression</groupId>
+			<artifactId>hadoop-lzo</artifactId>
+			<version>0.4.20-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 
 </project>
