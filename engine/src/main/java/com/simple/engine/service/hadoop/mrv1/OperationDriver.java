@@ -3,6 +3,7 @@ package com.simple.engine.service.hadoop.mrv1;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -11,12 +12,13 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBException;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import com.google.protobuf.Message;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
@@ -30,9 +32,9 @@ import com.simple.engine.service.hadoop.io.NullInputFormat;
 import com.simple.original.api.exceptions.RAnalyticsException;
 import com.simple.radapter.protobuf.REXPProtos;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
-import com.twitter.elephantbird.mapreduce.io.ProtobufBlockReader;
-import com.twitter.elephantbird.mapreduce.io.ProtobufConverter;
+import com.twitter.elephantbird.mapreduce.input.LzoProtobufB64LineRecordReader;
 import com.twitter.elephantbird.mapreduce.io.ProtobufWritable;
+import com.twitter.elephantbird.mapreduce.io.TypedProtobufWritable;
 import com.twitter.elephantbird.util.TypeRef;
 
 public class OperationDriver implements IAnalyticsOperationExecutor {
@@ -98,10 +100,12 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 			// configure output to be lzo formatted base 64 lines
 			// LzoProtobufB64LineOutputFormat.setClassConf(REXP.class,
 			// configuration);
-			// job.setOutputFormatClass(LzoProtobufB64LineOutputFormat.class);
+			 //job.setOutputFormatClass(LzoProtobufB64LineOutputFormat.class);
 
 			String outputPath = "/tmp/"
 					+ String.format("hd_%s-%s", operation.getName(), uniqueCurrentTimeMS());
+			job.setOutputValueClass(ProtobufWritable.class);
+			//job.setOutputFormatClass(ProtobufBlockWriter.class);
 			FileOutputFormat.setOutputPath(job, new Path(outputPath));
 			FileInputFormat.setInputPaths(job, new Path("/tmp/stocks.txt"));
 
@@ -166,31 +170,39 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 		return job;
 	}
 
-	protected HashMap<Long, Metric> grabMetrics(String outputpath) throws IOException {
+	class LzoLocalReader<M extends Message> extends LzoProtobufB64LineRecordReader<M> {
+
+        public LzoLocalReader(TypeRef<M> typeRef, InputStream is) throws IOException {
+            super(typeRef);
+            createInputReader(is, new Configuration());
+        }
+        
+	    
+	}
+	
+	protected HashMap<Long, Metric> grabMetrics(String outputpath) throws IOException, InterruptedException {
 		HashMap<Long, Metric> outputs = new HashMap<Long, Metric>();
 
 		outputpath = outputpath + "/part-r-00000";
 		logger.info("Outpath is " + outputpath);
 		
 		FileInputStream fis = new FileInputStream(outputpath);
+		DataInputStream dis = new DataInputStream(fis);
 		
-		//InputStreamReader reader = new InputStreamReader(fis, "ASCII");
-		//REXP.Builder builder = REXP.newBuilder();
-		//REXP rexp = REXP.parseFrom(fis);
-		//DataInputStream dis = new DataInputStream(fis);
+		System.out.println("Size is " + dis.readInt());
+		TypedProtobufWritable<REXP> message = new TypedProtobufWritable<REXPProtos.REXP>();
 		
-		ProtobufBlockReader<REXP> blockReader = new ProtobufBlockReader<REXP>(fis, REXP_TYPE);
+		message.readFields(dis);
+	
+		dis.close();
 		
-		REXP rexp = blockReader.readNext();
-		
-		
+		REXP rexp = message.get();
+
 		if (rexp == null) {
 			throw new RuntimeException("FAILED TO GET REXP");
 		}
 		
 		logger.info("REXP TYPE IS  type is " + rexp.getRclass());
-		
-		System.out.println("\n\n\n\nOUTPUT IS \n\n\n" + rexp.getRclass());
 		
 		return outputs;
 	}
