@@ -2,6 +2,7 @@ package com.simple.original.server.service;
 
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.engine.service.AnalyticsOperationException;
+import com.simple.engine.service.hadoop.mrv1.ConfigurationException;
 import com.simple.engine.service.hadoop.mrv1.OperationDriver;
 
 public class AnalyticsService {
@@ -13,7 +14,11 @@ public class AnalyticsService {
 	}
 	
 	public void executeOperation(AnalyticsOperation operation) throws AnalyticsOperationException {
-		System.out.println("GOT YOUR REQUESTION OCNTEXT");
-		executor.execute(null, operation, null);
+		try {
+			executor.execute(null, operation, null);
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

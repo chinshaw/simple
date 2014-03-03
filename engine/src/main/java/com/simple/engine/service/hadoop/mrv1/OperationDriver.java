@@ -1,9 +1,8 @@
 package com.simple.engine.service.hadoop.mrv1;
 
-import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -14,11 +13,14 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.mapreduce.MultiTableOutputFormat;
+import org.apache.hadoop.hbase.mapreduce.TableOutputFormat;
+import org.apache.hadoop.io.compress.CompressionInputStream;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import com.google.protobuf.Message;
+import com.hadoop.compression.lzo.LzoCodec;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
@@ -30,11 +32,9 @@ import com.simple.engine.service.IAnalyticsOperationExecutor;
 import com.simple.engine.service.hadoop.io.HttpInputFormat;
 import com.simple.engine.service.hadoop.io.NullInputFormat;
 import com.simple.original.api.exceptions.RAnalyticsException;
-import com.simple.radapter.protobuf.REXPProtos;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
-import com.twitter.elephantbird.mapreduce.input.LzoProtobufB64LineRecordReader;
-import com.twitter.elephantbird.mapreduce.io.ProtobufWritable;
-import com.twitter.elephantbird.mapreduce.io.TypedProtobufWritable;
+import com.twitter.elephantbird.mapreduce.output.LzoProtobufB64LineOutputFormat;
+import com.twitter.elephantbird.util.HadoopCompat;
 import com.twitter.elephantbird.util.TypeRef;
 
 public class OperationDriver implements IAnalyticsOperationExecutor {
@@ -83,7 +83,7 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 		RAnalyticsOperation rop = (RAnalyticsOperation) operation;
 
 		try {
-
+			
 			// Set configurations before creating job, otherwise they are lost
 			// not sure why though???
 			OperationConfig configuration = new OperationConfig();
@@ -91,24 +91,22 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 			configuration.setDataProviders(dataProviders);
 			configuration.setOperationInputs(operationInputs);
 
+			
 			Job job = createLocalJob(configuration);
-
 			job.setJobName(operation.getName());
+
 			job.setMapperClass(ROperationMapper.class);
 			job.setReducerClass(ROperationReducer.class);
 
-			// configure output to be lzo formatted base 64 lines
-			// LzoProtobufB64LineOutputFormat.setClassConf(REXP.class,
-			// configuration);
-			 //job.setOutputFormatClass(LzoProtobufB64LineOutputFormat.class);
-
-			String outputPath = "/tmp/"
-					+ String.format("hd_%s-%s", operation.getName(), uniqueCurrentTimeMS());
-			job.setOutputValueClass(ProtobufWritable.class);
-			//job.setOutputFormatClass(ProtobufBlockWriter.class);
-			FileOutputFormat.setOutputPath(job, new Path(outputPath));
+			// Job Input
 			FileInputFormat.setInputPaths(job, new Path("/tmp/stocks.txt"));
 
+			job.setOutputFormatClass(TableOutputFormat.class);
+			job.getConfiguration().set(TableOutputFormat.OUTPUT_TABLE, "metrics");
+			job.getConfiguration().set("conf.column", "rexp");
+			
+			
+			// Job data providers
 			List<DataProvider> dataproviders = configuration.getDataProviders();
 
 			if (dataproviders != null) {
@@ -125,11 +123,19 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 				throw new RAnalyticsException("Job failed, see logs");
 			}
 
-			return grabMetrics(outputPath);
+			return grabMetrics(configuration);
+			// return grabMetrics(outputPath);
 		} catch (ClassNotFoundException | IOException | InterruptedException e) {
 			logger.log(Level.SEVERE, "Unable to execute job", e);
 			throw new RAnalyticsException("Unable to execute operation", e);
 		}
+	}
+	
+	
+	private void configureHbase(Configuration configuration) {
+		Configuration hbaseConf = HBaseConfiguration.create(configuration);
+		
+		
 	}
 
 	/**
@@ -170,39 +176,11 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 		return job;
 	}
 
-	class LzoLocalReader<M extends Message> extends LzoProtobufB64LineRecordReader<M> {
-
-        public LzoLocalReader(TypeRef<M> typeRef, InputStream is) throws IOException {
-            super(typeRef);
-            createInputReader(is, new Configuration());
-        }
-        
-	    
-	}
-	
-	protected HashMap<Long, Metric> grabMetrics(String outputpath) throws IOException, InterruptedException {
+	protected HashMap<Long, Metric> grabMetrics( final Configuration conf) throws IOException, InterruptedException {
 		HashMap<Long, Metric> outputs = new HashMap<Long, Metric>();
-
-		outputpath = outputpath + "/part-r-00000";
-		logger.info("Outpath is " + outputpath);
 		
-		FileInputStream fis = new FileInputStream(outputpath);
-		DataInputStream dis = new DataInputStream(fis);
 		
-		System.out.println("Size is " + dis.readInt());
-		TypedProtobufWritable<REXP> message = new TypedProtobufWritable<REXPProtos.REXP>();
 		
-		message.readFields(dis);
-	
-		dis.close();
-		
-		REXP rexp = message.get();
-
-		if (rexp == null) {
-			throw new RuntimeException("FAILED TO GET REXP");
-		}
-		
-		logger.info("REXP TYPE IS  type is " + rexp.getRclass());
 		
 		return outputs;
 	}

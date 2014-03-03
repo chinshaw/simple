@@ -16,7 +16,7 @@ import com.simple.radapter.protobuf.REXPProtos.REXP;
 
 public class NativeAdapter implements IRAdapter {
 
-    static {
+    static  {
         try {
             System.loadLibrary("radapter");
         } catch (UnsatisfiedLinkError e) {
@@ -148,7 +148,7 @@ public class NativeAdapter implements IRAdapter {
     }
     
     @Override
-    public REXP set(String var, REXP rexp) throws RAdapterException {
+    public synchronized REXP set(String var, REXP rexp) throws RAdapterException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -170,7 +170,7 @@ public class NativeAdapter implements IRAdapter {
      * @param text
      *            text to disply
      */
-    public void jriWriteConsole(String text, int outputType) {
+    public synchronized void jriWriteConsole(String text, int outputType) {
         if (outputType == 0) { // stdout
             console.writeStdOut(text);
         } else {
@@ -184,7 +184,7 @@ public class NativeAdapter implements IRAdapter {
      * @param which
      *            state
      */
-    public void jriBusy(int which) {
+    public synchronized void jriBusy(int which) {
     }
 
     /**
@@ -202,7 +202,7 @@ public class NativeAdapter implements IRAdapter {
      *         corresponds to an EOF and usually causes R to exit (as in
      *         <code>q()</doce>).
      */
-    public String jriReadConsole(String prompt, int addToHistory) {
+    public synchronized String jriReadConsole(String prompt, int addToHistory) {
 
         // System.out.println("Rengine.jreReadConsole BEGIN "
         // + Thread.currentThread());
@@ -215,7 +215,7 @@ public class NativeAdapter implements IRAdapter {
      * @param message
      *            message
      */
-    public void jriShowMessage(String message) {
+    public synchronized void jriShowMessage(String message) {
     }
 
     /**
@@ -224,7 +224,7 @@ public class NativeAdapter implements IRAdapter {
      * @param filename
      *            name of the history file
      */
-    public void jriSaveHistory(String filename) {
+    public synchronized void jriSaveHistory(String filename) {
     }
 
 }
