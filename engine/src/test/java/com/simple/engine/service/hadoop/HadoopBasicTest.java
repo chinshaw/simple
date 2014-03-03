@@ -44,7 +44,5 @@ public class HadoopBasicTest {
 		
 		logger.info("Doing execute");
 		executor.execute(null, operation, dps);
-
-		
 	}
 }

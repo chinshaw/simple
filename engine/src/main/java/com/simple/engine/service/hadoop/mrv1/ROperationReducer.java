@@ -7,8 +7,15 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.KeyValue;
+import org.apache.hadoop.hbase.client.Mutation;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
@@ -23,7 +30,8 @@ import com.simple.radapter.protobuf.REXPProtos;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
 import com.twitter.elephantbird.mapreduce.io.ProtobufWritable;
 
-public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos.REXP>, Text, ProtobufWritable<REXPProtos.REXP>> implements Configurable {
+public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos.REXP>, ImmutableBytesWritable, Mutation> implements
+		Configurable {
 
 	private static final Logger logger = Logger.getLogger(ROperationMapper.class.getName());
 
@@ -39,50 +47,66 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 	};
 
 	/**
-	 * Get the adapter for the session.
-	 */
-	private static final IRAdapter adapter = localAdapter.get();
-
-	/**
 	 * The configuration for the job.
 	 */
-	private Configuration _conf;
+	private Configuration conf;
+	
+	private byte[] family = null;
+	private byte[] qualifier = null;
 
 	public ROperationReducer() {
 	}
 
+	/**
+	 * Get the configuration and configure the hbase output to write to the correct column
+	 * and 
+	 */
+	protected void setup(Context context) throws IOException, InterruptedException {
+		String column = context.getConfiguration().get("conf.column");
+		byte[][] colKey = KeyValue.parseColumn(Bytes.toBytes(column));
+		family = colKey[0];
+		logger.info("Family ***********************" + new String(family));
+		if (colKey.length > 1) {
+			qualifier = colKey[1];
+		}
+	}
+
 	@Override
 	public synchronized void run(Context context) throws IOException, InterruptedException {
-		assert(_conf != null) : "configuration not specified";
-		
-		OperationConfig configuration = new OperationConfig(_conf);
+		assert (conf != null) : "configuration not specified";
+		setup(context);
+
+		OperationConfig configuration = new OperationConfig(conf);
 
 		RAnalyticsOperation operation = null;
 
 		try {
 			operation = (RAnalyticsOperation) configuration.getOperation();
 		} catch (ConfigurationException e) {
-			throw new RuntimeException("cannot extract operation from configuration, cannot continue, see cause:" , e);
+			throw new RuntimeException("cannot extract operation from configuration, cannot continue, see cause:", e);
 		}
-		
+
 		if (operation == null) {
 			throw new RuntimeException("Operation cannot be null");
 		}
 
 		try {
 			try {
-				adapter.connect();
+				localAdapter.get().connect();
 			} catch (RAdapterException e) {
 				throw new IOException("unable to connect to R environment", e);
 			}
 
 			String code = operation.getCode();
-			logger.info("Assigning code to operation " + code);
+			logger.fine("Assigning code to operation " + code);
 
-			REXP output = adapter.exec(code);
+			REXP output = localAdapter.get().exec(code);
+
 			logger.info("Script result " + output.getRclass());
 
 			writeOutputsToContext(operation.getOutputs(), context);
+
+			cleanup(context);
 		} catch (RAdapterException e) {
 			e.printStackTrace();
 		}
@@ -97,9 +121,9 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 
 				REXP rexp = null;
 				if (output.getOutputType() == Type.BINARY || output.getOutputType() == Type.GRAPHIC) {
-					rexp = adapter.getPlot(output.getName());
+					rexp = localAdapter.get().getPlot(output.getName());
 				} else {
-					rexp = adapter.get(output.getName());
+					rexp = localAdapter.get().get(output.getName());
 				}
 
 				if (rexp == null) {
@@ -107,31 +131,26 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 					continue;
 				}
 
-				logger.fine("found rexp => type " + rexp.getRclass());
-
-				ProtobufWritable<REXP> protoWritable = ProtobufWritable.newInstance(REXP.class);
-				protoWritable.set(rexp);
-
-				context.write(new Text(output.getName()), protoWritable);
-				try {
-                   logger.info("Outputformat is " + context.getOutputFormatClass().getName());
-                } catch (ClassNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+				logger.info("found rexp => type " + rexp.getRclass());
 				
-				// Testing
-				String outputPath = "/tmp/protobuf-test";
-			    FileOutputStream fis = new FileOutputStream(outputPath);
-		        DataOutputStream dis = new DataOutputStream(fis);
-		        protoWritable.write(dis);
-		        
+				byte[] rowKey = DigestUtils.md5(output.getName());
+				Put put = new Put(rowKey);
+				put.add(family, qualifier, rexp.toByteArray());
 				
+				context.write(new ImmutableBytesWritable(rowKey), put);
+
+		//		logger.info("Output type is " + context.getOutputValueClass());
 				
 			} catch (RAdapterException e) {
 				logger.log(Level.SEVERE, "Error while retrieving output => " + output.getName(), e);
 			}
 		}
+	}
+
+	public static Put resultToPut(ImmutableBytesWritable key, Result result) {
+		Put put = new Put(key.get());
+
+		return put;
 	}
 
 	/**
@@ -142,9 +161,9 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 	 * engine.
 	 */
 	protected void cleanup(Context context) throws IOException, InterruptedException {
-		IRAdapter adapter = localAdapter.get();
-		if (adapter != null) {
-			adapter.disconnect();
+		logger.info("caling close on reduer");
+		if (localAdapter.get() != null) {
+			localAdapter.get().disconnect();
 		}
 
 		localAdapter.remove();
@@ -152,12 +171,12 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 
 	@Override
 	public void setConf(Configuration conf) {
-		this._conf = conf;
+		this.conf = conf;
 	}
 
 	@Override
 	public Configuration getConf() {
-		return _conf;
+		return conf;
 	}
 
 }
