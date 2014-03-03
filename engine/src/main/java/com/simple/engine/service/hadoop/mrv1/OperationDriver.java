@@ -32,6 +32,7 @@ import com.simple.engine.service.hadoop.Utils;
 import com.simple.engine.service.hadoop.io.HttpInputFormat;
 import com.simple.engine.service.hadoop.io.NullInputFormat;
 import com.simple.original.api.exceptions.RAnalyticsException;
+import com.simple.original.security.ArtisanAuthenticationRealm;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
 import com.twitter.elephantbird.mapreduce.output.LzoProtobufB64LineOutputFormat;
 import com.twitter.elephantbird.util.HadoopCompat;
@@ -98,7 +99,7 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 			job.setMapperClass(ROperationMapper.class);
 			job.setReducerClass(ROperationReducer.class);
 
-			job.setOutputFormatClass(TableOutputFormat.class);
+			job.setOutputFormatClass(MetricOutputFormat.class);
 			job.getConfiguration().set(TableOutputFormat.OUTPUT_TABLE, "metrics");
 			job.getConfiguration().set("conf.column", "rexp");
 			

@@ -32,10 +32,7 @@ public interface IMetric extends IHasViolations, Serializable {
      * @return
      */
     public abstract boolean hasMetricViolations();
+	
+	public abstract byte[] serialize();
 
-    /**
-     * This is the output .
-     * @return
-     */
-	public abstract IAnalyticsOperationOutput getOrigin();
 }

@@ -48,9 +48,8 @@ public class MetricPlot extends Metric implements IMetricPlot {
         super(name);
         this.plotUrl = plotUrl;
     }
-    
-
-    public String getPlotUrl() {
+   
+	public String getPlotUrl() {
         return plotUrl;
     }
     

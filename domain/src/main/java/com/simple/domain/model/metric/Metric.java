@@ -104,12 +104,17 @@ public abstract class Metric extends RequestFactoryEntity implements IMetric {
         this.origin = origin;
     }
 
+    public byte[] serialize() {
+    	return new byte[1];
+    }
+    
     /**
      * Abstract method for the operation to retrieve its value as a string.
      * This is typically used to inject the value into the workspace for R.
      * @return
      */
     public abstract String getValueAsString();
+    
     
     /**
      * Overridden from Object to give it some kind of context.

@@ -1,28 +1,23 @@
 package com.simple.engine.service.hadoop.mrv1;
 
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.KeyValue;
-import org.apache.hadoop.hbase.client.Mutation;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
-import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
+import com.simple.engine.metric.Metric;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput.Type;
+import com.simple.original.api.analytics.IMetric;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
@@ -30,7 +25,7 @@ import com.simple.radapter.protobuf.REXPProtos;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
 import com.twitter.elephantbird.mapreduce.io.ProtobufWritable;
 
-public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos.REXP>, ImmutableBytesWritable, Mutation> implements
+public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos.REXP>, IMetricKey, IMetricWritable> implements
 		Configurable {
 
 	private static final Logger logger = Logger.getLogger(ROperationMapper.class.getName());
@@ -51,25 +46,10 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 	 */
 	private Configuration conf;
 	
-	private byte[] family = null;
-	private byte[] qualifier = null;
-
 	public ROperationReducer() {
 	}
 
-	/**
-	 * Get the configuration and configure the hbase output to write to the correct column
-	 * and 
-	 */
-	protected void setup(Context context) throws IOException, InterruptedException {
-		String column = context.getConfiguration().get("conf.column");
-		byte[][] colKey = KeyValue.parseColumn(Bytes.toBytes(column));
-		family = colKey[0];
-		logger.info("Family ***********************" + new String(family));
-		if (colKey.length > 1) {
-			qualifier = colKey[1];
-		}
-	}
+
 
 	@Override
 	public synchronized void run(Context context) throws IOException, InterruptedException {
@@ -132,12 +112,8 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 				}
 
 				logger.info("found rexp => type " + rexp.getRclass());
-				
-				byte[] rowKey = DigestUtils.md5(output.getName());
-				Put put = new Put(rowKey);
-				put.add(family, qualifier, rexp.toByteArray());
-				
-				context.write(new ImmutableBytesWritable(rowKey), put);
+				Metric plot = new Metric(rexp);
+				context.write(new MetricKey(output.getName()), new MetricWritable<IMetric>(plot));
 
 		//		logger.info("Output type is " + context.getOutputValueClass());
 				
@@ -178,5 +154,4 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 	public Configuration getConf() {
 		return conf;
 	}
-
 }
