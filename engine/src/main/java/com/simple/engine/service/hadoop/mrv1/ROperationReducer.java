@@ -1,5 +1,7 @@
 package com.simple.engine.service.hadoop.mrv1;
 
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -9,6 +11,7 @@ import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
@@ -108,8 +111,23 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 
 				ProtobufWritable<REXP> protoWritable = ProtobufWritable.newInstance(REXP.class);
 				protoWritable.set(rexp);
-				context.write(new Text(output.getName()), protoWritable);
 
+				context.write(new Text(output.getName()), protoWritable);
+				try {
+                   logger.info("Outputformat is " + context.getOutputFormatClass().getName());
+                } catch (ClassNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+				
+				// Testing
+				String outputPath = "/tmp/protobuf-test";
+			    FileOutputStream fis = new FileOutputStream(outputPath);
+		        DataOutputStream dis = new DataOutputStream(fis);
+		        protoWritable.write(dis);
+		        
+				
+				
 			} catch (RAdapterException e) {
 				logger.log(Level.SEVERE, "Error while retrieving output => " + output.getName(), e);
 			}

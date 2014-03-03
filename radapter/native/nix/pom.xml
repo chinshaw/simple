@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.simple.radapter</groupId>
@@ -26,6 +27,67 @@
 
 
 	<build>
+
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											native-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.0-alpha-7,)
+										</versionRange>
+										<goals>
+											<goal>compile</goal>
+											<goal>link</goal>
+											<goal>initialize</goal>
+											<goal>javah</goal>
+											<goal>unzipinc</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											exec-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.2.1,)
+										</versionRange>
+										<goals>
+											<goal>exec</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -82,7 +144,7 @@
 					</javahClassNames>
 					<javahSearchJNIFromDependencies>true</javahSearchJNIFromDependencies>
 					<sources>
-						<source>F
+						<source>
 							<directory>
 								${protocc.output}
 							</directory>
@@ -115,15 +177,20 @@
 					</compilerStartOptions>
 
 					<linkerStartOptions>
-						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -ljvm -lR -lprotobuf-c</linkerStartOption>
+						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT
+							-L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -ljvm -lR
+							-lprotobuf-c</linkerStartOption>
 					</linkerStartOptions>
 					<linkerEndOptions>
-						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT -L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -ljvm -lR -lprotobuf-c</linkerStartOption>
+						<linkerStartOption>-shared -fpic -pipe -g -D_REENTRANT
+							-L/usr/lib/jvm/jdk1.6.0_45/jre/lib/i386/client/ -ljvm -lR
+							-lprotobuf-c</linkerStartOption>
 					</linkerEndOptions>
 
 				</configuration>
 			</plugin>
 		</plugins>
+
 	</build>
 
 

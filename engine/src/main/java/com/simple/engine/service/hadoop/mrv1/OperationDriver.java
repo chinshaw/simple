@@ -1,12 +1,10 @@
 package com.simple.engine.service.hadoop.mrv1;
 
-import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +14,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import com.google.protobuf.Message;
 import com.simple.domain.model.AnalyticsOperation;
@@ -27,14 +24,15 @@ import com.simple.domain.model.metric.Metric;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.service.AnalyticsOperationException;
 import com.simple.engine.service.IAnalyticsOperationExecutor;
+import com.simple.engine.service.hadoop.Utils;
 import com.simple.engine.service.hadoop.io.HttpInputFormat;
 import com.simple.engine.service.hadoop.io.NullInputFormat;
 import com.simple.original.api.exceptions.RAnalyticsException;
-import com.simple.radapter.protobuf.REXPProtos;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
 import com.twitter.elephantbird.mapreduce.input.LzoProtobufB64LineRecordReader;
 import com.twitter.elephantbird.mapreduce.io.ProtobufWritable;
-import com.twitter.elephantbird.mapreduce.io.TypedProtobufWritable;
+import com.twitter.elephantbird.mapreduce.output.LzoProtobufB64LineOutputFormat;
+import com.twitter.elephantbird.util.HadoopCompat;
 import com.twitter.elephantbird.util.TypeRef;
 
 public class OperationDriver implements IAnalyticsOperationExecutor {
@@ -100,15 +98,18 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 			// configure output to be lzo formatted base 64 lines
 			// LzoProtobufB64LineOutputFormat.setClassConf(REXP.class,
 			// configuration);
-			 //job.setOutputFormatClass(LzoProtobufB64LineOutputFormat.class);
-
+			 
 			String outputPath = "/tmp/"
-					+ String.format("hd_%s-%s", operation.getName(), uniqueCurrentTimeMS());
-			job.setOutputValueClass(ProtobufWritable.class);
+					+ String.format("hd_%s-%s", operation.getName(), Utils.uniqueCurrentTimeMS());
 			//job.setOutputFormatClass(ProtobufBlockWriter.class);
-			FileOutputFormat.setOutputPath(job, new Path(outputPath));
+			
 			FileInputFormat.setInputPaths(job, new Path("/tmp/stocks.txt"));
+			
+			LzoProtobufB64LineOutputFormat.setOutputPath(job, new Path(outputPath));
+			LzoProtobufB64LineOutputFormat.setClassConf(REXP.class, HadoopCompat.getConfiguration(job));
 
+			job.setOutputFormatClass(LzoProtobufB64LineOutputFormat.class);
+			
 			List<DataProvider> dataproviders = configuration.getDataProviders();
 
 			if (dataproviders != null) {
@@ -176,31 +177,28 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
             super(typeRef);
             createInputReader(is, new Configuration());
         }
-        
-	    
 	}
+	
 	
 	protected HashMap<Long, Metric> grabMetrics(String outputpath) throws IOException, InterruptedException {
 		HashMap<Long, Metric> outputs = new HashMap<Long, Metric>();
 
-		outputpath = outputpath + "/part-r-00000";
+		outputpath = outputpath + "/part-r-00000.lzo";
 		logger.info("Outpath is " + outputpath);
 		
 		FileInputStream fis = new FileInputStream(outputpath);
-		DataInputStream dis = new DataInputStream(fis);
 		
-		System.out.println("Size is " + dis.readInt());
-		TypedProtobufWritable<REXP> message = new TypedProtobufWritable<REXPProtos.REXP>();
-		
-		message.readFields(dis);
+		LzoLocalReader<REXP> recordReader = new LzoLocalReader<REXP>(REXP_TYPE, fis);
 	
-		dis.close();
+	//	recordReader.nextKeyValue();
+		ProtobufWritable<REXP> protoWritable = recordReader.getCurrentValue();
 		
-		REXP rexp = message.get();
-
-		if (rexp == null) {
+		
+		
+		if (protoWritable == null) {
 			throw new RuntimeException("FAILED TO GET REXP");
 		}
+		REXP rexp = protoWritable.get();
 		
 		logger.info("REXP TYPE IS  type is " + rexp.getRclass());
 		
@@ -221,16 +219,6 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 		// TODO Auto-generated method stub
 	}
 
-	private static final AtomicLong LAST_TIME_MS = new AtomicLong();
 
-	public static long uniqueCurrentTimeMS() {
-		long now = System.currentTimeMillis();
-		while (true) {
-			long lastTime = LAST_TIME_MS.get();
-			if (lastTime >= now)
-				now = lastTime + 1;
-			if (LAST_TIME_MS.compareAndSet(lastTime, now))
-				return now;
-		}
-	}
+
 }
