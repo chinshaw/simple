@@ -52,6 +52,7 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 				InterruptedException {
 			Put put = new Put(key.toBytes());
 			put.add(family, qualifier, value.toBytes());
+			logger.info("Calling write of bytes " + value.toBytes());
 			nativeWriter.write(key, put);
 		}
 
@@ -75,6 +76,10 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 	}
 
 	
+	/**
+	 * Overridden to set the configuration on the backing TableOutputFormat
+	 * and 
+	 */
 	@Override
 	public void setConf(Configuration conf) {
 		backing_.setConf(conf);
@@ -90,6 +95,9 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		super.setConf(conf);
 	}
 	
+	/**
+	 * Calls {@link TableOutputFormat#checkOutputSpecs(JobContext)}
+	 */
 	@Override
 	public void checkOutputSpecs(JobContext context) throws IOException,
 			InterruptedException {
@@ -97,6 +105,9 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 
 	}
 
+	/**
+	 * Calls {@link TableOutputFormat#getOutputCommitter(TaskAttemptContext)}
+	 */
 	@Override
 	public OutputCommitter getOutputCommitter(TaskAttemptContext context)
 			throws IOException, InterruptedException {

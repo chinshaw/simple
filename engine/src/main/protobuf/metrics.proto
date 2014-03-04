@@ -1,0 +1,29 @@
+
+
+package artisan_engine;
+
+option optimize_for = LITE_RUNTIME;
+option java_package = "com.simple.engine.metric.protostuff"
+
+
+
+
+message IMetric {
+
+}
+
+@Extend(by = IMetric)
+message Metric {
+
+}
+
+
+@Extend(by = Metric)
+message MetricString {
+
+	optional string value = 1;
+}
+
+message GenericMetric {
+	required Object metric = 1;
+}

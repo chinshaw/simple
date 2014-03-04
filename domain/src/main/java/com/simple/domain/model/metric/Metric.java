@@ -104,7 +104,7 @@ public abstract class Metric extends RequestFactoryEntity implements IMetric {
         this.origin = origin;
     }
 
-    public byte[] serialize() {
+    public byte[] toBytes() {
     	return new byte[1];
     }
     

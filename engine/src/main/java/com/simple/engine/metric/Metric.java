@@ -2,6 +2,7 @@ package com.simple.engine.metric;
 
 import java.util.List;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.analytics.IViolation;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
@@ -15,37 +16,41 @@ public class Metric implements IMetric {
 	
 	private REXP rexp;
 	
+	public Metric() {
+		
+	}
+	
 	public Metric(REXP rexp) {
 		this.rexp = rexp;
 	}
 
 	@Override
 	public List<? extends IViolation> getViolations() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Long getId() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public boolean hasMetricViolations() {
 		return false;
+	}
+	
+	public REXP getRexp() {
+		return rexp;
 	}
 
 	@Override
@@ -54,5 +59,12 @@ public class Metric implements IMetric {
 			return null;
 		}
 		return rexp.toByteArray();
+	}
+	public byte[] toBytes() {
+		return rexp.toByteArray();
+	}
+	
+	public static Metric fromBytes(byte[] bytes) throws InvalidProtocolBufferException {
+		return new Metric(REXP.parseFrom(bytes));
 	}
 }

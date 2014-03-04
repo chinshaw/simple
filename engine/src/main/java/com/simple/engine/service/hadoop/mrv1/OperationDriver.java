@@ -11,18 +11,25 @@ import javax.xml.bind.JAXBException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.mapreduce.TableOutputFormat;
+import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.mapreduce.TableOutputFormat;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.mapreduce.Job;
 
 import com.simple.domain.model.AnalyticsOperation;
+import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.dataprovider.HttpDataProvider;
-import com.simple.domain.model.metric.Metric;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.engine.metric.Metric;
 import com.simple.engine.service.AnalyticsOperationException;
 import com.simple.engine.service.IAnalyticsOperationExecutor;
 import com.simple.engine.service.hadoop.io.HttpInputFormat;
 import com.simple.engine.service.hadoop.io.NullInputFormat;
+import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.RAnalyticsException;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
 import com.twitter.elephantbird.util.TypeRef;
@@ -43,7 +50,7 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 	}
 
 	@Override
-	public HashMap<Long, Metric> execute(String jobOwner, List<AnalyticsOperationInput> userInputs, AnalyticsOperation operation,
+	public HashMap<Long, IMetric> execute(String jobOwner, List<AnalyticsOperationInput> userInputs, AnalyticsOperation operation,
 			List<DataProvider> dataProviders) throws AnalyticsOperationException, ConfigurationException {
 
 		try {
@@ -63,7 +70,7 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 		}
 	}
 
-	private HashMap<Long, Metric> _execute(final String jobOwner, final List<AnalyticsOperationInput> operationInputs,
+	private HashMap<Long, IMetric> _execute(final String jobOwner, final List<AnalyticsOperationInput> operationInputs,
 			final AnalyticsOperation operation, List<DataProvider> dataProviders) throws RAnalyticsException, ConfigurationException {
 
 		if (operation == null) {
@@ -110,7 +117,7 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 				throw new RAnalyticsException("Job failed, see logs");
 			}
 
-			return grabMetrics(configuration);
+			return grabMetrics(operation.getOutputs(), configuration);
 			// return grabMetrics(outputPath);
 		} catch (ClassNotFoundException | IOException | InterruptedException e) {
 			logger.log(Level.SEVERE, "Unable to execute job", e);
@@ -121,8 +128,6 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 	
 	private void configureHbase(Configuration configuration) {
 		Configuration hbaseConf = HBaseConfiguration.create(configuration);
-		
-		
 	}
 
 	/**
@@ -164,9 +169,20 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 	}
 
 	
-	protected HashMap<Long, Metric> grabMetrics( final Configuration conf) throws IOException, InterruptedException {
-		HashMap<Long, Metric> outputs = new HashMap<Long, Metric>();
-		
+	protected HashMap<Long, IMetric> grabMetrics(final List<AnalyticsOperationOutput> opOutputs, Configuration conf) throws IOException, InterruptedException {
+		HTable table = new HTable(conf, "metrics");
+		HashMap<Long, IMetric> outputs = new HashMap<Long, IMetric>();
+		for (AnalyticsOperationOutput output: opOutputs) {
+			Get get = new Get(Bytes.toBytes(output.getName()));
+			get.addFamily(Bytes.toBytes("rexp"));
+			get.setMaxVersions(1);
+			Result result = table.get(get);
+			
+			byte[] bytes = result.getValue(Bytes.toBytes("rexp"), null);
+			Metric metric = Metric.fromBytes(bytes);
+			outputs.put(output.getId(), metric);
+		}
+		table.close();
 		
 		return outputs;
 	}

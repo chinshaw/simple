@@ -6,10 +6,10 @@ import java.util.logging.Logger;
 
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.metric.Metric;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.service.AnalyticsOperationException;
 import com.simple.engine.service.IAnalyticsOperationExecutor;
+import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.RAnalyticsException;
 
 public class YarnApplication implements IAnalyticsOperationExecutor {
@@ -17,7 +17,7 @@ public class YarnApplication implements IAnalyticsOperationExecutor {
 	private static final Logger logger = Logger.getLogger(YarnApplication.class.getName());
 	
 	@Override
-	public HashMap<Long, Metric> execute(String jobOwner,
+	public HashMap<Long, IMetric> execute(String jobOwner,
 			List<AnalyticsOperationInput> userInputs,
 			AnalyticsOperation operation, List<DataProvider> dataProviders)
 			throws AnalyticsOperationException {

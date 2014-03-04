@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.metric.Metric;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.service.hadoop.mrv1.ConfigurationException;
+import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.RAnalyticsException;
 
 public interface IAnalyticsOperationExecutor {
@@ -23,7 +23,7 @@ public interface IAnalyticsOperationExecutor {
      * @throws AnalyticsOperationException
      * @throws ConfigurationException 
      */
-	HashMap<Long, Metric>  execute(String jobOwner, List<AnalyticsOperationInput> userInputs, AnalyticsOperation operation, List<DataProvider> dataProviders) throws AnalyticsOperationException, ConfigurationException;
+	HashMap<Long, IMetric>  execute(String jobOwner, List<AnalyticsOperationInput> userInputs, AnalyticsOperation operation, List<DataProvider> dataProviders) throws AnalyticsOperationException, ConfigurationException;
     
     public abstract void execute(String jobOwner, AnalyticsOperation operation, List<DataProvider> dataProvider) throws AnalyticsOperationException, ConfigurationException;
 

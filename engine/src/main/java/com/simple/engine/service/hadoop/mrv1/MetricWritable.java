@@ -17,8 +17,7 @@ public class MetricWritable<M extends IMetric> implements IMetricWritable {
 
 	@Override
 	public void write(DataOutput out) throws IOException {
-		byte[] bytes = metric.serialize();
-		out.write(bytes);
+		out.write(metric.toBytes());
 	}
 
 	@Override
@@ -30,12 +29,11 @@ public class MetricWritable<M extends IMetric> implements IMetricWritable {
 	      byte[] buf = new byte[size];
 	      in.readFully(buf, 0, size);
 	      messageBytes = buf;
-	      // messageBytes is deserialized in get()
 	    }
 	}
 
 	@Override
 	public byte[] toBytes() {
-		return metric.serialize();
+		return metric.toBytes();
 	}
 }

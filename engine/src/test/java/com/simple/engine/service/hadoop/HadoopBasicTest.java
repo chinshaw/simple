@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
+import com.dyuproject.protostuff.Message;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
