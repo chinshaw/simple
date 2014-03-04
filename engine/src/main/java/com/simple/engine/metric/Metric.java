@@ -2,15 +2,21 @@ package com.simple.engine.metric;
 
 import java.util.List;
 
-import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.analytics.IViolation;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
 
 public class Metric implements IMetric {
-
+	
+	/**
+	 * Serialization Id
+	 */
+	private static final long serialVersionUID = -5584219143925575764L;
+	
+	private REXP rexp;
+	
 	public Metric(REXP rexp) {
-		// TODO Auto-generated constructor stub
+		this.rexp = rexp;
 	}
 
 	@Override
@@ -39,15 +45,14 @@ public class Metric implements IMetric {
 
 	@Override
 	public boolean hasMetricViolations() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-
 	@Override
 	public byte[] serialize() {
-		// TODO Auto-generated method stub
-		return null;
+		if (rexp == null) {
+			return null;
+		}
+		return rexp.toByteArray();
 	}
-
 }

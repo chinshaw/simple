@@ -15,11 +15,11 @@ import org.apache.hadoop.mapreduce.Reducer.Context;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
 
-public class HBaseAdapterOutputFormat<K extends IMetricKey, V extends IMetricWritable>
+public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		extends OutputFormatAdapter<K, V> {
 
 	private static final Logger logger = Logger
-			.getLogger(HBaseAdapterOutputFormat.class.getName());
+			.getLogger(HBaseAdapter.class.getName());
 
 	public class HbaseRecordWriterAdapter extends RecordWriter<K, V> {
 

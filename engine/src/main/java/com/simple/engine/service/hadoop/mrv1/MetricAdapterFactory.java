@@ -6,7 +6,7 @@ public class MetricAdapterFactory {
 
 	
 	public static <K extends IMetricKey,V extends IMetricWritable> OutputFormatAdapter<K,V> createAdapter(Configuration conf) {
-		OutputFormatAdapter<K,V> outputFormatAdapter = new HBaseAdapterOutputFormat<K, V>();
+		OutputFormatAdapter<K,V> outputFormatAdapter = new HBaseAdapter<K, V>();
 		outputFormatAdapter.setConf(conf);
 		return outputFormatAdapter;
 	}

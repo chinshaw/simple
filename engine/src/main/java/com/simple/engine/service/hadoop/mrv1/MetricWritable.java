@@ -36,6 +36,6 @@ public class MetricWritable<M extends IMetric> implements IMetricWritable {
 
 	@Override
 	public byte[] toBytes() {
-		return messageBytes;
+		return metric.serialize();
 	}
 }

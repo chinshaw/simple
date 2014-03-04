@@ -1,7 +1,5 @@
 package com.simple.engine.service.hadoop.mrv1;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -11,15 +9,10 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.mapreduce.MultiTableOutputFormat;
 import org.apache.hadoop.hbase.mapreduce.TableOutputFormat;
-import org.apache.hadoop.io.compress.CompressionInputStream;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 
-import com.hadoop.compression.lzo.LzoCodec;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
@@ -28,14 +21,10 @@ import com.simple.domain.model.metric.Metric;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.service.AnalyticsOperationException;
 import com.simple.engine.service.IAnalyticsOperationExecutor;
-import com.simple.engine.service.hadoop.Utils;
 import com.simple.engine.service.hadoop.io.HttpInputFormat;
 import com.simple.engine.service.hadoop.io.NullInputFormat;
 import com.simple.original.api.exceptions.RAnalyticsException;
-import com.simple.original.security.ArtisanAuthenticationRealm;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
-import com.twitter.elephantbird.mapreduce.output.LzoProtobufB64LineOutputFormat;
-import com.twitter.elephantbird.util.HadoopCompat;
 import com.twitter.elephantbird.util.TypeRef;
 
 public class OperationDriver implements IAnalyticsOperationExecutor {

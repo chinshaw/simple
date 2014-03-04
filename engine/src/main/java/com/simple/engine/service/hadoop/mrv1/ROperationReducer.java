@@ -112,7 +112,11 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 				}
 
 				logger.info("found rexp => type " + rexp.getRclass());
+				
 				Metric plot = new Metric(rexp);
+				
+				logger.info("rexp byte sized " + plot.serialize());
+				
 				context.write(new MetricKey(output.getName()), new MetricWritable<IMetric>(plot));
 
 		//		logger.info("Output type is " + context.getOutputValueClass());
