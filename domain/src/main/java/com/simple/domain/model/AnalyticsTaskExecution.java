@@ -75,7 +75,7 @@ public class AnalyticsTaskExecution extends RequestFactoryEntity implements IAna
      * These are the outputs for the analytics task.
      */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Metric.class)
-    private List<Metric> executionMetrics = new ArrayList<Metric>();
+    private List<IMetric> executionMetrics = new ArrayList<IMetric>();
 
     /**
      * These are the inputs that were used during execution. They are saved for
@@ -117,7 +117,7 @@ public class AnalyticsTaskExecution extends RequestFactoryEntity implements IAna
      * ()
      */
     @Override
-    public List<Metric> getExecutionMetrics() {
+    public List<IMetric> getExecutionMetrics() {
         return executionMetrics;
     }
 

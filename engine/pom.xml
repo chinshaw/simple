@@ -57,7 +57,76 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>com.dyuproject.protostuff</groupId>
+				<artifactId>protostuff-maven-plugin</artifactId>
+				<version>1.0.8</version>
+				<configuration>
+					<protoModules>
+						<protoModule>
+							<source>src/main/protobuf/metrics.proto</source>
+							<outputDir>target/generated-sources</outputDir>
+							<output>java_bean</output>
+							<encoding>UTF-8</encoding>
+							<options>
+								<property>
+									<name>separate_schema</name>
+								</property>
+								<property>
+									<name>generate_field_map</name>
+								</property>
+							</options>
+						</protoModule>
+					</protoModules>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.dyuproject.protostuff
+										</groupId>
+										<artifactId>
+											protostuff-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.0.8,)
+										</versionRange>
+										<goals>
+											<goal>compile</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 
@@ -144,6 +213,12 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>11.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.dyuproject.protostuff</groupId>
+			<artifactId>protostuff-core</artifactId>
+			<version>1.0.8</version>
 		</dependency>
 
 		<!-- Provides protobuf, thrift and hadoop utilities -->

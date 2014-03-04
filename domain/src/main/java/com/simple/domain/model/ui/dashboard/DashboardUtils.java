@@ -3,6 +3,7 @@ package com.simple.domain.model.ui.dashboard;
 import java.util.Map;
 
 import com.simple.domain.model.metric.Metric;
+import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.AnalyticsTaskException;
 import com.simple.original.api.exceptions.DashboardException;
 
@@ -24,7 +25,7 @@ public class DashboardUtils {
      * @throws AnalyticsTaskException
      *             If the widget count is less than 1.
      */
-    public static Dashboard bindDashboard(Dashboard dashboard, Map<Long, Metric> outputMap) throws DashboardException {
+    public static Dashboard bindDashboard(Dashboard dashboard, Map<Long, IMetric> outputMap) throws DashboardException {
         // Iterate over the dashboard widgets and build the dashboard to send
         // back to the client
     	/*

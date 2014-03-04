@@ -18,6 +18,7 @@ import com.simple.domain.dao.IDaoRequest;
 import com.simple.domain.model.AnalyticsTask;
 import com.simple.domain.model.AnalyticsTaskExecution;
 import com.simple.domain.model.metric.Metric;
+import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.DashboardException;
 import com.simple.original.api.exceptions.DomainException;
 
@@ -79,11 +80,13 @@ public class DashboardDao extends DaoBase<Dashboard> implements IDaoRequest<Dash
     public Dashboard getLastBoundDashboard(Long dashboardId) throws DashboardException {
         Dashboard dashboard = find(dashboardId);
         AnalyticsTaskExecution taskExeuciton = taskDao.getLastAnalyticsTaskExecution(dashboard.getAnalyticsTask().getId());
-        Map<Long, Metric> metricMap = new HashMap<Long, Metric>();
+        Map<Long, IMetric> metricMap = new HashMap<Long, IMetric>();
         
-        for (Metric metric : taskExeuciton.getExecutionMetrics()) {
+        /*
+        for (IMetric metric : taskExeuciton.getExecutionMetrics()) {
         	metricMap.put(metric.getOrigin().getId(), metric);
         }
+        */
         
         return DashboardUtils.bindDashboard(dashboard, metricMap);
     }

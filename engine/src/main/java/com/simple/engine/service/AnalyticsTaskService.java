@@ -17,11 +17,11 @@ import com.simple.domain.model.AnalyticsTask;
 import com.simple.domain.model.AnalyticsTaskExecution;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.metric.Metric;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.service.hadoop.mrv1.ConfigurationException;
 import com.simple.original.api.analytics.IAnalyticsTaskExecution;
 import com.simple.original.api.analytics.IAnalyticsTaskExecution.TaskCompletionStatus;
+import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.AnalyticsTaskException;
 import com.simple.original.api.exceptions.DashboardException;
 import com.simple.original.api.exceptions.DomainException;
@@ -231,7 +231,7 @@ public class AnalyticsTaskService {
 					logger.fine("Executing " + analyticsOperation.getName());
 					
 					try {
-						Map<Long, Metric> outputs = provider.execute("joe user",
+						Map<Long, IMetric> outputs = provider.execute("joe user",
 								inputs, analyticsOperation,
 								task.getDataProviders());
 
