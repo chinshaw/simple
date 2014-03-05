@@ -1,11 +1,11 @@
-package com.simple.original.test.utils;
+package com.simple.original.client.utils;
 
 import org.junit.Test;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.simple.original.client.utils.Protobuf;
 
-public class TestProtobufUtilTest extends GWTTestCase {
+public class TestProtobuf extends GWTTestCase {
 
 	static final String ModuleName = "com.simple.original.Simple";
 
