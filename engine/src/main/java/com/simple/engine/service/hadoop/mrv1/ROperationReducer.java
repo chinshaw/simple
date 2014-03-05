@@ -7,10 +7,6 @@ import java.util.logging.Logger;
 
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import com.simple.domain.model.AnalyticsOperationOutput;
@@ -21,14 +17,14 @@ import com.simple.original.api.analytics.IMetric;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
-import com.simple.radapter.protobuf.REXPProtos;
 import com.simple.radapter.protobuf.REXPProtos.REXP;
-import com.twitter.elephantbird.mapreduce.io.ProtobufWritable;
 
-public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos.REXP>, IMetricKey, IMetricWritable> implements
-		Configurable {
+public class ROperationReducer extends
+		Reducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
+		implements Configurable {
 
-	private static final Logger logger = Logger.getLogger(ROperationMapper.class.getName());
+	private static final Logger logger = Logger
+			.getLogger(ROperationMapper.class.getName());
 
 	/**
 	 * This is the required way to access the r adapter. It must be thread local
@@ -45,62 +41,65 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 	 * The configuration for the job.
 	 */
 	private Configuration conf;
-	
+
 	public ROperationReducer() {
 	}
 
-
-
 	@Override
-	public synchronized void run(Context context) throws IOException, InterruptedException {
+	public synchronized void run(Context context) throws IOException,
+			InterruptedException {
 		assert (conf != null) : "configuration not specified";
-		setup(context);
-
-		OperationConfig configuration = new OperationConfig(conf);
-
-		RAnalyticsOperation operation = null;
 
 		try {
-			operation = (RAnalyticsOperation) configuration.getOperation();
-		} catch (ConfigurationException e) {
-			throw new RuntimeException("cannot extract operation from configuration, cannot continue, see cause:", e);
-		}
+			setup(context);
 
-		if (operation == null) {
-			throw new RuntimeException("Operation cannot be null");
-		}
+			// Wrap the context.
+			OperationConfig configuration = new OperationConfig(conf);
+			RAnalyticsOperation operation = (RAnalyticsOperation) configuration
+					.getOperation();
 
-		try {
-			try {
-				localAdapter.get().connect();
-			} catch (RAdapterException e) {
-				throw new IOException("unable to connect to R environment", e);
+			if (operation == null) {
+				throw new RuntimeException("Operation cannot be null");
 			}
 
-			String code = operation.getCode();
-			logger.fine("Assigning code to operation " + code);
+			try {
+				try {
+					localAdapter.get().connect();
+				} catch (RAdapterException e) {
+					throw new IOException("unable to connect to R environment",
+							e);
+				}
 
-			REXP output = localAdapter.get().exec(code);
+				String code = operation.getCode();
+				logger.fine("Assigning code to operation " + code);
 
-			logger.info("Script result " + output.getRclass());
-
-			writeOutputsToContext(operation.getOutputs(), context);
-
+				// executing script
+				localAdapter.get().exec(code);
+				// write the outputs to the context
+				writeOutputsToContext(operation.getOutputs(), context);
+			} catch (RAdapterException e) {
+				e.printStackTrace();
+			}
+		} catch (ConfigurationException e) {
+			throw new RuntimeException(
+					"cannot extract operation from configuration, unbale to continue, see cause:",
+					e);
+		} finally {
 			cleanup(context);
-		} catch (RAdapterException e) {
-			e.printStackTrace();
 		}
 	}
 
-	private void writeOutputsToContext(Collection<AnalyticsOperationOutput> outputs, Context context) throws IOException,
-			InterruptedException {
+	private void writeOutputsToContext(
+			Collection<AnalyticsOperationOutput> outputs, Context context)
+			throws IOException, InterruptedException {
 
 		for (AnalyticsOperationOutput output : outputs) {
 			logger.fine("fetching output from workspace => " + output.getName());
 			try {
 
 				REXP rexp = null;
-				if (output.getOutputType() == Type.BINARY || output.getOutputType() == Type.GRAPHIC) {
+				if (output.getOutputType() == Type.BINARY
+						|| output.getOutputType() == Type.GRAPHIC) {
 					rexp = localAdapter.get().getPlot(output.getName());
 				} else {
 					rexp = localAdapter.get().get(output.getName());
@@ -112,23 +111,16 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 				}
 
 				logger.info("found rexp => type " + rexp.getRclass());
-				
-				Metric plot = new Metric(rexp);
-				logger.info("Plot bytes are " + plot.encode());
-				context.write(new MetricKey(output.getName()), new MetricWritable<IMetric>(plot));
 
-		//		logger.info("Output type is " + context.getOutputValueClass());
-				
+				Metric metric = new Metric(rexp);
+				context.write(new MetricKey(output.getName()),
+						new MetricWritable<IMetric>(metric, "application/x-protobuf"));
+
 			} catch (RAdapterException e) {
-				logger.log(Level.SEVERE, "Error while retrieving output => " + output.getName(), e);
+				logger.log(Level.SEVERE, "Error while retrieving output => "
+						+ output.getName(), e);
 			}
 		}
-	}
-
-	public static Put resultToPut(ImmutableBytesWritable key, Result result) {
-		Put put = new Put(key.get());
-
-		return put;
 	}
 
 	/**
@@ -138,7 +130,8 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 	 * so much because they are reaped at the end of the job. Shut down the
 	 * engine.
 	 */
-	protected void cleanup(Context context) throws IOException, InterruptedException {
+	protected void cleanup(Context context) throws IOException,
+			InterruptedException {
 		logger.info("caling close on reduer");
 		if (localAdapter.get() != null) {
 			localAdapter.get().disconnect();
@@ -147,11 +140,17 @@ public class ROperationReducer extends Reducer<Text, ProtobufWritable<REXPProtos
 		localAdapter.remove();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setConf(Configuration conf) {
 		this.conf = conf;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Configuration getConf() {
 		return conf;

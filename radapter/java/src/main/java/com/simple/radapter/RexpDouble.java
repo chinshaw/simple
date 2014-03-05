@@ -1,7 +1,7 @@
 package com.simple.radapter;
 
 import com.simple.radapter.api.IRexpDouble;
-import com.simple.radapter.protobuf.REXPProtos.REXP;
+import com.simple.radapter.protobuf.REXP;
 
 public class RexpDouble implements IRexpDouble {
 

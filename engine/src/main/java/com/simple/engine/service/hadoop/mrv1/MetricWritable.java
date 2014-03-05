@@ -9,10 +9,13 @@ import com.simple.original.api.analytics.IMetric;
 public class MetricWritable<M extends IMetric> implements IMetricWritable {
 
 	private IMetric metric;
-	private byte[] messageBytes;
 
-	public MetricWritable(IMetric metric) {
+	private String mimeType;
+
+	
+	public MetricWritable(IMetric metric, String mimeType) {
 		this.metric = metric;
+		this.mimeType = mimeType;
 	}
 
 	@Override
@@ -22,18 +25,25 @@ public class MetricWritable<M extends IMetric> implements IMetricWritable {
 
 	@Override
 	public void readFields(DataInput in) throws IOException {
-	    metric = null;
-	    messageBytes = null;
-	    int size = in.readInt();
-	    if (size > 0) {
-	      byte[] buf = new byte[size];
-	      in.readFully(buf, 0, size);
-	      messageBytes = buf;
-	    }
 	}
 
 	@Override
 	public byte[] toBytes() {
 		return metric.encode();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getMimeType() {
+		return mimeType;
+	}
+
+	/**
+	 * Set the mime type this can be "application/x-protobuf",
+	 * "application/json", or "application/xml"
+	 */
+	public void setMimeType(String mimeType) {
+		this.mimeType = mimeType;
 	}
 }

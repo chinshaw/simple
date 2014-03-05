@@ -1,7 +1,7 @@
 package com.simple.radapter;
 
 import com.simple.radapter.api.IRexpString;
-import com.simple.radapter.protobuf.REXPProtos.REXP;
+import com.simple.radapter.protobuf.REXP;
 
 public class RexpString extends Rexp implements IRexpString {
 

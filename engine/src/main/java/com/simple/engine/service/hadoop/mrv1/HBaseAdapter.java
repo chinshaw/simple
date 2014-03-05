@@ -18,8 +18,12 @@ import org.apache.log4j.Logger;
 public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		extends OutputFormatAdapter<K, V> {
 
-	private static final Logger logger = Logger
-			.getLogger(HBaseAdapter.class.getName());
+	public static String DEFAULT_VALUE_COLUMN = "value";
+
+	public static String DEFAULT_MIME_TYPE_COLUMN = "mimetype";
+
+	private static final Logger logger = Logger.getLogger(HBaseAdapter.class
+			.getName());
 
 	public class HbaseRecordWriterAdapter extends RecordWriter<K, V> {
 
@@ -41,18 +45,24 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 			String column = context.getConfiguration().get("conf.column");
 			byte[][] colKey = KeyValue.parseColumn(Bytes.toBytes(column));
 			family = colKey[0];
-			logger.info("Family ***********************" + new String(family));
 			if (colKey.length > 1) {
 				qualifier = colKey[1];
 			}
 		}
 
+		/**
+		 * This is where we wrap the call to write the metric out to the hbase
+		 * file system. We write both the value and the mime type so that it is
+		 * easy to re convert it.
+		 */
 		@Override
 		public void write(K key, V value) throws IOException,
 				InterruptedException {
 			Put put = new Put(key.toBytes());
-			put.add(family, qualifier, value.toBytes());
-			logger.info("Calling write of bytes " + value.toBytes());
+			put.add(family, Bytes.toBytes(DEFAULT_VALUE_COLUMN),
+					value.toBytes());
+			put.add(family, Bytes.toBytes(DEFAULT_MIME_TYPE_COLUMN), value
+					.getMimeType().getBytes());
 			nativeWriter.write(key, put);
 		}
 
@@ -62,47 +72,52 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 			nativeWriter.close(context);
 		}
 	}
-	
-	private TableOutputFormat<IMetricKey> backing_ = new TableOutputFormat<IMetricKey>();
 
+	/**
+	 * The implementing table output format.
+	 */
+	private TableOutputFormat<IMetricKey> adapted = new TableOutputFormat<IMetricKey>();
+
+	/**
+	 * This is the table family that owns all the columns.
+	 */
 	private byte[] family;
-	
+
+	/**
+	 * This is the column qualifier that belongs to the table family.
+	 */
 	private byte[] qualifier;
-	
+
 	@Override
 	public RecordWriter<K, V> getRecordWriter(TaskAttemptContext context)
 			throws IOException, InterruptedException {
-		return new HbaseRecordWriterAdapter(backing_.getRecordWriter(context));
+		return new HbaseRecordWriterAdapter(adapted.getRecordWriter(context));
 	}
 
-	
 	/**
-	 * Overridden to set the configuration on the backing TableOutputFormat
-	 * and 
+	 * Overridden to set the configuration on the backing TableOutputFormat and
 	 */
 	@Override
 	public void setConf(Configuration conf) {
-		backing_.setConf(conf);
-		
+		adapted.setConf(conf);
+
 		String column = conf.get("conf.column");
 		byte[][] colKey = KeyValue.parseColumn(Bytes.toBytes(column));
 		family = colKey[0];
-		logger.info("Family ***********************" + new String(family));
 		if (colKey.length > 1) {
 			qualifier = colKey[1];
 		}
-		
+
 		super.setConf(conf);
 	}
-	
+
 	/**
 	 * Calls {@link TableOutputFormat#checkOutputSpecs(JobContext)}
 	 */
 	@Override
 	public void checkOutputSpecs(JobContext context) throws IOException,
 			InterruptedException {
-		backing_.checkOutputSpecs(context);
-
+		adapted.checkOutputSpecs(context);
 	}
 
 	/**
@@ -111,6 +126,6 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 	@Override
 	public OutputCommitter getOutputCommitter(TaskAttemptContext context)
 			throws IOException, InterruptedException {
-		return backing_.getOutputCommitter(context);
+		return adapted.getOutputCommitter(context);
 	}
 }

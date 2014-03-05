@@ -30,8 +30,6 @@ import com.simple.engine.service.hadoop.io.HttpInputFormat;
 import com.simple.engine.service.hadoop.io.NullInputFormat;
 import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.RAnalyticsException;
-import com.simple.radapter.protobuf.REXPProtos.REXP;
-import com.twitter.elephantbird.util.TypeRef;
 
 public class OperationDriver implements IAnalyticsOperationExecutor {
 
@@ -41,8 +39,6 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 
 	public static final String TIMESTAMP_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
-	static TypeRef<REXP> REXP_TYPE = new TypeRef<REXP>(REXP.class) {
-	};
 
 	public OperationDriver() {
 

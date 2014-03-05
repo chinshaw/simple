@@ -6,13 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import com.google.protobuf.InvalidProtocolBufferException;
+import com.dyuproject.protostuff.LinkedBuffer;
+import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.ParseException;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.api.RCallbackAdapter;
-import com.simple.radapter.protobuf.REXPProtos;
-import com.simple.radapter.protobuf.REXPProtos.REXP;
+import com.simple.radapter.protobuf.REXP;
 
 public class NativeAdapter implements IRAdapter {
 
@@ -72,16 +72,18 @@ public class NativeAdapter implements IRAdapter {
         endR(0);
     }
 
-    public REXP exec(String script) throws RAdapterException, InvalidProtocolBufferException {
+    public REXP exec(String script) throws RAdapterException {
         setString(".tmpCode.", script);
         byte[] packed = evalScript("eval(parse(text=.tmpCode.))");
 
-        REXP rexp = REXPProtos.REXP.parseFrom(packed);
+        
+        REXP rexp = new REXP();
+        ProtobufIOUtil.mergeFrom(packed, rexp, REXP.getSchema());
         return rexp;
     }
 
     @Override
-    public REXP exec(File file) throws RAdapterException, InvalidProtocolBufferException {
+    public REXP exec(File file) throws RAdapterException {
         if (file == null) {
             throw new IllegalArgumentException("File cannot be null");
         }
@@ -136,12 +138,12 @@ public class NativeAdapter implements IRAdapter {
      * @throws InvalidProtocolBufferException
      */
     @Override
-    public REXP get(String var) throws RAdapterException, InvalidProtocolBufferException {
+    public REXP get(String var) throws RAdapterException {
         return exec(var);
     }
     
 
-    public REXP getPlot(String plotName) throws InvalidProtocolBufferException, RAdapterException {
+    public REXP getPlot(String plotName) throws RAdapterException {
 		String command = "readBin(\"" + plotName
 				+ "\", what=\"raw\", n=1e6)";
 		return exec(command);

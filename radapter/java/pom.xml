@@ -24,6 +24,39 @@
 					<debugLevel>3</debugLevel>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.dyuproject.protostuff</groupId>
+				<artifactId>protostuff-maven-plugin</artifactId>
+				<version>1.0.8</version>
+				<configuration>
+					<protoModules>
+						<protoModule>
+							<source>../src/main/proto/rexp.proto</source>
+							<outputDir>target/generated-sources</outputDir>
+							<output>java_bean</output>
+							<encoding>UTF-8</encoding>
+							<options>
+								<property>
+									<name>separate_schema</name>
+								</property>
+								<property>
+									<name>generate_field_map</name>
+								</property>
+							</options>
+						</protoModule>
+					</protoModules>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 	</build>
@@ -37,10 +70,11 @@
 
 		<!-- serialization -->
 		<dependency>
-			<groupId>com.google.protobuf</groupId>
-			<artifactId>protobuf-java</artifactId>
-			<version>${protobuf.version}</version>
+			<groupId>com.dyuproject.protostuff</groupId>
+			<artifactId>protostuff-core</artifactId>
+			<version>1.0.8</version>
 		</dependency>
+
 	</dependencies>
 
 

@@ -37,63 +37,7 @@
 
 
 	<build>
-		<plugins>
-			<!--
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-				<executions>
-					<execution>
-						<id>assemble-all</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
-			<plugin>
-				<groupId>com.dyuproject.protostuff</groupId>
-				<artifactId>protostuff-maven-plugin</artifactId>
-				<version>1.0.8</version>
-				<configuration>
-					<protoModules>
-						<protoModule>
-							<source>src/main/protobuf/metrics.proto</source>
-							<outputDir>target/generated-sources</outputDir>
-							<output>java_bean</output>
-							<encoding>UTF-8</encoding>
-							<options>
-								<property>
-									<name>separate_schema</name>
-								</property>
-								<property>
-									<name>generate_field_map</name>
-								</property>
-							</options>
-						</protoModule>
-					</protoModules>
-				</configuration>
-				<executions>
-					<execution>
-						<id>generate-sources</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-		</plugins>
-		<pluginManagement>
+			<pluginManagement>
 			<plugins>
 				
 				<plugin>
@@ -128,25 +72,68 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		
-		-->
-			</plugins>
+	
+	
+		<plugins>
+			<!-- 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>assemble-all</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			-->
+			
+			<plugin>
+				<groupId>com.dyuproject.protostuff</groupId>
+				<artifactId>protostuff-maven-plugin</artifactId>
+				<version>1.0.8</version>
+				<configuration>
+					<protoModules>
+						<protoModule>
+							<source>src/main/protobuf/rexp.proto</source>
+							<outputDir>target/generated-sources</outputDir>
+							<output>java_bean</output>
+							<encoding>UTF-8</encoding>
+							<options>
+								<property>
+									<name>separate_schema</name>
+								</property>
+								<property>
+									<name>generate_field_map</name>
+								</property>
+							</options>
+						</protoModule>
+					</protoModules>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 
 	<dependencies>
-		<dependency>
-			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-api</artifactId>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-security</artifactId>
-			<version>1.1-SNAPSHOT</version>
-		</dependency>
-
 		<dependency>
 			<groupId>com.simple</groupId>
 			<artifactId>simple-analytics-domain</artifactId>
@@ -195,14 +182,7 @@
 			<version>11.0.2</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.twitter.elephantbird</groupId>
-			<artifactId>elephant-bird-core</artifactId>
-			<version>4.4</version>
-		</dependency>
 
-
-	<!-- 
 		<dependency>
 			<groupId>com.dyuproject.protostuff</groupId>
 			<artifactId>protostuff-core</artifactId>
@@ -210,12 +190,21 @@
 		</dependency>
 
 
+		
+		<!--
+		Elephant bird stuff may or may not come back. 
+		<dependency>
+			<groupId>com.twitter.elephantbird</groupId>
+			<artifactId>elephant-bird-core</artifactId>
+			<version>4.4</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.hadoop.gplcompression</groupId>
 			<artifactId>hadoop-lzo</artifactId>
 			<version>0.4.20-SNAPSHOT</version>
 		</dependency>
- -->
+ 		-->
 	</dependencies>
 
 </project>

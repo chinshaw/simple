@@ -11,4 +11,11 @@ public interface IMetricWritable extends Writable {
 	 * @return
 	 */
 	byte[] toBytes();
+	
+	
+	/**
+	 * This is the mime type of the object when being written.
+	 * @return
+	 */
+	String getMimeType();
 }

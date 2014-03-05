@@ -2,8 +2,7 @@ package com.simple.radapter.api;
 
 import java.io.File;
 
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.simple.radapter.protobuf.REXPProtos.REXP;
+import com.simple.radapter.protobuf.REXP;
 
 public interface IRAdapter {
 
@@ -24,14 +23,14 @@ public interface IRAdapter {
 	public void disconnect();
 	
 
-    public REXP get(String var) throws RAdapterException, InvalidProtocolBufferException;   
+    public REXP get(String var) throws RAdapterException;   
     
     public REXP set(String var, REXP rexp) throws RAdapterException;  
     
-    public REXP exec(File file) throws RAdapterException, InvalidProtocolBufferException;
+    public REXP exec(File file) throws RAdapterException;
 	
-	public REXP exec(String script) throws RAdapterException, InvalidProtocolBufferException;
+	public REXP exec(String script) throws RAdapterException;
 
-	public REXP getPlot(String string) throws RAdapterException, InvalidProtocolBufferException;
+	public REXP getPlot(String string) throws RAdapterException;
 	
 }

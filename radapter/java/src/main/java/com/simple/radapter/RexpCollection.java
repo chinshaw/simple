@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.simple.radapter.api.IRexp;
 import com.simple.radapter.api.IRexpCollection;
-import com.simple.radapter.protobuf.REXPProtos.REXP;
+import com.simple.radapter.protobuf.REXP;
 
 public class RexpCollection<T extends IRexp<?>> extends Rexp implements IRexpCollection<T>{
 
