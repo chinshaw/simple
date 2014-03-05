@@ -10,13 +10,13 @@ import com.google.inject.Inject;
 import com.simple.domain.model.AnalyticsTask;
 import com.simple.domain.model.AnalyticsTaskExecution;
 import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.metric.Metric;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.domain.model.ui.dashboard.DashboardDao;
 import com.simple.domain.model.ui.dashboard.DashboardUtils;
 import com.simple.engine.service.AnalyticsTaskExecutionException;
 import com.simple.engine.service.AnalyticsTaskService;
+import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.DashboardException;
 
 public class DashboardService {
@@ -56,8 +56,8 @@ public class DashboardService {
 		AnalyticsTask task = dashboard.getAnalyticsTask();
 		try {
 			AnalyticsTaskExecution execution = analyticsService.executeAnalyticsTask(task, inputs, dataProviders);
-			Map<Long, Metric> outputsMap = createMetricMap(execution.getExecutionMetrics());
-			DashboardUtils.bindDashboard(dashboard, outputsMap);	
+		//	Map<Long, Metric> outputsMap = createMetricMap(execution.getExecutionMetrics());
+		//	DashboardUtils.bindDashboard(dashboard, outputsMap);	
 		} catch (AnalyticsTaskExecutionException e) {
 			throw new DashboardException("Unable to execute task", e);
 		}
@@ -80,7 +80,7 @@ public class DashboardService {
 		return null;
 	}
 	
-	private Dashboard fetchDashboard(Long taskId, List<Metric> outputs)
+	private Dashboard fetchDashboard(Long taskId, List<IMetric> outputs)
 			throws DashboardException {
 		if (taskId == null) {
 			throw new IllegalArgumentException(
@@ -93,7 +93,7 @@ public class DashboardService {
 		// entity. It returns a new attached copy of the entity.
 		Dashboard dashboard = dashboardDao.findDashboardForTask(taskId);
 
-		Map<Long, Metric> outputsMap = null;
+		Map<Long, IMetric> outputsMap = null;
 		try {
 			outputsMap = createMetricMap(outputs);
 			// outputsMap = MetricUtils.mericListAsMap(outputs);
@@ -101,7 +101,7 @@ public class DashboardService {
 			// one of our metrics is null or has a null name.
 			logger.log(Level.SEVERE,
 					"Unable to convert metrics to map because ", ill);
-			for (Metric output : outputs) {
+			for (IMetric output : outputs) {
 				if (output != null) {
 					logger.info("known metric -> " + output.toString());
 				}
@@ -127,15 +127,14 @@ public class DashboardService {
 	 * @param metrics
 	 * @return
 	 */
-	public static Map<Long, Metric> createMetricMap(List<Metric> metrics) {
+	public static Map<Long, IMetric> createMetricMap(List<IMetric> metrics) {
 		if (metrics.size() < 1) {
 			logger.fine("There were no metrics found in the outputs");
 		}
-		HashMap<Long, Metric> metricMap = new HashMap<Long, Metric>();
-		for (Metric metric : metrics) {
-			logger.info("Adding metric with origin id "
-					+ metric.getOrigin().getId());
-			metricMap.put(metric.getOrigin().getId(), metric);
+		HashMap<Long, IMetric> metricMap = new HashMap<Long, IMetric>();
+		for (IMetric metric : metrics) {
+
+//			metricMap.put(metric.getOrigin().getId(), metric);
 		}
 		return metricMap;
 	}

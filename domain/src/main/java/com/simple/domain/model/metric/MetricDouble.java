@@ -62,4 +62,10 @@ public class MetricDouble extends MetricNumber implements IMetricDouble {
     public MetricDouble clone() throws CloneNotSupportedException {
         return (MetricDouble) super.clone();
     }
+
+	@Override
+	public byte[] encode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

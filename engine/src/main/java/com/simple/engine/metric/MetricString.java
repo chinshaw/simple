@@ -1,6 +1,5 @@
 package com.simple.engine.metric;
 
-import com.dyuproject.protostuff.Tag;
 
 public final class MetricString extends Metric {
 
@@ -10,7 +9,6 @@ public final class MetricString extends Metric {
 	private static final long serialVersionUID = 1L;
 
 	
-	@Tag(2)
 	private String value;
 
 

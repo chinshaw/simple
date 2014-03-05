@@ -109,17 +109,6 @@ public class AnalyticsTaskExecution extends RequestFactoryEntity implements IAna
         executionMetrics.add(metric);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.simple.original.server.domain.IAnalyticsTaskExecutionEntity#getExecutionMetrics
-     * ()
-     */
-    @Override
-    public List<IMetric> getExecutionMetrics() {
-        return executionMetrics;
-    }
 
     public Date getStartTime() {
         return startTime;
@@ -337,4 +326,25 @@ public class AnalyticsTaskExecution extends RequestFactoryEntity implements IAna
 		String stack = ExceptionUtils.stackTraceToString(cause);
 		this.executionLog.concat(stack);
 	}
+	
+	
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.simple.original.server.domain.IAnalyticsTaskExecutionEntity#getExecutionMetrics
+     * ()
+     */
+    @Override
+    public List<IMetric> getExecutionMetrics() {
+        return executionMetrics;
+    }
+	
+	/**
+	 * @Deprecated
+	 */
+	 public List<Metric> getExecutionMetricsOld() {
+		 return null;
+	 }
 }

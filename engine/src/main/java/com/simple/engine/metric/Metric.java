@@ -54,13 +54,10 @@ public class Metric implements IMetric {
 	}
 
 	@Override
-	public byte[] serialize() {
+	public byte[] encode() {
 		if (rexp == null) {
 			return null;
 		}
-		return rexp.toByteArray();
-	}
-	public byte[] toBytes() {
 		return rexp.toByteArray();
 	}
 	

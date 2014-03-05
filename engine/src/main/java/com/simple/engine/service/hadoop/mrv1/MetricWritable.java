@@ -17,7 +17,7 @@ public class MetricWritable<M extends IMetric> implements IMetricWritable {
 
 	@Override
 	public void write(DataOutput out) throws IOException {
-		out.write(metric.toBytes());
+		out.write(metric.encode());
 	}
 
 	@Override
@@ -34,6 +34,6 @@ public class MetricWritable<M extends IMetric> implements IMetricWritable {
 
 	@Override
 	public byte[] toBytes() {
-		return metric.toBytes();
+		return metric.encode();
 	}
 }

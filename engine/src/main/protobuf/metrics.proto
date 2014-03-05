@@ -24,6 +24,3 @@ message MetricString {
 	optional string value = 1;
 }
 
-message GenericMetric {
-	required Object metric = 1;
-}

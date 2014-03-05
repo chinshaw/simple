@@ -56,4 +56,10 @@ public class MetricInteger extends MetricNumber implements IMetricInteger {
         return value.toString();
     }
 
+	@Override
+	public byte[] encode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

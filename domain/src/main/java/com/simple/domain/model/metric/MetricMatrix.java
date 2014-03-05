@@ -300,4 +300,10 @@ public class MetricMatrix extends Metric implements IMetricMatrix {
     public String getJsonUrl() {
         return serializedTableFile;
     }
+
+	@Override
+	public byte[] encode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

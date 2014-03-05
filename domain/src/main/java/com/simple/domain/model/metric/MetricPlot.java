@@ -84,4 +84,10 @@ public class MetricPlot extends Metric implements IMetricPlot {
     public String getValueAsString() {
         return "N/A";
     }
+
+	@Override
+	public byte[] encode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

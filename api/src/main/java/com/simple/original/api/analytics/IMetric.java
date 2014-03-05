@@ -33,6 +33,6 @@ public interface IMetric extends IHasViolations, Serializable {
      */
     public abstract boolean hasMetricViolations();
 	
-	public abstract byte[] toBytes();
+	byte[] encode();
 
 }

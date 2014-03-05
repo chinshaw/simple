@@ -38,6 +38,7 @@
 
 	<build>
 		<plugins>
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -57,7 +58,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
 			<plugin>
 				<groupId>com.dyuproject.protostuff</groupId>
 				<artifactId>protostuff-maven-plugin</artifactId>
@@ -94,7 +95,7 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -127,6 +128,9 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		
+		-->
+			</plugins>
 	</build>
 
 
@@ -163,24 +167,6 @@
 
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase-hadoop2-compat</artifactId>
-			<version>0.98.0-hadoop2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase-common</artifactId>
-			<version>0.98.0-hadoop2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase-protocol</artifactId>
-			<version>0.98.0-hadoop2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase-client</artifactId>
 			<version>0.98.0-hadoop2</version>
 		</dependency>
@@ -198,12 +184,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>commons-pool</groupId>
-			<artifactId>commons-pool</artifactId>
-			<version>1.6</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-client</artifactId>
 			<version>2.2.0</version>
@@ -216,24 +196,26 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.twitter.elephantbird</groupId>
+			<artifactId>elephant-bird-core</artifactId>
+			<version>4.4</version>
+		</dependency>
+
+
+	<!-- 
+		<dependency>
 			<groupId>com.dyuproject.protostuff</groupId>
 			<artifactId>protostuff-core</artifactId>
 			<version>1.0.8</version>
 		</dependency>
 
-		<!-- Provides protobuf, thrift and hadoop utilities -->
-		<dependency>
-			<groupId>com.twitter.elephantbird</groupId>
-			<artifactId>elephant-bird-core</artifactId>
-			<version>4.4</version>
-		</dependency>
 
 		<dependency>
 			<groupId>com.hadoop.gplcompression</groupId>
 			<artifactId>hadoop-lzo</artifactId>
 			<version>0.4.20-SNAPSHOT</version>
 		</dependency>
-
+ -->
 	</dependencies>
 
 </project>

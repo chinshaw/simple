@@ -19,11 +19,8 @@
 
 	<properties>
 		<!-- Convenience property to set the GWT version -->
-		<gwtVersion>2.5.1</gwtVersion>
+		<gwt.version>2.5.1</gwt.version>
 		<atmosphere.version>2.0.1</atmosphere.version>
-		<!-- GWT needs at least java 1.6 -->
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
 		<!-- Don't let your Mac use a crazy non-standard encoding -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -148,8 +145,6 @@
 					<annotationProcessors>
 						<annotationProcessor>com.google.web.bindery.requestfactory.apt.RfValidator</annotationProcessor>
 					</annotationProcessors>
-					<source>1.6</source>
-					<target>1.6</target>
 				</configuration>
 				<dependencies>
 					<!-- Need to run the RF Validation tool. This works on both the command-line 
@@ -157,7 +152,7 @@
 					<dependency>
 						<groupId>com.google.web.bindery</groupId>
 						<artifactId>requestfactory-apt</artifactId>
-						<version>${gwtVersion}</version>
+						<version>${gwt.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -166,22 +161,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.5.1</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.google.gwt</groupId>
-						<artifactId>gwt-user</artifactId>
-						<version>${gwtVersion}</version>
-					</dependency>
-
-
-					<dependency>
-						<groupId>com.google.gwt</groupId>
-						<artifactId>gwt-servlet</artifactId>
-						<version>${gwtVersion}</version>
-						<scope>runtime</scope>
-					</dependency>
-				</dependencies>
+				<version>${gwt.version}</version>
 
 				<!-- JS is only needed in the package phase, this speeds up testing -->
 				<executions>
@@ -196,6 +176,8 @@
 				<!-- Plugin configuration. There are many available options, see gwt-maven-plugin 
 					documentation at codehaus.org -->
 				<configuration>
+					<gwtSdkFirstInClasspath>true</gwtSdkFirstInClasspath>
+					<module>com.simple.original.Simple</module>
 					<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
 					<copyWebapp>true</copyWebapp>
 				</configuration>
@@ -250,31 +232,6 @@
 				</configuration>
 			</plugin>
 
-			<plugin>
-				<groupId>org.eclipse.m2e</groupId>
-				<artifactId>lifecycle-mapping</artifactId>
-				<version>1.0.0</version>
-				<configuration>
-					<lifecycleMappingMetadata>
-						<pluginExecutions>
-							<pluginExecution>
-								<pluginExecutionFilter>
-									<groupId>net.kindleit</groupId>
-									<artifactId>maven-gae-plugin</artifactId>
-									<versionRange>[0.7.3,)</versionRange>
-									<goals>
-										<goal>unpack</goal>
-									</goals>
-								</pluginExecutionFilter>
-								<action>
-									<execute />
-								</action>
-							</pluginExecution>
-						</pluginExecutions>
-					</lifecycleMappingMetadata>
-				</configuration>
-			</plugin>
-
 			<!-- Apiviz is a plugin that will generate the visual output graphics 
 				on our javadoc. This gives the user a visual representation of the layout 
 				of the classes -->
@@ -324,11 +281,11 @@
 	<dependencies>
 
 
-<dependency>
-	<groupId>com.google.gwt</groupId>
-	<artifactId>gwt-soyc-vis</artifactId>
-	<version>2.0.4</version>
-</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-soyc-vis</artifactId>
+			<version>2.0.4</version>
+		</dependency>
 		<dependency>
 			<groupId>com.simple</groupId>
 			<artifactId>simple-analytics-api</artifactId>
@@ -363,7 +320,7 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>${gwtVersion}</version>
+			<version>${gwt.version}</version>
 			<!-- "provided" so that we don't deploy -->
 			<scope>provided</scope>
 		</dependency>
@@ -372,13 +329,13 @@
 			contains a GWTC Linker (AppCacheLinker) which in turn depends on internals 
 			of the GWT compiler. -->
 		<!-- <dependency> <groupId>com.google.gwt</groupId> <artifactId>gwt-dev</artifactId> 
-			<version>${gwtVersion}</version> <scope>compile</scope> </dependency> -->
+			<version>${gwt.version}</version> <scope>compile</scope> </dependency> -->
 
 		<!-- RequestFactory server -->
 		<dependency>
 			<groupId>com.google.web.bindery</groupId>
 			<artifactId>requestfactory-server</artifactId>
-			<version>${gwtVersion}</version>
+			<version>${gwt.version}</version>
 		</dependency>
 
 		<dependency>
@@ -457,7 +414,6 @@
 			<version>1.2.0</version>
 			<scope>provided</scope>
 		</dependency>
-
 	</dependencies>
 
 

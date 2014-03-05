@@ -57,7 +57,7 @@ public interface AnalyticsTaskExecutionProxy extends DatastoreObjectProxy {
     
     public List<AnalyticsOperationInputProxy> getAnalyticsTaskInputs();
     
-    public List<MetricProxy> getExecutionMetrics();
+    public List<MetricProxy> getExecutionMetricsOld();
     
     public String getExecutionLogFileName();
 }

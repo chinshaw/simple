@@ -67,4 +67,10 @@ public class MetricString extends Metric implements IMetricString {
     public String getValueAsString() {
         return value;
     }
+
+	@Override
+	public byte[] encode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
