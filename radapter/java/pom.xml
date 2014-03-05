@@ -12,7 +12,51 @@
 	<packaging>jar</packaging>
 
 
+	<properties>
+		<protobuf.version>2.5.0</protobuf.version>
+	</properties>
+
+
+
 	<build>
+
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.dyuproject.protostuff
+										</groupId>
+										<artifactId>
+											protostuff-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.0.8,)
+										</versionRange>
+										<goals>
+											<goal>compile</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -61,11 +105,6 @@
 
 	</build>
 
-
-	<properties>
-		<protobuf.version>2.5.0</protobuf.version>
-	</properties>
-
 	<dependencies>
 
 		<!-- serialization -->
@@ -74,6 +113,13 @@
 			<artifactId>protostuff-core</artifactId>
 			<version>1.0.8</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.dyuproject.protostuff</groupId>
+			<artifactId>protostuff-json</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+
 
 	</dependencies>
 

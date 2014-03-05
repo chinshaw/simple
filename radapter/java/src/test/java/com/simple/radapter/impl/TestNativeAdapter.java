@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -21,6 +22,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.dyuproject.protostuff.ByteString;
+import com.dyuproject.protostuff.JsonIOUtil;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
@@ -117,7 +119,7 @@ public class TestNativeAdapter {
             System.out.println("rexp value " + strings.get(0));
             System.out.println("rexp value " + strings.get(1));
             System.out.println("rexp value " + strings.get(2));
-
+            
         } catch (RAdapterException e) {
             fail(e.getMessage());
         }

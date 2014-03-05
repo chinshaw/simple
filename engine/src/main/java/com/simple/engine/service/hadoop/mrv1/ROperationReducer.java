@@ -14,10 +14,11 @@ import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.engine.metric.Metric;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput.Type;
 import com.simple.original.api.analytics.IMetric;
+import com.simple.original.api.analytics.IMetric.MimeType;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
-import com.simple.radapter.protobuf.REXPProtos.REXP;
+import com.simple.radapter.protobuf.REXP;
 
 public class ROperationReducer extends
 		Reducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
@@ -114,7 +115,7 @@ public class ROperationReducer extends
 
 				Metric metric = new Metric(rexp);
 				context.write(new MetricKey(output.getName()),
-						new MetricWritable<IMetric>(metric, "application/x-protobuf"));
+						new MetricWritable<IMetric>(metric, MimeType.JSON));
 
 			} catch (RAdapterException e) {
 				logger.log(Level.SEVERE, "Error while retrieving output => "

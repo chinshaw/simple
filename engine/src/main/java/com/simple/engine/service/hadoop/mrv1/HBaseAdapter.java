@@ -62,7 +62,7 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 			put.add(family, Bytes.toBytes(DEFAULT_VALUE_COLUMN),
 					value.toBytes());
 			put.add(family, Bytes.toBytes(DEFAULT_MIME_TYPE_COLUMN), value
-					.getMimeType().getBytes());
+					.getMimeType().getType().getBytes());
 			nativeWriter.write(key, put);
 		}
 
