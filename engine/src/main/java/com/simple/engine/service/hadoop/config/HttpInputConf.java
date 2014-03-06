@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop.io;
+package com.simple.engine.service.hadoop.config;
 
 import org.apache.hadoop.conf.Configuration;
 

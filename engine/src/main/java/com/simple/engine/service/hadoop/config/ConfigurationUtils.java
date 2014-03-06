@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop.mrv1;
+package com.simple.engine.service.hadoop.config;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop.io;
+package com.simple.engine.service.hadoop.io.format;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -17,6 +17,8 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
+
+import com.simple.engine.service.hadoop.config.HttpInputConf;
 
 public class HttpInputFormat extends InputFormat<LongWritable, Text> implements Configurable {
 

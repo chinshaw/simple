@@ -1,6 +1,13 @@
 package com.simple.engine.metric;
 
-public class MetricKey implements IMetricKey {
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+
+import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.io.WritableComparable;
+
+public class MetricKey implements IMetricKey, WritableComparable<IMetricKey> {
 
 	private byte[] key;
 
@@ -17,12 +24,24 @@ public class MetricKey implements IMetricKey {
 		return key;
 	}
 
-	/**
-	 * Create a key from bytes.
-	 * @param bytes
-	 * @return
-	 */
-	public static MetricKey valueOf(byte[] bytes) {
-		return new MetricKey(bytes);
+	@Override
+	public void write(DataOutput out) throws IOException {
+		out.write(key);
+	}
+
+	@Override
+	public void readFields(DataInput in) throws IOException {
+		in.readFully(key);
+	}
+
+	@Override
+	public int compareTo(IMetricKey o) {
+	    byte[] thisValue = this.key;
+	    byte[] thatValue = o.toBytes();
+	    return (Bytes.equals(thisValue,thatValue) ? -1 : (thisValue==thatValue ? 0 : 1));
+	}
+
+	public static IMetricKey valueOf(byte[] readByteArray) {
+		return new MetricKey(readByteArray);
 	}
 }

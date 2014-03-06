@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Result;
@@ -23,11 +22,17 @@ import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.dataprovider.HttpDataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
-import com.simple.engine.metric.Metric;
 import com.simple.engine.service.AnalyticsOperationException;
 import com.simple.engine.service.IAnalyticsOperationExecutor;
-import com.simple.engine.service.hadoop.io.HttpInputFormat;
-import com.simple.engine.service.hadoop.io.NullInputFormat;
+import com.simple.engine.service.hadoop.config.ConfigurationException;
+import com.simple.engine.service.hadoop.config.OperationConfig;
+import com.simple.engine.service.hadoop.io.format.HttpInputFormat;
+import com.simple.engine.service.hadoop.io.format.MetricInputFormat;
+import com.simple.engine.service.hadoop.io.format.MetricOutputFormat;
+import com.simple.engine.service.hadoop.io.format.MetricInputFormat.InputAdapterType;
+import com.simple.engine.service.hadoop.io.format.MetricOutputFormat.OutputAdapterType;
+import com.simple.engine.service.hadoop.io.format.NullInputFormat;
+import com.simple.engine.service.hadoop.job.AnalyticsOperationHadoopJob;
 import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.RAnalyticsException;
 
@@ -78,70 +83,43 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 			
 			// Set configurations before creating job, otherwise they are lost
 			// not sure why though???
-			OperationConfig configuration = new OperationConfig();
-			configuration.setOperation(rop);
-			configuration.setDataProviders(dataProviders);
-			configuration.setOperationInputs(operationInputs);
-
+			AnalyticsOperationHadoopJob job = AnalyticsOperationHadoopJob.getInstance();
+			job.setOperation(rop);
+			job.setDataProviders(dataProviders);
+			job.setOperationInputs(operationInputs);
 			
-			Job job = createLocalJob(configuration);
 			job.setJobName(operation.getName());
 
 			job.setMapperClass(ROperationMapper.class);
 			job.setReducerClass(ROperationReducer.class);
+			
 
+			job.setInputFormatClass(MetricInputFormat.class);
 			job.setOutputFormatClass(MetricOutputFormat.class);
-			job.getConfiguration().set(TableOutputFormat.OUTPUT_TABLE, "metrics");
-			job.getConfiguration().set("conf.column", "rexp");
 			
+			Configuration configuration = job.getConfiguration();
 			
-			// Job data providers
-			List<DataProvider> dataproviders = configuration.getDataProviders();
-
-			if (dataproviders != null) {
-				DataProvider dp = dataproviders.get(0);
-				if (dp instanceof HttpDataProvider) {
-					HttpInputFormat.setInput(job, ((HttpDataProvider) dp).getUrl());
-				}
-			} else {
-				NullInputFormat.setInput(job);
-			}
+			configuration.set(TableOutputFormat.OUTPUT_TABLE, "metrics");
+			configuration.set("conf.column", "rexp");
+			configuration.set("fs.defaultFS", "file:///");
+			configuration.set("mapred.job.tracker", "local");
+			MetricOutputFormat.setOutputAdatperType(configuration, OutputAdapterType.HBASE );
+			MetricInputFormat.setInputAdapterType(configuration, InputAdapterType.HTTP);
+			
 
 			jobSuccess = job.waitForCompletion(true);
 			if (jobSuccess != true) {
 				throw new RAnalyticsException("Job failed, see logs");
 			}
 
-			return grabMetrics(operation.getOutputs(), configuration);
-			// return grabMetrics(outputPath);
+			return grabMetrics(operation.getOutputs(), job.getConfiguration());
+			
 		} catch (ClassNotFoundException | IOException | InterruptedException e) {
 			logger.log(Level.SEVERE, "Unable to execute job", e);
 			throw new RAnalyticsException("Unable to execute operation", e);
 		}
 	}
 	
-	
-	private void configureHbase(Configuration configuration) {
-		Configuration hbaseConf = HBaseConfiguration.create(configuration);
-	}
-
-	/**
-	 * This is used to create a local job that will run in the current jvm.
-	 * 
-	 * @param configuration
-	 * @return
-	 * @throws IOException
-	 * @throws JAXBException
-	 * @throws IllegalStateException
-	 */
-	protected Job createLocalJob(OperationConfig configuration) throws IOException {
-		Job job = Job.getInstance(configuration);
-		configuration.set("fs.defaultFS", "file:///");
-		configuration.set("mapred.job.tracker", "local");
-
-		return job;
-	}
-
 	/**
 	 * Used to create a job that will run on the cluster.
 	 * 
@@ -195,7 +173,4 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 	public void close() {
 		// TODO Auto-generated method stub
 	}
-
-
-
 }

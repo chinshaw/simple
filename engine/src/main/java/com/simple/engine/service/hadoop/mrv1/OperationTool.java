@@ -17,8 +17,10 @@ import org.apache.hadoop.util.Tool;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.dataprovider.HttpDataProvider;
-import com.simple.engine.service.hadoop.io.HttpInputFormat;
-import com.simple.engine.service.hadoop.io.NullInputFormat;
+import com.simple.engine.service.hadoop.config.ConfigurationException;
+import com.simple.engine.service.hadoop.config.OperationConfig;
+import com.simple.engine.service.hadoop.io.format.HttpInputFormat;
+import com.simple.engine.service.hadoop.io.format.NullInputFormat;
 
 @Deprecated
 public class OperationTool implements Tool {
@@ -35,9 +37,8 @@ public class OperationTool implements Tool {
 		// job.setJar("/Users/chris/devel/workspace/simple/engine/target/simple-analytics-engine-1.1-SNAPSHOT-jar-with-dependencies.jar");
 		job.setUser("chris");
 
-		OperationConfig opConfig = new OperationConfig(configuration);
 
-		List<DataProvider> dataproviders = opConfig.getDataProviders();
+		List<DataProvider> dataproviders = OperationConfig.getDataProviders(configuration);
 
 		if (dataproviders != null) {
 			logger.fine("Found data providers count " + dataproviders.size());
@@ -50,7 +51,7 @@ public class OperationTool implements Tool {
 			NullInputFormat.setInput(job);
 		}
 
-		AnalyticsOperation operation = opConfig.getOperation();
+		AnalyticsOperation operation = OperationConfig.getOperation(getConf());
 		String jobName = operation.getName();
 
 		String outputPath = "/tmp/" + "hd_" + jobName + "-" + UUID.randomUUID();

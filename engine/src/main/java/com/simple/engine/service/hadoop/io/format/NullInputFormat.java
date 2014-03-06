@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop.io;
+package com.simple.engine.service.hadoop.io.format;
 
 import java.io.IOException;
 import java.util.ArrayList;

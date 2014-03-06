@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop.mrv1;
+package com.simple.engine.service.hadoop.io.adapter;
 
 import java.io.IOException;
 
@@ -16,9 +16,10 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
 
 import com.simple.engine.metric.IMetricKey;
+import com.simple.engine.service.hadoop.io.IMetricWritable;
 
 public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
-		extends OutputFormatAdapter<K, V> {
+		extends AbstractOutputFormatAdapter<K, V> {
 
 	public static String DEFAULT_VALUE_COLUMN = "value";
 
@@ -89,6 +90,13 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 	 * This is the column qualifier that belongs to the table family.
 	 */
 	private byte[] qualifier;
+
+	public HBaseAdapter() {
+	}
+	
+	public HBaseAdapter(Configuration conf) {
+		setConf(conf);
+	}
 
 	@Override
 	public RecordWriter<K, V> getRecordWriter(TaskAttemptContext context)

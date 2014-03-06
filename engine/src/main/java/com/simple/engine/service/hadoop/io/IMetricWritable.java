@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop.mrv1;
+package com.simple.engine.service.hadoop.io;
 
 import org.apache.hadoop.io.Writable;
 

@@ -6,7 +6,7 @@ import java.util.List;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
-import com.simple.engine.service.hadoop.mrv1.ConfigurationException;
+import com.simple.engine.service.hadoop.config.ConfigurationException;
 import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.RAnalyticsException;
 

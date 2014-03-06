@@ -7,7 +7,6 @@ import com.dyuproject.protostuff.Message;
 import com.dyuproject.protostuff.Output;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
-import com.simple.radapter.protobuf.CMPLX;
 
 public final class MetricString extends Metric implements Message<MetricString> {
 
@@ -50,7 +49,7 @@ public final class MetricString extends Metric implements Message<MetricString> 
 					message.key = MetricKey.valueOf(input.readByteArray());
 					break;
 				case 2:
-					message.value = input.readString();
+					message.value = input.readByteArray();
 				default:
 					input.handleUnknownField(number, this);
 				}
@@ -77,7 +76,7 @@ public final class MetricString extends Metric implements Message<MetricString> 
 		@Override
 		public void writeTo(Output output, MetricString message) throws IOException {
 			if (message.value != null) {
-				output.writeString(2, message.value, true);
+				output.writeByteArray(2, message.value, true);
 			}
 		}
 
@@ -87,7 +86,7 @@ public final class MetricString extends Metric implements Message<MetricString> 
 	private IMetricKey key;
 
 	@Tag(2)
-	private String value;
+	private byte[] value;
 
 	public MetricString() {
 
@@ -96,13 +95,29 @@ public final class MetricString extends Metric implements Message<MetricString> 
 	public MetricString(IMetricKey key) {
 		this.key = key;
 	}
+	
+	public MetricString(byte[] value) {
+		this.value = value;
+	}
+	
+	public MetricString(String value) {
+		this.value = value.getBytes();
+	}
 
-	public String getValue() {
+	public byte[] getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
+	public void setValue(byte[] value) {
 		this.value = value;
+	}
+	
+	public String getStringValue() {
+		return new String(value);
+	}
+	
+	public void setStringValue(String value) {
+		this.value = value.getBytes();
 	}
 
 	@Override

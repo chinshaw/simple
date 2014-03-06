@@ -16,14 +16,17 @@ import com.simple.engine.metric.IMetric.MimeType;
 import com.simple.engine.metric.IMetricKey;
 import com.simple.engine.metric.MetricKey;
 import com.simple.engine.metric.RexpUtils;
+import com.simple.engine.service.hadoop.config.ConfigurationException;
+import com.simple.engine.service.hadoop.config.OperationConfig;
+import com.simple.engine.service.hadoop.io.IMetricWritable;
+import com.simple.engine.service.hadoop.io.MetricWritable;
 import com.simple.original.api.analytics.IAnalyticsOperationOutput.Type;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.protobuf.REXP;
 
-public class ROperationReducer extends
-		Reducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
+public class ROperationReducer extends Reducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
 		implements Configurable {
 
 	private static final Logger logger = Logger
@@ -57,9 +60,7 @@ public class ROperationReducer extends
 			setup(context);
 
 			// Wrap the context.
-			OperationConfig configuration = new OperationConfig(conf);
-			RAnalyticsOperation operation = (RAnalyticsOperation) configuration
-					.getOperation();
+			RAnalyticsOperation operation = (RAnalyticsOperation) OperationConfig.getOperation(getConf());
 
 			if (operation == null) {
 				throw new RuntimeException("Operation cannot be null");

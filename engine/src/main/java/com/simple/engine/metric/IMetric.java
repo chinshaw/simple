@@ -7,7 +7,8 @@ public interface IMetric {
 	public static enum MimeType {
 		JSON("application/json"),
 		XML("application/xml"),
-		PROTO("application/x-protobuf");
+		PROTO("application/x-protobuf"),
+		TEXT("text/plain");
 		
 		private final String type;
 		MimeType(String type) {

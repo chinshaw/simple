@@ -2,7 +2,7 @@ package com.simple.original.server.service;
 
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.engine.service.AnalyticsOperationException;
-import com.simple.engine.service.hadoop.mrv1.ConfigurationException;
+import com.simple.engine.service.hadoop.config.ConfigurationException;
 import com.simple.engine.service.hadoop.mrv1.OperationDriver;
 
 public class AnalyticsService {

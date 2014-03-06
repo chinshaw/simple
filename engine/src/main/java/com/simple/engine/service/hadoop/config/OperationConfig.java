@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop.mrv1;
+package com.simple.engine.service.hadoop.config;
 
 import java.util.List;
 
@@ -53,16 +53,8 @@ public class OperationConfig extends Configuration {
 	public static final String OPERATION_INPUT_PARAMS = "mapreduce.artisan.operationinputs";
 	
 	
-	public OperationConfig() {
-		super();
-	}
-	
-	public OperationConfig(Configuration configuration) {
-		super(configuration);
-	}
-	
-	public List<DataProvider> getDataProviders() throws ConfigurationException {
-		String xml = get(DATA_PROVIDER_PARAMS);
+	public static List<DataProvider> getDataProviders(Configuration conf) throws ConfigurationException {
+		String xml = conf.get(DATA_PROVIDER_PARAMS);
 		if (xml == null || xml.isEmpty()) {
 			return null;
 		}
@@ -71,30 +63,29 @@ public class OperationConfig extends Configuration {
 		return wrapper.dataProviders;
 	}
 	
-	public void setDataProviders(List<DataProvider> dataProviders) throws ConfigurationException {
-		set(DATA_PROVIDER_PARAMS, ConfigurationUtils.serializeToXml(DPWrapper.class, new DPWrapper(dataProviders)));
+	public static void setDataProviders(Configuration conf, List<DataProvider> dataProviders) throws ConfigurationException {
+		conf.set(DATA_PROVIDER_PARAMS, ConfigurationUtils.serializeToXml(DPWrapper.class, new DPWrapper(dataProviders)));
 	}
 	
-	public List<AnalyticsOperationInput> getOperationInputs() throws ConfigurationException {
-		String xml = get(OPERATION_INPUT_PARAMS);
+	public static List<AnalyticsOperationInput> getOperationInputs(Configuration conf) throws ConfigurationException {
+		String xml = conf.get(OPERATION_INPUT_PARAMS);
 		INWrapper wrapper = ConfigurationUtils.unserializeXml(INWrapper.class, xml);
 		return wrapper.inputs;
 	}
 	
-	public void setOperationInputs(List<AnalyticsOperationInput> inputs) throws ConfigurationException {
-		set(OPERATION_INPUT_PARAMS, ConfigurationUtils.serializeToXml(INWrapper.class, new INWrapper(inputs)));
+	public  static void setOperationInputs(Configuration conf, List<AnalyticsOperationInput> inputs) throws ConfigurationException {
+		conf.set(OPERATION_INPUT_PARAMS, ConfigurationUtils.serializeToXml(INWrapper.class, new INWrapper(inputs)));
 	}
 	
-	public AnalyticsOperation getOperation() throws ConfigurationException {
-		String xml = get(OPERATION);
+	public static AnalyticsOperation getOperation(Configuration conf) throws ConfigurationException {
+		String xml = conf.get(OPERATION);
 		if (xml == null) {
 			throw new ConfigurationException("operation xml == null");
 		}
 		return ConfigurationUtils.unserializeXml(AnalyticsOperation.class, xml);
 	}
 	
-	public void setOperation(AnalyticsOperation operation) throws ConfigurationException {
-		set(OPERATION, ConfigurationUtils.serializeToXml(AnalyticsOperation.class, operation));
+	public static void setOperation(Configuration conf, AnalyticsOperation operation) throws ConfigurationException {
+		conf.set(OPERATION, ConfigurationUtils.serializeToXml(AnalyticsOperation.class, operation));
 	}
-
 }

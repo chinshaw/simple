@@ -4,5 +4,4 @@ public interface IMetricKey {
 
 	byte[] toBytes();
 
-	
 }

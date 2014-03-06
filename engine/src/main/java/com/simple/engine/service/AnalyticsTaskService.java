@@ -18,7 +18,7 @@ import com.simple.domain.model.AnalyticsTaskExecution;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
-import com.simple.engine.service.hadoop.mrv1.ConfigurationException;
+import com.simple.engine.service.hadoop.config.ConfigurationException;
 import com.simple.original.api.analytics.IAnalyticsTaskExecution;
 import com.simple.original.api.analytics.IAnalyticsTaskExecution.TaskCompletionStatus;
 import com.simple.original.api.analytics.IMetric;

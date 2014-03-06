@@ -12,7 +12,7 @@ import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.dataprovider.HttpDataProvider;
 import com.simple.engine.service.AnalyticsOperationException;
-import com.simple.engine.service.hadoop.mrv1.ConfigurationException;
+import com.simple.engine.service.hadoop.config.ConfigurationException;
 import com.simple.engine.service.hadoop.mrv1.OperationDriver;
 import com.simple.engine.utils.ScriptUtils;
 

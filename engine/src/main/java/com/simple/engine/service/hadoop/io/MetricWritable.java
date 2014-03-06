@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop.mrv1;
+package com.simple.engine.service.hadoop.io;
 
 import java.io.DataInput;
 import java.io.DataOutput;
