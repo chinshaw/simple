@@ -4,8 +4,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import com.simple.original.api.analytics.IMetric;
-import com.simple.original.api.analytics.IMetric.MimeType;
+import com.simple.engine.metric.IMetric;
+import com.simple.engine.metric.IMetric.MimeType;
+
 
 public class MetricWritable<M extends IMetric> implements IMetricWritable {
 

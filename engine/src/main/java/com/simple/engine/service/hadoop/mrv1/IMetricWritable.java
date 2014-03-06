@@ -2,7 +2,8 @@ package com.simple.engine.service.hadoop.mrv1;
 
 import org.apache.hadoop.io.Writable;
 
-import com.simple.original.api.analytics.IMetric.MimeType;
+import com.simple.engine.metric.IMetric.MimeType;
+
 
 public interface IMetricWritable extends Writable {
 

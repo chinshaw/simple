@@ -15,6 +15,8 @@ import org.apache.hadoop.mapreduce.Reducer.Context;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
 
+import com.simple.engine.metric.IMetricKey;
+
 public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		extends OutputFormatAdapter<K, V> {
 

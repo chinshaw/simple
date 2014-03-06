@@ -1,17 +1,21 @@
 package com.simple.engine.metric;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
+import com.dyuproject.protostuff.ByteString;
 import com.dyuproject.protostuff.Input;
+import com.dyuproject.protostuff.JsonIOUtil;
+import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.Message;
 import com.dyuproject.protostuff.Output;
+import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
-import com.simple.radapter.protobuf.CMPLX;
 
-public final class MetricString extends Metric implements Message<MetricString> {
+public final class MetricRaw extends Metric implements Message<MetricRaw> {
 
-	static final Schema<MetricString> SCHEMA = new Schema<MetricString>() {
+	static final Schema<MetricRaw> SCHEMA = new Schema<MetricRaw>() {
 
 		final java.util.HashMap<String, Integer> fieldMap = new java.util.HashMap<String, Integer>();
 		{
@@ -21,27 +25,27 @@ public final class MetricString extends Metric implements Message<MetricString> 
 
 		// schema methods
 
-		public MetricString newMessage() {
-			return new MetricString();
+		public MetricRaw newMessage() {
+			return new MetricRaw();
 		}
 
-		public Class<MetricString> typeClass() {
-			return MetricString.class;
+		public Class<MetricRaw> typeClass() {
+			return MetricRaw.class;
 		}
 
 		public String messageName() {
-			return MetricString.class.getSimpleName();
+			return MetricRaw.class.getSimpleName();
 		}
 
 		public String messageFullName() {
-			return MetricString.class.getName();
+			return MetricRaw.class.getName();
 		}
 
-		public boolean isInitialized(MetricString message) {
+		public boolean isInitialized(MetricRaw message) {
 			return message.key != null;
 		}
 
-		public void mergeFrom(Input input, MetricString message) throws IOException {
+		public void mergeFrom(Input input, MetricRaw message) throws IOException {
 			for (int number = input.readFieldNumber(this);; number = input.readFieldNumber(this)) {
 				switch (number) {
 				case 0:
@@ -50,7 +54,7 @@ public final class MetricString extends Metric implements Message<MetricString> 
 					message.key = MetricKey.valueOf(input.readByteArray());
 					break;
 				case 2:
-					message.value = input.readString();
+					message.value = input.readBytes();
 				default:
 					input.handleUnknownField(number, this);
 				}
@@ -75,34 +79,26 @@ public final class MetricString extends Metric implements Message<MetricString> 
 		}
 
 		@Override
-		public void writeTo(Output output, MetricString message) throws IOException {
+		public void writeTo(Output output, MetricRaw message) throws IOException {
 			if (message.value != null) {
-				output.writeString(2, message.value, true);
+				output.writeBytes(2, message.value, false);
 			}
 		}
-
 	};
 
 	@Tag(1)
 	private IMetricKey key;
 
 	@Tag(2)
-	private String value;
+	private ByteString value;
 
-	public MetricString() {
+	public MetricRaw() {
 
 	}
 
-	public MetricString(IMetricKey key) {
-		this.key = key;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
+	public MetricRaw(byte[] value) {
+		setValue(value);
+		
 	}
 
 	@Override
@@ -110,22 +106,31 @@ public final class MetricString extends Metric implements Message<MetricString> 
 		return key;
 	}
 
-	// message method
+	public byte[] getValue() {
+		return value.toByteArray();
+	}
 
-	public Schema<MetricString> cachedSchema() {
-		return SCHEMA;
+	public void setValue(byte[] value) {
+		this.value = ByteString.copyFrom(value);
 	}
 
 	@Override
 	public byte[] encode() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedBuffer buffer = LinkedBuffer.allocate(4096);
+		return ProtobufIOUtil.toByteArray(this, SCHEMA, buffer);
 	}
 
 	@Override
 	public byte[] encode(MimeType type) {
-		// TODO Auto-generated method stub
+		Logger.getLogger("MEtricRaw ").info("Mime type is " + type.getType());
+		if (type == MimeType.JSON) {
+			return JsonIOUtil.toByteArray(this, SCHEMA, false);
+		}
 		return null;
 	}
 
+	@Override
+	public Schema<MetricRaw> cachedSchema() {
+		return SCHEMA;
+	}
 }

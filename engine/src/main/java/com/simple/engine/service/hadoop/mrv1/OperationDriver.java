@@ -174,8 +174,8 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 			Result result = table.get(get);
 			
 			byte[] bytes = result.getValue(Bytes.toBytes("rexp"), null);
-			Metric metric = Metric.fromBytes(bytes);
-			outputs.put(output.getId(), metric);
+			//Metric metric = Metric.fromBytes(bytes);
+			//outputs.put(output.getId(), metric);
 		}
 		table.close();
 		

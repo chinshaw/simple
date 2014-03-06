@@ -1,6 +1,8 @@
-package com.simple.engine.service.hadoop.mrv1;
+package com.simple.engine.metric;
 
 public interface IMetricKey {
 
 	byte[] toBytes();
+
+	
 }

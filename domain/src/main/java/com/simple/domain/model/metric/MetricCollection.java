@@ -122,10 +122,4 @@ public class MetricCollection extends Metric implements IMetricCollection {
 	public String getValueAsString() {
 		return "Composite Type";
 	}
-
-	@Override
-	public byte[] encode() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
