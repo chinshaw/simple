@@ -1,9 +1,11 @@
 package com.simple.engine.metric;
 
 
-public abstract class Metric implements IMetric  {
+
+public abstract class Metric<T extends IMetric> implements IMetric<T>  {
 
 	public Metric() {
 
 	}
+	
 }

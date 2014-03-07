@@ -3,35 +3,41 @@ package com.simple.engine.service.hadoop.io;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.util.logging.Logger;
 
+import org.apache.hadoop.io.WritableUtils;
+
+import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.simple.engine.metric.IMetric;
 import com.simple.engine.metric.IMetric.MimeType;
-
+import com.simple.engine.metric.MetricString;
 
 public class MetricWritable<M extends IMetric> implements IMetricWritable {
 
+	private static final Logger logger = Logger.getLogger(MetricWritable.class
+			.getName());
+
 	private IMetric metric;
 
-	private MimeType mimeType;
+	private MimeType mimeType = MimeType.JSON;
 
-	
+	public MetricWritable() {
+
+	}
+
 	public MetricWritable(IMetric metric, MimeType mimeType) {
 		this.metric = metric;
 		this.mimeType = mimeType;
 	}
 
 	@Override
-	public void write(DataOutput out) throws IOException {
-		out.write(metric.encode(mimeType));
-	}
-
-	@Override
-	public void readFields(DataInput in) throws IOException {
+	public IMetric<?> getMetric() {
+		return metric;
 	}
 
 	@Override
 	public byte[] toBytes() {
-		return metric.encode(mimeType);
+		return metric.toBytes();
 	}
 
 	/**
@@ -47,5 +53,38 @@ public class MetricWritable<M extends IMetric> implements IMetricWritable {
 	 */
 	public void setMimeType(MimeType mimeType) {
 		this.mimeType = mimeType;
+	}
+
+	@Override
+	public void write(DataOutput out) throws IOException {
+		byte[] bytes = metric.toBytes();
+		logger.info("Writing length " + bytes.length);
+		WritableUtils.writeVInt(out, bytes.length);
+		//WritableUtils.writeString(out, metric.getClass().getName());
+		out.write(bytes, 0, bytes.length);
+	}
+
+	@Override
+	public void readFields(DataInput in) throws IOException {
+		int newLength = WritableUtils.readVInt(in);
+		//String strClass = WritableUtils.readString(in);
+		try {
+			Class<?> clazz = Class.forName(MetricString.class.getName());
+			metric = (IMetric) clazz.newInstance();
+
+			logger.info("Reading length " + newLength);
+			byte[] bytes = new byte[newLength];
+			in.readFully(bytes, 0, newLength);
+			ProtobufIOUtil.mergeFrom(bytes, metric, metric.cachedSchema());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -2,6 +2,7 @@ package com.simple.engine.service.hadoop.io;
 
 import org.apache.hadoop.io.Writable;
 
+import com.simple.engine.metric.IMetric;
 import com.simple.engine.metric.IMetric.MimeType;
 
 
@@ -15,6 +16,7 @@ public interface IMetricWritable extends Writable {
 	 */
 	byte[] toBytes();
 	
+	public IMetric<?> getMetric();
 	
 	/**
 	 * This is the mime type of the object when being written.

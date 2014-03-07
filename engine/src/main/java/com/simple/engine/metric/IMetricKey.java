@@ -1,6 +1,8 @@
 package com.simple.engine.metric;
 
-public interface IMetricKey {
+import org.apache.hadoop.io.WritableComparable;
+
+public interface IMetricKey extends WritableComparable<IMetricKey>{
 
 	byte[] toBytes();
 

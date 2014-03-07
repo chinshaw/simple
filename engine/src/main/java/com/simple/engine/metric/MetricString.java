@@ -1,14 +1,17 @@
 package com.simple.engine.metric;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import com.dyuproject.protostuff.Input;
+import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.Message;
 import com.dyuproject.protostuff.Output;
+import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
 
-public final class MetricString extends Metric implements Message<MetricString> {
+public final class MetricString extends Metric<MetricString> {
 
 	static final Schema<MetricString> SCHEMA = new Schema<MetricString>() {
 
@@ -51,6 +54,7 @@ public final class MetricString extends Metric implements Message<MetricString> 
 				case 2:
 					message.value = input.readByteArray();
 				default:
+					Logger.getLogger(MetricString.class.getName()).info("Number is " + number);
 					input.handleUnknownField(number, this);
 				}
 			}
@@ -126,21 +130,13 @@ public final class MetricString extends Metric implements Message<MetricString> 
 	}
 
 	// message method
-
 	public Schema<MetricString> cachedSchema() {
 		return SCHEMA;
 	}
 
 	@Override
-	public byte[] encode() {
-		// TODO Auto-generated method stub
-		return null;
+	public byte[] toBytes() {
+		LinkedBuffer buffer = LinkedBuffer.allocate(4096);
+		return ProtobufIOUtil.toByteArray(this, SCHEMA, buffer);
 	}
-
-	@Override
-	public byte[] encode(MimeType type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

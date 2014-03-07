@@ -1,8 +1,10 @@
 package com.simple.engine.metric;
 
+import com.dyuproject.protostuff.Message;
 
 
-public interface IMetric {
+
+public interface IMetric<T> extends Message<T>{
 
 	public static enum MimeType {
 		JSON("application/json"),
@@ -22,7 +24,5 @@ public interface IMetric {
 	
 	IMetricKey getKey();
 	
-	byte[] encode();
-	
-	byte[] encode(MimeType type);
+	byte[] toBytes();
 }

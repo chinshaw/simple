@@ -2,6 +2,7 @@ package com.simple.engine.service.hadoop.io.adapter;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -23,6 +24,8 @@ import com.simple.engine.service.hadoop.io.format.HttpInputFormat;
 public class HttpInputAdapter<K extends IMetricKey, V extends IMetricWritable> extends
 		AbstractInputFormatAdapter<K, V> {
 
+	private static final Logger logger = Logger.getLogger(HttpInputAdapter.class.getName());
+	
 	class AdaptedRecordReader extends RecordReader<K, V> {
 
 		private RecordReader<LongWritable, Text> adaptedReader;
@@ -102,6 +105,7 @@ public class HttpInputAdapter<K extends IMetricKey, V extends IMetricWritable> e
 	public RecordReader<K, V> createRecordReader(
 			InputSplit split, TaskAttemptContext context) throws IOException,
 			InterruptedException {
+		logger.info("Getting record recorder");
 		return new AdaptedRecordReader(adapted.createRecordReader(split,
 				context));
 	}

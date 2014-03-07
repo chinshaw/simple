@@ -1,4 +1,4 @@
-package com.simple.engine.service.hadoop.mrv1;
+package com.simple.engine.service.hadoop.mrv2;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -20,18 +20,18 @@ import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.dataprovider.HttpDataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.engine.metric.MetricKey;
 import com.simple.engine.service.AnalyticsOperationException;
 import com.simple.engine.service.IAnalyticsOperationExecutor;
 import com.simple.engine.service.hadoop.config.ConfigurationException;
+import com.simple.engine.service.hadoop.config.HttpInputConf;
 import com.simple.engine.service.hadoop.config.OperationConfig;
-import com.simple.engine.service.hadoop.io.format.HttpInputFormat;
+import com.simple.engine.service.hadoop.io.MetricWritable;
 import com.simple.engine.service.hadoop.io.format.MetricInputFormat;
-import com.simple.engine.service.hadoop.io.format.MetricOutputFormat;
 import com.simple.engine.service.hadoop.io.format.MetricInputFormat.InputAdapterType;
+import com.simple.engine.service.hadoop.io.format.MetricOutputFormat;
 import com.simple.engine.service.hadoop.io.format.MetricOutputFormat.OutputAdapterType;
-import com.simple.engine.service.hadoop.io.format.NullInputFormat;
 import com.simple.engine.service.hadoop.job.AnalyticsOperationHadoopJob;
 import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.RAnalyticsException;
@@ -92,10 +92,10 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 
 			job.setMapperClass(ROperationMapper.class);
 			job.setReducerClass(ROperationReducer.class);
-			
-
 			job.setInputFormatClass(MetricInputFormat.class);
 			job.setOutputFormatClass(MetricOutputFormat.class);
+			job.setMapOutputKeyClass(MetricKey.class);
+			job.setMapOutputValueClass(MetricWritable.class);
 			
 			Configuration configuration = job.getConfiguration();
 			
@@ -106,6 +106,7 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 			MetricOutputFormat.setOutputAdatperType(configuration, OutputAdapterType.HBASE );
 			MetricInputFormat.setInputAdapterType(configuration, InputAdapterType.HTTP);
 			
+			configuration.set(HttpInputConf.WEB_URL_PROPERTY, "http://ichart.finance.yahoo.com/table.csv?s=HPQ&a=00&b=12&c=2013&d=00&e=15&f=2014&g=d&ignore=.csv");
 
 			jobSuccess = job.waitForCompletion(true);
 			if (jobSuccess != true) {

@@ -13,7 +13,7 @@ import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.dataprovider.HttpDataProvider;
 import com.simple.engine.service.AnalyticsOperationException;
 import com.simple.engine.service.hadoop.config.ConfigurationException;
-import com.simple.engine.service.hadoop.mrv1.OperationDriver;
+import com.simple.engine.service.hadoop.mrv2.OperationDriver;
 import com.simple.engine.utils.ScriptUtils;
 
 public class HadoopBasicTest {

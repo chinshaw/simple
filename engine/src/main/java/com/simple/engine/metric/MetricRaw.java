@@ -13,7 +13,7 @@ import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
 
-public final class MetricRaw extends Metric implements Message<MetricRaw> {
+public final class MetricRaw extends Metric<MetricRaw> implements Message<MetricRaw> {
 
 	static final Schema<MetricRaw> SCHEMA = new Schema<MetricRaw>() {
 
@@ -115,11 +115,12 @@ public final class MetricRaw extends Metric implements Message<MetricRaw> {
 	}
 
 	@Override
-	public byte[] encode() {
+	public byte[] toBytes() {
 		LinkedBuffer buffer = LinkedBuffer.allocate(4096);
 		return ProtobufIOUtil.toByteArray(this, SCHEMA, buffer);
 	}
 
+	/*
 	@Override
 	public byte[] encode(MimeType type) {
 		Logger.getLogger("MEtricRaw ").info("Mime type is " + type.getType());
@@ -128,6 +129,7 @@ public final class MetricRaw extends Metric implements Message<MetricRaw> {
 		}
 		return null;
 	}
+	*/
 
 	@Override
 	public Schema<MetricRaw> cachedSchema() {

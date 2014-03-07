@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.InputFormat;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Job;
@@ -15,13 +13,16 @@ import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
+import com.simple.engine.metric.IMetricKey;
+import com.simple.engine.service.hadoop.io.IMetricWritable;
+
 /**
  * Simple class that does not provide any input, the mapper
  * receives an empty list of splits.
  * 
  * @author chris
  */
-public class NullInputFormat extends InputFormat<LongWritable, Text> implements Configurable {
+public class NullInputFormat extends InputFormat<IMetricKey, IMetricWritable> implements Configurable {
 
 	@Override
 	public void setConf(Configuration conf) {
@@ -36,7 +37,7 @@ public class NullInputFormat extends InputFormat<LongWritable, Text> implements 
 	}
 
 	@Override
-	public RecordReader<LongWritable, Text> createRecordReader(InputSplit arg0,
+	public RecordReader<IMetricKey, IMetricWritable> createRecordReader(InputSplit arg0,
 			TaskAttemptContext arg1) throws IOException, InterruptedException {
 		// TODO Auto-generated method stub
 		return null;

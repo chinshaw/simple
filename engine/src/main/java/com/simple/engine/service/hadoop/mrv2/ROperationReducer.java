@@ -1,7 +1,8 @@
-package com.simple.engine.service.hadoop.mrv1;
+package com.simple.engine.service.hadoop.mrv2;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +16,7 @@ import com.simple.engine.metric.IMetric;
 import com.simple.engine.metric.IMetric.MimeType;
 import com.simple.engine.metric.IMetricKey;
 import com.simple.engine.metric.MetricKey;
+import com.simple.engine.metric.MetricString;
 import com.simple.engine.metric.RexpUtils;
 import com.simple.engine.service.hadoop.config.ConfigurationException;
 import com.simple.engine.service.hadoop.config.OperationConfig;
@@ -26,7 +28,8 @@ import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.protobuf.REXP;
 
-public class ROperationReducer extends Reducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
+public class ROperationReducer extends
+		Reducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
 		implements Configurable {
 
 	private static final Logger logger = Logger
@@ -56,11 +59,23 @@ public class ROperationReducer extends Reducer<IMetricKey, IMetricWritable, IMet
 			InterruptedException {
 		assert (conf != null) : "configuration not specified";
 
+		while (context.nextKey()) {
+			//reduce(context.getCurrentKey(), context.getValues(), context);
+			// If a back up store is used, reset it
+			Iterator<IMetricWritable> iter = context.getValues().iterator();
+			for (IMetricWritable writable = iter.next(); ;iter.hasNext() ) {
+				logger.info("Metric is " + writable.getMetric());
+				MetricString string = (MetricString) writable.getMetric();
+				logger.info("Value is " + string.getValue());
+			}
+		}
+
 		try {
 			setup(context);
 
 			// Wrap the context.
-			RAnalyticsOperation operation = (RAnalyticsOperation) OperationConfig.getOperation(getConf());
+			RAnalyticsOperation operation = (RAnalyticsOperation) OperationConfig
+					.getOperation(getConf());
 
 			if (operation == null) {
 				throw new RuntimeException("Operation cannot be null");
@@ -110,13 +125,13 @@ public class ROperationReducer extends Reducer<IMetricKey, IMetricWritable, IMet
 				}
 
 				if (rexp == null) {
-					logger.log(Level.WARNING, "rexp not found => " + output.getName());
+					logger.log(Level.WARNING,
+							"rexp not found => " + output.getName());
 					continue;
 				}
 
 				logger.info("found rexp => type " + rexp.getRclass());
 
-				
 				IMetric metric = RexpUtils.toMetric(rexp);
 				context.write(new MetricKey(output.getName()),
 						new MetricWritable<IMetric>(metric, MimeType.JSON));

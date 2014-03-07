@@ -1,7 +1,6 @@
-package com.simple.engine.service.hadoop.mrv1;
+package com.simple.engine.service.hadoop.mrv2;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -15,12 +14,8 @@ import org.apache.hadoop.mapreduce.server.jobtracker.JTConfig;
 import org.apache.hadoop.util.Tool;
 
 import com.simple.domain.model.AnalyticsOperation;
-import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.dataprovider.HttpDataProvider;
 import com.simple.engine.service.hadoop.config.ConfigurationException;
 import com.simple.engine.service.hadoop.config.OperationConfig;
-import com.simple.engine.service.hadoop.io.format.HttpInputFormat;
-import com.simple.engine.service.hadoop.io.format.NullInputFormat;
 
 @Deprecated
 public class OperationTool implements Tool {
@@ -36,20 +31,6 @@ public class OperationTool implements Tool {
 		Job job = Job.getInstance(configuration);
 		// job.setJar("/Users/chris/devel/workspace/simple/engine/target/simple-analytics-engine-1.1-SNAPSHOT-jar-with-dependencies.jar");
 		job.setUser("chris");
-
-
-		List<DataProvider> dataproviders = OperationConfig.getDataProviders(configuration);
-
-		if (dataproviders != null) {
-			logger.fine("Found data providers count " + dataproviders.size());
-			DataProvider dp = dataproviders.get(0);
-			if (dp instanceof HttpDataProvider) {
-				HttpInputFormat.setInput(job, ((HttpDataProvider) dp).getUrl());
-			}
-		} else {
-			logger.fine("Setting NullInputFormat for input");
-			NullInputFormat.setInput(job);
-		}
 
 		AnalyticsOperation operation = OperationConfig.getOperation(getConf());
 		String jobName = operation.getName();

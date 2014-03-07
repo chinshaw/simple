@@ -5,12 +5,14 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.io.WritableComparable;
 
-public class MetricKey implements IMetricKey, WritableComparable<IMetricKey> {
+public class MetricKey implements IMetricKey {
 
-	private byte[] key;
+	private byte[] key = new byte[0];
 
+	public MetricKey() {	
+	}
+	
 	public MetricKey(byte[] bytes) {
 		this.key = bytes;
 	}
