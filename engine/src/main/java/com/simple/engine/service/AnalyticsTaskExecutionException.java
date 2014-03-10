@@ -1,6 +1,6 @@
 package com.simple.engine.service;
 
-import com.simple.domain.model.AnalyticsTaskExecution;
+import com.simple.original.api.analytics.ITaskExecution;
 
 public class AnalyticsTaskExecutionException extends Exception {
 
@@ -10,7 +10,7 @@ public class AnalyticsTaskExecutionException extends Exception {
 	 */
 	private static final long serialVersionUID = 4759242697529328545L;
 	
-	private AnalyticsTaskExecution taskExecution;
+	private ITaskExecution taskExecution;
 	
 	public AnalyticsTaskExecutionException() {
 		super();
@@ -20,15 +20,15 @@ public class AnalyticsTaskExecutionException extends Exception {
 		super(message);
 	}
 	
-	public AnalyticsTaskExecutionException(AnalyticsTaskExecution taskExecution) {
+	public AnalyticsTaskExecutionException(ITaskExecution taskExecution) {
 		this.taskExecution = taskExecution;
 	}
 
-	public AnalyticsTaskExecutionException(AnalyticsTaskExecution taskExecution, Throwable cause) {
-		taskExecution.setFailure(cause);
+	public AnalyticsTaskExecutionException(ITaskExecution taskExecution, Throwable cause) {
+		taskExecution.createFailure(cause);
 	}
 	
-	public AnalyticsTaskExecution getTaskExecution() {
+	public ITaskExecution getTaskExecution() {
 		return taskExecution;
 	}
 	

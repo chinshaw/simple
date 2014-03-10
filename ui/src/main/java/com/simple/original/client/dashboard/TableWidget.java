@@ -43,15 +43,12 @@ import com.google.gwt.view.client.SelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
+import com.simple.original.api.analytics.IMetricMatrix;
 import com.simple.original.client.dashboard.TableWidget.MetricRowProxy;
 import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
 import com.simple.original.client.dashboard.events.WidgetSelectedEvent;
 import com.simple.original.client.dashboard.model.ITableWidgetModel;
 import com.simple.original.client.dashboard.model.IWidgetModel;
-import com.simple.original.client.overlays.MetricMatrixOverlay;
-import com.simple.original.client.proxy.MetricDoubleProxy;
-import com.simple.original.client.proxy.MetricProxy;
-import com.simple.original.client.proxy.MetricStringProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.widgets.LinkableWidget;
 
@@ -394,8 +391,9 @@ public class TableWidget extends AbstractDashboardWidget<ITableWidgetModel> impl
                 	if (resp.getText() == null) {
                 		
                 	}
-                    MetricMatrixOverlay matrix = JsonUtils.safeEval(resp.getText());
-                    doRenderTable(matrix);
+                	// TODO
+                    //MetricMatrixOverlay matrix = JsonUtils.safeEval(resp.getText());
+                    //doRenderTable(matrix);
                 }
 
                 @Override
@@ -450,13 +448,13 @@ public class TableWidget extends AbstractDashboardWidget<ITableWidgetModel> impl
         table.setRowData(0, rows);
     }
 
-    private void doRenderTable(MetricMatrixOverlay matrix) {
+    private void doRenderTable(IMetricMatrix matrix) {
         dataProvider.addDataDisplay(table);
         List<String> headers = matrix.getHeaders();
 
         initializeColumns(headers);
 
-        dataProvider.setList(matrix.getRows());
+     //   dataProvider.setList(matrix.getRows());
         tableTitle.setInnerText(model.getTitle());
         pager.setDisplay(table);
     }

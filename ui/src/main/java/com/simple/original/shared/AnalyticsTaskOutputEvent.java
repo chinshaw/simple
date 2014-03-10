@@ -6,7 +6,7 @@ import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.simple.domain.model.AnalyticsTask;
-import com.simple.domain.model.AnalyticsTaskExecution;
+import com.simple.engine.metric.AnalyticsTaskExecution;
 
 /**
  * This is used to transport the entity change data to connected clients over

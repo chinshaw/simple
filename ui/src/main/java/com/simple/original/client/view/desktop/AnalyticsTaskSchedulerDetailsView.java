@@ -27,8 +27,8 @@ import com.google.gwt.view.client.HasData;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
-import com.simple.original.api.analytics.IAnalyticsTaskExecution.TaskCompletionStatus;
-import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
+import com.simple.original.api.analytics.ITaskExecution;
+import com.simple.original.api.analytics.ITaskExecution.TaskCompletionStatus;
 import com.simple.original.client.proxy.QuartzTriggerProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.utils.DateFormats;
@@ -59,7 +59,7 @@ public class AnalyticsTaskSchedulerDetailsView extends AbstractView implements I
     Button pause;
 
     @UiField(provided = true)
-    CellTable<AnalyticsTaskExecutionProxy> historyTable;
+    CellTable<ITaskExecution> historyTable;
 
     @UiField
     SimplePager historyPager;
@@ -97,28 +97,28 @@ public class AnalyticsTaskSchedulerDetailsView extends AbstractView implements I
     }
     
     private void initTable() {
-        historyTable = new CellTable<AnalyticsTaskExecutionProxy>(10, getResources());
+        historyTable = new CellTable<ITaskExecution>(10, getResources());
         
-        Column<AnalyticsTaskExecutionProxy, Date> startTime = new Column<AnalyticsTaskExecutionProxy, Date>( new DateCell(DateFormats.getTableDateFormat())) {
+        Column<ITaskExecution, Date> startTime = new Column<ITaskExecution, Date>( new DateCell(DateFormats.getTableDateFormat())) {
 
             @Override
-            public Date getValue(AnalyticsTaskExecutionProxy object) {
+            public Date getValue(ITaskExecution object) {
                 return object.getStartTime();
             }
         };
 
-        Column<AnalyticsTaskExecutionProxy, Date> endTime = new Column<AnalyticsTaskExecutionProxy, Date>( new DateCell(DateFormats.getTableDateFormat())) {
+        Column<ITaskExecution, Date> endTime = new Column<ITaskExecution, Date>( new DateCell(DateFormats.getTableDateFormat())) {
 
             @Override
-            public Date getValue(AnalyticsTaskExecutionProxy execution) {
+            public Date getValue(ITaskExecution execution) {
                 return execution.getCompletionTime();
             }
         };
         
-        Column<AnalyticsTaskExecutionProxy, String> status = new Column<AnalyticsTaskExecutionProxy, String>( new TextCell()) {
+        Column<ITaskExecution, String> status = new Column<ITaskExecution, String>( new TextCell()) {
 
             @Override
-            public String getValue(AnalyticsTaskExecutionProxy execution) {
+            public String getValue(ITaskExecution execution) {
                 TaskCompletionStatus completionStatus = execution.getCompletionStatus();
                 if (completionStatus != null) {
                     return completionStatus.name();
@@ -199,7 +199,7 @@ public class AnalyticsTaskSchedulerDetailsView extends AbstractView implements I
     }
 
     @Override
-    public HasData<AnalyticsTaskExecutionProxy> getHistoryDisplay() {
+    public HasData<ITaskExecution> getHistoryDisplay() {
         return historyTable;
     }
 

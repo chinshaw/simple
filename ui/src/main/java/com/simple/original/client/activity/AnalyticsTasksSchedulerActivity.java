@@ -14,7 +14,6 @@ import com.simple.original.client.events.NotificationEvent;
 import com.simple.original.client.place.AnalyticsTaskSchedulerDetailsPlace;
 import com.simple.original.client.place.AnalyticsTasksSchedulerPlace;
 import com.simple.original.client.place.HistoricalMetricsPlace;
-import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
 import com.simple.original.client.proxy.QuartzJobExecutionContextProxy;
 import com.simple.original.client.proxy.QuartzTriggerKeyProxy;
 import com.simple.original.client.proxy.QuartzTriggerProxy;
@@ -31,31 +30,9 @@ public class AnalyticsTasksSchedulerActivity extends AbstractActivity<AnalyticsT
      */   
 	private static final Logger logger = Logger.getLogger(AnalyticsTasksSchedulerActivity.class.getName());	
 	
-    private class ExecutedTasksDataProvider extends DaoBaseDataProvider<AnalyticsTaskExecutionProxy> implements ColumnSortEvent.Handler {
-
- 
-		@Override
-        public String[] getWithProperties() {
-			return AnalyticsTaskExecutionProxy.HISTORY_PROPERTIES;
-        }
-
-		@Override
-		public void onColumnSort(ColumnSortEvent event) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public DaoRequest<AnalyticsTaskExecutionProxy> getRequestProvider() {
-			return dao().analyticsTaskExecutionRequest();
-		}
-	}
-     
     
     private ListDataProvider<QuartzTriggerProxy> allSchedulesDataProvider = new ListDataProvider<QuartzTriggerProxy>();
     
-    private ExecutedTasksDataProvider historyDataProvider = new ExecutedTasksDataProvider();
-    
-    private SingleSelectionModel<AnalyticsTaskExecutionProxy> historySelectionModel = new SingleSelectionModel<AnalyticsTaskExecutionProxy>(historyDataProvider.getKeyProvider());
     
     @Inject
     public AnalyticsTasksSchedulerActivity(IAnalyticsTasksSchedulerView view) {
@@ -96,18 +73,18 @@ public class AnalyticsTasksSchedulerActivity extends AbstractActivity<AnalyticsT
         
         request.fire();
         
-        // Get the historical executed jobs.
-        historyDataProvider.addDataDisplay(display.getDisplayTable());
-        
-        // Hook up the selection handler.
-        historySelectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-
-            @Override
-            public void onSelectionChange(SelectionChangeEvent event) {
-            	placeController().goTo(new HistoricalMetricsPlace(historySelectionModel.getSelectedObject().getId()));
-            }
-        });
-        display.getDisplayTable().setSelectionModel(historySelectionModel);
+//        // Get the historical executed jobs.
+//        historyDataProvider.addDataDisplay(display.getDisplayTable());
+//        
+//        // Hook up the selection handler.
+//        historySelectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+//
+//            @Override
+//            public void onSelectionChange(SelectionChangeEvent event) {
+//            	placeController().goTo(new HistoricalMetricsPlace(historySelectionModel.getSelectedObject().getId()));
+//            }
+//        });
+//        display.getDisplayTable().setSelectionModel(historySelectionModel);
 
     }
 
@@ -143,7 +120,7 @@ public class AnalyticsTasksSchedulerActivity extends AbstractActivity<AnalyticsT
 	@Override
 	public void onOperationSelected(String recordSelected) {
 		logger.info("selected record Fetch type ->"+recordSelected);
-    	display.getDisplayTable().setVisibleRangeAndClearData(display.getDisplayTable().getVisibleRange(), true);	
+//    	display.getDisplayTable().setVisibleRangeAndClearData(display.getDisplayTable().getVisibleRange(), true);	
 	}
 
 	@Override

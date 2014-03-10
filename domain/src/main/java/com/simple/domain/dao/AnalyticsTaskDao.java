@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.metamodel.SingularAttribute;
@@ -29,16 +28,12 @@ import com.google.inject.Inject;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.AnalyticsTask;
-import com.simple.domain.model.AnalyticsTaskExecution;
 import com.simple.domain.model.AnalyticsTaskName;
 import com.simple.domain.model.ChangeLog;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.RDataProvider;
 import com.simple.domain.model.SqlDataProvider;
 import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.metric.MetricCollection;
-import com.simple.domain.model.metric.MetricPlot;
-import com.simple.domain.model.metric.MetricString;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.domain.model.ui.dashboard.Widget;
@@ -94,13 +89,11 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	/**
 	 * Single class logger.
 	 */
-	private static final Logger logger = Logger
-			.getLogger(AnalyticsTaskDao.class.getName());
+	private static final Logger logger = Logger.getLogger(AnalyticsTaskDao.class.getName());
 
 	@Inject
 	private AnalyticsOperationDao operationDao;
 
-	
 	public AnalyticsTaskDao() {
 		super(AnalyticsTask.class);
 	}
@@ -161,15 +154,14 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	 * 
 	 * @throws DuplicateTaskException
 	 */
-	public AnalyticsTask saveAndReturn(AnalyticsTask analyticsTask)
-			throws DuplicateTaskException {
+	public AnalyticsTask saveAndReturn(AnalyticsTask analyticsTask) throws DuplicateTaskException {
 
 		if (analyticsTask.getOwner() == null) {
 			analyticsTask.setOwner(getCurrentPerson());
 		}
-		
+
 		analyticsTask.addChangeLog(new ChangeLog(getCurrentPerson()));
-		
+
 		analyticsTask = super.saveOrUpdate(analyticsTask);
 		return analyticsTask;
 	}
@@ -181,8 +173,7 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	public List<AnalyticsTask> listAll() {
 		TypedQuery<AnalyticsTask> query = null;
 
-		query = getEntityManager().createNamedQuery("AnalyticsTask.all",
-				AnalyticsTask.class);
+		query = getEntityManager().createNamedQuery("AnalyticsTask.all", AnalyticsTask.class);
 
 		return query.getResultList();
 	}
@@ -194,8 +185,7 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	public List<AnalyticsTask> listPersonal() {
 		Long userId = getSession().getCurrentPerson().getId();
 
-		TypedQuery<AnalyticsTask> query = getEntityManager().createNamedQuery(
-				"AnalyticsTask.byOwner", AnalyticsTask.class);
+		TypedQuery<AnalyticsTask> query = getEntityManager().createNamedQuery("AnalyticsTask.byOwner", AnalyticsTask.class);
 		query.setParameter("owner", userId);
 
 		return query.getResultList();
@@ -241,8 +231,7 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	 * @return
 	 * @throws SimpleException
 	 */
-	public AnalyticsTask copy(Long analyticsTaskId)
-			throws SimpleException {
+	public AnalyticsTask copy(Long analyticsTaskId) throws SimpleException {
 		if (analyticsTaskId == null) {
 			throw new IllegalArgumentException("analyticstaskId cannot be null");
 		}
@@ -250,8 +239,7 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 
 		AnalyticsTask toClone = find(analyticsTaskId);
 		if (toClone == null) {
-			throw new IllegalArgumentException("task with id "
-					+ analyticsTaskId + " was not found in the datastore");
+			throw new IllegalArgumentException("task with id " + analyticsTaskId + " was not found in the datastore");
 		}
 
 		AnalyticsTask clone = null;
@@ -261,15 +249,12 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 			clone.setOwner(getCurrentPerson());
 			clone.setName(clone.getName() + "_clone");
 
-			clone.addChangeLog(new ChangeLog(getCurrentPerson(),
-					"Cloned from task " + analyticsTaskId));
+			clone.addChangeLog(new ChangeLog(getCurrentPerson(), "Cloned from task " + analyticsTaskId));
 
 			clone = saveAndReturn(clone);
 		} catch (CloneNotSupportedException e) {
-			logger.severe("Unable to clone analytics task object : "
-					+ e.getMessage());
-			throw new SimpleException(
-					"Unable to clone analytics task object", e);
+			logger.severe("Unable to clone analytics task object : " + e.getMessage());
+			throw new SimpleException("Unable to clone analytics task object", e);
 		}
 
 		return clone;
@@ -285,12 +270,10 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	public List<AnalyticsTask> find(int start, int max) {
 
 		TypedQuery<AnalyticsTask> query = getEntityManager().createQuery(
-				"SELECT task FROM  " + AnalyticsTask.class.getName()
-						+ " task ORDER BY task.id ASC", AnalyticsTask.class);
+				"SELECT task FROM  " + AnalyticsTask.class.getName() + " task ORDER BY task.id ASC", AnalyticsTask.class);
 		query.setFirstResult(start);
 		query.setMaxResults(max);
-		List<AnalyticsTask> resultList = (List<AnalyticsTask>) query
-				.getResultList();
+		List<AnalyticsTask> resultList = (List<AnalyticsTask>) query.getResultList();
 		return resultList;
 
 	}
@@ -308,9 +291,8 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 		JAXBContext context = JAXBContext.newInstance(AnalyticsTask.class,
 				AnalyticsTasks.class, RAnalyticsOperation.class,
 				DataProvider.class, SqlDataProvider.class, RDataProvider.class,
-				Dashboard.class, Widget.class, MetricPlot.class,
-				IMetricDouble.class, IMetricString.class, MetricString.class,
-				MetricCollection.class);
+				Dashboard.class, Widget.class,
+				IMetricDouble.class, IMetricString.class );
 
 		Marshaller marshaller = context.createMarshaller();
 
@@ -342,21 +324,16 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	 * @param inputStream
 	 * @throws JAXBException
 	 */
-	public void importAnalyticsTasks(InputStream inputStream)
-			throws JAXBException {
-		JAXBContext context = JAXBContext.newInstance(AnalyticsTask.class,
-				AnalyticsTasks.class, RAnalyticsOperation.class,
-				DataProvider.class, SqlDataProvider.class, RDataProvider.class,
-				Dashboard.class, Widget.class, MetricPlot.class,
-				IMetricDouble.class, IMetricString.class, MetricString.class,
-				MetricCollection.class);
+	public void importAnalyticsTasks(InputStream inputStream) throws JAXBException {
+		JAXBContext context = JAXBContext.newInstance(AnalyticsTask.class, AnalyticsTasks.class, RAnalyticsOperation.class,
+				DataProvider.class, SqlDataProvider.class, RDataProvider.class, Dashboard.class, Widget.class, IMetricDouble.class,
+				IMetricString.class);
 
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 
 		AnalyticsTasks analyticsTasks = null;
 		try {
-			analyticsTasks = (AnalyticsTasks) unmarshaller
-					.unmarshal(inputStream);
+			analyticsTasks = (AnalyticsTasks) unmarshaller.unmarshal(inputStream);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -374,8 +351,7 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 					em.persist(analyticsTask);
 					tx.commit();
 				} catch (ConstraintViolationException e) {
-					Set<ConstraintViolation<?>> violations = e
-							.getConstraintViolations();
+					Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
 
 					for (ConstraintViolation<?> v : violations) {
 						System.out.println(" Violation was " + v.getMessage());
@@ -417,35 +393,7 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	 *             analyticsTask.setOwner(person); }
 	 */
 
-	/**
-	 * This will get the last AnalyticsTask Execution for the selected analytics
-	 * task. NOTE: The caller is responsible for closing the entity manager.
-	 * 
-	 * @param analytics
-	 *            taskId
-	 * @throws IllegalArgumentException
-	 *             If the analyticsTaskId is not a valid Long value.
-	 * @return
-	 */
-	public AnalyticsTaskExecution getLastAnalyticsTaskExecution(Long taskId)
-			throws NoResultException {
-		if (taskId == null) {
-			throw new IllegalArgumentException(
-					"An invalid analytics task id was supplied -> " + taskId);
-		}
-
-		TypedQuery<AnalyticsTaskExecution> query = getEntityManager()
-				.createQuery(
-						"SELECT execution FROM "
-								+ AnalyticsTaskExecution.class.getName()
-								+ " as execution where execution.analyticsTask.id = (:analyticsTaskId) order by execution.id DESC",
-						AnalyticsTaskExecution.class);
-
-		query.setParameter("analyticsTaskId", taskId);
-		query.setMaxResults(1);
-		return query.getSingleResult();
-	}
-
+	
 	/**
 	 * Retrieves all the inputs for a specific task. It iterates over all the
 	 * operations and adds their inputs to the returned list.
@@ -492,14 +440,12 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	 *            Ids on which a search need to be perform
 	 * @return list of matched analytics task
 	 */
-	public List<AnalyticsTask> getAnalyticsTasksForOperationIds(
-			Set<Long> operationIds) {
+	public List<AnalyticsTask> getAnalyticsTasksForOperationIds(Set<Long> operationIds) {
 
-		List<AnalyticsOperation> operations = operationDao
-				.findList(operationIds);
+		List<AnalyticsOperation> operations = operationDao.findList(operationIds);
 
-		TypedQuery<AnalyticsTask> query = getEntityManager().createNamedQuery(
-				"AnalyticsTask.tasksContainingOperations", AnalyticsTask.class);
+		TypedQuery<AnalyticsTask> query = getEntityManager().createNamedQuery("AnalyticsTask.tasksContainingOperations",
+				AnalyticsTask.class);
 		query.setParameter("operations", operations);
 
 		return query.getResultList();
@@ -511,16 +457,14 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	 * @return
 	 */
 	public Map<Long, Long> getPrivateTasksCount() {
-		Query query = getEntityManager().createNamedQuery(
-				"usersPrivateTasksCount");
+		Query query = getEntityManager().createNamedQuery("usersPrivateTasksCount");
 		@SuppressWarnings("unchecked")
 		List<Object[]> taskList = query.getResultList();
 		Map<Long, Long> map = new HashMap<Long, Long>();
 		for (Object[] resultElement : taskList) {
 			Long taskid = (Long) resultElement[0];
 			Long taskcount = (Long) resultElement[1];
-			logger.fine("usersPrivateTasksCount [id] -> " + taskid
-					+ "  , [taskcount] -> " + taskcount);
+			logger.fine("usersPrivateTasksCount [id] -> " + taskid + "  , [taskcount] -> " + taskcount);
 			map.put(taskid, taskcount);
 		}
 		return map;

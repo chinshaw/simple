@@ -28,7 +28,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.view.client.HasData;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
+import com.simple.original.api.analytics.ITaskExecution;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.utils.CronBuilder;
 import com.simple.original.client.utils.CronBuilder.DAY;
@@ -346,7 +346,7 @@ public class AnalyticsTaskSchedulerView extends AbstractView implements
     }
 
     @Override
-    public HasData<AnalyticsTaskExecutionProxy> getHistoryDisplay() {
+    public HasData<ITaskExecution> getHistoryDisplay() {
         return null;
     }
 

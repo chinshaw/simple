@@ -54,7 +54,8 @@ public final class MetricRaw extends Metric<MetricRaw> implements Message<Metric
 					message.key = MetricKey.valueOf(input.readByteArray());
 					break;
 				case 2:
-					message.value = input.readBytes();
+					message.value = input.readBytes().toByteArray();
+					break;
 				default:
 					input.handleUnknownField(number, this);
 				}
@@ -81,7 +82,7 @@ public final class MetricRaw extends Metric<MetricRaw> implements Message<Metric
 		@Override
 		public void writeTo(Output output, MetricRaw message) throws IOException {
 			if (message.value != null) {
-				output.writeBytes(2, message.value, false);
+				output.writeBytes(2, ByteString.copyFrom(message.value), false);
 			}
 		}
 	};
@@ -90,7 +91,7 @@ public final class MetricRaw extends Metric<MetricRaw> implements Message<Metric
 	private IMetricKey key;
 
 	@Tag(2)
-	private ByteString value;
+	private byte[] value;
 
 	public MetricRaw() {
 
@@ -107,11 +108,11 @@ public final class MetricRaw extends Metric<MetricRaw> implements Message<Metric
 	}
 
 	public byte[] getValue() {
-		return value.toByteArray();
+		return value;
 	}
 
 	public void setValue(byte[] value) {
-		this.value = ByteString.copyFrom(value);
+		this.value = value;
 	}
 
 	@Override

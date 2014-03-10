@@ -25,4 +25,6 @@ public interface IMetricMatrix extends IMetric {
 
     public abstract List<? extends IColumn<?>> getValue();
 
+	public abstract List<String> getHeaders();
+
 }

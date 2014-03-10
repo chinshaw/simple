@@ -90,8 +90,7 @@ public class SchedulerService {
         JobDetail job = JobBuilder.newJob(RExecutionJob.class).withIdentity(analyticsTaskIdentity, "rscripts").build();
 
         JobDataMap map = job.getJobDataMap();
-        map.put(RExecutionJob.INPUTS, inputs);
-        map.put(RExecutionJob.ANALYTICS_TASK_ID, analyticsTaskId);
+       
 
         try {
         	TriggerBuilder<CronTrigger> triggerBuilder = TriggerBuilder.newTrigger().withIdentity(analyticsTaskIdentity, "Analytics").withDescription(description).forJob(job.getKey()).withSchedule(CronScheduleBuilder.cronSchedule(cronExpression));
@@ -203,8 +202,9 @@ public class SchedulerService {
         JobDetail jobDetail = getTaskEngine().getJobDetail(jobKey);
         
         JobDataMap map = jobDetail.getJobDataMap();
-        Long taskId = map.getLong(RExecutionJob.ANALYTICS_TASK_ID);
+//        Long taskId = map.getLong(RExecutionJob.ANALYTICS_TASK_ID);
         
-        return taskDao.find(taskId);
+//        return taskDao.find(taskId);
+        return null;
     }
 }

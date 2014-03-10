@@ -4,7 +4,7 @@ package com.simple.original.client.view;
 import com.google.gwt.editor.client.Editor.Ignore;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.view.client.HasData;
-import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
+import com.simple.original.api.analytics.ITaskExecution;
 
 
 public interface IAnalyticsTaskSchedulerView extends IView {
@@ -25,7 +25,7 @@ public interface IAnalyticsTaskSchedulerView extends IView {
 
     void setTriggerState(String response);
 
-    HasData<AnalyticsTaskExecutionProxy> getHistoryDisplay();
+    HasData<ITaskExecution> getHistoryDisplay();
 
     @Ignore
     DateBox getScheduleStartDate();

@@ -7,13 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.fusesource.restygwt.client.Method;
+import org.fusesource.restygwt.client.MethodCallback;
+
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Image;
 import com.google.inject.Inject;
-import com.google.web.bindery.requestfactory.shared.EntityProxyChange;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
@@ -27,22 +31,18 @@ import com.simple.original.client.place.DashboardPlace;
 import com.simple.original.client.place.HistoricalMetricsPlace;
 import com.simple.original.client.place.LatestDashboardPlace;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
-import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
 import com.simple.original.client.proxy.DashboardProxy;
+import com.simple.original.client.service.HBaseRestService;
 import com.simple.original.client.service.ServiceRequestFactory.DashboardRequest;
 import com.simple.original.client.utils.ClientUtils;
 import com.simple.original.client.view.IDashboardView;
 import com.simple.original.client.view.IDashboardView.Presenter;
 import com.simple.original.client.view.desktop.AnalyticsInputEditor;
 import com.simple.original.client.view.widgets.ProgressWidget;
-import com.simple.original.shared.AnalyticsTaskExecutionEvent;
-import com.simple.original.shared.AnalyticsTaskOutputEvent;
 
 public class DashboardActivity extends
 		AbstractActivity<ApplicationPlace, IDashboardView> implements
-		Presenter, DashboardNavigationEvent.Handler,
-		EntityProxyChange.Handler<AnalyticsTaskExecutionProxy>,
-		AnalyticsTaskExecutionEvent.Handler, AnalyticsTaskOutputEvent.Handler {
+		Presenter, DashboardNavigationEvent.Handler {
 
 	/**
 	 * Analytics task receiver that is used to update screen when task response
@@ -128,12 +128,9 @@ public class DashboardActivity extends
 
 		// Lets go ahead and run the script.
 		runDashboardTask(getDashboardUpdateRequest());
-		EntityProxyChange.registerForProxyType(eventBus(),
-				AnalyticsTaskExecutionProxy.class, this);
-
-		eventBus().addHandler(AnalyticsTaskExecutionEvent.TYPE, this);
-		eventBus().addHandler(AnalyticsTaskOutputEvent.TYPE, this);
+		
 	}
+
 
 	private void processResponse(DashboardProxy taskExecution) {
 		showUpdatingPanel(false);
@@ -158,8 +155,6 @@ public class DashboardActivity extends
 			updateInputsPanel(dashboard.getInputs());
 			updateTimeMachine();
 		}
-
-		updateDebugLog();
 	}
 
 	private void renderDashboard(DashboardProxy dashboard) {
@@ -195,11 +190,12 @@ public class DashboardActivity extends
 		}
 
 		Long taskId = ((DashboardPlace)place()).getAnalyticsTaskId();
-		request.executeInteractive(
-				taskId, inputs, null)
-				.with(AnalyticsTaskExecutionProxy.EXECUTION_PROPERTIES)
-				.to(dashboardReceiver);
-		return request;
+//		request.executeInteractive(
+//				taskId, inputs, null)
+//				.with(AnalyticsTaskExecutionProxy.EXECUTION_PROPERTIES)
+//				.to(dashboardReceiver);
+//		return request;
+		return null;
 	}
 
 	private void runDashboardTask(DashboardRequest request) {
@@ -307,35 +303,4 @@ public class DashboardActivity extends
 		editDashboardCommand.execute();
 	}
 
-	@Override
-	public void onProxyChange(
-			EntityProxyChange<AnalyticsTaskExecutionProxy> event) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void onAnalyticsTaskExecution(AnalyticsTaskExecutionEvent event) {
-		Long taskId = ((DashboardPlace)place()).getAnalyticsTaskId();
-		logger.info("Task id is " + event.getTaskId() + " event task id is "
-				+ taskId);
-		if (event.getTaskId().longValue() == taskId
-				.longValue()) {
-			// Do something with the task execution
-		}
-	}
-
-
-	public void updateDebugLog() {
-	}
-
-	@Override
-	public void handleOut(String output) {
-		// this.output.setText(this.output.getText() + output);
-		// display.showTaskOutput(output);
-	}
-
-	@Override
-	public void handleError(String error) {
-		display.showTaskOutput(error);
-	}
 }

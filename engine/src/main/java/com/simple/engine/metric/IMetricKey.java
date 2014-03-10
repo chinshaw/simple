@@ -2,7 +2,9 @@ package com.simple.engine.metric;
 
 import org.apache.hadoop.io.WritableComparable;
 
-public interface IMetricKey extends WritableComparable<IMetricKey>{
+import com.simple.engine.hbase.IHbaseKey;
+
+public interface IMetricKey extends WritableComparable<IMetricKey>, IHbaseKey {
 
 	byte[] toBytes();
 

@@ -21,6 +21,7 @@ import com.google.gwt.place.shared.WithTokenizers;
                   ServerLogsPlace.Tokenizer.class,
                   ErrorMessagePlace.Tokenizer.class,
                   HistoricalMetricsPlace.Tokenizer.class,
+                  HBasePlace.Tokenizer.class,
                   LatestDashboardPlace.Tokenizer.class,
                   LoginPlace.Tokenizer.class,
                   PreferencesPlace.Tokenizer.class,

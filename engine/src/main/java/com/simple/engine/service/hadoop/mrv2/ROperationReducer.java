@@ -60,13 +60,13 @@ public class ROperationReducer extends
 		assert (conf != null) : "configuration not specified";
 
 		while (context.nextKey()) {
-			//reduce(context.getCurrentKey(), context.getValues(), context);
-			// If a back up store is used, reset it
+			IMetricKey key = context.getCurrentKey();
 			Iterator<IMetricWritable> iter = context.getValues().iterator();
-			for (IMetricWritable writable = iter.next(); ;iter.hasNext() ) {
-				logger.info("Metric is " + writable.getMetric());
+			
+			while(iter.hasNext()) {
+				IMetricWritable writable = iter.next();
 				MetricString string = (MetricString) writable.getMetric();
-				logger.info("Value is " + string.getValue());
+				logger.info(" Key is " + key.toString() + " Value is " + string.getStringValue());
 			}
 		}
 
@@ -132,10 +132,13 @@ public class ROperationReducer extends
 
 				logger.info("found rexp => type " + rexp.getRclass());
 
-				IMetric metric = RexpUtils.toMetric(rexp);
-				context.write(new MetricKey(output.getName()),
-						new MetricWritable<IMetric>(metric, MimeType.JSON));
+				IMetric<?> metric = RexpUtils.toMetric(rexp);
+				//context.write(new MetricKey(output.getName()),
+				//		new MetricWritable<IMetric<?>>(metric, MimeType.JSON));
 
+				context.write(new MetricKey("1"),
+						new MetricWritable<IMetric<?>>(metric, MimeType.JSON));
+				
 			} catch (RAdapterException e) {
 				logger.log(Level.SEVERE, "Error while retrieving output => "
 						+ output.getName(), e);

@@ -8,7 +8,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.simple.domain.IOCDomainModule;
+import com.simple.engine.hbase.HBaseTaskExecutionDao;
 import com.simple.engine.service.AnalyticsTaskService;
+import com.simple.engine.service.IAnalyticsOperationExecutor;
+import com.simple.engine.service.hadoop.mrv2.OperationDriver;
 
 public class IOCEngineModule extends AbstractModule {
 
@@ -17,6 +20,8 @@ public class IOCEngineModule extends AbstractModule {
 		install(new IOCDomainModule());
 		Names.bindProperties(binder(), getEngineProperties());
 		
+		bind(IAnalyticsOperationExecutor.class).to(OperationDriver.class);
+		bind(ITaskExecutionDao.class).to(HBaseTaskExecutionDao.class);
 		bind(AnalyticsTaskService.class).in(Singleton.class);
 	}
 	

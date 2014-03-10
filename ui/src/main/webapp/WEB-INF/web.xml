@@ -24,6 +24,25 @@
 		<session-timeout>30</session-timeout>
 	</session-config>
 
+	<servlet>
+		<servlet-name>solr-proxy</servlet-name>
+		<servlet-class>com.simple.original.server.servlet.ProxyServlet</servlet-class>
+		<init-param>
+			<param-name>targetUri</param-name>
+			<param-value>http://localhost:52280</param-value>
+		</init-param>
+		<init-param>
+			<param-name>log</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>solr-proxy</servlet-name>
+		<url-pattern>/hbase/*</url-pattern>
+	</servlet-mapping>
+
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>simple.html</welcome-file>

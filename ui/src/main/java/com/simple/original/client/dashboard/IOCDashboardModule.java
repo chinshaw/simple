@@ -48,10 +48,10 @@ public class IOCDashboardModule extends AbstractGinModule {
 		// instance methods otherwise we would simply a simple getter method.
 		GinMapBinder<String, IDashboardWidget> widgetBinder = GinMapBinder.newMapBinder(binder(), String.class, IDashboardWidget.class);
 
-		widgetBinder.addBinding(IGaugeWidgetModel.class.getName()).to(GaugeWidget.class);
-		widgetBinder.addBinding(IPlotWidgetModel.class.getName()).to(PlotWidget.class);
-		widgetBinder.addBinding(ITableWidgetModel.class.getName()).to(TableWidget.class);
-		widgetBinder.addBinding(IPanelWidgetModel.class.getName()).to(PanelWidget.class);
+		//widgetBinder.addBinding(IGaugeWidgetModel.class.getName()).to(GaugeWidget.class);
+		//widgetBinder.addBinding(IPlotWidgetModel.class.getName()).to(PlotWidget.class);
+		//widgetBinder.addBinding(ITableWidgetModel.class.getName()).to(TableWidget.class);
+		//widgetBinder.addBinding(IPanelWidgetModel.class.getName()).to(PanelWidget.class);
 
 		
 		/*

@@ -19,6 +19,7 @@ import com.simple.original.client.activity.AnalyticsTasksActivity;
 import com.simple.original.client.activity.AnalyticsTasksSchedulerActivity;
 import com.simple.original.client.activity.DashboardsActivity;
 import com.simple.original.client.activity.DataProvidersActivity;
+import com.simple.original.client.activity.HBaseActivity;
 import com.simple.original.client.activity.LoginActivity;
 import com.simple.original.client.activity.PreferencesActivity;
 import com.simple.original.client.activity.ServerLogsActivity;
@@ -40,6 +41,7 @@ import com.simple.original.client.view.IAnalyticsTaskView;
 import com.simple.original.client.view.IAnalyticsTasksSchedulerView;
 import com.simple.original.client.view.IDashboardsView;
 import com.simple.original.client.view.IDataProvidersView;
+import com.simple.original.client.view.IHBaseView;
 import com.simple.original.client.view.ILoginView;
 import com.simple.original.client.view.IMasterLayoutPanel;
 import com.simple.original.client.view.IOperationBuilderView;
@@ -59,6 +61,7 @@ import com.simple.original.client.view.desktop.AnalyticsTasksView;
 import com.simple.original.client.view.desktop.ApplicationAdministrationView;
 import com.simple.original.client.view.desktop.DashboardsView;
 import com.simple.original.client.view.desktop.DataProvidersView;
+import com.simple.original.client.view.desktop.HBaseView;
 import com.simple.original.client.view.desktop.LoginView;
 import com.simple.original.client.view.desktop.MasterLayoutPanel;
 import com.simple.original.client.view.desktop.PreferencesView;
@@ -93,6 +96,7 @@ public class IOCDesktopModule extends AbstractGinModule {
 		bind(DashboardsActivity.class);
 		bind(DashboardDesignerActivity.class);
 		bind(DataProvidersActivity.class);
+		bind(HBaseActivity.class);
 		bind(LoginActivity.class);
 		bind(PreferencesActivity.class);
 		bind(ServerLogsActivity.class);
@@ -113,6 +117,8 @@ public class IOCDesktopModule extends AbstractGinModule {
 
 		bind(IAdministrationView.class).to(ApplicationAdministrationView.class).in(Singleton.class);
 		bind(IDataProvidersView.class).to(DataProvidersView.class).in(Singleton.class);
+		
+		bind(IHBaseView.class).to(HBaseView.class).in(Singleton.class);
 	
 		bind(LoggerPanel.class).in(Singleton.class);
 		bind(NotificationPanel.class).in(Singleton.class);

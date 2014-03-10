@@ -11,9 +11,7 @@ import com.google.web.bindery.requestfactory.shared.Service;
 import com.google.web.bindery.requestfactory.shared.SkipInterfaceValidation;
 import com.simple.domain.dao.AnalyticsOperationDao;
 import com.simple.domain.dao.AnalyticsTaskDao;
-import com.simple.domain.dao.AnalyticsTaskExecutionDao;
 import com.simple.domain.dao.DaoBase;
-import com.simple.domain.dao.MetricDao;
 import com.simple.domain.dao.PersonDao;
 import com.simple.domain.dao.SqlDataProviderDriverDao;
 import com.simple.domain.model.ui.dashboard.DashboardDao;
@@ -23,7 +21,6 @@ import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationNameProxy;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
-import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
 import com.simple.original.client.proxy.AnalyticsTaskNameProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
 import com.simple.original.client.proxy.ApplicationBookmarkProxy;
@@ -32,14 +29,6 @@ import com.simple.original.client.proxy.DataProviderProxy;
 import com.simple.original.client.proxy.DatastoreObjectProxy;
 import com.simple.original.client.proxy.JavaAnalyticsOperationProxy;
 import com.simple.original.client.proxy.LinkableDashboardProxy;
-import com.simple.original.client.proxy.MetricCollectionProxy;
-import com.simple.original.client.proxy.MetricDoubleProxy;
-import com.simple.original.client.proxy.MetricIntegerProxy;
-import com.simple.original.client.proxy.MetricMatrixProxy;
-import com.simple.original.client.proxy.MetricNumberProxy;
-import com.simple.original.client.proxy.MetricPlotProxy;
-import com.simple.original.client.proxy.MetricProxy;
-import com.simple.original.client.proxy.MetricStringProxy;
 import com.simple.original.client.proxy.PersonProxy;
 import com.simple.original.client.proxy.PreferencesProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
@@ -122,12 +111,12 @@ public interface DaoRequestFactory extends RequestFactory {
 
 		// Request<Void> saveUserTaskLimit(List<PersonProxy> selectedUsersList,
 		// String taskLimitValue);
-		Request<List<PersonProxy>> search(int start, int max, RecordFecthType recordType, String searchText, String searchColumn, String sortColumn, SortOrder sortOrder);
+		Request<List<PersonProxy>> search(int start, int max, RecordFecthType recordType, String searchText, String searchColumn,
+				String sortColumn, SortOrder sortOrder);
 	}
 
-	@ExtraTypes({ RAnalyticsOperationProxy.class, JavaAnalyticsOperationProxy.class, AnalyticsOperationInputProxy.class, AnalyticsOperationOutputProxy.class,
-			UIUserInputModelProxy.class, UIDateInputModelProxy.class, UIComplexInputModelProxy.class, MetricProxy.class, MetricNumberProxy.class, MetricDoubleProxy.class,
-			MetricIntegerProxy.class, MetricStringProxy.class, MetricCollectionProxy.class, MetricMatrixProxy.class, MetricPlotProxy.class })
+	@ExtraTypes({ RAnalyticsOperationProxy.class, JavaAnalyticsOperationProxy.class, AnalyticsOperationInputProxy.class,
+			AnalyticsOperationOutputProxy.class, UIUserInputModelProxy.class, UIDateInputModelProxy.class, UIComplexInputModelProxy.class, })
 	@Service(value = AnalyticsOperationDao.class, locator = InjectingServiceLocator.class)
 	public interface AnalyticsOperationRequest extends DaoRequest<AnalyticsOperationProxy> {
 
@@ -171,9 +160,9 @@ public interface DaoRequestFactory extends RequestFactory {
 	 * 
 	 * @author chinshaw
 	 */
-	@ExtraTypes({ RAnalyticsOperationProxy.class, DataProviderProxy.class, DashboardProxy.class, SqlDataProviderProxy.class, RDataProviderProxy.class, MetricProxy.class,
-			MetricStringProxy.class, MetricNumberProxy.class, MetricIntegerProxy.class, MetricDoubleProxy.class, MetricCollectionProxy.class, MetricMatrixProxy.class,
-			MetricPlotProxy.class, UIUserInputModelProxy.class, UIDateInputModelProxy.class, UIComplexInputModelProxy.class, LinkableDashboardProxy.class })
+	@ExtraTypes({ RAnalyticsOperationProxy.class, DataProviderProxy.class, DashboardProxy.class, SqlDataProviderProxy.class,
+			RDataProviderProxy.class, UIUserInputModelProxy.class, UIDateInputModelProxy.class, UIComplexInputModelProxy.class,
+			LinkableDashboardProxy.class })
 	@Service(value = AnalyticsTaskDao.class, locator = InjectingServiceLocator.class)
 	public interface AnalyticsTaskRequest extends DaoRequest<AnalyticsTaskProxy> {
 
@@ -238,8 +227,6 @@ public interface DaoRequestFactory extends RequestFactory {
 
 		Request<List<AnalyticsTaskProxy>> getAnalyticsTasksForOperationIds(Set<Long> operationIds);
 
-		Request<AnalyticsTaskExecutionProxy> getLastAnalyticsTaskExecution(Long analyticsTaskId);
-
 		Request<List<AnalyticsOperationInputProxy>> listAllInputs(Long taskId);
 
 		/**
@@ -258,8 +245,7 @@ public interface DaoRequestFactory extends RequestFactory {
 		// reportsToBeSubscribed, List<Long> reportsToBeUnSubscribed);
 	}
 
-	@ExtraTypes({ DashboardProxy.class, RAnalyticsOperationProxy.class, MetricProxy.class, MetricNumberProxy.class, MetricIntegerProxy.class, MetricDoubleProxy.class,
-			MetricStringProxy.class, MetricCollectionProxy.class, MetricPlotProxy.class, MetricMatrixProxy.class, LinkableDashboardProxy.class })
+	@ExtraTypes({ DashboardProxy.class, RAnalyticsOperationProxy.class, LinkableDashboardProxy.class })
 	@Service(value = DashboardDao.class, locator = InjectingServiceLocator.class)
 	public interface DashboardRequest extends DaoRequest<DashboardProxy> {
 
@@ -269,34 +255,6 @@ public interface DaoRequestFactory extends RequestFactory {
 		Request<Long> save(DashboardProxy dashboard);
 
 		Request<DashboardProxy> findDashboardForTask(Long taskId);
-
-		Request<DashboardProxy> getLastBoundDashboard(Long dashboardId);
-	}
-
-	@ExtraTypes({ MetricProxy.class, MetricMatrixProxy.DoubleColumnProxy.class, MetricMatrixProxy.StringColumnProxy.class, MetricMatrixProxy.IntegerColumnProxy.class,
-			MetricNumberProxy.class, MetricIntegerProxy.class, MetricDoubleProxy.class, MetricStringProxy.class, MetricCollectionProxy.class, MetricPlotProxy.class })
-	@Service(value = MetricDao.class, locator = InjectingServiceLocator.class)
-	public interface MetricRequest extends RequestContext {
-
-		Request<MetricCollectionProxy> getMetricCollection(Long collectionId);
-
-		Request<MetricCollectionProxy> getMetricCollection(Long collectionId, int start, int max);
-
-		Request<MetricMatrixProxy> getMetricMatrix(Long matrixId);
-
-		Request<Integer> getMetricMatrixRowCount(Long matrixId);
-	}
-
-
-	@Service(value = AnalyticsTaskExecutionDao.class, locator = InjectingServiceLocator.class)
-	public interface AnalyticsTaskExecutionRequest extends DaoRequest<AnalyticsTaskExecutionProxy> {
-
-		Request<List<AnalyticsTaskExecutionProxy>> findRange(Long analyticsTaskId, int start, int end);
-
-		Request<Void> clearAllHistory();
-
-		// Request<List<String>> getChartsPath(AnalyticsTaskExecutionProxy
-		// analyticsTaskExecution);
 	}
 
 	public PersonRequest personRequest();
@@ -307,9 +265,6 @@ public interface DaoRequestFactory extends RequestFactory {
 
 	public AnalyticsOperationRequest createAnalyticsOperationRequest();
 
-	public AnalyticsTaskExecutionRequest analyticsTaskExecutionRequest();
-
 	public DataProviderRequest dataProviderRequest();
 
-	public MetricRequest metricRequest();
 }

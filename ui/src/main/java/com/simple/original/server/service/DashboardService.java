@@ -8,83 +8,79 @@ import java.util.logging.Logger;
 
 import com.google.inject.Inject;
 import com.simple.domain.model.AnalyticsTask;
-import com.simple.domain.model.AnalyticsTaskExecution;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.domain.model.ui.dashboard.DashboardDao;
 import com.simple.domain.model.ui.dashboard.DashboardUtils;
 import com.simple.engine.service.AnalyticsTaskExecutionException;
-import com.simple.engine.service.AnalyticsTaskService;
 import com.simple.original.api.analytics.IMetric;
+import com.simple.original.api.analytics.ITaskExecution;
 import com.simple.original.api.exceptions.DashboardException;
+import com.simple.original.client.service.IAnalyticsTaskService;
 
 public class DashboardService {
 
 	private static final Logger logger = Logger.getLogger(DashboardService.class.getName());
-	
+
 	private final DashboardDao dashboardDao;
-	
-	private final AnalyticsTaskService analyticsService;
+
+	private final IAnalyticsTaskService analyticsService;
 
 	@Inject
-	public DashboardService(DashboardDao dashboardDao, AnalyticsTaskService analyticsService) {
+	public DashboardService(DashboardDao dashboardDao, IAnalyticsTaskService analyticsService) {
 		this.dashboardDao = dashboardDao;
 		this.analyticsService = analyticsService;
 	}
-	
-	public Dashboard executeInteractive(Long dashboardId,
-			List<AnalyticsOperationInput> inputs,
-			List<DataProvider> dataProviders) throws DashboardException {
-		
+
+	public Dashboard executeInteractive(Long dashboardId, List<AnalyticsOperationInput> inputs, List<DataProvider> dataProviders)
+			throws DashboardException {
+
 		Dashboard dashboard = dashboardDao.find(dashboardId);
 		if (dashboard == null) {
 			throw new DashboardException("Inavlid dashboard id " + dashboardId);
 		}
-		
+
 		return executeInteractive(dashboard, inputs, dataProviders);
 	}
-	
-	public Dashboard executeInteractive(Dashboard dashboard,
-			List<AnalyticsOperationInput> inputs,
-			List<DataProvider> dataProviders) throws DashboardException {
+
+	public Dashboard executeInteractive(Dashboard dashboard, List<AnalyticsOperationInput> inputs, List<DataProvider> dataProviders)
+			throws DashboardException {
+		return null;
+		//
+//		if (dashboard == null) {
+//			throw new DashboardException("Invalid dashboard specified");
+//		}
+//
+//		AnalyticsTask task = dashboard.getAnalyticsTask();
+//
+//		ITaskExecution execution = analyticsService.executeAnalyticsTask(task, inputs, dataProviders);
+//		// Map<Long, Metric> outputsMap =
+//		// createMetricMap(execution.getExecutionMetrics());
+//		// DashboardUtils.bindDashboard(dashboard, outputsMap);
+//
+//		return dashboard;
 		
-		if (dashboard == null) {
-			throw new DashboardException("Invalid dashboard specified");
-		}
-		
-		AnalyticsTask task = dashboard.getAnalyticsTask();
-		try {
-			AnalyticsTaskExecution execution = analyticsService.executeAnalyticsTask(task, inputs, dataProviders);
-		//	Map<Long, Metric> outputsMap = createMetricMap(execution.getExecutionMetrics());
-		//	DashboardUtils.bindDashboard(dashboard, outputsMap);	
-		} catch (AnalyticsTaskExecutionException e) {
-			throw new DashboardException("Unable to execute task", e);
-		}
-		
-		return dashboard;
 	}
 
 	public Dashboard getPreviousExecution(Long dashboardId) {
 		Dashboard dashboard = dashboardDao.findDashboardForTask(dashboardId);
-		
-		//Map<Long, Metric> outputsMap = createMetricMap(dashboard.
-		//		.getExecutionMetrics());
-		//DashboardUtils.bindDashboard(dashboard, outputsMap);
+
+		// Map<Long, Metric> outputsMap = createMetricMap(dashboard.
+		// .getExecutionMetrics());
+		// DashboardUtils.bindDashboard(dashboard, outputsMap);
 		return null;
 
 	}
 
 	public Dashboard getLatestDashboard(Long dashboardId) {
-	
+
 		return null;
 	}
-	
-	private Dashboard fetchDashboard(Long taskId, List<IMetric> outputs)
-			throws DashboardException {
+
+	private Dashboard fetchDashboard(Long taskId, List<IMetric> outputs) throws DashboardException {
 		if (taskId == null) {
-			throw new IllegalArgumentException(
-					"You must not be null when retrieving a dashboard");
+			throw new IllegalArgumentException("You must not be null when retrieving a dashboard");
 		}
 
 		logger.info("fetchDashboard outputs size is " + outputs);
@@ -99,8 +95,7 @@ public class DashboardService {
 			// outputsMap = MetricUtils.mericListAsMap(outputs);
 		} catch (IllegalArgumentException ill) {
 			// one of our metrics is null or has a null name.
-			logger.log(Level.SEVERE,
-					"Unable to convert metrics to map because ", ill);
+			logger.log(Level.SEVERE, "Unable to convert metrics to map because ", ill);
 			for (IMetric output : outputs) {
 				if (output != null) {
 					logger.info("known metric -> " + output.toString());
@@ -114,7 +109,7 @@ public class DashboardService {
 
 		return dashboard;
 	}
-	
+
 	/**
 	 * Creates a map of the metrics with the key of the
 	 * AnalyticsOperationOutptuts#getId()
@@ -134,12 +129,9 @@ public class DashboardService {
 		HashMap<Long, IMetric> metricMap = new HashMap<Long, IMetric>();
 		for (IMetric metric : metrics) {
 
-//			metricMap.put(metric.getOrigin().getId(), metric);
+			// metricMap.put(metric.getOrigin().getId(), metric);
 		}
 		return metricMap;
 	}
-	
-	
-
 
 }

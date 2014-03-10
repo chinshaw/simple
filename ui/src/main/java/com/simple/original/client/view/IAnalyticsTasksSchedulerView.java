@@ -6,8 +6,8 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.view.client.HasData;
+import com.simple.original.api.analytics.ITaskExecution;
 import com.simple.original.api.domain.GroupMembership;
-import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
 import com.simple.original.client.proxy.QuartzJobExecutionContextProxy;
 import com.simple.original.client.proxy.QuartzTriggerKeyProxy;
 import com.simple.original.client.proxy.QuartzTriggerProxy;
@@ -36,7 +36,7 @@ public interface IAnalyticsTasksSchedulerView extends IView {
 
 	void setUserView(GroupMembership userGroup);
 
-	CellTable<AnalyticsTaskExecutionProxy> getDisplayTable();
+	CellTable<ITaskExecution> getDisplayTable();
 
     /**
      * To get the search Text.
@@ -49,7 +49,7 @@ public interface IAnalyticsTasksSchedulerView extends IView {
 	 * @param column
 	 * @return
 	 */
-	int getColumnIndex(Column<AnalyticsTaskExecutionProxy, ?> column);
+	int getColumnIndex(Column<ITaskExecution, ?> column);
 	
 	/**
 	 * Method for implementing sort functionality.

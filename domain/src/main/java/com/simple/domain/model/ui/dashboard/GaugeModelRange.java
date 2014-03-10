@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
-import com.simple.domain.model.metric.NumberRange;
 import com.simple.original.api.analytics.Criticality;
 
 @Embeddable

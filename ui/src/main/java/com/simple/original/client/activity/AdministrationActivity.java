@@ -36,6 +36,6 @@ public class AdministrationActivity extends
 
     @Override
     public void clearExecutionHistory() {
-    	daoRequestFactory.analyticsTaskExecutionRequest().clearAllHistory().fire();
+    	
     }
 }

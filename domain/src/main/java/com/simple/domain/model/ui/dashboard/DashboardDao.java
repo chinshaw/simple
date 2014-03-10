@@ -1,8 +1,5 @@
  package com.simple.domain.model.ui.dashboard;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -16,10 +13,6 @@ import com.simple.domain.dao.AnalyticsTaskDao;
 import com.simple.domain.dao.DaoBase;
 import com.simple.domain.dao.IDaoRequest;
 import com.simple.domain.model.AnalyticsTask;
-import com.simple.domain.model.AnalyticsTaskExecution;
-import com.simple.domain.model.metric.Metric;
-import com.simple.original.api.analytics.IMetric;
-import com.simple.original.api.exceptions.DashboardException;
 import com.simple.original.api.exceptions.DomainException;
 
 public class DashboardDao extends DaoBase<Dashboard> implements IDaoRequest<Dashboard> {
@@ -75,19 +68,5 @@ public class DashboardDao extends DaoBase<Dashboard> implements IDaoRequest<Dash
             dashboard = null;
         }
         return dashboard;
-    }
-
-    public Dashboard getLastBoundDashboard(Long dashboardId) throws DashboardException {
-        Dashboard dashboard = find(dashboardId);
-        AnalyticsTaskExecution taskExeuciton = taskDao.getLastAnalyticsTaskExecution(dashboard.getAnalyticsTask().getId());
-        Map<Long, IMetric> metricMap = new HashMap<Long, IMetric>();
-        
-        /*
-        for (IMetric metric : taskExeuciton.getExecutionMetrics()) {
-        	metricMap.put(metric.getOrigin().getId(), metric);
-        }
-        */
-        
-        return DashboardUtils.bindDashboard(dashboard, metricMap);
     }
 }

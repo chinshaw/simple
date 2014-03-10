@@ -30,8 +30,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.HasData;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
+import com.simple.original.api.analytics.ITaskExecution;
 import com.simple.original.api.domain.GroupMembership;
-import com.simple.original.client.proxy.AnalyticsTaskExecutionProxy;
 import com.simple.original.client.proxy.PersonProxy;
 import com.simple.original.client.proxy.QuartzCronTriggerProxy;
 import com.simple.original.client.proxy.QuartzJobExecutionContextProxy;
@@ -54,7 +54,7 @@ public class AnalyticsTasksSchedulerView extends AbstractView implements IAnalyt
      */   
 	private static final Logger logger = Logger.getLogger(AnalyticsTasksSchedulerView.class.getName());
 
-	 Column<AnalyticsTaskExecutionProxy, String> ownerColumn = null;
+	 Column<ITaskExecution, String> ownerColumn = null;
 
     @UiField
     ErrorPanel errorPanel;
@@ -100,7 +100,7 @@ public class AnalyticsTasksSchedulerView extends AbstractView implements IAnalyt
 	private static int DEFAULT_FAST_FORWARD_ROWS = 1000;    
 
     @UiField(provided = true)
-    CellTable<AnalyticsTaskExecutionProxy> executedTasks;
+    CellTable<ITaskExecution> executedTasks;
 
     final DateTimeFormat timeFormat = DateFormats.getTableDateFormat();
 
@@ -142,26 +142,26 @@ public class AnalyticsTasksSchedulerView extends AbstractView implements IAnalyt
     /**
      * This is to show owner Column 
      */   
-    public void showOwnerColumn() {
-    	 ownerColumn = new Column<AnalyticsTaskExecutionProxy, String>(new TextCell()) {
-             @Override
-             public String getValue(AnalyticsTaskExecutionProxy analytics) {             	
-             	if(analytics.getAnalyticsTask().isPublic()){
-             		return "Public";
-             	}else{
-             	    PersonProxy owner = analytics.getAnalyticsTask().getOwner();
-             		if(owner != null){
-                 		return owner.getName();               		
-                 	}else{
-                 		return "";
-                 	}
-             	}
-             }
-         };
-         ownerColumn.setSortable(true);
-         logger.info("show owner column called.....");
-         executedTasks.addColumn(ownerColumn, "Owner", "");
-    }
+//    public void showOwnerColumn() {
+//    	 ownerColumn = new Column<ITaskExecution, String>(new TextCell()) {
+//             @Override
+//             public String getValue(ITaskExecution analytics) {             	
+//             	if(analytics.getAnalyticsTask().isPublic()){
+//             		return "Public";
+//             	}else{
+//             	    PersonProxy owner = analytics.getAnalyticsTask().getOwner();
+//             		if(owner != null){
+//                 		return owner.getName();               		
+//                 	}else{
+//                 		return "";
+//                 	}
+//             	}
+//             }
+//         };
+//         ownerColumn.setSortable(true);
+//         logger.info("show owner column called.....");
+//         executedTasks.addColumn(ownerColumn, "Owner", "");
+//    }
     
     /**
      * Function to hide the Owner Column
@@ -357,12 +357,12 @@ public class AnalyticsTasksSchedulerView extends AbstractView implements IAnalyt
     }   
 
     private void initExecutedTasks() {
-        executedTasks = new CellTable<AnalyticsTaskExecutionProxy>(15, getResources());
+        executedTasks = new CellTable<ITaskExecution>(15, getResources());
 
-        Column<AnalyticsTaskExecutionProxy, String> taskName = new Column<AnalyticsTaskExecutionProxy, String>(new TextCell()) {
+        Column<ITaskExecution, String> taskName = new Column<ITaskExecution, String>(new TextCell()) {
 
             @Override
-            public String getValue(AnalyticsTaskExecutionProxy taskExecution) {
+            public String getValue(ITaskExecution taskExecution) {
                 if (taskExecution.getAnalyticsTask() == null) {
                     return "Unknown Task";
                 }
@@ -370,26 +370,26 @@ public class AnalyticsTasksSchedulerView extends AbstractView implements IAnalyt
             }
         };
         
-        Column<AnalyticsTaskExecutionProxy, Date> startTime = new Column<AnalyticsTaskExecutionProxy, Date>(new DateCell(timeFormat)) {
+        Column<ITaskExecution, Date> startTime = new Column<ITaskExecution, Date>(new DateCell(timeFormat)) {
 
             @Override
-            public Date getValue(AnalyticsTaskExecutionProxy taskExecution) {
+            public Date getValue(ITaskExecution taskExecution) {
                 return taskExecution.getStartTime();
             }
         };
 
-        Column<AnalyticsTaskExecutionProxy, Date> completedTime = new Column<AnalyticsTaskExecutionProxy, Date>(new DateCell(timeFormat)) {
+        Column<ITaskExecution, Date> completedTime = new Column<ITaskExecution, Date>(new DateCell(timeFormat)) {
 
             @Override
-            public Date getValue(AnalyticsTaskExecutionProxy taskExecution) {
+            public Date getValue(ITaskExecution taskExecution) {
                 return taskExecution.getCompletionTime();
             }
         };
 
-        Column<AnalyticsTaskExecutionProxy, String> completionStatus = new Column<AnalyticsTaskExecutionProxy, String>(new TextCell()) {
+        Column<ITaskExecution, String> completionStatus = new Column<ITaskExecution, String>(new TextCell()) {
 
             @Override
-            public String getValue(AnalyticsTaskExecutionProxy taskExecution) {
+            public String getValue(ITaskExecution taskExecution) {
                 if (taskExecution.getCompletionStatus() != null) {
                     return taskExecution.getCompletionStatus().name();
                 } else {
@@ -443,7 +443,7 @@ public class AnalyticsTasksSchedulerView extends AbstractView implements IAnalyt
     }
 
 	@Override
-	public CellTable<AnalyticsTaskExecutionProxy> getDisplayTable() {
+	public CellTable<ITaskExecution> getDisplayTable() {
 		return executedTasks;
 	}
 
@@ -463,7 +463,7 @@ public class AnalyticsTasksSchedulerView extends AbstractView implements IAnalyt
 	
 
 	@Override
-	public int getColumnIndex(Column<AnalyticsTaskExecutionProxy, ?> column) {
+	public int getColumnIndex(Column<ITaskExecution, ?> column) {
 		return this.executedTasks.getColumnIndex(column);
 	}
 

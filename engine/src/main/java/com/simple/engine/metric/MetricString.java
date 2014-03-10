@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 
 import com.dyuproject.protostuff.Input;
 import com.dyuproject.protostuff.LinkedBuffer;
-import com.dyuproject.protostuff.Message;
 import com.dyuproject.protostuff.Output;
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.Schema;
@@ -53,6 +52,7 @@ public final class MetricString extends Metric<MetricString> {
 					break;
 				case 2:
 					message.value = input.readByteArray();
+					break;
 				default:
 					Logger.getLogger(MetricString.class.getName()).info("Number is " + number);
 					input.handleUnknownField(number, this);

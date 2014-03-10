@@ -1,96 +1,13 @@
 package com.simple.reporting;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.simple.domain.export.MetricMatrixDeserializerMixin;
-import com.simple.domain.model.metric.Metric;
-import com.simple.domain.model.metric.MetricMatrix;
-import com.simple.domain.model.metric.MetricMatrix.Column;
-import com.simple.domain.model.metric.MetricMatrixDeserializer;
 
 public class ExportService {
 
 	@Inject
 	@Named("com.simple.tables.dir")
 	private static String tablesDir;
-	
-	/**
-	 * Right now this function does not have enough error checking it is expecting
-	 * a MetricCollection structured like a table which means it is a MetriColleciton of
-	 * MetricCollections and each of the child metric collections will be treated as a
-	 * column. It expects each column to have a MetricNumber of MetricString and should not 
-	 * contain a metric collection.
-	 * @param metricCollection The collection to convert to excel file. This needs to be
-	 * formatted as a dataframe.
-	 * @throws IOException If there is a problem writing to the ByteArrayOutputStream
-	 */
-	public byte[] exportMetricMatrixToXls(MetricMatrix metricMatrix) throws IOException {
-		if(metricMatrix == null) {
-			throw new IllegalArgumentException("matrix id must be valid long");
-		}
-		
-		byte[] xlsData = null;
-
-		
-		String filepath = tablesDir + metricMatrix.getJsonUrl();
-
-		ObjectMapper jsonMapper = new ObjectMapper();
-		jsonMapper.addMixInAnnotations(MetricMatrixDeserializer.class, MetricMatrixDeserializerMixin.class);
-		
-		MetricMatrixDeserializer metricMatrixDeserializer = jsonMapper.readValue(new File(filepath), MetricMatrixDeserializer.class);
-
-		Workbook wb = new SXSSFWorkbook(100); // keep 100 rows in memory,
-												// exceeding rows will be
-												// flushed to disk
-		
-		ByteArrayOutputStream out = null;
-		
-		try {
-			out = new ByteArrayOutputStream();
-			Sheet sheet = wb.createSheet();
-		//	addMetricCollectionToSheet(sheet, metricMatrixDeserializer);
-			wb.write(out);
-			
-			xlsData = out.toByteArray();
-		} finally {
-			if (out != null) {
-				out.close();
-			}
-		}
-		
-		return xlsData;
-	}
-	
-	
-	public ByteArrayOutputStream exportAnalyticsTaskExecutionToExcel(List<Metric> metrics) throws IOException {
-        Workbook wb = new SXSSFWorkbook(100); // keep 100 rows in memory,
-                                                // exceeding rows will be
-                                                // flushed to disk
-        /*
-        for (Metric metric : metrics) {
-            
-        }
-        
-        Sheet sh = wb.createSheet();
-         */
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        
-        wb.write(out);
-        return out;
-    }
-	
 	
 	/*private void addMetricCollectionToSheet(Sheet sheet, MetricCollection metricCollection) {
 	    int columnCount = metricCollection.getValue().size();

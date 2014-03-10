@@ -37,7 +37,7 @@ public class GaugeWidget extends AbstractDashboardWidget<IGaugeWidgetModel> impl
 
 	private boolean fastDraw = true;
 
-	@Inject
+	//@Inject
 	public GaugeWidget(final EventBus eventBus, Resources resources, IGaugeWidgetModel model) {
 		super(eventBus, resources);
 		initWidget(container);

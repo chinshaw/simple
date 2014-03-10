@@ -37,7 +37,6 @@ public class IOCServletModule extends ServletModule {
 		bind(InjectingServiceLocator.class);
 
 		bind(AnalyticsTaskBackupRestoreServlet.class).in(Scopes.SINGLETON);
-		bind(AnalyticsExportServlet.class).in(Scopes.SINGLETON);
 		bind(NotificationServlet.class).in(Scopes.SINGLETON);
 
 		serve("/rf/public").with(InjectedRequestFactoryServlet.class);
@@ -45,9 +44,8 @@ public class IOCServletModule extends ServletModule {
 		serve("/rf/secure/analytics").with(InjectedRequestFactoryServlet.class);
 		serve("/rf/secure/analyticsTaskRestore").with(
 				InjectedRequestFactoryServlet.class);
-		serve("/rf/secure/analyticsExport").with(
-				InjectedRequestFactoryServlet.class);
 		serve("/rf/notification").with(NotificationServlet.class);
+		
 
 		filter("/*").through(ShiroFilter.class);
 

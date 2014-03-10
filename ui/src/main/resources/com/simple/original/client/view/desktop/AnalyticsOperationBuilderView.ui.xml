@@ -49,6 +49,8 @@
 		<g:center>
 			<g:SplitLayoutPanel>
 				<g:west size="500">
+				
+				
 					<g:HTMLPanel ui:field="contentPanel" styleName="{resources.style.content}">
 						<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
 						<!-- <t:EnumEditor ui:field="typeEditor"></t:EnumEditor> -->
@@ -91,7 +93,7 @@
 							<br />
 							<div class="{resources.style.contentBlock}">
 								<div class="{resources.style.title}">
-									<label>Operation Data Providers</label>
+									<label>Data Providers</label>
 									<hr style="display:inline;"></hr>
 								</div>
 								<div class="{resources.style.content}">

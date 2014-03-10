@@ -11,17 +11,17 @@ import javax.persistence.NoResultException;
 
 import com.google.inject.Inject;
 import com.simple.domain.dao.AnalyticsTaskDao;
-import com.simple.domain.dao.AnalyticsTaskExecutionDao;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.AnalyticsTask;
-import com.simple.domain.model.AnalyticsTaskExecution;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.engine.ITaskExecutionDao;
+import com.simple.engine.metric.AnalyticsTaskExecution;
 import com.simple.engine.service.hadoop.config.ConfigurationException;
-import com.simple.original.api.analytics.IAnalyticsTaskExecution;
-import com.simple.original.api.analytics.IAnalyticsTaskExecution.TaskCompletionStatus;
 import com.simple.original.api.analytics.IMetric;
+import com.simple.original.api.analytics.ITaskExecution;
+import com.simple.original.api.analytics.ITaskExecution.TaskCompletionStatus;
 import com.simple.original.api.exceptions.AnalyticsTaskException;
 import com.simple.original.api.exceptions.DashboardException;
 import com.simple.original.api.exceptions.DomainException;
@@ -40,13 +40,13 @@ public class AnalyticsTaskService {
 
 	private final AnalyticsTaskDao taskDao;
 
-	private final AnalyticsTaskExecutionDao executionDao;
+	private final ITaskExecutionDao executionDao;
 	
 	private final IAnalyticsOperationExecutor provider;
 
 	@Inject
 	public AnalyticsTaskService(AnalyticsTaskDao taskDao,
-			AnalyticsTaskExecutionDao executionDao, IAnalyticsOperationExecutor provider) {
+			ITaskExecutionDao executionDao, IAnalyticsOperationExecutor provider) {
 		this.taskDao = taskDao;
 		this.executionDao = executionDao;
 		this.provider = provider;
@@ -61,23 +61,24 @@ public class AnalyticsTaskService {
 	 * @throws AnalyticsTaskException
 	 * @throws DashboardException
 	 */
-	public AnalyticsTaskExecution getPreviousExecution(
+	public ITaskExecution getPreviousExecution(
 			Long analyticsTaskExecutionId) throws AnalyticsTaskException,
 			DashboardException {
-		AnalyticsTaskExecution taskCompletion = null;
+		ITaskExecution execution = null;
 		try {
 			systemLogger
 					.info("Getting previous execution for taskexecution id "
 							+ analyticsTaskExecutionId);
 
-			taskCompletion = executionDao.find(analyticsTaskExecutionId);
+			execution = null;
+		//	execution = executionDao.find(analyticsTaskExecutionId);
 
 		} catch (NoResultException e) {
 			// We didn't get a result so let's run the task and return those
 			// results.
 			logger.info("Analytics Task was null so we will run the task");
 		}
-		return taskCompletion;
+		return execution;
 	}
 
 	/**
@@ -98,14 +99,14 @@ public class AnalyticsTaskService {
 	 * @throws VirtualFactoryRServiceException
 	 *             If there is an error returned while executing the task.
 	 */
-	public AnalyticsTaskExecution getLatestTaskCompletion(Long taskId)
+	public ITaskExecution getLatestTaskCompletion(Long taskId)
 			throws AnalyticsTaskException, AnalyticsTaskExecutionException,
 			DashboardException, DomainException {
 
-		AnalyticsTaskExecution taskCompletion = null;
+		ITaskExecution taskCompletion = null;
 
 		try {
-			taskCompletion = taskDao.getLastAnalyticsTaskExecution(taskId);
+			taskCompletion = executionDao.findLastTaskExecution(taskId);
 		} catch (NoResultException e) {
 			// Do nothing we will return null to client.
 			taskCompletion = executeInteractive(taskId, null, null);
@@ -135,7 +136,7 @@ public class AnalyticsTaskService {
 	 * @throws IOException
 	 * @throws VirtualFactoryRServiceException
 	 */
-	public AnalyticsTaskExecution executeInteractive(Long analyticsTaskId,
+	public ITaskExecution executeInteractive(Long analyticsTaskId,
 			List<AnalyticsOperationInput> userInputs,
 			List<DataProvider> dataProviders)
 			throws AnalyticsTaskExecutionException, DashboardException,
@@ -159,7 +160,7 @@ public class AnalyticsTaskService {
 			userInputs = task.getAllInputs();
 		}
 
-		AnalyticsTaskExecution execution = null;
+		ITaskExecution execution = null;
 
 		try {
 			execution = executeAnalyticsTask(task, userInputs, dataProviders);
@@ -170,7 +171,6 @@ public class AnalyticsTaskService {
 			throw e;
 		} finally {
 			if (execution != null) {
-				execution.setInteractive(true);
 				executionDao.save(execution);
 			}
 		}
@@ -186,13 +186,13 @@ public class AnalyticsTaskService {
 	 * @throws AnalyticsTaskException
 	 * @throws DashboardException
 	 */
-	public AnalyticsTaskExecution executeAnalyticsTask(Long taskId)
+	public ITaskExecution executeAnalyticsTask(Long taskId)
 			throws AnalyticsTaskExecutionException, DashboardException {
 		if (taskId == null) {
 			throw new RuntimeException("Task id is a required parameter");
 		}
 		AnalyticsTask task = taskDao.find(taskId);
-		AnalyticsTaskExecution execution = executeAnalyticsTask(task,
+		ITaskExecution execution = executeAnalyticsTask(task,
 				task.getAllInputs(), task.getDataProviders());
 
 		return execution;
@@ -209,7 +209,7 @@ public class AnalyticsTaskService {
 	 * @throws AnalyticsTaskException
 	 * @throws AnalyticsTaskExecutionException
 	 */
-	public AnalyticsTaskExecution executeAnalyticsTask(AnalyticsTask task,
+	public ITaskExecution executeAnalyticsTask(AnalyticsTask task,
 			List<AnalyticsOperationInput> inputs,
 			List<DataProvider> dataProviders)
 			throws AnalyticsTaskExecutionException {
@@ -240,7 +240,7 @@ public class AnalyticsTaskService {
 									outputs.values());
 						} else {
 							taskExecution
-									.setCompletionStatus(IAnalyticsTaskExecution.TaskCompletionStatus.FAILED);
+									.setCompletionStatus(TaskCompletionStatus.FAILED);
 						}
 
 					} catch (AnalyticsOperationException | ConfigurationException e) {
