@@ -1,4 +1,4 @@
-package com.simple.engine.metric;
+package com.simple.engine.api;
 
 import com.dyuproject.protostuff.Message;
 
@@ -6,14 +6,14 @@ import com.dyuproject.protostuff.Message;
 
 public interface IMetric<T> extends Message<T>{
 
-	public static enum MimeType {
-		JSON("application/json"),
-		XML("application/xml"),
-		PROTO("application/x-protobuf"),
-		TEXT("text/plain");
+	public static enum MediaType {
+		APPLICATION_JSON("application/json"),
+		APPLICATION_XML("application/xml"),
+		APPLICATION_PROTOBUF("application/x-protobuf"),
+		PLAINTEXT("text/plain");
 		
 		private final String type;
-		MimeType(String type) {
+		MediaType(String type) {
 			this.type = type;
 		}
 		

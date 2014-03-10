@@ -1,6 +1,6 @@
 package com.simple.engine;
 
-import com.simple.engine.metric.IMetricKey;
+import com.simple.engine.api.IMetricKey;
 import com.simple.original.api.analytics.ITaskExecution;
 
 

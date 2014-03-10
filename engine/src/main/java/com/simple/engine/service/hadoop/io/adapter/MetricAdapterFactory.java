@@ -2,7 +2,7 @@ package com.simple.engine.service.hadoop.io.adapter;
 
 import org.apache.hadoop.conf.Configuration;
 
-import com.simple.engine.metric.IMetricKey;
+import com.simple.engine.api.IMetricKey;
 import com.simple.engine.service.hadoop.io.IMetricWritable;
 import com.simple.engine.service.hadoop.io.format.MetricInputFormat;
 import com.simple.engine.service.hadoop.io.format.MetricOutputFormat;

@@ -12,9 +12,9 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
-import com.simple.engine.metric.IMetric;
-import com.simple.engine.metric.IMetric.MimeType;
-import com.simple.engine.metric.IMetricKey;
+import com.simple.engine.api.IMetric;
+import com.simple.engine.api.IMetricKey;
+import com.simple.engine.api.IMetric.MediaType;
 import com.simple.engine.metric.MetricKey;
 import com.simple.engine.metric.MetricString;
 import com.simple.engine.metric.RexpUtils;
@@ -133,11 +133,9 @@ public class ROperationReducer extends
 				logger.info("found rexp => type " + rexp.getRclass());
 
 				IMetric<?> metric = RexpUtils.toMetric(rexp);
-				//context.write(new MetricKey(output.getName()),
-				//		new MetricWritable<IMetric<?>>(metric, MimeType.JSON));
 
 				context.write(new MetricKey("1"),
-						new MetricWritable<IMetric<?>>(metric, MimeType.JSON));
+						new MetricWritable<IMetric<?>>(metric, MediaType.APPLICATION_PROTOBUF));
 				
 			} catch (RAdapterException e) {
 				logger.log(Level.SEVERE, "Error while retrieving output => "

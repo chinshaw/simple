@@ -1,4 +1,4 @@
-package com.simple.engine.metric;
+package com.simple.engine.api;
 
 import org.apache.hadoop.io.WritableComparable;
 
