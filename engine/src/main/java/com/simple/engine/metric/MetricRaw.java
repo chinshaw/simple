@@ -14,7 +14,7 @@ import com.simple.engine.api.IMetricKey;
 
 public final class MetricRaw extends Metric<MetricRaw> implements Message<MetricRaw> {
 
-	static final Schema<MetricRaw> SCHEMA = new Schema<MetricRaw>() {
+	public static final Schema<MetricRaw> SCHEMA = new Schema<MetricRaw>() {
 
 		final java.util.HashMap<String, Integer> fieldMap = new java.util.HashMap<String, Integer>();
 		{

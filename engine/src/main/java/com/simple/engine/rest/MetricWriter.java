@@ -5,20 +5,18 @@ import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import com.google.inject.Singleton;
+import com.dyuproject.protostuff.JsonIOUtil;
 import com.simple.engine.api.IMetric;
 
-@Singleton
-@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, "application/x-protobuf"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 @Provider
-public class MetricWriter implements MessageBodyWriter<IMetric<?>> {
+public class MetricWriter implements MessageBodyWriter<IMetric> {
 
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType,
@@ -27,22 +25,20 @@ public class MetricWriter implements MessageBodyWriter<IMetric<?>> {
 	}
 
 	@Override
-	public long getSize(IMetric<?> t, Class<?> type, Type genericType,
+	public long getSize(IMetric t, Class<?> type, Type genericType,
 			Annotation[] annotations, MediaType mediaType) {
 		return -1;
 	}
 
 	@Override
-	public void writeTo(IMetric<?> t, Class<?> type, Type genericType,
+	public void writeTo(IMetric metric, Class<?> type, Type genericType,
 			Annotation[] annotations, MediaType mediaType,
 			MultivaluedMap<String, Object> httpHeaders,
 			OutputStream entityStream) throws IOException,
 			WebApplicationException {
 		
-		
-		
+		if (mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
+			JsonIOUtil.writeTo(entityStream, metric, metric.cachedSchema(), false);
+		}
 	}
-
-	
-	
 }
