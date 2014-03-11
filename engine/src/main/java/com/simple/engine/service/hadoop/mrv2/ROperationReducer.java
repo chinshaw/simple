@@ -14,7 +14,7 @@ import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.engine.api.IMetric;
 import com.simple.engine.api.IMetricKey;
-import com.simple.engine.api.IMetric.MediaType;
+import com.simple.engine.api.MediaType;
 import com.simple.engine.metric.MetricKey;
 import com.simple.engine.metric.MetricString;
 import com.simple.engine.metric.RexpUtils;

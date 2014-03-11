@@ -25,7 +25,6 @@ public class IOCEngineModule extends AbstractModule {
 		bind(AnalyticsTaskService.class).in(Singleton.class);
 	}
 	
-
 	Properties getEngineProperties() {
 		Properties props = new Properties();
 		try {
@@ -36,4 +35,6 @@ public class IOCEngineModule extends AbstractModule {
 		}
 		return props;
 	}
+	
+
 }

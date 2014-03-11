@@ -14,7 +14,7 @@ import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
 import com.simple.engine.api.IMetricKey;
-import com.simple.engine.api.IMetric.MediaType;
+import com.simple.engine.api.MediaType;
 import com.simple.engine.metric.MetricKey;
 import com.simple.engine.metric.MetricString;
 import com.simple.engine.service.hadoop.io.IMetricWritable;
@@ -58,7 +58,7 @@ public class HttpInputAdapter<K extends IMetricKey, V extends IMetricWritable> e
 				InterruptedException {
 			Text text = adaptedReader.getCurrentValue();
 			MetricString metricString = new MetricString(text.getBytes());
-			return (V) new MetricWritable<MetricString>(metricString, MediaType.PLAINTEXT);
+			return (V) new MetricWritable<MetricString>(metricString, MediaType.TEXT_PLAIN);
 		}
 
 		@Override

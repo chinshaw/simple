@@ -9,7 +9,7 @@ import org.apache.hadoop.io.WritableUtils;
 
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.simple.engine.api.IMetric;
-import com.simple.engine.api.IMetric.MediaType;
+import com.simple.engine.api.MediaType;
 
 public class MetricWritable<M extends IMetric<?>> implements IMetricWritable {
 
@@ -18,13 +18,13 @@ public class MetricWritable<M extends IMetric<?>> implements IMetricWritable {
 
 	private IMetric metric;
 
-	private MediaType mimeType = MediaType.APPLICATION_PROTOBUF;
+	private String mimeType = MediaType.APPLICATION_PROTOBUF;
 
 	public MetricWritable() {
 
 	}
 
-	public MetricWritable(IMetric<?> metric, MediaType mimeType) {
+	public MetricWritable(IMetric<?> metric, String mimeType) {
 		this.metric = metric;
 		this.mimeType = mimeType;
 	}
@@ -42,7 +42,7 @@ public class MetricWritable<M extends IMetric<?>> implements IMetricWritable {
 	/**
 	 * {@inheritDoc}
 	 */
-	public MediaType getMimeType() {
+	public String getMimeType() {
 		return mimeType;
 	}
 
@@ -50,7 +50,7 @@ public class MetricWritable<M extends IMetric<?>> implements IMetricWritable {
 	 * Set the mime type this can be "application/x-protobuf",
 	 * "application/json", or "application/xml"
 	 */
-	public void setMimeType(MediaType mimeType) {
+	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
 	}
 

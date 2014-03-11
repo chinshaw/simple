@@ -3,7 +3,6 @@ package com.simple.engine.service.hadoop.io;
 import org.apache.hadoop.io.Writable;
 
 import com.simple.engine.api.IMetric;
-import com.simple.engine.api.IMetric.MediaType;
 
 
 public interface IMetricWritable extends Writable {
@@ -22,5 +21,5 @@ public interface IMetricWritable extends Writable {
 	 * This is the mime type of the object when being written.
 	 * @return
 	 */
-	MediaType getMimeType();
+	String getMimeType();
 }
