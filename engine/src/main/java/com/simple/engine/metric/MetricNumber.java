@@ -11,9 +11,9 @@ import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
 import com.simple.engine.api.IMetricKey;
 
-public final class MetricString extends Metric<MetricString> {
+public final class MetricNumber extends Metric<MetricNumber>{
 
-	static final Schema<MetricString> SCHEMA = new Schema<MetricString>() {
+	static final Schema<MetricNumber> SCHEMA = new Schema<MetricNumber>() {
 
 		final java.util.HashMap<String, Integer> fieldMap = new java.util.HashMap<String, Integer>();
 		{
@@ -23,27 +23,27 @@ public final class MetricString extends Metric<MetricString> {
 
 		// schema methods
 
-		public MetricString newMessage() {
-			return new MetricString();
+		public MetricNumber newMessage() {
+			return new MetricNumber();
 		}
 
-		public Class<MetricString> typeClass() {
-			return MetricString.class;
+		public Class<MetricNumber> typeClass() {
+			return MetricNumber.class;
 		}
 
 		public String messageName() {
-			return MetricString.class.getSimpleName();
+			return MetricNumber.class.getSimpleName();
 		}
 
 		public String messageFullName() {
-			return MetricString.class.getName();
+			return MetricNumber.class.getName();
 		}
 
-		public boolean isInitialized(MetricString message) {
+		public boolean isInitialized(MetricNumber message) {
 			return message.key != null;
 		}
 
-		public void mergeFrom(Input input, MetricString message) throws IOException {
+		public void mergeFrom(Input input, MetricNumber message) throws IOException {
 			for (int number = input.readFieldNumber(this);; number = input.readFieldNumber(this)) {
 				switch (number) {
 				case 0:
@@ -52,7 +52,7 @@ public final class MetricString extends Metric<MetricString> {
 					message.key = MetricKey.valueOf(input.readByteArray());
 					break;
 				case 2:
-					message.value = input.readByteArray();
+					message.value = input.readDouble();
 					break;
 				default:
 					input.handleUnknownField(number, this);
@@ -78,54 +78,28 @@ public final class MetricString extends Metric<MetricString> {
 		}
 
 		@Override
-		public void writeTo(Output output, MetricString message) throws IOException {
+		public void writeTo(Output output, MetricNumber message) throws IOException {
 			if (message.value != null) {
-				output.writeByteArray(2, message.value, true);
+				output.writeDouble(2, message.value.doubleValue(), false);
 			}
 		}
 
 	};
 
+	
+
 	@Tag(1)
 	private IMetricKey key;
 
 	@Tag(2)
-	private byte[] value;
-
-	public MetricString() {
-
-	}
-
-	public MetricString(IMetricKey key) {
-		this.key = key;
-	}
+	private Number value;
 	
-	public MetricString(byte[] value) {
-		this.value = value;
-	}
 	
-	public MetricString(String value) {
-		this.value = value.getBytes();
+	public MetricNumber(List<Double> realValueList) {
 	}
 
-	public MetricString(List<String> stringValueList) {
+	public MetricNumber() {
 		// TODO Auto-generated constructor stub
-	}
-
-	public byte[] getValue() {
-		return value;
-	}
-
-	public void setValue(byte[] value) {
-		this.value = value;
-	}
-	
-	public String getStringValue() {
-		return new String(value);
-	}
-	
-	public void setStringValue(String value) {
-		this.value = value.getBytes();
 	}
 
 	@Override
@@ -133,14 +107,15 @@ public final class MetricString extends Metric<MetricString> {
 		return key;
 	}
 
-	// message method
-	public Schema<MetricString> cachedSchema() {
-		return SCHEMA;
-	}
-
 	@Override
 	public byte[] toBytes() {
 		LinkedBuffer buffer = LinkedBuffer.allocate(4096);
 		return ProtobufIOUtil.toByteArray(this, SCHEMA, buffer);
+	}
+
+	@Override
+	public Schema<MetricNumber> cachedSchema() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

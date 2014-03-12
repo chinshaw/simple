@@ -64,7 +64,6 @@ public class MetricResource {
 					.tag("Could not find entity").build();
 			throw new WebApplicationException(response);
 		}
-		
 		MetricRaw metric = new MetricRaw();
 		ProtobufIOUtil.mergeFrom(bytes, metric, MetricRaw.SCHEMA);
 

@@ -12,7 +12,7 @@ import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
 import com.simple.engine.api.IMetricKey;
-import com.simple.engine.service.hadoop.io.IMetricWritable;
+import com.simple.engine.api.IMetricWritable;
 import com.simple.engine.service.hadoop.io.adapter.AbstractInputFormatAdapter;
 import com.simple.engine.service.hadoop.io.adapter.MetricAdapterFactory;
 

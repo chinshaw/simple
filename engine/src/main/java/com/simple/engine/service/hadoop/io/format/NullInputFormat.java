@@ -14,7 +14,7 @@ import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
 import com.simple.engine.api.IMetricKey;
-import com.simple.engine.service.hadoop.io.IMetricWritable;
+import com.simple.engine.api.IMetricWritable;
 
 /**
  * Simple class that does not provide any input, the mapper

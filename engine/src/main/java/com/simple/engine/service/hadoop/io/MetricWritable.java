@@ -9,6 +9,7 @@ import org.apache.hadoop.io.WritableUtils;
 
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.simple.engine.api.IMetric;
+import com.simple.engine.api.IMetricWritable;
 import com.simple.engine.api.MediaType;
 
 public class MetricWritable<M extends IMetric<?>> implements IMetricWritable {

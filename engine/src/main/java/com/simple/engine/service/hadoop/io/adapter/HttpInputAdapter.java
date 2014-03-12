@@ -14,10 +14,10 @@ import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
 import com.simple.engine.api.IMetricKey;
+import com.simple.engine.api.IMetricWritable;
 import com.simple.engine.api.MediaType;
 import com.simple.engine.metric.MetricKey;
 import com.simple.engine.metric.MetricString;
-import com.simple.engine.service.hadoop.io.IMetricWritable;
 import com.simple.engine.service.hadoop.io.MetricWritable;
 import com.simple.engine.service.hadoop.io.format.HttpInputFormat;
 

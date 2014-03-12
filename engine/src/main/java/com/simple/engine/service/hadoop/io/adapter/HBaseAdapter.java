@@ -16,12 +16,14 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
 
 import com.simple.engine.api.IMetricKey;
-import com.simple.engine.service.hadoop.io.IMetricWritable;
+import com.simple.engine.api.IMetricWritable;
 
 public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		extends AbstractOutputFormatAdapter<K, V> {
 
 	public static String DEFAULT_VALUE_COLUMN = "value";
+	
+	public static String DEFAULT_CLASS_COLUMN = "clazz";
 
 	public static String DEFAULT_MIME_TYPE_COLUMN = "mimetype";
 
@@ -64,6 +66,8 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 			Put put = new Put(key.toBytes());
 			put.add(family, Bytes.toBytes(DEFAULT_VALUE_COLUMN),
 					value.toBytes());
+			put.add(family, Bytes.toBytes(DEFAULT_CLASS_COLUMN),
+					Bytes.toBytes(value.getClass().getName()));
 			put.add(family, Bytes.toBytes(DEFAULT_MIME_TYPE_COLUMN), value
 					.getMimeType().getBytes());
 			nativeWriter.write(key, put);

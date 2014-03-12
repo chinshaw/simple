@@ -47,8 +47,6 @@ public class MessageWriter implements MessageBodyWriter<Message> {
 			OutputStream entityStream) throws IOException,
 			WebApplicationException {
 		
-		System.out.println("CALLING WRITER");
-		
 		if (mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
 			JsonIOUtil.writeTo(entityStream, message, message.cachedSchema(), false);
 			return;

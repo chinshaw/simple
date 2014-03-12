@@ -49,13 +49,13 @@ public class RexpUtils {
 		case PROMSXP:
 			break;
 		case REALSXP:
-			break;
+			return new MetricNumber(rexp.getRealValueList());
 		case S4SXP:
 			break;
 		case SPECIALSXP:
 			break;
 		case STRSXP:
-			break;
+			return new MetricString(rexp.getStringValueList());
 		case SYMSXP:
 			break;
 		case VECSXP:
