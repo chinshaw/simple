@@ -1,4 +1,4 @@
-package com.simple.engine.rest;
+package com.simple.engine.service.web.rest;
 
 import java.io.IOException;
 
@@ -19,7 +19,6 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import com.dyuproject.protostuff.ProtobufIOUtil;
-import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import com.simple.engine.api.IMetric;
 import com.simple.engine.metric.MetricRaw;
 
@@ -65,7 +64,6 @@ public class MetricResource {
 					.tag("Could not find entity").build();
 			throw new WebApplicationException(response);
 		}
-		
 		
 		MetricRaw metric = new MetricRaw();
 		ProtobufIOUtil.mergeFrom(bytes, metric, MetricRaw.SCHEMA);

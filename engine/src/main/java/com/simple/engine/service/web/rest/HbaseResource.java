@@ -1,4 +1,4 @@
-package com.simple.engine.rest;
+package com.simple.engine.service.web.rest;
 
 import javax.ws.rs.Path;
 
@@ -7,9 +7,8 @@ import javax.ws.rs.Path;
 public class HbaseResource {
 	
 	
-	@Path("/restart")
+
 	public void restart() {
-		ProcessBuilder pb = new ProcessBuilder("/opt/");
 	}
 
 }

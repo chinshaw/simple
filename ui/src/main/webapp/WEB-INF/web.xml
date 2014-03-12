@@ -35,12 +35,11 @@
 			<param-name>log</param-name>
 			<param-value>true</param-value>
 		</init-param>
-
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>solr-proxy</servlet-name>
-		<url-pattern>/hbase/*</url-pattern>
+		<url-pattern>/orc/r/v1*</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->

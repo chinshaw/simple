@@ -60,7 +60,7 @@
 					</systemProperties>
 					<connectors>
 						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>9090</port>
+							<port>52280</port>
 							<maxIdleTime>60000</maxIdleTime>
 						</connector>
 					</connectors>

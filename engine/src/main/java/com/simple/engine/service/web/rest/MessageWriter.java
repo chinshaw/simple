@@ -1,4 +1,4 @@
-package com.simple.engine.rest;
+package com.simple.engine.service.web.rest;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -47,17 +47,24 @@ public class MessageWriter implements MessageBodyWriter<Message> {
 			OutputStream entityStream) throws IOException,
 			WebApplicationException {
 		
+		System.out.println("CALLING WRITER");
+		
 		if (mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
 			JsonIOUtil.writeTo(entityStream, message, message.cachedSchema(), false);
+			return;
 		}
 		
 		if (mediaType.isCompatible(MediaType.APPLICATION_XML_TYPE)) {
 			XmlIOUtil.writeTo(entityStream, message, message.cachedSchema());
+			return;
 		}
 		
 		if (mediaType.isCompatible(new MediaType("application", "x-protobuf"))) {
 			LinkedBuffer buffer = LinkedBuffer.allocate(4096);
 			ProtobufIOUtil.writeTo(entityStream, message, message.cachedSchema(), buffer);
-		}		
+			return;
+		}
+		
+		JsonIOUtil.writeTo(entityStream, message, message.cachedSchema(), false);
 	}
 }
