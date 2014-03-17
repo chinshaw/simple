@@ -136,7 +136,7 @@ public class ROperationReducer extends
 				Metric<?> metric = RexpUtils.toMetric(rexp);
 
 				context.write(new MetricKey("1"),
-						new MetricWritable<IMetric<?>>(metric, MediaType.APPLICATION_PROTOBUF));
+						new MetricWritable<Metric<?>>(metric, MediaType.APPLICATION_PROTOBUF));
 				
 			} catch (RAdapterException e) {
 				logger.log(Level.SEVERE, "Error while retrieving output => "

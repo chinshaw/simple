@@ -15,7 +15,7 @@ public interface IMetricWritable extends Writable {
 	 */
 	byte[] toBytes();
 	
-	public IMetric<?> getMetric();
+	public IMetric getMetric();
 	
 	/**
 	 * This is the mime type of the object when being written.

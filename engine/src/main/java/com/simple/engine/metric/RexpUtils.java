@@ -4,7 +4,7 @@ import com.simple.radapter.protobuf.REXP;
 
 public class RexpUtils {
 
-	public static Metric<?> toMetric(REXP rexp) {
+	public static Metric toMetric(REXP rexp) {
 
 		switch (rexp.getRclass()) {
 		case RAWSXP:

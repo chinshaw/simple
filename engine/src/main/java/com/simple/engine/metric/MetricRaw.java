@@ -9,7 +9,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import com.dyuproject.protostuff.ByteString;
 import com.dyuproject.protostuff.Input;
 import com.dyuproject.protostuff.LinkedBuffer;
-import com.dyuproject.protostuff.Message;
 import com.dyuproject.protostuff.Output;
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.Schema;
@@ -17,7 +16,7 @@ import com.dyuproject.protostuff.Tag;
 import com.simple.original.api.orchestrator.IMetricKey;
 
 @JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="@class")
-public final class MetricRaw extends Metric<MetricRaw> implements Message<MetricRaw> {
+public final class MetricRaw extends Metric<MetricRaw>  {
 
 	/**
 	 * Serialization Id

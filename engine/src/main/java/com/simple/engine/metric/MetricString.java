@@ -11,7 +11,12 @@ import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
 import com.simple.original.api.orchestrator.IMetricKey;
 
-public final class MetricString extends Metric<MetricString> {
+public final class MetricString extends Metric<MetricString>  {
+
+	/**
+	 * Serialization Id
+	 */
+	private static final long serialVersionUID = 2744454200350645571L;
 
 	static final Schema<MetricString> SCHEMA = new Schema<MetricString>() {
 

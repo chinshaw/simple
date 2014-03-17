@@ -3,7 +3,7 @@
 package artisan_engine;
 
 option optimize_for = LITE_RUNTIME;
-option java_package = "com.simple.engine.metric.protostuff"
+option java_package = "com.simple.engine.metric.protostuff";
 
 
 
@@ -22,5 +22,11 @@ message Metric {
 message MetricString {
 
 	optional string value = 1;
+}
+
+
+message MetricCollection {
+
+	repeated MetricString value = 1;
 }
 

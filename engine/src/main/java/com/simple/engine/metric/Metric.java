@@ -29,9 +29,8 @@ import com.simple.original.api.orchestrator.IMetric;
  */
 @JsonSubTypes({@Type(value = MetricRaw.class, name="MetricRaw"), @Type(value=MetricString.class, name="MetricString")})
 @JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="@class")
-public abstract class Metric<T extends IMetric<T>> implements IMetric<T>, Message<T>, Serializable  {
+public abstract class Metric<T extends Metric> implements IMetric, Message<T>,  Serializable  {
 
-	
 	/**
 	 * Serialization Id
 	 */

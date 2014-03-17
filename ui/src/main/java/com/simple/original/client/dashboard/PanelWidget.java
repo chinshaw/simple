@@ -1,8 +1,7 @@
 package com.simple.original.client.dashboard;
 
-import org.apache.commons.httpclient.HeaderElement;
-
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.HeadingElement;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -32,15 +31,13 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	DroppablePanel widgetsPanel;
 
 	@UiField
-	HeaderElement panelTitle;
+	HeadingElement panelTitle;
 
-	private final WidgetFactory widgetFactory;
 
 	@Inject
 	public PanelWidget(final EventBus eventBus, final Resources resources, WidgetFactory widgetFactory, IPanelWidgetModel model) {
 		super(eventBus, resources);
 		this.model = model;
-		this.widgetFactory = widgetFactory;
 		widgetsPanel = new DroppablePanel(widgetFactory, eventBus);
 		widgetsPanel.setWidgetModel(model);
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
@@ -56,7 +53,7 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	public void onWidgetModelChanged(WidgetModelChangedEvent event) {
 		IWidgetModel eventModel = event.getWidgetModel();
 		if (eventModel == model) {
-			panelTitle.setValue(model.getTitle());
+			panelTitle.setInnerText(model.getTitle());
 		}
 	}
 
@@ -70,23 +67,6 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 		}
 	}
 
-	
-	/**
-	 * This is injected and the dashboard module will inject a new model when it is created.
-	 * This can also be used to set the model at a later time.
-	 
-	@Override
-	public void setModel(IPanelWidgetModel model) {
-		this.model = model;
-		update(); 
-		
-		for (IWidgetModel widgetModel : model.getWidgets()) {
-			IDashboardWidget<?> widget = widgetFactory.createWidget(widgetModel);
-			widgetsPanel.add(widget);
-		}
-	}
-	*/
-	
 	public int getWidgetCount() {
 		return widgetsPanel.getWidgetCount();
 	}
@@ -97,6 +77,6 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	}
 	
 	public void update() {
-		panelTitle.setValue(model.getTitle());
+		panelTitle.setInnerText(model.getTitle());
 	}
 }

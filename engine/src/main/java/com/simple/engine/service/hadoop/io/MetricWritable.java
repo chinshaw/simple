@@ -11,9 +11,8 @@ import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.simple.engine.api.IMetricWritable;
 import com.simple.engine.api.MediaType;
 import com.simple.engine.metric.Metric;
-import com.simple.original.api.orchestrator.IMetric;
 
-public class MetricWritable<M extends IMetric<?>> implements IMetricWritable {
+public class MetricWritable<M extends Metric> implements IMetricWritable {
 
 	private static final Logger logger = Logger.getLogger(MetricWritable.class
 			.getName());
@@ -26,13 +25,13 @@ public class MetricWritable<M extends IMetric<?>> implements IMetricWritable {
 
 	}
 
-	public MetricWritable(Metric<?> metric, String mimeType) {
+	public MetricWritable(Metric metric, String mimeType) {
 		this.metric = metric;
 		this.mimeType = mimeType;
 	}
 
 	@Override
-	public IMetric<?> getMetric() {
+	public Metric getMetric() {
 		return metric;
 	}
 

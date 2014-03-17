@@ -20,6 +20,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.simple.engine.api.MediaType;
+import com.simple.engine.metric.Metric;
 import com.simple.engine.service.hadoop.io.MetricWritable;
 import com.simple.original.api.orchestrator.IMetric;
 
@@ -54,14 +55,14 @@ public class MetricResource {
 	@GET
 	@Path("/{rowKey}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF })
-	public IMetric<?> find(@PathParam("rowKey") String rowKey) {
+	public IMetric find(@PathParam("rowKey") String rowKey) {
 		return find(rowKey, colFamily, colValue);
 	}
 
 	@GET
 	@Path("/{rowKey}/{column}:{qualifier}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF })
-	public IMetric<?> find(@PathParam("rowKey") String rowKey, @PathParam("column") String column, @PathParam("qualifier") String qualifier) {
+	public IMetric find(@PathParam("rowKey") String rowKey, @PathParam("column") String column, @PathParam("qualifier") String qualifier) {
 
 		final Get get = new Get(Bytes.toBytes(rowKey));
 		byte[] bytes = null;
@@ -89,7 +90,7 @@ public class MetricResource {
 
 
 		
-		MetricWritable<IMetric<?>> writable = new MetricWritable<IMetric<?>>();
+		MetricWritable<Metric<?>> writable = new MetricWritable<Metric<?>>();
 
 		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
 		DataInputStream dais = new DataInputStream(bais);

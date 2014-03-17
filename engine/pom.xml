@@ -35,7 +35,7 @@
 
 	<properties>
 		<jettyVersion>7.2.0.v20101020</jettyVersion>
-		
+
 	</properties>
 
 
@@ -66,6 +66,40 @@
 					</connectors>
 				</configuration>
 			</plugin>
+
+<!-- 			<plugin> -->
+<!-- 				<groupId>com.dyuproject.protostuff</groupId> -->
+<!-- 				<artifactId>protostuff-maven-plugin</artifactId> -->
+<!-- 				<version>1.0.8</version> -->
+<!-- 				<configuration> -->
+<!-- 					<protoModules> -->
+<!-- 						<protoModule> -->
+<!-- 							<source>src/main/protobuf/metrics.proto</source> -->
+<!-- 							<outputDir>target/generated-sources</outputDir> -->
+<!-- 							<output>java_bean</output> -->
+<!-- 							<encoding>UTF-8</encoding> -->
+<!-- 							<options> -->
+<!-- 								<property> -->
+<!-- 									<name>separate_schema</name> -->
+<!-- 								</property> -->
+<!-- 								<property> -->
+<!-- 									<name>generate_field_map</name> -->
+<!-- 								</property> -->
+<!-- 							</options> -->
+<!-- 						</protoModule> -->
+<!-- 					</protoModules> -->
+<!-- 				</configuration> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>generate-sources</id> -->
+<!-- 						<phase>generate-sources</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>compile</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
+
 		</plugins>
 	</build>
 
@@ -76,7 +110,13 @@
 			<artifactId>simple-analytics-domain</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
-
+		
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>11.0.2</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.simple.radapter</groupId>
 			<artifactId>radapter-client</artifactId>
@@ -123,14 +163,14 @@
 			<artifactId>protostuff-runtime</artifactId>
 			<version>${protostuff.version}</version>
 		</dependency>
-		
-		
+
+
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-client</artifactId>
 			<version>2.2.0</version>
 		</dependency>
-		
+
 
 
 

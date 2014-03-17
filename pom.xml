@@ -19,9 +19,9 @@
 		<!-- Don't let your Mac use a crazy non-standard encoding -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		
+
 		<shiro.version>1.2.2</shiro.version>
-		<guice.version>3.0</guice.version>		
+		<guice.version>3.0</guice.version>
 		<protostuff.version>1.0.8</protostuff.version>
 	</properties>
 
@@ -114,7 +114,7 @@
 				<checksumPolicy>ignore</checksumPolicy>
 			</releases>
 			<snapshots>
-				<enabled>false</enabled>
+				<enabled>true</enabled>
 			</snapshots>
 			<url>file://${project.basedir}/local_repo</url>
 		</repository>
@@ -151,14 +151,12 @@
 			<artifactId>guice</artifactId>
 			<version>${guice.version}</version>
 		</dependency>
-		
-				<dependency>
+
+		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>11.0.2</version>
+			<version>16.0.1</version>
 		</dependency>
-
-
 
 		<!-- Unit tests -->
 		<dependency>

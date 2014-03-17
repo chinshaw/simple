@@ -11,7 +11,12 @@ import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
 import com.simple.original.api.orchestrator.IMetricKey;
 
-public final class MetricNumber extends Metric<MetricNumber>{
+public final class MetricNumber extends Metric<MetricNumber> {
+
+	/**
+	 * Serialization Id
+	 */
+	private static final long serialVersionUID = -6094069248249686751L;
 
 	static final Schema<MetricNumber> SCHEMA = new Schema<MetricNumber>() {
 
@@ -115,7 +120,6 @@ public final class MetricNumber extends Metric<MetricNumber>{
 
 	@Override
 	public Schema<MetricNumber> cachedSchema() {
-		// TODO Auto-generated method stub
-		return null;
+		return SCHEMA;
 	}
 }

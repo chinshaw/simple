@@ -18,7 +18,7 @@ public class HBaseMetricDao {
 	}
 	
 	
-	public IMetric<?> find(String column, String qualifier, IHbaseKey key) throws IOException {
+	public IMetric find(String column, String qualifier, IHbaseKey key) throws IOException {
 		Get get = new Get(key.toBytes());
 		get.addColumn(Bytes.toBytes(column), Bytes.toBytes(qualifier));
 		get.setMaxVersions(1);
