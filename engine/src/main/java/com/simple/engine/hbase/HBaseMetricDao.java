@@ -7,7 +7,7 @@ import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 
-import com.simple.engine.api.IMetric;
+import com.simple.original.api.orchestrator.IMetric;
 
 public class HBaseMetricDao {
 

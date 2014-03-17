@@ -15,8 +15,8 @@ import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.DateInput;
 import com.simple.domain.model.ui.StringInput;
-import com.simple.original.api.analytics.IAnalyticsOperationOutput.Type;
 import com.simple.original.api.exceptions.DomainException;
+import com.simple.original.api.orchestrator.IAnalyticsOperationOutput.Type;
 
 public class TestAnalyticsOperationDao extends DaoTest {
 

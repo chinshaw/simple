@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.gwt.client.HasRequestContext;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
-import com.simple.original.api.analytics.IDataProviderInput;
+import com.simple.original.api.orchestrator.IDataProviderInput;
 import com.simple.original.client.proxy.DataProviderInputProxy;
 import com.simple.original.client.view.widgets.EnumEditor;
 

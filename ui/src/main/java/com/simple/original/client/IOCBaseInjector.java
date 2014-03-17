@@ -13,7 +13,7 @@ import com.simple.original.client.activity.AnalyticsTasksActivity;
 import com.simple.original.client.activity.AnalyticsTasksSchedulerActivity;
 import com.simple.original.client.activity.DashboardsActivity;
 import com.simple.original.client.activity.DataProvidersActivity;
-import com.simple.original.client.activity.HBaseActivity;
+import com.simple.original.client.activity.OrchestratorActivity;
 import com.simple.original.client.activity.LoginActivity;
 import com.simple.original.client.activity.PreferencesActivity;
 import com.simple.original.client.activity.ServerLogsActivity;
@@ -110,7 +110,7 @@ public interface IOCBaseInjector extends Ginjector {
 	 */
 	DashboardDesignerActivity dashboardDesignerActivity();
 
-	HBaseActivity hbaseActivity();
+	OrchestratorActivity hbaseActivity();
 	
 	LoginActivity loginActivity();
 

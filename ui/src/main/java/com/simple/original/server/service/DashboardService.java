@@ -14,9 +14,9 @@ import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.domain.model.ui.dashboard.DashboardDao;
 import com.simple.domain.model.ui.dashboard.DashboardUtils;
 import com.simple.engine.service.AnalyticsTaskExecutionException;
-import com.simple.original.api.analytics.IMetric;
-import com.simple.original.api.analytics.ITaskExecution;
 import com.simple.original.api.exceptions.DashboardException;
+import com.simple.original.api.orchestrator.IMetric;
+import com.simple.original.api.orchestrator.ITaskExecution;
 import com.simple.original.client.service.IAnalyticsTaskService;
 
 public class DashboardService {

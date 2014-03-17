@@ -10,8 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Pattern;
 
-import com.simple.original.api.analytics.IApplicationBookmark;
-import com.simple.original.api.analytics.IPreferences;
+import com.simple.original.api.orchestrator.IApplicationBookmark;
+import com.simple.original.api.orchestrator.IPreferences;
 
 @Entity
 public class Preferences extends RequestFactoryEntity implements IPreferences {

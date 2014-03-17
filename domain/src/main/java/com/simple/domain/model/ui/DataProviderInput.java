@@ -3,7 +3,7 @@ package com.simple.domain.model.ui;
 import javax.persistence.Entity;
 
 import com.simple.domain.model.RequestFactoryEntity;
-import com.simple.original.api.analytics.IDataProviderInput;
+import com.simple.original.api.orchestrator.IDataProviderInput;
 
 @Entity
 public class DataProviderInput extends RequestFactoryEntity implements IDataProviderInput {

@@ -10,59 +10,79 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+@def disabledColor #AAAAAA;
 @def defaultFontColor #444444;
+@def linkColor #3B73AF;
+@def borderColor #CCCCCC;
+@def focusBoxShadow #6EA2DE;
+
+
+* {
+
+	/*
+	font-family: Arial, sans-serif;
+	font-family: Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+	*/
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+   	font-weight: 400;
+	font-size: 14px;
+}
 
 body {
 	margin: 0;
 	padding: 0;
-	font-family: Arial, sans-serif;
-	font-size: 14px;
 	overflow: hidden;
-	color: defaultFontColor;
-	line-height: 1;
+	line-height: 1;	
 }
 
-a {
-	color: #3B73AF;
+
+input, textarea, select, button, label, div, h1, h2, h3, h4, h5, h6 {
+	color: defaultFontColor;
+}
+
+
+a, gwt-Anchor {
+	color: linkColor;
 	cursor: pointer;
+}
+
+a:hover, .gwt-Anchor:hover {
+	text-decoration: underline;
 }
 
 br {
 	clear:both;
 }
 
-input,textarea,select {
-	border-color: -moz-use-text-color -moz-use-text-color #EFF1F2;
-	border-image: none;
-	border-style: none none solid;
-	border-width: medium medium 1px;
-	display: block;
-	border: 1px solid #CCC;
+input, textarea, select {
+	background: transparent;
+	border: 1px solid borderColor;
 	border-radius: 3px;
-	padding: 5px;
+	padding: 3px 5px;
+	-webkit-appearance: none;
 }
 
-input {
+input, select {
 	width: 20em;
-}
-
-input:focus, textarea:focus, select:focus {
-	border-color: #6EA2DE;
-    box-shadow: 0px 0px 5px #6EA2DE;
-}
-
-
-input[type='checkbox'] {
-	width: auto;
 }
 
 textarea {
 	height: 8em;
-	width: 40em;
-	border: 1px solid #CCCCCC;
-	border-radius: 3px;
+	min-width: 40em;
 }
 
+input:focus, textarea:focus, select:focus {
+	border-color: focusBoxShadow;
+    box-shadow: 0px 0px 5px focusBoxShadow;
+}
+
+input[type='checkbox'] {
+	width: auto !important;
+}
+
+input.disabled, textarea.disabled, select.disabled {
+	color: disabledColor;
+}
 
 label {
 	display: inline-block;
@@ -70,7 +90,11 @@ label {
 	padding: 5px;
 }
 
-select {
+@sprite select, select.gwt-ListBox {
+	height: auto;
+	gwt-image: "downArrowSelect";
+	overflow: hidden;
+	background-position: right;	
 }
 
 table {
@@ -78,7 +102,7 @@ table {
 }
 
 hr {
-	border: 1px dashed #444;
+	border: 1px dashed defaultFontColor;
 	width: 100%;
 	float: left;
 	border-width: 1px 0 0 0;
@@ -94,7 +118,8 @@ h1, h2, h3, h4, h5, h5 {
 
 h1 {
 	font-size: 180%;
-	font-weight: normal
+	font-weight: bold;
+	line-height: 75px;
 }
 
 h2 {
@@ -103,14 +128,26 @@ h2 {
 }
 
 h3 {
-	font-size: 100%;
-	font-weight: bold;
+	font-size: 120%;
+	font-weight:bold;
+}
+
+h4 {
+	font-size:180%;
+}
+
+h5 {
+	font-size: 140%;
+}
+
+h6 {
+	font-size: 120%;
 }
 
 button {
     -moz-box-sizing: border-box;
     background: linear-gradient(to bottom, #FFFFFF 0px, #F2F2F2 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
-    border: 1px solid #CCCCCC;
+    border: 1px solid borderColor;
     border-radius: 3px;
     cursor: pointer;
     display: inline-block;
@@ -121,9 +158,15 @@ button {
     margin: 0;
     padding: 4px 10px;
     text-decoration: none;
-    text-shadow: 0 1px 0 #FFFFFF;
     vertical-align: baseline;
-    white-space: nowrap;	
+    white-space: nowrap;
+    margin-left: 5px;
+    margin-right: 5px;
+    min-width: 60px;
+}
+
+button.add {
+	color: darkgreen;
 }
 
 button.delete {
@@ -131,16 +174,20 @@ button.delete {
 }
 
 .navBox {
-		cursor: pointer;
-        background-color: #3C78B5;
-        width: 150px;
-        height: 100px;
-        text-align: center;
-        color: white;
-        padding-top: 10px;
-        margin: 5px;
-        float:left;
-        transition: literal("background 300ms ease-in-out 0s, color 300ms ease-in-out 0s");
+	cursor: pointer;
+    background-color: #3C78B5;
+    width: 150px;
+    height: 100px;
+    text-align: center;
+    color: white;
+    padding-top: 10px;
+    margin: 5px;
+    float:left;
+    transition: literal("background 300ms ease-in-out 0s, color 300ms ease-in-out 0s");
+}
+
+.navBox * {
+	color:white;
 }
 
 .navBox:hover, .navBox:active {
@@ -195,8 +242,6 @@ button.delete {
 	margin-bottom: 2em;
 }
 
-
-
 .topHeader {
 	background-color: #F5F5F5;
 	border-bottom: 1px solid #CCC;
@@ -247,7 +292,7 @@ div.buttonCollection {
 }
 
 div.content {
-	margin:20px;
+	margin:10px;
 }
 
 div.contentPanel div.header {
@@ -350,7 +395,6 @@ div.contentPanel div.header h1 {
 	font-size: 120%;
 }
 
-
 .operationCell {
 	margin:10px;
 	padding:5px;
@@ -369,42 +413,9 @@ div.contentPanel div.header h1 {
 	background-color: #E9E9E9;
 }
 
-.alertNotificationPanel {
-	position: fixed;
-	bottom: 1em;
-	right: 1em;
-	font-size: 1.1em;
-	box-shadow: 0.3em 0.3em 0.3em #FF8000;
-	border-radius: 0.05em;
-	border: 0.1em solid #FF8080;
-	width: 25em;
-	height: 5em;
-	padding: 0.3em;
-	background-color: red;
-}
-
-.alertNotificationLabel {
-	font-size: 1.1em;
-	font-weight: bold;
-	color: black;
-}
-
 .selectionContext {
 	opacity: .9;
 	cursor: pointer;
-}
-
-.alertNotificationCloseButton {
-	float: right;
-	font-size: 1em;
-	color: black;
-	font-weight: bold;
-	text-decoration: none;
-	box-shadow: 0.1em 0.1em 0.1em #FF8000;
-	border-radius: 0.3em;
-	padding: 0.1em;
-	border: 0.1em solid #000000;
-	background-color: red;
 }
 
 .spinBox {
@@ -510,14 +521,16 @@ div.contentPanel div.header h1 {
     color: #333333;
     font-family: inherit;
     font-size: inherit;
-    height: 1.71429em;
-    line-height: 1.71429;
-    margin: 8px 0;
-    padding: 2px 10px 2px 25px;
+    line-height: 1;
+    margin: 4px 0;
+    padding: 5px 10px 5px 25px;
     vertical-align: baseline;
     width: 170px;
 }
 
+.search:focus {
+	
+}
 
 .dndPlaceHolder  {
 	border: 1px dashed black;
@@ -532,49 +545,6 @@ div.contentPanel div.header h1 {
 	-moz-box-shadow: 3px 3px 3px #DDD;
 	-webkit-box-shadow: 3px 3px 3px #DDD;
 	box-shadow: 3px 3px 3px #DDD;
-}
-
-.tabbedPanel {
-	overflow: hidden;
-	padding: 10px;
-	border-radius: 0 5px 5px 5px;
-	border: 1px solid #CCCCCC;
-	background: #F9F9F9;
-	background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9),
-		to(#FFFFFF));
-	background: -webkit-linear-gradient(top, #F9F9F9, #FFFFFF);
-	background: -moz-linear-gradient(top, #F9F9F9, #FFFFFF);
-	background: -ms-linear-gradient(top, #F9F9F9, #FFFFFF);
-	background: -o-linear-gradient(top, #F9F9F9, #FFFFFF);
-	filter: literal("progid:DXImageTransform.Microsoft.gradient( startColorstr='#F9F9F9', endColorstr='#FFFFFF',GradientType=0 )"
-		); /* IE6-9 */
-}
-
-div.tabbedPanel div.widgetsPanel  {
-	min-height: 100px;
-	padding: 10px;
-}
-
-.tabbedPanelLabel {
-	display: inline-block;
-	color: white;
-	min-height: 1em;
-	padding: 5px 10px;
-	background-color: #999999;
-	font-weight: bold;
-	min-width: 200px;
-	border: 1px solid #777;
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
-	-moz-border-radius-topleft: 5px;
-	-moz-border-radius-topright: 5px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	border-bottom: 0;
-	-moz-box-shadow: 5px 5px 5px #DDD;
-	-webkit-box-shadow: 5px 5px 5px #DDD;
-	box-shadow: 5px 5px 5px #DDD;
-	text-shadow: 1px 1px #444444;
 }
 
 .violationInfo {
@@ -599,7 +569,6 @@ div.tabbedPanel div.widgetsPanel  {
 	color: red;
 	display: inline;
 }
-
 
 .popupContextMenu {
 	padding: 2px !important;
@@ -626,7 +595,6 @@ div.tabbedPanel div.widgetsPanel  {
 .designerGaugeWidget {
 	display: inline-block;
 }
-
 
 .updating {
 	background-color: #000;

@@ -13,7 +13,7 @@ import org.apache.shiro.subject.Subject;
 import com.google.inject.Inject;
 import com.simple.domain.dao.PersonDao;
 import com.simple.domain.model.Person;
-import com.simple.original.api.analytics.IPerson;
+import com.simple.original.api.orchestrator.IPerson;
 import com.simple.original.security.AuthenticationException;
 import com.simple.original.security.api.ISession;
 

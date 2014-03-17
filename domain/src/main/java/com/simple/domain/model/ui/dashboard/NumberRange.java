@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.simple.domain.model.RequestFactoryEntity;
-import com.simple.original.api.analytics.Criticality;
+import com.simple.original.api.orchestrator.Criticality;
 
 /**
  * <p>

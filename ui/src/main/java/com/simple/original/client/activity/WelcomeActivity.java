@@ -1,9 +1,9 @@
 package com.simple.original.client.activity;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.inject.Inject;
 import com.simple.original.client.place.AnalyticsOperationsPlace;
 import com.simple.original.client.place.DashboardsPlace;
+import com.simple.original.client.place.DataProvidersPlace;
 import com.simple.original.client.place.WelcomePlace;
 import com.simple.original.client.view.IWelcomeView;
 
@@ -29,8 +29,7 @@ public class WelcomeActivity extends
 
 	@Override
 	public void onDataProvidersSelected() {
-		throw new RuntimeException("Got no place to go");
-
+		placeController().goTo(new DataProvidersPlace());
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import javax.persistence.InheritanceType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.simple.domain.model.RequestFactoryEntity;
-import com.simple.original.api.analytics.IAnalyticsOperationInput;
+import com.simple.original.api.orchestrator.IAnalyticsOperationInput;
 
 
 @Entity

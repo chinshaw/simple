@@ -8,28 +8,29 @@ import java.util.logging.Logger;
 
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.mapreduce.Reducer;
 
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
-import com.simple.engine.api.IMetric;
-import com.simple.engine.api.IMetricKey;
 import com.simple.engine.api.IMetricWritable;
 import com.simple.engine.api.MediaType;
+import com.simple.engine.metric.Metric;
 import com.simple.engine.metric.MetricKey;
 import com.simple.engine.metric.MetricString;
 import com.simple.engine.metric.RexpUtils;
+import com.simple.engine.service.hadoop.AbstractReducer;
 import com.simple.engine.service.hadoop.config.ConfigurationException;
 import com.simple.engine.service.hadoop.config.OperationConfig;
 import com.simple.engine.service.hadoop.io.MetricWritable;
-import com.simple.original.api.analytics.IAnalyticsOperationOutput.Type;
+import com.simple.original.api.orchestrator.IAnalyticsOperationOutput.Type;
+import com.simple.original.api.orchestrator.IMetric;
+import com.simple.original.api.orchestrator.IMetricKey;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.protobuf.REXP;
 
 public class ROperationReducer extends
-		Reducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
+		AbstractReducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
 		implements Configurable {
 
 	private static final Logger logger = Logger
@@ -132,7 +133,7 @@ public class ROperationReducer extends
 
 				logger.info("found rexp => type " + rexp.getRclass());
 
-				IMetric<?> metric = RexpUtils.toMetric(rexp);
+				Metric<?> metric = RexpUtils.toMetric(rexp);
 
 				context.write(new MetricKey("1"),
 						new MetricWritable<IMetric<?>>(metric, MediaType.APPLICATION_PROTOBUF));

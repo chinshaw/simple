@@ -3,7 +3,7 @@ package com.simple.original.security;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 
-import com.simple.original.api.analytics.IPerson;
+import com.simple.original.api.orchestrator.IPerson;
 import com.simple.original.security.api.ISession;
 
 public class ShiroSession implements ISession {

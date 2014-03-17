@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.EventBus;
-import com.simple.original.api.analytics.Criticality;
+import com.simple.original.api.orchestrator.Criticality;
 import com.simple.original.client.dashboard.designer.GaugeModelRangesEditor.GaugeModelRangeEditor;
 import com.simple.original.client.dashboard.model.IGaugeWidgetModel.IGaugeModelRange;
 import com.simple.original.client.proxy.NumberRangeProxy;

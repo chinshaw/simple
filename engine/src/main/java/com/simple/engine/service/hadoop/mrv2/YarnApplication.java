@@ -9,8 +9,8 @@ import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.service.AnalyticsOperationException;
 import com.simple.engine.service.IAnalyticsOperationExecutor;
-import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.RAnalyticsException;
+import com.simple.original.api.orchestrator.IMetric;
 
 public class YarnApplication implements IAnalyticsOperationExecutor {
 

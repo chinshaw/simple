@@ -10,10 +10,10 @@ import org.apache.hadoop.mapreduce.OutputFormat;
 import org.apache.hadoop.mapreduce.RecordWriter;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
-import com.simple.engine.api.IMetricKey;
 import com.simple.engine.api.IMetricWritable;
 import com.simple.engine.service.hadoop.io.adapter.AbstractOutputFormatAdapter;
 import com.simple.engine.service.hadoop.io.adapter.MetricAdapterFactory;
+import com.simple.original.api.orchestrator.IMetricKey;
 
 public class MetricOutputFormat<K extends IMetricKey, V extends IMetricWritable>
 		extends OutputFormat<K, V> implements Configurable {

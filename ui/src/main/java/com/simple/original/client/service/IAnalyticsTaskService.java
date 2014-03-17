@@ -5,7 +5,7 @@ import java.util.List;
 import com.simple.domain.model.AnalyticsTask;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
-import com.simple.original.api.analytics.ITaskExecution;
+import com.simple.original.api.orchestrator.ITaskExecution;
 
 public interface IAnalyticsTaskService {
 

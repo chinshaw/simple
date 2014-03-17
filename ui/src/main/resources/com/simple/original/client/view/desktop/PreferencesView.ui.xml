@@ -11,49 +11,43 @@
 			<g:HTMLPanel ui:field="contentPanel" styleName="">
 				<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
 
-				<label class="{resources.style.tabbedPanelLabel}">Alert Preferences</label>
-				<div class="{resources.style.tabbedPanel} ">
+				<h3>Alert Preferences</h3>
+				<div>
 					<div>
-						<div>
-							<label>E-mail Address</label>
-							<g:TextBox width="19em" ui:field="subscriberMailId"></g:TextBox>
+						<label>E-mail Address</label>
+						<g:TextBox width="19em" ui:field="subscriberMailId"></g:TextBox>
 
-							<label>Mobile Phone Number</label>
-							<g:TextBox width="19em" ui:field="subscriberCellNumber"></g:TextBox>
+						<label>Mobile Phone Number</label>
+						<g:TextBox width="19em" ui:field="subscriberCellNumber"></g:TextBox>
 
-							<label>Mobile Phone Provider</label>
-							<g:ValueListBox ui:field="cellPhoneProviderList" />
-						</div>
-					</div>
-				</div>
-				
-				<br />
-
-				<label class="{resources.style.tabbedPanelLabel}">Alert Notification Preferences</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<div>
-						<g:CheckBox ui:field="emailFlag" enabled="true"></g:CheckBox>
-						<label title="send an email when an alert if fired" style="display:inline-block;">E-Mail</label>
-						<br />
-						<g:CheckBox ui:field="smsFlag"></g:CheckBox>
-						<label title="send an sms message when an alert is fired" style="display:inline-block;">Mobile Phone</label>
-						
+						<label>Mobile Phone Provider</label>
+						<g:ValueListBox ui:field="cellPhoneProviderList" />
 					</div>
 				</div>
 
 				<br />
 
-				<label class="{resources.style.tabbedPanelLabel}">Application Favorites</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<c:CellList ui:field="favorites" />
+				<h3>Alert Notification Preferences</h3>
+				<div>
+					<g:CheckBox ui:field="emailFlag" enabled="true"></g:CheckBox>
+					<label title="send an email when an alert if fired" style="display:inline-block;">E-Mail</label>
+					<br />
+					<g:CheckBox ui:field="smsFlag"></g:CheckBox>
+					<label title="send an sms message when an alert is fired"
+						style="display:inline-block;">Mobile Phone</label>
+
 				</div>
+
+				<br />
+
+				<h3>Application Favorites</h3>
+				<c:CellList ui:field="favorites" />
 
 				<div style="float:right; padding:10px;">
 					<g:Button ui:field="save">Save</g:Button>
 					<g:Button ui:field="cancel">Cancel</g:Button>
 				</div>
 			</g:HTMLPanel>
-
 		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder>

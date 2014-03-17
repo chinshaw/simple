@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.simple.original.api.analytics.IPerson.Role;
+import com.simple.original.api.orchestrator.IPerson.Role;
 import com.simple.original.security.api.ICredentialLocator;
 import com.simple.original.security.api.IHasCredentials;
 

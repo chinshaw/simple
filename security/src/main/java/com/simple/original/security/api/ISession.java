@@ -1,6 +1,6 @@
 package com.simple.original.security.api;
 
-import com.simple.original.api.analytics.IPerson;
+import com.simple.original.api.orchestrator.IPerson;
 
 public interface ISession {
 

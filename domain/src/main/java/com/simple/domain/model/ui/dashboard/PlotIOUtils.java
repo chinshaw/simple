@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.simple.original.api.analytics.IMetricPlot;
+import com.simple.original.api.orchestrator.IMetricPlot;
 
 public class PlotIOUtils {
 

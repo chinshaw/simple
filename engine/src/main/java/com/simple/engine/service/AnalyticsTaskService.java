@@ -19,12 +19,12 @@ import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.ITaskExecutionDao;
 import com.simple.engine.metric.AnalyticsTaskExecution;
 import com.simple.engine.service.hadoop.config.ConfigurationException;
-import com.simple.original.api.analytics.IMetric;
-import com.simple.original.api.analytics.ITaskExecution;
-import com.simple.original.api.analytics.ITaskExecution.TaskCompletionStatus;
 import com.simple.original.api.exceptions.AnalyticsTaskException;
 import com.simple.original.api.exceptions.DashboardException;
 import com.simple.original.api.exceptions.DomainException;
+import com.simple.original.api.orchestrator.IMetric;
+import com.simple.original.api.orchestrator.ITaskExecution;
+import com.simple.original.api.orchestrator.ITaskExecution.TaskCompletionStatus;
 
 public class AnalyticsTaskService {
 

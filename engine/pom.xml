@@ -35,7 +35,7 @@
 
 	<properties>
 		<jettyVersion>7.2.0.v20101020</jettyVersion>
-		<protostuff.version>1.0.8</protostuff.version>
+		
 	</properties>
 
 
@@ -106,19 +106,6 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-client</artifactId>
-			<version>2.2.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>11.0.2</version>
-		</dependency>
-
 		<dependency>
 			<groupId>com.dyuproject.protostuff</groupId>
 			<artifactId>protostuff-core</artifactId>
@@ -136,6 +123,15 @@
 			<artifactId>protostuff-runtime</artifactId>
 			<version>${protostuff.version}</version>
 		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-client</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		
+
 
 
 		<!-- Elephant bird stuff may or may not come back. <dependency> <groupId>com.twitter.elephantbird</groupId> 

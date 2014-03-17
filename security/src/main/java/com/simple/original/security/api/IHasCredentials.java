@@ -2,7 +2,7 @@ package com.simple.original.security.api;
 
 import java.util.Set;
 
-import com.simple.original.api.analytics.IPerson.Role;
+import com.simple.original.api.orchestrator.IPerson.Role;
 
 public interface IHasCredentials {
 

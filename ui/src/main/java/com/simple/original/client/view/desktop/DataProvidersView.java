@@ -185,12 +185,6 @@ public class DataProvidersView extends AbstractView implements IDataProvidersVie
     public void reset() {
     }
 
-
-    @UiHandler("test")
-    void onTest(ClickEvent click) {
-        presenter.onTestConnections(selectionModel.getSelectedSet());
-    }
-    
     @Override
     public RequestFactoryEditorDriver<SqlConnectionProxy, ?> getEditorDriver() {
         return null;

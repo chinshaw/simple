@@ -13,9 +13,9 @@ import com.simple.domain.model.Person;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.engine.utils.ScriptUtils;
-import com.simple.original.api.analytics.IAnalyticsOperationOutput.Type;
 import com.simple.original.api.exceptions.DashboardException;
 import com.simple.original.api.exceptions.DomainException;
+import com.simple.original.api.orchestrator.IAnalyticsOperationOutput.Type;
 import com.simple.web.test.TestInjectorFactory;
 
 public class TestDashboardService {

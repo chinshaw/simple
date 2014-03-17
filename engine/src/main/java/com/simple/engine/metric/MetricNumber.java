@@ -9,7 +9,7 @@ import com.dyuproject.protostuff.Output;
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
-import com.simple.engine.api.IMetricKey;
+import com.simple.original.api.orchestrator.IMetricKey;
 
 public final class MetricNumber extends Metric<MetricNumber>{
 

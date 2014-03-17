@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Locator;
-import com.simple.original.api.analytics.IRequestFactoryEntity;
+import com.simple.original.api.orchestrator.IRequestFactoryEntity;
 
 /**
  * This class is the locator for all things that reside in the datastore. It

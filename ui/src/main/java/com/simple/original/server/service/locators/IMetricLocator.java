@@ -4,9 +4,10 @@ import javax.persistence.EntityManager;
 
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Locator;
-import com.simple.original.api.analytics.IMetric;
+import com.simple.original.api.orchestrator.IMetric;
+import com.simple.original.api.orchestrator.IMetricKey;
 
-public class IMetricLocator extends Locator<IMetric, Long> {
+public class IMetricLocator extends Locator<IMetric, IMetricKey> {
 
 	private final EntityManager em;
 	
@@ -27,7 +28,7 @@ public class IMetricLocator extends Locator<IMetric, Long> {
     }
 
     @Override
-    public IMetric find(Class<? extends IMetric> clazz, Long id) {
+    public IMetric find(Class<? extends IMetric> clazz, IMetricKey id) {
         return em.find(clazz, id);
     }
 
@@ -37,13 +38,13 @@ public class IMetricLocator extends Locator<IMetric, Long> {
     }
 
     @Override
-    public Long getId(IMetric domainObject) {
-        return domainObject.getId();
+    public IMetricKey getId(IMetric domainObject) {
+        return domainObject.getKey();
     }
 
     @Override
-    public Class<Long> getIdType() {
-        return Long.class;
+    public Class<IMetricKey> getIdType() {
+        return IMetricKey.class;
     }
 
     /**

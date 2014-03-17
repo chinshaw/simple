@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.simple.original.api.analytics.IDateInput;
+import com.simple.original.api.orchestrator.IDateInput;
 
 @Entity
 @Access(AccessType.FIELD)

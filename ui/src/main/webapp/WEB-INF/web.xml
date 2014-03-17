@@ -25,11 +25,11 @@
 	</session-config>
 
 	<servlet>
-		<servlet-name>solr-proxy</servlet-name>
+		<servlet-name>orchestrator-proxy</servlet-name>
 		<servlet-class>com.simple.original.server.servlet.ProxyServlet</servlet-class>
 		<init-param>
 			<param-name>targetUri</param-name>
-			<param-value>http://localhost:52280</param-value>
+			<param-value>http://localhost:52280/r/v1</param-value>
 		</init-param>
 		<init-param>
 			<param-name>log</param-name>
@@ -38,8 +38,8 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>solr-proxy</servlet-name>
-		<url-pattern>/orc/r/v1*</url-pattern>
+		<servlet-name>orchestrator-proxy</servlet-name>
+		<url-pattern>/orc/*</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->

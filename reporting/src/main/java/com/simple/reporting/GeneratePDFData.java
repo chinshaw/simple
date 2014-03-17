@@ -22,9 +22,9 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
 import com.simple.domain.model.ui.dashboard.Dashboard;
-import com.simple.original.api.analytics.Criticality;
-import com.simple.original.api.analytics.IMetricDouble;
-import com.simple.original.api.analytics.INumberRange;
+import com.simple.original.api.orchestrator.Criticality;
+import com.simple.original.api.orchestrator.IMetricDouble;
+import com.simple.original.api.orchestrator.INumberRange;
 
 public class GeneratePDFData {
 	//private static Logger logger = Logger.getLogger(GeneratePDFData.class.getName());
@@ -117,7 +117,7 @@ public class GeneratePDFData {
 		JFreeChart jfreechart = new JFreeChart(dialplot);
 		TextTitle title = new TextTitle();
 		title.setFont(TEXT_FONT);
-		title.setText("" + metric.getName());
+		//title.setText("" + metric.getName());
 		jfreechart.setTitle(title);
 
 		return jfreechart;

@@ -22,8 +22,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Index;
 
-import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.domain.GroupMembership;
+import com.simple.original.api.orchestrator.IPerson;
 import com.simple.original.security.api.IHasCredentials;
 
 /**

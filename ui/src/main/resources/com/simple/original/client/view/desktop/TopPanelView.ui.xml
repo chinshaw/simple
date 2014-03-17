@@ -6,8 +6,20 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
+	.topPanelView * {
+		color: white;
+	}	
+	
 	.leftPanel {
 		float: left;
+	}
+	
+	.mainlink {
+		color: white;
+		text-decoration: none;
+		margin-right: 2em;
+		margin-left: 1em;
+		padding-top:11px;
 	}
 	
 	.rightPanel {
@@ -31,7 +43,6 @@
 	
 	.rightPanel .search {
 		border-radius: 5em;
-		padding: 5px;
 		margin-top: 4px;
 	}
 	
@@ -40,9 +51,9 @@
 	}
 	</ui:style>
 
-	<g:HTMLPanel>
+	<g:HTMLPanel styleName="{style.topPanelView}">
 		<div class="{style.leftPanel}">
-			<div class="{style.left}" style="margin-right: 2em; margin-left: 1em; padding-top:11px; ">Artisan Analytics</div>
+			<a class="{style.left} {style.mainlink}" href="#">Artisan Analytics</a>
 			<g:MenuBar addStyleNames="{style.left}">
 				<g:MenuItem text="Browse &#x25BE;">
 					<g:MenuBar vertical="true" animationEnabled="true"

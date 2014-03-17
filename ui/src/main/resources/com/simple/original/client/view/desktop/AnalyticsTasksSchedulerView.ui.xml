@@ -5,57 +5,50 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
-		.search {
-			margin-bottom: 5px;
-		}
-
-		.searchBox {
-			color: #FFF;
-			background: transparent; 
-			border: 1px solid #333; 
-			width: 250px; 
-			margin-left: 10px; 
-			margin-right: 10px; 
-		} 
-				
-		.listBox {
-			float: right;
-		}
-				
+	.search {
+		margin-bottom: 5px;
+	}
+	
+	.searchBox {
+		color: #FFF;
+		background: transparent;
+		border: 1px solid #333;
+		width: 250px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	
+	.listBox {
+		float: right;
+	}
 	</ui:style>
 
 	<g:DockLayoutPanel styleName="{resources.style.content}"
 		unit="PX">
 		<g:center>
 			<g:HTMLPanel>
-			<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
-			<g:HTMLPanel ui:field="runningTasksPanel" styleName="">				
-				<label class="{resources.style.tabbedPanelLabel}">Running Tasks</label>
-				<div class="{resources.style.tabbedPanel} ">
+				<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+				<g:HTMLPanel ui:field="runningTasksPanel" styleName="">
+					<h3>Running Tasks</h3>
 					<c:CellTable ui:field="runningTasks" />
-				</div>
-			</g:HTMLPanel>
-			<g:HTMLPanel styleName="">
-				<label class="{resources.style.tabbedPanelLabel}">Scheduled Tasks</label>
-				<div class="{resources.style.tabbedPanel} ">
+				</g:HTMLPanel>
+				<g:HTMLPanel styleName="">
+					<h3>Scheduled Tasks</h3>
 					<div style="margin-top:5px; margin-bottom:5px;">
 						<g:TextBox ui:field="searchSchedulesText" addStyleNames="{style.searchBox}" />
 						<g:Button ui:field="searchSchedules">search</g:Button>
 					</div>
 					<c:CellTable ui:field="allTasks" />
 					<c:SimplePager ui:field="pager" />
-				</div>
-				<br />
-				<label class="{resources.style.tabbedPanelLabel}">Execution History</label>
-				<div class="{resources.style.tabbedPanel} ">
+					<br />
+					<h3>Execution History</h3>
 					<div style="margin-top:5px; margin-bottom:5px;">
-						<t:EnumEditor ui:field="historyFilter" addStyleNames ="{style.listBox}" ></t:EnumEditor>
-						<g:TextBox ui:field="searchHistoryText" addStyleNames="{style.searchBox}" /> 
+						<t:EnumEditor ui:field="historyFilter" addStyleNames="{style.listBox}"></t:EnumEditor>
+						<g:TextBox ui:field="searchHistoryText" addStyleNames="{style.searchBox}" />
 						<g:Button ui:field="searchHistory">search</g:Button>
 					</div>
-					<c:CellTable ui:field="executedTasks" /> 
-				</div>
-			</g:HTMLPanel>
+					<c:CellTable ui:field="executedTasks" />
+				</g:HTMLPanel>
 			</g:HTMLPanel>
 		</g:center>
 	</g:DockLayoutPanel>

@@ -10,7 +10,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.simple.original.api.analytics.IPerson;
+import com.simple.original.api.orchestrator.IPerson;
 
 /**
  * Changelog is a class used to store historical changes to entities like the

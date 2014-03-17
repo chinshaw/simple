@@ -20,12 +20,8 @@ public interface Resources extends ClientBundle, CellTable.Resources,
 	public static final Resources INSTANCE = GWT.create(Resources.class);
 
 	public interface Style extends CssResource, ProgressWidget.Style {
-
-		public String alertNotificationPanel();
-
-		public String alertNotificationLabel();
-
-		public String alertNotificationCloseButton();
+		
+		public String add();
 
 		public String buttonCollection();
 
@@ -74,15 +70,10 @@ public interface Resources extends ClientBundle, CellTable.Resources,
 
 		public String gaugeLabel();
 
-		
 		public String header();
 		
 		public String search();
 		
-		public String tabbedPanel();
-
-		public String tabbedPanelLabel();
-
 		public String tableSearch();
 
 		public String textButton();
@@ -259,6 +250,10 @@ public interface Resources extends ClientBundle, CellTable.Resources,
 
 	@Source("images/down.png")
 	public ImageResource down();
+	
+	@ImageOptions()
+	@Source("images/down_arrow_select.jpg")
+	public ImageResource downArrowSelect();
 
 	@Source("images/plus.png")
 	public ImageResource plus();

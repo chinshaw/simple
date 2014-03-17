@@ -12,7 +12,7 @@ import com.simple.domain.model.AnalyticsTask;
 import com.simple.domain.model.MailMessage;
 import com.simple.domain.model.Person;
 import com.simple.engine.metric.AnalyticsTaskExecution;
-import com.simple.original.api.analytics.IPerson;
+import com.simple.original.api.orchestrator.IPerson;
 
 
 public class ReportNotificationManager {

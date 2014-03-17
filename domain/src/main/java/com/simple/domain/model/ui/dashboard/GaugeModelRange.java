@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
-import com.simple.original.api.analytics.Criticality;
+import com.simple.original.api.orchestrator.Criticality;
 
 @Embeddable
 public class GaugeModelRange {

@@ -11,12 +11,15 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.map.ObjectMapper;
+
 import com.dyuproject.protostuff.JsonIOUtil;
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.Message;
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.XmlIOUtil;
-import com.simple.engine.api.IMetric;
+import com.simple.original.api.orchestrator.IMetric;
 
 /**
  * This class is used to serialize protostuff messages.
@@ -28,6 +31,9 @@ import com.simple.engine.api.IMetric;
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class MessageWriter implements MessageBodyWriter<Message> {
 
+	private static final ObjectMapper mapper = new ObjectMapper();
+	
+	
 	@Override
 	public boolean isWriteable(Class<?> type, Type genericType,
 			Annotation[] annotations, MediaType mediaType) {
@@ -47,8 +53,14 @@ public class MessageWriter implements MessageBodyWriter<Message> {
 			OutputStream entityStream) throws IOException,
 			WebApplicationException {
 		
+		
+		
 		if (mediaType.isCompatible(MediaType.APPLICATION_JSON_TYPE)) {
-			JsonIOUtil.writeTo(entityStream, message, message.cachedSchema(), false);
+			System.out.println("message" + message.getClass().getName());
+			mapper.writeValue(entityStream, message);
+			// Have to use the jackson object mapper so that it will honor the annotations.
+			// The protostuff uses the native utf8 mapper and this does not add the @class annotation
+			//JsonIOUtil.writeTo(entityStream, message, message.cachedSchema(), false);
 			return;
 		}
 		

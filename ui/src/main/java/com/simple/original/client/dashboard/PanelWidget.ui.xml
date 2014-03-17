@@ -5,29 +5,28 @@
 
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
-	
-	<ui:style>
-		.widgetPanel {
-			min-height: 100px;
-			padding: 10px;
-		}
 
-		.container {
-			display:block;
-			clear:both;
-			margin-top:5px;
-			margin-bottom: 5px;
-		}
-		
-		.tabbedPanel {
-			padding: 0 !important;
-		}
-	</ui:style>
+	<ui:style>
+	.widgetPanel {
+		min-height: 100px;
+		padding: 10px;
+	}
 	
+	.container {
+		display: block;
+		clear: both;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+	
+	.tabbedPanel {
+		padding: 0 !important;
+	}
+	</ui:style>
+
 	<g:HTMLPanel styleName="{style.container}">
-		<span class="{resources.style.tabbedPanelLabel}" ui:field="panelTitle"></span>
-		<div class="{resources.style.tabbedPanel}  {style.tabbedPanel}">
-			<designer:DroppablePanel ui:field="widgetsPanel" stylePrimaryName="{resources.style.widgetsPanel}" ></designer:DroppablePanel> 
-		</div>
+		<h3 ui:field="panelTitle">ui:field="panelTitle"></h3>
+		<designer:DroppablePanel ui:field="widgetsPanel"
+			stylePrimaryName="{resources.style.widgetsPanel}"></designer:DroppablePanel>
 	</g:HTMLPanel>
 </ui:UiBinder>

@@ -43,7 +43,7 @@ import com.google.gwt.view.client.SelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.requestfactory.shared.ValueProxy;
-import com.simple.original.api.analytics.IMetricMatrix;
+import com.simple.original.api.orchestrator.IMetricMatrix;
 import com.simple.original.client.dashboard.TableWidget.MetricRowProxy;
 import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
 import com.simple.original.client.dashboard.events.WidgetSelectedEvent;
@@ -125,7 +125,7 @@ public class TableWidget extends AbstractDashboardWidget<ITableWidgetModel> impl
 
         /**
          * Render the MetricCell, this will look at the type of
-         * {@link MetricProxy} that this object is and it will render the cell
+         * {@link Metric} that this object is and it will render the cell
          * appropriately based on the values in the cell. For example a
          * {@link MetricDoubleProxy} cell has a low, mid, and high range. The
          * render function takes this into account and will color code the cell

@@ -17,6 +17,7 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.simple.original.client.place.AnalyticsTaskExecPlace;
 import com.simple.original.client.place.LoginPlace;
 import com.simple.original.client.place.PlaceController;
+import com.simple.original.client.place.WelcomePlace;
 import com.simple.original.client.proxy.PersonProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.service.PublicRequestFactory;
@@ -49,7 +50,7 @@ public class Simple implements EntryPoint {
 	@Inject
 	Application app;
 
-	private Place defaultPlace = new AnalyticsTaskExecPlace();
+	private Place defaultPlace = new WelcomePlace();
 
 	@Override
 	public void onModuleLoad() {

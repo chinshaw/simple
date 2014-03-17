@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.simple.original.api.analytics.IApplicationBookmark;
+import com.simple.original.api.orchestrator.IApplicationBookmark;
 
 /**
  * Bookmark is a user defined location that has a name and an address

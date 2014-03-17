@@ -3,7 +3,7 @@ package com.simple.domain.model;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 
-import com.simple.original.api.analytics.IRequestFactoryEntity;
+import com.simple.original.api.orchestrator.IRequestFactoryEntity;
 
 
 /**

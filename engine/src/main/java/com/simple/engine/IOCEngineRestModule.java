@@ -11,6 +11,7 @@ import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 public class IOCEngineRestModule extends ServletModule {
 
+	@Override
 	public void configureServlets() {
 		install(new IOCEngineModule());
 		

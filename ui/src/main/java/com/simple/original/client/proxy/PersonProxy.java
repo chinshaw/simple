@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 import com.simple.domain.model.Person;
-import com.simple.original.api.analytics.IPerson;
+import com.simple.original.api.orchestrator.IPerson;
 import com.simple.original.server.service.locators.PersonLocator;
 
 @ProxyFor(value = Person.class, locator = PersonLocator.class)

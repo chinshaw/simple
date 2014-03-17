@@ -19,9 +19,10 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 import com.google.inject.Inject;
-import com.simple.original.api.analytics.IPerson;
+import com.simple.original.api.orchestrator.IPerson;
 import com.simple.original.security.api.ICredentialLocator;
 import com.simple.original.security.api.IHasCredentials;
+
 import org.apache.shiro.mgt.SecurityManager;
 
 

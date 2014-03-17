@@ -7,9 +7,9 @@ import javax.persistence.TypedQuery;
 import com.simple.domain.model.ApplicationBookmark;
 import com.simple.domain.model.Person;
 import com.simple.domain.model.Preferences;
-import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.exceptions.NoSuchUserException;
 import com.simple.original.api.exceptions.NotAuthenticatedException;
+import com.simple.original.api.orchestrator.IPerson;
 import com.simple.original.security.api.IHasCredentials;
 
 /**

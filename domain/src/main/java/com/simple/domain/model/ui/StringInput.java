@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
-import com.simple.original.api.analytics.IStringInputEntity;
+import com.simple.original.api.orchestrator.IStringInputEntity;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

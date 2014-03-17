@@ -4,6 +4,8 @@
 package com.simple.original.client.view.desktop;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.HasEditorErrors;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
@@ -22,8 +24,8 @@ import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.requestfactory.gwt.client.HasRequestContext;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
-import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.exceptions.SimpleException;
+import com.simple.original.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.IOperationBuilderView;
@@ -68,6 +70,35 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
 
     @UiField
     HTMLPanel contentPanel;
+    
+    
+    @UiField
+    DivElement propertiesBlock;
+    
+    @UiField
+    DivElement inputsBlock;
+    
+    @UiField
+    DivElement codeBlock;
+    
+    @UiField
+    DivElement outputsBlock;
+    
+    
+    @UiField
+    Button propertiesNavigation;
+
+    @UiField
+    Button codeNavigation;
+
+    @UiField
+    Button inputsNavigation;
+
+    @UiField
+    Button outputsNavigation;
+    
+    
+    
 
     /**
      * Name component for the name of the analytics operation.
@@ -234,11 +265,6 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
 	public CheckBox getIsPublic() {
 		return isPublic;
 	}
-
-    @UiHandler("codeFullScreen")
-    public void onCodeFullScreen(ClickEvent click) {
-           code.onFullScreen();
-    }
     
     /**
 	 * @return the name
@@ -251,6 +277,34 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
 	public String getOperationName() {
 		return name.getTitle();
 	}
+	
+	
+	@UiHandler({"propertiesNavigation", "codeNavigation", "inputsNavigation", "outputsNavigation"}) 
+	void onNavChange(ClickEvent click) {
+		propertiesBlock.getStyle().setDisplay(Display.NONE);
+		codeBlock.getStyle().setDisplay(Display.NONE);
+		inputsBlock.getStyle().setDisplay(Display.NONE);
+		outputsBlock.getStyle().setDisplay(Display.NONE);
+		
+		if (click.getSource() == propertiesNavigation) {
+			propertiesBlock.getStyle().setDisplay(Display.BLOCK);
+		}
+		
+		if (click.getSource() == codeNavigation) {
+			codeBlock.getStyle().setDisplay(Display.BLOCK);
+		}
+		
+		if (click.getSource() == inputsNavigation) {
+			inputsBlock.getStyle().setDisplay(Display.BLOCK);
+		}
+		
+		if (click.getSource() == outputsNavigation) {
+			outputsBlock.getStyle().setDisplay(Display.BLOCK);
+		}
+		
+		
+	}
+	
 
 	/**
 	 * 
@@ -267,4 +321,5 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
 	void onTest(ClickEvent click) {
 		presenter.onTest();
 	}
+	
 }

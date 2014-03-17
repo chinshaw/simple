@@ -24,12 +24,36 @@
 		border: 1px solid #CCC;
 	}
 	
+	.codeEditor * textarea {
+		width: 100% !important;
+	}
+	
 	.content {
 		overflow-y: auto;
 	}
 	
-	textarea {
-		width: 100% !important;
+	.addOutputsBlock * {
+		float: left;
+	}
+	
+	div.nav {
+		margin-left: -10px;
+	}
+	
+	div.nav button {
+		background: none;
+		border-top: none;
+		border-bottom: 1px solid #CCC;
+		width: 100%;
+		text-align: left;
+		border-radius: 0px;
+		padding: 10px 10px;
+		transition: literal("background 300ms ease-in-out 0s, color 300ms ease-in-out 0s");
+	}
+	
+	div.nav button:hover,div.nav button:active {
+		background-color: #3B73AF;
+		color: white;
 	}
 	</ui:style>
 
@@ -48,107 +72,109 @@
 		</g:north>
 		<g:center>
 			<g:SplitLayoutPanel>
-				<g:west size="500">
-				
-				
-					<g:HTMLPanel ui:field="contentPanel" styleName="{resources.style.content}">
-						<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
-						<!-- <t:EnumEditor ui:field="typeEditor"></t:EnumEditor> -->
-						<div class="{resources.style.contentBlock}">
-							<div class="{resources.style.title}">
-								<label>Properties</label>
-								<hr style="display:inline;"></hr>
-							</div>
-							<section class="{resources.style.content}">
-								<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
-								<br style="clear:both;" />
-								<label>
-									<span style="color:red; padding-right:1px;">*</span>
-									Name
-								</label>
-								<t:ValueBoxEditorDecorator
-									errorLocation="RIGHT" ui:field="name">
-									<t:valuebox>
-										<g:TextBox />
-									</t:valuebox>
-								</t:ValueBoxEditorDecorator>
-
-								<label>Description</label>
-								<t:ValueBoxEditorDecorator
-									errorLocation="RIGHT" ui:field="description">
-									<t:valuebox>
-										<g:TextArea />
-									</t:valuebox>
-								</t:ValueBoxEditorDecorator>
-							</section>
+				<g:west size="200">
+					<g:HTMLPanel ui:field="contentPanel">
+						<div class="{style.nav}">
+							<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+							<g:Button ui:field="propertiesNavigation" text="Properties" />
+							<br />
+							<g:Button ui:field="codeNavigation" text="R Code" />
+							<br />
+							<g:Button ui:field="inputsNavigation" text="Inputs &amp; DataProviders" />
+							<br />
+							<g:Button ui:field="outputsNavigation" text="Outputs" />
 						</div>
-
-
 					</g:HTMLPanel>
 				</g:west>
 
 				<g:center>
 					<g:HTMLPanel styleName="{style.content}">
 						<g:HTMLPanel styleName="{resources.style.content}">
-							<br />
-							<div class="{resources.style.contentBlock}">
+
+							<div class="{resources.style.contentBlock}" ui:field="propertiesBlock"
+								style="display:none">
 								<div class="{resources.style.title}">
-									<label>Data Providers</label>
-									<hr style="display:inline;"></hr>
+									<label>Properties</label>
+								</div>
+								<section class="{resources.style.content}">
+									<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
+									<br style="clear:both;" />
+									<label>
+										<span style="color:red; padding-right:1px;">*</span>
+										Name
+									</label>
+									<t:ValueBoxEditorDecorator
+										errorLocation="RIGHT" ui:field="name">
+										<t:valuebox>
+											<t:DefaultTextBox defaultText="name of operation" />
+										</t:valuebox>
+									</t:ValueBoxEditorDecorator>
+
+									<label>Description</label>
+									<t:ValueBoxEditorDecorator
+										errorLocation="RIGHT" ui:field="description">
+										<t:valuebox>
+											<t:DefaultTextArea
+												defaultText="description of the operation, example what it does and what kind of outputs are provided, or what kind of inputs are required" />
+										</t:valuebox>
+									</t:ValueBoxEditorDecorator>
+								</section>
+							</div>
+							<br />
+							<div class="{resources.style.contentBlock}" ui:field="inputsBlock"
+								style="display:none">
+								<div class="{resources.style.title}">
+									<h3>Data Providers</h3>
 								</div>
 								<div class="{resources.style.content}">
 									<d:DataProviderInputsEditor
 										ui:field="dataProviders" />
 								</div>
-							</div>
+								<br />
 
-							<br />
-							<div class="{resources.style.contentBlock}">
 								<div class="{resources.style.title}">
-									<label>Operation Inputs</label>
-									<hr style="display:inline;"></hr>
+									<h3>Operation Inputs</h3>
 								</div>
 								<div class="{resources.style.content}">
 									<d:InputsEditor ui:field="inputsEditor"
 										resources="{resources}" />
 								</div>
 							</div>
-
 							<br />
-							<div class="{resources.style.contentBlock}">
-								<div class="{resources.style.title}">
-									<label>Operation Code</label>
-									<hr style="display:inline;"></hr>
-								</div>
+
+							<div class="{resources.style.contentBlock}" ui:field="codeBlock"
+								style="display:none">
+								<h2>Operation Code</h2>
 								<div class="{resources.style.content}">
 									<br style="clear:both;" />
 									<div class="{style.codePanel}">
 										<t:CodeEditorPanel styleName="{style.codeEditor}"
 											ui:field="code" />
-										<g:Image url="{resources.fullScreen.getURL}" ui:field="codeFullScreen" />
 									</div>
-
 								</div>
 							</div>
 
 							<br />
+
 							<!-- Outputs panel -->
-							<div class="{resources.style.contentBlock}">
+							<div class="{resources.style.contentBlock}" ui:field="outputsBlock"
+								style="display:none">
 								<div class="{resources.style.title}">
-									<label>Operation Outputs</label>
-									<hr style="display:inline;"></hr>
+									<h3>Operation Outputs</h3>
 								</div>
 								<div class="{resources.style.content}">
 									<d:AnalyticsOperationOutputEditor
 										ui:field="outputsEditor"></d:AnalyticsOperationOutputEditor>
-									<g:ListBox ui:field="availableOutputTypes"></g:ListBox>
-									<g:Button styleName="{resources.style.textButton}"
-										ui:field="addOutput">
-										add
-									</g:Button>
+									<div class="{style.addOutputsBlock}">
+										<g:ListBox ui:field="availableOutputTypes" />
+										<g:Button ui:field="addOutput" styleName="{resources.style.add}">
+											Add +
+										</g:Button>
+									</div>
 								</div>
 							</div>
 							<br />
+
 							<div class="{resources.style.buttonCollection}" style="text-align: right; margin-bottom: 2em;">
 								<g:Button ui:field="cancel">Cancel</g:Button>
 								<g:Button ui:field="save">Save</g:Button>

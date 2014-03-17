@@ -3,7 +3,7 @@ package com.simple.web.test;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.simple.original.api.analytics.IPerson;
+import com.simple.original.api.orchestrator.IPerson;
 import com.simple.original.security.api.ISession;
 
 public class FakeSession implements ISession {

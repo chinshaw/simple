@@ -6,22 +6,22 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
-		.dateTable {
-			
-		}
-
-		.imageIcon {
-			position:absolute;
-		}
+	.dateTable {
 		
-		.dateTable  td {
-			text-align: left;
-			width: 6em;
-		}
-		
-		.delete {
-			background-color: darkred;
-		}
+	}
+	
+	.imageIcon {
+		position: absolute;
+	}
+	
+	.dateTable  td {
+		text-align: left;
+		width: 6em;
+	}
+	
+	.delete {
+		background-color: darkred;
+	}
 	</ui:style>
 
 	<g:DockLayoutPanel ui:field="dockLayoutPanel"
@@ -30,7 +30,7 @@
 			<g:HTMLPanel styleName="">
 				<vf:ErrorPanel ui:field="errorPanel"></vf:ErrorPanel>
 				<!-- Top overview panel -->
-				<label class="{resources.style.tabbedPanelLabel}">Overview</label>
+				<h3>Overview</h3>
 				<div class="">
 					<p>Schedule a analytics task to run at a given time or a recurring
 						time in
@@ -47,28 +47,28 @@
 				<br />
 
 				<!-- Scheduling options panel -->
-				<label class="{resources.style.tabbedPanelLabel}">Status</label>
+				<h3>Status</h3>
 				<div class="">
-					<p>Task Status: <span style="font-weight:bold" ui:field="taskState">Checking...</span></p>
+					<p>
+						Task Status:
+						<span style="font-weight:bold" ui:field="taskState">Checking...</span>
+					</p>
 					<br />
 					<g:Button ui:field="pause">pause</g:Button>
 					<br />
 					<br />
-					<g:Button ui:field="delete" styleName="{style.delete}" >delete</g:Button>
+					<g:Button ui:field="delete" styleName="{style.delete}">delete
+					</g:Button>
 
-					<!--  Not supported yet -->
-					<!-- 
-					<g:Label>Starting Date</g:Label>
-					<d:DateBox ui:field="startingDate"></d:DateBox>
-					<g:Label>Starting Time</g:Label>
-					<g:ListBox ui:field="startingTime"></g:ListBox>
-					 -->
+					<!-- Not supported yet -->
+					<!-- <g:Label>Starting Date</g:Label> <d:DateBox ui:field="startingDate"></d:DateBox> 
+						<g:Label>Starting Time</g:Label> <g:ListBox ui:field="startingTime"></g:ListBox> -->
 				</div>
 				<br />
-				
-				
+
+
 				<!-- Scheduling options panel -->
-				<label class="{resources.style.tabbedPanelLabel}">Scheduling Options</label>
+				<h3>Scheduling Options</h3>
 				<div class="">
 					<span>
 						Scheduling options for analytics task:
@@ -80,20 +80,16 @@
 					<g:TextBox ui:field="description"></g:TextBox>
 
 
-					<!--  Not supported yet -->
-					<!-- 
-					<g:Label>Starting Date</g:Label>
-					<d:DateBox ui:field="startingDate"></d:DateBox>
-					<g:Label>Starting Time</g:Label>
-					<g:ListBox ui:field="startingTime"></g:ListBox>
-					 -->
+					<!-- Not supported yet -->
+					<!-- <g:Label>Starting Date</g:Label> <d:DateBox ui:field="startingDate"></d:DateBox> 
+						<g:Label>Starting Time</g:Label> <g:ListBox ui:field="startingTime"></g:ListBox> -->
 					<br />
 					<g:Label>Start Date</g:Label>
 					<d:DateBox width="16em" ui:field="schedulerDateTime"></d:DateBox>
 					<g:Image ui:field="calendarImage"></g:Image>
 					<br />
 					<g:Label>Start Time:</g:Label>
- 					<div>
+					<div>
 						<div style="float : left;">
 							<div style="float:left;">
 								<g:Label>Hrs</g:Label>
@@ -109,15 +105,15 @@
 							<div style="float : left; margin-left:2px">
 								<vf:SpinBox maxValue="59" ui:field="Minutes"></vf:SpinBox>
 							</div>
- 						</div>
+						</div>
 					</div>
 					<br />
 				</div>
 				<br />
 
 				<!-- Recurrence options for the analytics task -->
-				<label class="{resources.style.tabbedPanelLabel}">Reccurrence Options</label>
-				<div class="">
+				<h3>Reccurrence Options</h3>
+				<div>
 					<g:Label>Reoccurs</g:Label>
 					<vf:EnumEditor ui:field="occurrence" />
 					<table class="{style.dateTable}" ui:field="dayChooser">
@@ -170,13 +166,12 @@
 					</table>
 				</div>
 				<br />
-				<label class="{resources.style.tabbedPanelLabel}">History</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<c:CellTable ui:field="historyTable" />
-					<c:SimplePager location="LEFT" ui:field="historyPager"> </c:SimplePager>
-				</div>
+				<h3>History</h3>
+				<c:CellTable ui:field="historyTable" />
+				<c:SimplePager location="LEFT" ui:field="historyPager">
+				</c:SimplePager>
 				<br />
-				
+
 				<div style="float:right">
 					<g:Button ui:field="cancel">cancel</g:Button>
 					<g:Button ui:field="update">update</g:Button>

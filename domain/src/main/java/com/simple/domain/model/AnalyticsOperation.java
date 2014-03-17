@@ -22,8 +22,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.DataProviderInput;
-import com.simple.original.api.analytics.IAnalyticsOperation;
-import com.simple.original.api.analytics.IPerson;
+import com.simple.original.api.orchestrator.IAnalyticsOperation;
+import com.simple.original.api.orchestrator.IPerson;
 
 /**
  * 

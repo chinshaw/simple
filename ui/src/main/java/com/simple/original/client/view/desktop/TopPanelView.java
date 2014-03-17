@@ -71,6 +71,8 @@ public class TopPanelView extends AbstractView implements ITopPanelView {
 	
 	@Inject
 	PlaceController placeController;
+	
+	
 
 	@Inject
 	public TopPanelView(EventBus eventBus, Resources resources) {
@@ -85,6 +87,7 @@ public class TopPanelView extends AbstractView implements ITopPanelView {
 		tasks.setScheduledCommand(new MenuPlaceItemCommand(new AnalyticsTasksPlace()));
 		scheduling.setScheduledCommand(new MenuPlaceItemCommand( new AnalyticsTaskSchedulerPlace()));
 		runTask.setScheduledCommand(new MenuPlaceItemCommand(new AnalyticsTaskExecPlace()));
+		
 	}
 
 	@Override

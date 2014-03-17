@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.simple.original.api.analytics.IComplexInput;
+import com.simple.original.api.orchestrator.IComplexInput;
 
 /**
  * Purpose of this class is to create a dynamic user input model. This is used

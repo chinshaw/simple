@@ -8,16 +8,17 @@ import java.util.logging.Logger;
 import org.apache.hadoop.io.WritableUtils;
 
 import com.dyuproject.protostuff.ProtobufIOUtil;
-import com.simple.engine.api.IMetric;
 import com.simple.engine.api.IMetricWritable;
 import com.simple.engine.api.MediaType;
+import com.simple.engine.metric.Metric;
+import com.simple.original.api.orchestrator.IMetric;
 
 public class MetricWritable<M extends IMetric<?>> implements IMetricWritable {
 
 	private static final Logger logger = Logger.getLogger(MetricWritable.class
 			.getName());
 
-	private IMetric metric;
+	private Metric metric;
 
 	private String mimeType = MediaType.APPLICATION_PROTOBUF;
 
@@ -25,7 +26,7 @@ public class MetricWritable<M extends IMetric<?>> implements IMetricWritable {
 
 	}
 
-	public MetricWritable(IMetric<?> metric, String mimeType) {
+	public MetricWritable(Metric<?> metric, String mimeType) {
 		this.metric = metric;
 		this.mimeType = mimeType;
 	}
@@ -69,7 +70,7 @@ public class MetricWritable<M extends IMetric<?>> implements IMetricWritable {
 		String strClass = WritableUtils.readString(in);
 		try {
 			Class<?> clazz = Class.forName(strClass);
-			metric = (IMetric<?>) clazz.newInstance();
+			metric = (Metric) clazz.newInstance();
 
 			logger.info("Reading length " + newLength);
 			byte[] bytes = new byte[newLength];

@@ -14,7 +14,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.simple.original.api.analytics.ITaskExecution;
+import com.simple.original.api.orchestrator.ITaskExecution;
 import com.simple.original.client.place.AnalyticsTaskExecPlace;
 import com.simple.original.client.place.AnalyticsTaskSchedulerDetailsPlace;
 import com.simple.original.client.place.AnalyticsTaskSchedulerPlace;

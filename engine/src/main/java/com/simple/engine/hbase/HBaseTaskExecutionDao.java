@@ -7,8 +7,8 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import com.simple.engine.ITaskExecutionDao;
-import com.simple.engine.api.IMetricKey;
-import com.simple.original.api.analytics.ITaskExecution;
+import com.simple.original.api.orchestrator.IMetricKey;
+import com.simple.original.api.orchestrator.ITaskExecution;
 
 public class HBaseTaskExecutionDao extends HBaseDao implements ITaskExecutionDao {
 

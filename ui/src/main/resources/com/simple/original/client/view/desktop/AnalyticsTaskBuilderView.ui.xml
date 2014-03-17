@@ -6,241 +6,173 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
-		@external .gwt-CheckBox;
-		span.gwt-CheckBox label {
-			display: inline;
-		}
-		
-		.code {
-			width: 100em;
-			height: 25em;
-		}
-		
-		.contentPanelContent>label {
-			font-weight: bolder;
-		}
-		
-		.buttonCollection {
-			margin-top: 10px;
-			float: right;
-			margin-bottom:3em;
-		}
-		
-		.inlined {
-			display: inline;
-		}
-		
-		.dateTable  td {
-			text-align: left;
-			width: 6em;
-		}
-		
+	@external .gwt-CheckBox;
+	span.gwt-CheckBox label {
+		display: inline;
+	}
+	
+	.code {
+		width: 100em;
+		height: 25em;
+	}
+	
+	.contentPanelContent>label {
+		font-weight: bolder;
+	}
+	
+	.buttonCollection {
+		margin-top: 10px;
+		float: right;
+		margin-bottom: 3em;
+	}
+	
+	.inlined {
+		display: inline;
+	}
+	
+	.dateTable  td {
+		text-align: left;
+		width: 6em;
+	}
 	</ui:style>
 
 	<g:FlowPanel styleName="{resources.style.content}">
-			<g:HTMLPanel styleName="" ui:field="contentPanel">
-				<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+		<g:HTMLPanel styleName="" ui:field="contentPanel">
+			<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
 
-				<!-- Global Panel -->
-				<label class="{resources.style.tabbedPanelLabel}">Global</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<p>
-						<b>Description:</b>
-						The analytics task builder facilitates building a customized
-						analytics job that can be used to drive built-in
-						ui screens or a user runnable analytics task with customized inputs.
-						UI User Inputs will be used to allow a user
-						to define what inputs will be provided to the screen (example "start
-						date", "factory id", etc). A analytics task
-						consists of a name, description, analtyics operations, optional outputs
-						and data providers. UI User Inputs are
-						are ui widgets that will prompt the user for input. Data Providers
-						add the ability to provide input to the
-						analytics operation, this could be in the form of an sql command or a r
-						command. At the heart is the analytics chain
-						which allows you to run a single or multiple analtyics operations to
-						complete the analtyics job. They will be
-						called syncronously and the workspace will not be cleared between
-						operations. Last is the outputs which is the output
-						of the analytics task that matters. Many variables may be created
-						during the analtytics operations and the outputs allows you
-						to specify which outputs the operation cares about. The public
-						access option will make the analytics task public for all users to
-						run otherwise you will be the only
-						one that can view this analytics task. The analytics task name must
-						be unique and should be fairly explanatory. The description
-						should contain as much information about what the analytics task does as
-						possible.
-					</p>
-					<br />
-					<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
-					<label><span style="color:red; padding-right:1px;">*</span>Name</label>
-					<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="name">
-                        <t:valuebox>
-                            <g:TextBox />
-                        </t:valuebox>
-                    </t:ValueBoxEditorDecorator>
-                    
-					<label>Description</label>
-					<t:ValueBoxEditorDecorator errorLocation="RIGHT" ui:field="description">
-                        <t:valuebox>
-                            <g:TextArea />
-                        </t:valuebox>
-                    </t:ValueBoxEditorDecorator>
-				</div>
-				<br />
+			<!-- Global Panel -->
+			<h3>Global</h3>
+			<p>
+				<b>Description:</b>
+				The analytics task builder facilitates building a customized
+				analytics job that can be used to drive built-in
+				ui screens or a user
+				runnable analytics task with customized inputs.
+				UI User Inputs will
+				be used to allow a user
+				to define what inputs will be provided to the
+				screen (example "start
+				date", "factory id", etc). A analytics task
+				consists of a name, description, analtyics operations, optional
+				outputs
+				and data providers. UI User Inputs are
+				are ui widgets that
+				will prompt the user for input. Data Providers
+				add the ability to
+				provide input to the
+				analytics operation, this could be in the form
+				of an sql command or a r
+				command. At the heart is the analytics chain
+				which allows you to run a single or multiple analtyics operations to
+				complete the analtyics job. They will be
+				called syncronously and the
+				workspace will not be cleared between
+				operations. Last is the outputs
+				which is the output
+				of the analytics task that matters. Many
+				variables may be created
+				during the analtytics operations and the
+				outputs allows you
+				to specify which outputs the operation cares
+				about. The public
+				access option will make the analytics task public
+				for all users to
+				run otherwise you will be the only
+				one that can view
+				this analytics task. The analytics task name must
+				be unique and
+				should be fairly explanatory. The description
+				should contain as much
+				information about what the analytics task does as
+				possible.
+			</p>
+			<br />
+			<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
+			<label>
+				<span style="color:red; padding-right:1px;">*</span>
+				Name
+			</label>
+			<t:ValueBoxEditorDecorator errorLocation="RIGHT"
+				ui:field="name">
+				<t:valuebox>
+					<g:TextBox />
+				</t:valuebox>
+			</t:ValueBoxEditorDecorator>
 
-				<!-- Data provider panel -->
-				<label class="{resources.style.tabbedPanelLabel}">Data Providers</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<p>
-						<b>Description:</b>
-						Data Providers are a flexible way of allowing the analytics task
-						creator to provide the data
-						that the analtyics operations will analyze without putting the data in
-						the analytics operation itself. This
-						makes the Analytics operations more flexible in the sense that they are
-						not tied to a specific data source.
-						Examples of data providers' are the sql query and the R input. The sql
-						query would be used to query data and
-						assign the output of that query to a defined variable that an analytics
-						operation may care about. For example if you
-						have a PchartAnalytics operation that requires a Vector called
-						Pchartdata you could define the sql query to
-						provide the variable Pchartdata with the output or your sql query. The R
-						data provider gives you an opportunity
-						to define hard coded text input or a R function.
-					</p>
-					<br />
-					<desktop:DataProviderListEditor ui:field="dataProviderEditor"></desktop:DataProviderListEditor>
-					<div style="margin-top:10px;">
-						<g:ListBox ui:field="availableDataProviderTypes"></g:ListBox>
-						<g:Button styleName="{resources.style.textButton}"
-							ui:field="addDataProvider">add</g:Button>
-					</div>
-				</div>
-				<br />
+			<label>Description</label>
+			<t:ValueBoxEditorDecorator errorLocation="RIGHT"
+				ui:field="description">
+				<t:valuebox>
+					<g:TextArea />
+				</t:valuebox>
+			</t:ValueBoxEditorDecorator>
 
-				<!-- Analytics operations panel -->
-				<label class="{resources.style.tabbedPanelLabel}">Analytics Chain</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<t:EditableDNDCellList ui:field="analyticsChainEditor" />
-					<div>
-						<g:SuggestBox ui:field="operationSuggest"></g:SuggestBox>
-						<!-- <t:ValueListBox ui:field="availableOperations"></t:ValueListBox> -->
-						<g:Button styleName="{resources.style.textButton}"
-							ui:field="addAnalytics">add</g:Button>
-					</div>
-				</div>
-				<br />
-				
-				<label class="{resources.style.tabbedPanelLabel}">Dashboard</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<div style="display:inline">
-						<label ui:field="dashboardName"></label>
-						<g:Button styleName="{resources.style.textButton}"
-							ui:field="editDashboard">edit</g:Button>
-					</div>
-				</div>
-				<br />
-				
-				<!-- 
-				<label class="{resources.style.tabbedPanelLabel}">Task Inputs</label>
-				<div class="{resources.style.tabbedPanel} ">
-					<desktop:AnalyticsInputEditor ui:field="taskInputsEditor" />
-					<br style="clear:both" />
-				</div>
-				<br />
+			<br />
 
-				<label class="{resources.style.tabbedPanelLabel}">Reccurrence Options</label>
-				<div class="">
-					<span>
-						Scheduling options for analytics task:
-						<span ui:field="analyticsTaskName" style="font-weight:bold">Analytics Task NAME</span>
-					</span>
-					<br />
+			<!-- Data provider panel -->
+			<h3>Data Providers</h3>
+			<p>
+				<b>Description:</b>
+				Data Providers are a flexible way of allowing the analytics task
+				creator to provide the data
+				that the analtyics operations will
+				analyze without putting the data in
+				the analytics operation itself.
+				This
+				makes the Analytics operations more flexible in the sense that
+				they are
+				not tied to a specific data source.
+				Examples of data
+				providers' are the sql query and the R input. The sql
+				query would be
+				used to query data and
+				assign the output of that query to a defined
+				variable that an analytics
+				operation may care about. For example if
+				you
+				have a PchartAnalytics operation that requires a Vector called
+				Pchartdata you could define the sql query to
+				provide the variable
+				Pchartdata with the output or your sql query. The R
+				data provider
+				gives you an opportunity
+				to define hard coded text input or a R
+				function.
+			</p>
+			<br />
+			<desktop:DataProviderListEditor
+				ui:field="dataProviderEditor"></desktop:DataProviderListEditor>
+			<div style="margin-top:10px;">
+				<g:ListBox ui:field="availableDataProviderTypes"></g:ListBox>
+				<g:Button styleName="{resources.style.textButton}"
+					ui:field="addDataProvider">add</g:Button>
+			</div>
+			<br />
 
-					<g:Label>Schedule Name</g:Label>
-					<g:TextBox maxLength="40" width="25em" ui:field="scheduleName"></g:TextBox>
-				
-					<g:Label>Reoccurs</g:Label>
-					<t:EnumEditor ui:field="occurrence" />
-					
-					<table class="{style.dateTable}" ui:field="dayChooser">
-						<tr>
-							<td>
-								Sunday
-							</td>
-							<td>
-								Monday
-							</td>
-							<td>
-								Tuesday
-							</td>
-							<td>
-								Wednesday
-							</td>
-							<td>
-								Thursday
-							</td>
-							<td>
-								Friday
-							</td>
-							<td>
-								Saturday
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<g:CheckBox ui:field="sunday" />
-							</td>
-							<td>
-								<g:CheckBox ui:field="monday" />
-							</td>
-							<td>
-								<g:CheckBox ui:field="tuesday" />
-							</td>
-							<td>
-								<g:CheckBox ui:field="wednesday" />
-							</td>
-							<td>
-								<g:CheckBox ui:field="thursday" />
-							</td>
-							<td>
-								<g:CheckBox ui:field="friday" />
-							</td>
-							<td>
-								<g:CheckBox ui:field="saturday" />
-							</td>
-						</tr>
-					</table>
-					<div ui:field="minuteSelectorWrapper">
-					    <label>Occurs on minute</label>
-					    <t:MinuteSelector ui:field="minuteSelector" />
-					</div>
-					<div ui:field="daySelectorWrapper">
-						<label>Occurs at time</label>
-						<t:DaySelector ui:field="daySelector" />
-					</div>
-					
-					<div ui:field="timeSelectorWrapper">
-						<label>Occurs at time</label>
-						<t:SmallTimePicker ui:field="timeSelector" />
-					</div>
-					<label>Cron Text</label>
-					<g:TextBox maxLength="15" ui:field="cronText"></g:TextBox>
-				</div>
-				<br />
+			<!-- Analytics operations panel -->
+			<h3>Analytics Chain</h3>
+			<t:EditableDNDCellList ui:field="analyticsChainEditor" />
+			<div>
+				<g:SuggestBox ui:field="operationSuggest"></g:SuggestBox>
+				<!-- <t:ValueListBox ui:field="availableOperations"></t:ValueListBox> -->
+				<g:Button styleName="{resources.style.textButton}"
+					ui:field="addAnalytics">add</g:Button>
+			</div>
+			<br />
 
-				<label class="{resources.style.tabbedPanelLabel}">Alerting</label>
-				<div class="{resources.style.tabbedPanel} ">
-				</div>
-				-->
+			<h3>Dashboard</h3>
 
-				<div class="{resources.style.buttonCollection} {style.buttonCollection}">
-					<g:Button ui:field="cancel">Cancel</g:Button>
-					<g:Button ui:field="saveTask">Save</g:Button>
-				</div>
-			</g:HTMLPanel>
+			<div style="display:inline">
+				<label ui:field="dashboardName"></label>
+				<g:Button styleName="{resources.style.textButton}"
+					ui:field="editDashboard">edit</g:Button>
+			</div>
+			<br />
+
+			<div class="{resources.style.buttonCollection} {style.buttonCollection}">
+				<g:Button ui:field="cancel">Cancel</g:Button>
+				<g:Button ui:field="saveTask">Save</g:Button>
+			</div>
+		</g:HTMLPanel>
 	</g:FlowPanel>
 </ui:UiBinder> 

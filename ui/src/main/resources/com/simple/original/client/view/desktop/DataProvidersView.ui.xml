@@ -6,22 +6,45 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
-		
+	
 	</ui:style>
 
-	<g:DockLayoutPanel styleName="{resources.style.content}"
-		unit="PX">
-		<g:center>
-			<g:HTMLPanel>
-				<label class="{resources.style.tabbedPanelLabel}">Configured Data Providers</label>
-				<div class="{resources.style.tabbedPanel}">
-					<g:Button ui:field="delete">Delete</g:Button>
-				    <g:Button ui:field="test">Test</g:Button>
-	
-					<c:CellTable ui:field="configuredProviders"></c:CellTable>
-					<c:SimplePager ui:field="pager" location="LEFT"></c:SimplePager>
+	<g:DockLayoutPanel>
+		<g:north size="75">
+			<g:HTMLPanel styleName="{resources.style.topHeader}">
+				<div style="display:block;">
+					<div class="{resources.style.header}" style="float:left;">
+						<h1>Data Providers</h1>
+					</div>
 				</div>
 			</g:HTMLPanel>
+		</g:north>
+		<g:center>
+			<g:SplitLayoutPanel>
+				<g:west size="200">
+					<g:HTMLPanel ui:field="contentPanel">
+						<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+						<g:Anchor ui:field="propertiesNavigation" text="Properties" />
+						<br />
+						<g:Anchor ui:field="codeNavigation" text="R Code" />
+						<br />
+						<g:Anchor ui:field="inputsNavigation" text="Inputs &amp; DataProviders" />
+						<br />
+						<g:Anchor ui:field="outputsNavigation" text="Outputs" />
+
+					</g:HTMLPanel>
+				</g:west>
+
+				<g:center>
+					<g:HTMLPanel>
+						<h3>Data Providers</h3>
+						<g:Button ui:field="delete">Delete</g:Button>
+
+						<c:CellTable ui:field="configuredProviders"></c:CellTable>
+						<c:SimplePager ui:field="pager" location="LEFT"></c:SimplePager>
+					</g:HTMLPanel>
+				</g:center>
+			</g:SplitLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>
 </ui:UiBinder>

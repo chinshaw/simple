@@ -20,13 +20,13 @@ import javax.persistence.criteria.Root;
 
 import com.google.inject.Inject;
 import com.simple.domain.model.Person;
-import com.simple.original.api.analytics.IDatastoreObject;
-import com.simple.original.api.analytics.IPerson;
 import com.simple.original.api.domain.RecordFecthType;
 import com.simple.original.api.domain.SortOrder;
 import com.simple.original.api.exceptions.DomainException;
 import com.simple.original.api.exceptions.SimpleException;
 import com.simple.original.api.exceptions.TooManyResultsException;
+import com.simple.original.api.orchestrator.IDatastoreObject;
+import com.simple.original.api.orchestrator.IPerson;
 import com.simple.original.security.api.ISession;
 
 public class DaoBase<T extends IDatastoreObject> {

@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import com.simple.original.api.analytics.IDatastoreObject;
+import com.simple.original.api.orchestrator.IDatastoreObject;
 
 @MappedSuperclass
 public abstract class DatastoreObject implements IDatastoreObject, Cloneable, Serializable {

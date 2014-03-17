@@ -1,5 +1,7 @@
 package com.simple.engine.service.hadoop.io.adapter;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
@@ -15,17 +17,31 @@ import org.apache.hadoop.mapreduce.Reducer.Context;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
 
-import com.simple.engine.api.IMetricKey;
 import com.simple.engine.api.IMetricWritable;
+import com.simple.engine.service.hadoop.ModuleProperties;
+import com.simple.engine.service.hadoop.io.MetricWritable;
+import com.simple.engine.service.hadoop.io.format.MetricOutputFormat;
+import com.simple.original.api.orchestrator.IMetricKey;
+import com.sun.tools.javac.util.ByteBuffer;
 
 public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		extends AbstractOutputFormatAdapter<K, V> {
 
-	public static String DEFAULT_VALUE_COLUMN = "value";
 	
-	public static String DEFAULT_CLASS_COLUMN = "clazz";
+	private static final ModuleProperties props;
+	static {
+		try {
+			props = ModuleProperties.getInstance();
+		} catch (IOException e) {
+			throw new RuntimeException("Could not load module properties", e);
+		}
+	}
+	
+	public static String COLUMN_VALUE = props.getProperty("com.artisan.orchestrator.hbase.metric.colvalue");
+	
+	public static String COLUMN_CLASS = props.getProperty("com.artisan.orchestrator.hbase.metric.colclass");
 
-	public static String DEFAULT_MIME_TYPE_COLUMN = "mimetype";
+	public static String COLUMN_MEDIATYPE = props.getProperty("com.artisan.orchestrator.hbase.metric.colmediatype");
 
 	private static final Logger logger = Logger.getLogger(HBaseAdapter.class
 			.getName());
@@ -56,19 +72,37 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		}
 
 		/**
+		 * {@inheritDoc}
+		 * 
 		 * This is where we wrap the call to write the metric out to the hbase
 		 * file system. We write both the value and the mime type so that it is
 		 * easy to re convert it.
+		 * 
+		 * To convert the metricwritable to binary we use the {@link MetricWritable#write(java.io.DataOutput)} 
+		 * to write the output to a byte stream. This is important because it will write the size of the
+		 * byte stream along with the class of the bytes stream. When un marshalling the
+		 * byte stream it is required that you read the size and then the class or simply use the MetricWritable
+		 * readFields to unserialize the binary stream.
 		 */
 		@Override
 		public void write(K key, V value) throws IOException,
 				InterruptedException {
+			
+			// Configure the key in the put
 			Put put = new Put(key.toBytes());
-			put.add(family, Bytes.toBytes(DEFAULT_VALUE_COLUMN),
-					value.toBytes());
-			put.add(family, Bytes.toBytes(DEFAULT_CLASS_COLUMN),
+			
+
+			ByteArrayOutputStream valueStream = new ByteArrayOutputStream(4096);
+			DataOutputStream daos = new DataOutputStream(valueStream);
+			value.write(daos);
+			
+			put.add(family, Bytes.toBytes(COLUMN_VALUE),
+					valueStream.toByteArray());
+			
+			put.add(family, Bytes.toBytes(COLUMN_CLASS),
 					Bytes.toBytes(value.getClass().getName()));
-			put.add(family, Bytes.toBytes(DEFAULT_MIME_TYPE_COLUMN), value
+			
+			put.add(family, Bytes.toBytes(COLUMN_MEDIATYPE), value
 					.getMimeType().getBytes());
 			nativeWriter.write(key, put);
 		}

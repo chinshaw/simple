@@ -25,9 +25,9 @@ import com.simple.domain.model.ui.ComplexInput;
 import com.simple.domain.model.ui.DateInput;
 import com.simple.domain.model.ui.StringInput;
 import com.simple.domain.model.ui.dashboard.Dashboard;
-import com.simple.original.api.analytics.IAnalyticsOperationOutput;
 import com.simple.original.api.exceptions.DomainException;
 import com.simple.original.api.exceptions.SimpleException;
+import com.simple.original.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.original.security.api.ISession;
 
 public class TestAnalyticsTaskDao extends DaoTest {

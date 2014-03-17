@@ -24,6 +24,7 @@ import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.metric.MetricKey;
 import com.simple.engine.service.AnalyticsOperationException;
 import com.simple.engine.service.IAnalyticsOperationExecutor;
+import com.simple.engine.service.hadoop.ModuleProperties;
 import com.simple.engine.service.hadoop.config.ConfigurationException;
 import com.simple.engine.service.hadoop.config.HttpInputConf;
 import com.simple.engine.service.hadoop.config.OperationConfig;
@@ -33,20 +34,26 @@ import com.simple.engine.service.hadoop.io.format.MetricInputFormat.InputAdapter
 import com.simple.engine.service.hadoop.io.format.MetricOutputFormat;
 import com.simple.engine.service.hadoop.io.format.MetricOutputFormat.OutputAdapterType;
 import com.simple.engine.service.hadoop.job.AnalyticsOperationHadoopJob;
-import com.simple.original.api.analytics.IMetric;
 import com.simple.original.api.exceptions.RAnalyticsException;
+import com.simple.original.api.orchestrator.IMetric;
 
 public class OperationDriver implements IAnalyticsOperationExecutor {
 
 	private static final Logger logger = Logger.getLogger(OperationDriver.class.getName());
 
+	private static ModuleProperties props;
+	
 	private Boolean jobSuccess;
 
 	public static final String TIMESTAMP_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
 
 	public OperationDriver() {
-
+		try {
+			props = ModuleProperties.getInstance();
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to instantiate module properties", e);
+		}
 	}
 
 	@Override
@@ -99,10 +106,12 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 			
 			Configuration configuration = job.getConfiguration();
 			
-			configuration.set(TableOutputFormat.OUTPUT_TABLE, "metrics");
-			configuration.set("conf.column", "rexp");
+			configuration.set(TableOutputFormat.OUTPUT_TABLE, props.getProperty("com.artisan.orchestrator.hbase.metric.table"));
+			configuration.set("conf.column", props.getProperty("com.artisan.orchestrator.hbase.metric.colfamily"));
 			configuration.set("fs.defaultFS", "file:///");
 			configuration.set("mapred.job.tracker", "local");
+			
+			
 			MetricOutputFormat.setOutputAdatperType(configuration, OutputAdapterType.HBASE );
 			MetricInputFormat.setInputAdapterType(configuration, InputAdapterType.HTTP);
 			

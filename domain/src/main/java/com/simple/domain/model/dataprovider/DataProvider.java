@@ -6,7 +6,7 @@ import javax.persistence.InheritanceType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 import com.simple.domain.model.RequestFactoryEntity;
-import com.simple.original.api.analytics.IDataProvider;
+import com.simple.original.api.orchestrator.IDataProvider;
 
 
 /**

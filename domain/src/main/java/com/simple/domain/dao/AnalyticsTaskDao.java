@@ -37,10 +37,10 @@ import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.domain.model.ui.dashboard.Widget;
-import com.simple.original.api.analytics.IMetricDouble;
-import com.simple.original.api.analytics.IMetricString;
 import com.simple.original.api.exceptions.DuplicateTaskException;
 import com.simple.original.api.exceptions.SimpleException;
+import com.simple.original.api.orchestrator.IMetricDouble;
+import com.simple.original.api.orchestrator.IMetricString;
 
 /**
  * 

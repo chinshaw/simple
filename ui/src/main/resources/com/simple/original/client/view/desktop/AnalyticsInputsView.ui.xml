@@ -7,15 +7,17 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
-		.addButton {
-			float: left;
-		}
+	.inputsContainer * {
+		float: left;
+	}
 	</ui:style>
 
 	<g:HTMLPanel>
 		<g:FlowPanel ui:field="container" />
-		<g:ListBox ui:field="availableInputTypes"></g:ListBox>
-		<g:Button styleName="{resources.style.textButton}" ui:field="addInput">add
-		</g:Button>
+		<div class="{style.inputsContainer}">
+			<g:ListBox ui:field="availableInputTypes"></g:ListBox>
+			<g:Button ui:field="addInput" styleName="{resources.style.add}">Add
+			</g:Button>
+		</div>
 	</g:HTMLPanel>
 </ui:UiBinder>

@@ -1,7 +1,8 @@
 package com.simple.original.client.dashboard;
 
+import org.apache.commons.httpclient.HeaderElement;
+
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -31,7 +32,7 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	DroppablePanel widgetsPanel;
 
 	@UiField
-	SpanElement panelTitle;
+	HeaderElement panelTitle;
 
 	private final WidgetFactory widgetFactory;
 
@@ -55,7 +56,7 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	public void onWidgetModelChanged(WidgetModelChangedEvent event) {
 		IWidgetModel eventModel = event.getWidgetModel();
 		if (eventModel == model) {
-			panelTitle.setInnerText(model.getTitle());
+			panelTitle.setValue(model.getTitle());
 		}
 	}
 
@@ -96,6 +97,6 @@ public class PanelWidget extends AbstractDashboardWidget<IPanelWidgetModel>
 	}
 	
 	public void update() {
-		panelTitle.setInnerText(model.getTitle());
+		panelTitle.setValue(model.getTitle());
 	}
 }

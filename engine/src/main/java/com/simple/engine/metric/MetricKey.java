@@ -5,6 +5,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableUtils;
 
 import com.dyuproject.protostuff.ByteString;
@@ -14,7 +15,7 @@ import com.dyuproject.protostuff.Output;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
 import com.google.common.primitives.Longs;
-import com.simple.engine.api.IMetricKey;
+import com.simple.original.api.orchestrator.IMetricKey;
 
 /**
  * This is a generic key that has it's basic value
@@ -22,8 +23,16 @@ import com.simple.engine.api.IMetricKey;
  * @author chris
  * 
  */
-public class MetricKey implements IMetricKey, Message<MetricKey> {
+public class MetricKey  implements IMetricKey, WritableComparable<IMetricKey>, Message<MetricKey> {
 
+	/**
+	 * Serialization Id
+	 */
+	private static final long serialVersionUID = -8207410203282996916L;
+
+	/**
+	 * Embedded schema fro faster runtime processing
+	 */
 	static final Schema<MetricKey> SCHEMA = new Schema<MetricKey>() {
 
 		final java.util.HashMap<String, Integer> fieldMap = new java.util.HashMap<String, Integer>();
@@ -145,7 +154,6 @@ public class MetricKey implements IMetricKey, Message<MetricKey> {
 	}
 
 	public String toString() {
-		
 		return new StringBuilder("MetricKey[").append(Longs.fromByteArray(value)).append("]").toString();
 	}
 }
