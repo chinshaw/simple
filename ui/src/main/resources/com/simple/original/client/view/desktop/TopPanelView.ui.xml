@@ -83,9 +83,10 @@
 			<div style="float:left;">
 				<input type="text" ui:field="search" class="{style.search} {resources.style.search}"></input>
 			</div>
-			<div style="float:left">
-
+			<div style="float:left; margin-top: 2px;">
+				<g:Image resource="{resources.personIcon}"/>
 			</div>
+			
 			<div style="float:left">
 				<div ui:field="username" class="{style.username}"></div>
 			</div>

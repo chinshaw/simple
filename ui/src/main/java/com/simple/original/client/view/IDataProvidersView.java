@@ -6,29 +6,26 @@ package com.simple.original.client.view;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.user.cellview.client.CellTable;
 import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
 import com.simple.original.client.proxy.SqlConnectionProxy;
 
 /**
  * @author chinshaw
- *
+ * 
  */
 public interface IDataProvidersView extends IView {
 
-    public interface Presenter {
-        
-        void onSave();
+	public interface Presenter {
 
-        void onTestConnections(Set<SqlConnectionProxy> selectedSet);
-        
-    }
-    
-    void setPresenter(Presenter presenter);
+		void onSave();
 
-    RequestFactoryEditorDriver<SqlConnectionProxy, ?> getEditorDriver();
+		void onTestConnections(Set<SqlConnectionProxy> selectedSet);
 
-    CellTable<SqlConnectionProxy> getConfiguredDataProviders();
+	}
 
-    void setAvailableDrivers(List<String> drivers);
+	void setPresenter(Presenter presenter);
+
+	RequestFactoryEditorDriver<SqlConnectionProxy, ?> getEditorDriver();
+
+	void setAvailableDrivers(List<String> drivers);
 }
