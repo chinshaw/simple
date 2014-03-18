@@ -31,7 +31,6 @@ public interface OrchestratorService extends RestService  {
 		}
 	}
 	
-
 	@GET
 	@Options(timeout = 5000)
 	@Path("/orc/metric/{row}/")

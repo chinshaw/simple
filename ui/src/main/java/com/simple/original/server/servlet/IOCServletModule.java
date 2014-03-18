@@ -1,6 +1,8 @@
 package com.simple.original.server.servlet;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.shiro.mgt.SecurityManager;
 
 import javax.validation.Validation;
@@ -20,6 +22,7 @@ import com.simple.original.security.api.ICredentialLocator;
 import com.simple.original.server.NotificationServlet;
 import com.simple.original.server.WebCredentialsLocator;
 import com.simple.original.server.service.InjectingServiceLocator;
+import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 public class IOCServletModule extends ServletModule {
 
@@ -46,7 +49,7 @@ public class IOCServletModule extends ServletModule {
 				InjectedRequestFactoryServlet.class);
 		serve("/rf/notification").with(NotificationServlet.class);
 		
-
+		serve("/rest/v1/*").with(GuiceContainer.class, createJerseyParams());
 		filter("/*").through(ShiroFilter.class);
 
 	}
@@ -98,6 +101,20 @@ public class IOCServletModule extends ServletModule {
 	@Singleton
 	public Validator getValidator(ValidatorFactory validatorFactory) {
 		return validatorFactory.getValidator();
+	}
+	
+
+	private Map<String, String> createJerseyParams() {
+		Map<String, String> params = new HashMap<String, String>();
+
+		// params.put(
+		// "com.sun.jersey.server.impl.cdi.lookupExtensionInBeanManager",
+		// "true");
+		params.put("com.sun.jersey.api.json.POJOMappingFeature", "true");
+		params.put("com.sun.jersey.spi.container.ResourceFilters",
+				"com.sun.jersey.api.container.filter.RolesAllowedResourceFilterFacto‌​ry");
+
+		return params;
 	}
 
 }

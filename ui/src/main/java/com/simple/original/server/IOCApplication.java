@@ -7,6 +7,7 @@ import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.util.Modules;
 import com.simple.engine.IOCEngineModule;
 import com.simple.original.security.IOCSecurityModule;
+import com.simple.original.server.service.rest.IOCRestModule;
 import com.simple.original.server.servlet.IOCServletModule;
 
 public class IOCApplication extends GuiceServletContextListener {
@@ -21,7 +22,7 @@ public class IOCApplication extends GuiceServletContextListener {
 
 	public Module getModule() {
 		return Modules.combine(new IOCSecurityModule(), new IOCEngineModule(),
-				new IOCServletModule());
+				new IOCServletModule(), new IOCRestModule());
 		
 	}
 }

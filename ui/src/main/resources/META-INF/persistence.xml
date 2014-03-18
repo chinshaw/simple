@@ -7,18 +7,14 @@
 	<persistence-unit name="simple-pu" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-		<!-- !!! Alphabetical Order Please!!! -->
+
+		<class>com.simple.domain.model.DatastoreObject</class>
 		<class>com.simple.domain.model.AnalyticsOperation</class>
-		<class>com.simple.domain.model.ui.AnalyticsOperationInput</class>
 		<class>com.simple.domain.model.AnalyticsOperationOutput</class>
 		<class>com.simple.domain.model.AnalyticsTask</class>
 		<class>com.simple.domain.model.AnalyticsTaskSchedule</class>
 		<class>com.simple.domain.model.ApplicationBookmark</class>
 		<class>com.simple.domain.model.ChangeLog</class>
-		<class>com.simple.domain.model.ui.ComplexInput</class>
-		<class>com.simple.domain.model.dataprovider.DataProvider</class>
-		<class>com.simple.domain.model.DatastoreObject</class>
-		<class>com.simple.domain.model.ui.DateInput</class>
 		<class>com.simple.domain.model.JavaAnalyticsOperation</class>
 		<class>com.simple.domain.model.Person</class>
 		<class>com.simple.domain.model.Preferences</class>
@@ -28,12 +24,21 @@
 		<class>com.simple.domain.model.SqlConnection</class>
 		<class>com.simple.domain.model.SqlDataProvider</class>
 		<class>com.simple.domain.model.SqlDataProviderDriver</class>
+		
+		
+		<class>com.simple.domain.model.ui.AnalyticsOperationInput</class>
+		<class>com.simple.domain.model.ui.ComplexInput</class>
+		<class>com.simple.domain.model.ui.DateInput</class>
 		<class>com.simple.domain.model.ui.StringInput</class>
-		<class>com.simple.domain.model.ui.dashboard.NumberRange</class>
 		<class>com.simple.domain.model.ui.dashboard.Dashboard</class>
 		<class>com.simple.domain.model.ui.dashboard.GaugeModelRange</class>
 		<class>com.simple.domain.model.ui.dashboard.Widget</class>
 		<class>com.simple.domain.model.ui.DataProviderInput</class>
+		
+		<class>com.simple.domain.model.dataprovider.DataProvider</class>
+		<class>com.simple.domain.model.dataprovider.DBDataProvider</class>
+		<class>com.simple.domain.model.dataprovider.HttpDataProvider</class>
+		<class>com.simple.domain.model.dataprovider.DBConnection</class>
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
@@ -43,8 +48,8 @@
 
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/simple" />
-			<property name="javax.persistence.jdbc.user" value="" />
-			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="javax.persistence.jdbc.user" value="chris" />
+			<property name="javax.persistence.jdbc.password" value="chris" />
 		</properties>
 	</persistence-unit>
 	

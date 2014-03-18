@@ -34,8 +34,8 @@ public class TestMetricSerialization {
 		byte[] bytes = ProtobufIOUtil.toByteArray(stringCollection, stringCollection.cachedSchema(), lb);
 		System.out.println("Buffer size is " + bytes.length);
 		
-		MetricCollection collection = new MetricCollection();
-		ProtobufIOUtil.mergeFrom(bytes, collection, stringCollection.cachedSchema());
+		//MetricCollection collection = new MetricCollection();
+		//ProtobufIOUtil.mergeFrom(bytes, collection, stringCollection.cachedSchema());
 		//assert(unserialized.getValues().get(0).getStringValue().equals("VALUE 1"));
 		//assert(unserialized.getValues().get(1).getStringValue().equals("VALUE 2"));
 	}

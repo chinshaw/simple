@@ -49,17 +49,11 @@ public class DaoBase<T extends IDatastoreObject> {
 		//clazz = (Class<T>) ((ParameterizedType) getClass()
 		//		.getGenericSuperclass()).getActualTypeArguments()[0];
 	}
-
-	public T create() {
-		try {
-			T obj = clazz.newInstance();
-			return saveOrUpdate(obj);
-		} catch (InstantiationException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
+	
+	public T create(T obj) throws DomainException {
+		return saveAndReturn(obj);
 	}
+	
 
 	/**
 	 * This uses the merge function and not the persist function. That way it
