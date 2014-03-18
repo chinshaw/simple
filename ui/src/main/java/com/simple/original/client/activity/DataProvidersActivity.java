@@ -56,7 +56,6 @@ public class DataProvidersActivity extends AbstractActivity<DataProvidersPlace, 
 		});
 
 		DataProvider tableDataProvider = new DataProvider();
-		tableDataProvider.addDataDisplay(display.getConfiguredDataProviders());
 	}
 
 	private void createAndEdit() {

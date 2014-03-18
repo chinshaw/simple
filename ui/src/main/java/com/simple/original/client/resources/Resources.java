@@ -301,6 +301,9 @@ public interface Resources extends ClientBundle, CellTable.Resources,
 
 	@Source("images/chart_bar.png")
 	ImageResource barChartIcon();
+	
+	@Source("images/person_icon_small.png")
+	ImageResource personIcon();
 
 	@Source("images/up1.png")
 	ImageResource spinBoxUp();

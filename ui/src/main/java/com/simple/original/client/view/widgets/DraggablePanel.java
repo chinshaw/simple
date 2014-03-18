@@ -69,7 +69,6 @@ public class DraggablePanel extends Composite implements HasWidgets, DragStartHa
         initWidget(contentPanel);
         caption = new CaptionImpl();
         
-        caption.setStyleName(resources.style().tabbedPanelLabel());
         
         add(caption);
         

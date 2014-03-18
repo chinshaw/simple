@@ -6,7 +6,24 @@
 	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
 
 	<ui:style>
+	.search {
+		margin-bottom: 5px;
+		display: block;
+		float: right;
+	}
 	
+	div.search input {
+		float: left;
+		margin-right: 5px;
+	}
+	
+	.navPanel {
+		padding: 10px;
+	}
+	
+	.dataProviders {
+		height: 100%;
+	}
 	</ui:style>
 
 	<g:DockLayoutPanel>
@@ -22,26 +39,39 @@
 		<g:center>
 			<g:SplitLayoutPanel>
 				<g:west size="200">
-					<g:HTMLPanel ui:field="contentPanel">
+					<g:HTMLPanel styleName="{style.navPanel}">
 						<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
-						<g:Anchor ui:field="propertiesNavigation" text="Properties" />
-						<br />
-						<g:Anchor ui:field="codeNavigation" text="R Code" />
-						<br />
-						<g:Anchor ui:field="inputsNavigation" text="Inputs &amp; DataProviders" />
-						<br />
-						<g:Anchor ui:field="outputsNavigation" text="Outputs" />
+						<g:Anchor ui:field="propertiesNavigation" text="All Data Providers" />
 
 					</g:HTMLPanel>
 				</g:west>
 
 				<g:center>
-					<g:HTMLPanel>
-						<h3>Data Providers</h3>
-						<g:Button ui:field="delete">Delete</g:Button>
+					<g:HTMLPanel styleName="{resources.style.content}">
+						<div>
+							<div style="float:left">
+								<h2>Data Providers</h2>
+							</div>
+							<div style="float:right">
+								<div style="float:left">
+									<div class="{style.search}">
+										<g:TextBox ui:field="searchQueryInput" />
+										<g:Button ui:field="searchResults">search</g:Button>
+									</div>
+								</div>
+							</div>
+						</div>
 
-						<c:CellTable ui:field="configuredProviders"></c:CellTable>
-						<c:SimplePager ui:field="pager" location="LEFT"></c:SimplePager>
+						<div style="clear:both; margin-top: 20px;">
+							<div>
+								<g:Button ui:field="addAnalytics">Add +</g:Button>
+								<c:CellList ui:field="dataProviders" />
+							</div>
+
+							<div style="float:right;">
+								<c:SimplePager ui:field="pager" />
+							</div>
+						</div>
 					</g:HTMLPanel>
 				</g:center>
 			</g:SplitLayoutPanel>
