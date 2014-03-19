@@ -40,6 +40,7 @@ import com.simple.original.client.view.IAnalyticsTaskSchedulerView;
 import com.simple.original.client.view.IAnalyticsTaskView;
 import com.simple.original.client.view.IAnalyticsTasksSchedulerView;
 import com.simple.original.client.view.IDashboardsView;
+import com.simple.original.client.view.IDataProviderEditView;
 import com.simple.original.client.view.IDataProvidersView;
 import com.simple.original.client.view.IOrchestratorView;
 import com.simple.original.client.view.ILoginView;
@@ -60,6 +61,7 @@ import com.simple.original.client.view.desktop.AnalyticsTasksSchedulerView;
 import com.simple.original.client.view.desktop.AnalyticsTasksView;
 import com.simple.original.client.view.desktop.ApplicationAdministrationView;
 import com.simple.original.client.view.desktop.DashboardsView;
+import com.simple.original.client.view.desktop.DataProviderEditView;
 import com.simple.original.client.view.desktop.DataProvidersView;
 import com.simple.original.client.view.desktop.OrchestratorView;
 import com.simple.original.client.view.desktop.LoginView;
@@ -117,6 +119,7 @@ public class IOCDesktopModule extends AbstractGinModule {
 
 		bind(IAdministrationView.class).to(ApplicationAdministrationView.class).in(Singleton.class);
 		bind(IDataProvidersView.class).to(DataProvidersView.class).in(Singleton.class);
+		bind(IDataProviderEditView.class).to(DataProviderEditView.class).in(Singleton.class);
 		
 		bind(IOrchestratorView.class).to(OrchestratorView.class).in(Singleton.class);
 	

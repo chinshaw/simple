@@ -25,41 +25,35 @@ import com.simple.original.api.exceptions.DomainException;
 import com.simple.original.api.exceptions.SimpleException;
 import com.simple.original.api.orchestrator.IPerson;
 
-
 /**
  * @author chinshaw
  */
-public class AnalyticsOperationDao extends DaoBase<AnalyticsOperation>
-		implements IDaoRequest<AnalyticsOperation> {
+public class AnalyticsOperationDao extends DaoBase<AnalyticsOperation> implements IDaoRequest<AnalyticsOperation> {
 
 	/**
 	 * Logger instance.
 	 */
-	private static final Logger logger = Logger
-			.getLogger(AnalyticsOperationDao.class.getName());
+	private static final Logger logger = Logger.getLogger(AnalyticsOperationDao.class.getName());
 
 	public AnalyticsOperationDao() {
 		super(AnalyticsOperation.class);
 	}
 
 	/**
-	 * This method requires that the current person either be set in the 
-	 * operation or that it will use the person from the
-	 * current session.
+	 * This method requires that the current person either be set in the
+	 * operation or that it will use the person from the current session.
 	 */
 	public Long save(AnalyticsOperation operation) throws DomainException {
 		return this.saveAndReturn(operation).getId();
 	}
 
-	public AnalyticsOperation saveAndReturn(AnalyticsOperation operation)
-			throws DomainException {
+	public AnalyticsOperation saveAndReturn(AnalyticsOperation operation) throws DomainException {
 		Person currentPerson = operation.getOwner();
 		if (currentPerson == null) {
 			currentPerson = getCurrentPerson();
 
 			if (currentPerson == null) {
-				throw new DomainException(
-						"The person was not specified in entity and we were unable to retrieve the person from session");
+				throw new DomainException("The person was not specified in entity and we were unable to retrieve the person from session");
 			}
 			operation.setOwner(currentPerson);
 		}
@@ -71,19 +65,12 @@ public class AnalyticsOperationDao extends DaoBase<AnalyticsOperation>
 		logger.fine("cloning operation id -> " + id);
 		AnalyticsOperation original = null;
 		AnalyticsOperation clone = null;
-		try {
-			original = find(id);
-			clone = (AnalyticsOperation) original.clone();
-		} catch (CloneNotSupportedException e) {
+		original = find(id);
+		clone = (AnalyticsOperation) original.clone();
 
-			logger.severe("Unable to clone analytics task object : " + e.getMessage());
-			throw new SimpleException("Unable to clone analytics task object", e);
-		}
-		IPerson currentPerson = getEntityManager().merge(
-				getSession().getCurrentPerson());
+		IPerson currentPerson = getEntityManager().merge(getSession().getCurrentPerson());
 		if (currentPerson == null) {
-			throw new RuntimeException(
-					"Trying to save new operation but it appears you are not authenticated");
+			throw new RuntimeException("Trying to save new operation but it appears you are not authenticated");
 		}
 		setOwner(clone);
 		return clone;
@@ -99,49 +86,38 @@ public class AnalyticsOperationDao extends DaoBase<AnalyticsOperation>
 	public List<AnalyticsOperationName> listOperationNames() {
 		EntityManager em = getEntityManager();
 
-		TypedQuery<AnalyticsOperationName> query = em
-				.createQuery(
-						"select new com.simple.original.server.dao.AnalyticsOperationName(o.id, o.name) from AnalyticsOperation o order by o.name",
-						AnalyticsOperationName.class);
+		TypedQuery<AnalyticsOperationName> query = em.createQuery(
+				"select new com.simple.original.server.dao.AnalyticsOperationName(o.id, o.name) from AnalyticsOperation o order by o.name",
+				AnalyticsOperationName.class);
 		List<AnalyticsOperationName> operationNames = query.getResultList();
 
 		return operationNames;
 	}
 
-	
-	public List<AnalyticsOperation> search(int start, int max,
-			RecordFecthType recordType, String searchText, String searchColumn,
+	public List<AnalyticsOperation> search(int start, int max, RecordFecthType recordType, String searchText, String searchColumn,
 			String sortColumn, SortOrder sortOrder) {
 
 		EntityManager entityManager = getEntityManager();
 
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<RAnalyticsOperation> criteriaQuery = criteriaBuilder
-				.createQuery(RAnalyticsOperation.class);
+		CriteriaQuery<RAnalyticsOperation> criteriaQuery = criteriaBuilder.createQuery(RAnalyticsOperation.class);
 
-		Root<RAnalyticsOperation> root = criteriaQuery
-				.from(RAnalyticsOperation.class);
+		Root<RAnalyticsOperation> root = criteriaQuery.from(RAnalyticsOperation.class);
 
 		List<Predicate> conditions = new ArrayList<Predicate>();
 
-		if (searchColumn != null
-				&& (searchText != null && searchText.trim().length() > 0)) {
-			conditions.add(criteriaBuilder.like(
-					root.<String> get(searchColumn), "%" + searchText.trim()
-							+ "%"));
+		if (searchColumn != null && (searchText != null && searchText.trim().length() > 0)) {
+			conditions.add(criteriaBuilder.like(root.<String> get(searchColumn), "%" + searchText.trim() + "%"));
 		}
 		if (recordType != null) {
-			boolean publicFlag = recordType
-					.equals(RecordFecthType.PUBLIC_RECORDS);
+			boolean publicFlag = recordType.equals(RecordFecthType.PUBLIC_RECORDS);
 
 			if (!recordType.equals(RecordFecthType.ALL_RECORDS)) {
-				conditions.add(criteriaBuilder.equal(
-						root.<Boolean> get("isPublic"), publicFlag));
+				conditions.add(criteriaBuilder.equal(root.<Boolean> get("isPublic"), publicFlag));
 			}
 			if (recordType.equals(RecordFecthType.MY_RECORDS)) {
 				IPerson currentPerson = getSession().getCurrentPerson();
-				conditions.add(criteriaBuilder.equal(
-						root.<Person> get("owner"), currentPerson));
+				conditions.add(criteriaBuilder.equal(root.<Person> get("owner"), currentPerson));
 			}
 		}
 
@@ -149,8 +125,7 @@ public class AnalyticsOperationDao extends DaoBase<AnalyticsOperation>
 			if (conditions.size() == 1) {
 				criteriaQuery.where(conditions.get(0));
 			} else {
-				criteriaQuery.where(criteriaBuilder.and(conditions
-						.toArray(new Predicate[0])));
+				criteriaQuery.where(criteriaBuilder.and(conditions.toArray(new Predicate[0])));
 			}
 		}
 
@@ -160,23 +135,19 @@ public class AnalyticsOperationDao extends DaoBase<AnalyticsOperation>
 				List<Order> orders = new ArrayList<Order>();
 				Path<Person> owner = root.<Person> get("owner");
 				if (sortOrder == SortOrder.ASCENDING) {
-					orders.add(criteriaBuilder.asc(root
-							.<Boolean> get("isPublic")));
+					orders.add(criteriaBuilder.asc(root.<Boolean> get("isPublic")));
 					orders.add(criteriaBuilder.asc(owner.<String> get("name")));
 					criteriaQuery.orderBy(orders.toArray(new Order[0]));
 				} else {
-					orders.add(criteriaBuilder.desc(root
-							.<Boolean> get("isPublic")));
+					orders.add(criteriaBuilder.desc(root.<Boolean> get("isPublic")));
 					orders.add(criteriaBuilder.desc(owner.<String> get("name")));
 					criteriaQuery.orderBy(orders.toArray(new Order[0]));
 				}
 			} else {
 				if (sortOrder == SortOrder.ASCENDING) {
-					criteriaQuery.orderBy(criteriaBuilder.asc(root
-							.<String> get(sortColumn)));
+					criteriaQuery.orderBy(criteriaBuilder.asc(root.<String> get(sortColumn)));
 				} else {
-					criteriaQuery.orderBy(criteriaBuilder.desc(root
-							.<String> get(sortColumn)));
+					criteriaQuery.orderBy(criteriaBuilder.desc(root.<String> get(sortColumn)));
 				}
 			}
 		}
@@ -191,8 +162,7 @@ public class AnalyticsOperationDao extends DaoBase<AnalyticsOperation>
 
 	public List<AnalyticsOperation> listAll() {
 
-		TypedQuery<AnalyticsOperation> query = getEntityManager().createQuery(
-				"SELECT e FROM " + clazz.getName() + " e ORDER BY e.name",
+		TypedQuery<AnalyticsOperation> query = getEntityManager().createQuery("SELECT e FROM " + clazz.getName() + " e ORDER BY e.name",
 				AnalyticsOperation.class);
 		return query.getResultList();
 	}
@@ -216,8 +186,7 @@ public class AnalyticsOperationDao extends DaoBase<AnalyticsOperation>
 	private void setOwner(AnalyticsOperation operation) {
 		Person currentPerson = getCurrentPerson();
 		if (currentPerson == null) {
-			throw new RuntimeException(
-					"Trying to save new operation but it appears you are not authenticated");
+			throw new RuntimeException("Trying to save new operation but it appears you are not authenticated");
 		}
 		operation.setOwner(currentPerson);
 	}

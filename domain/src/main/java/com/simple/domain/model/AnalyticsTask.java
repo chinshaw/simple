@@ -419,7 +419,7 @@ public class AnalyticsTask extends RequestFactoryEntity implements
 		return last.getPerson();
 	}
 
-	public AnalyticsTask clone() throws CloneNotSupportedException {
+	public AnalyticsTask clone() {
 		AnalyticsTask clone = (AnalyticsTask) super.clone();
 
 		clone.setOwner(null);

@@ -1,6 +1,5 @@
 package com.simple.original.client.view.desktop;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.gwt.core.client.GWT;
@@ -9,14 +8,12 @@ import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.client.HasEditorErrors;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -24,8 +21,6 @@ import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriv
 import com.simple.original.api.domain.GroupMembership;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
-import com.simple.original.client.proxy.DataProviderProxy;
-import com.simple.original.client.proxy.DataProviderProxy.DataProviderType;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.service.OperationSuggestOracle;
 import com.simple.original.client.service.OperationSuggestOracle.OperationSuggestion;
@@ -33,6 +28,7 @@ import com.simple.original.client.view.IAnalyticsTaskDesignerView;
 import com.simple.original.client.view.widgets.EditableDNDCellList;
 import com.simple.original.client.view.widgets.ErrorPanel;
 import com.simple.original.client.view.widgets.ValueBoxEditorDecorator;
+import com.sun.jersey.test.framework.spi.client.ClientFactory;
 
 public class AnalyticsTaskDesignerView extends AbstractView implements IAnalyticsTaskDesignerView, Editor<AnalyticsTaskProxy> {
 
@@ -95,13 +91,6 @@ public class AnalyticsTaskDesignerView extends AbstractView implements IAnalytic
 	@UiField
 	ValueBoxEditorDecorator<String> description;
 
-	/**
-	 * Editor for the data provider object contained in the
-	 * {@link AnalyticsTaskProxy}.
-	 */
-	@UiField
-	@Path("dataProviders")
-	DataProviderListEditor dataProviderEditor;
 
 	@UiField(provided = true)
 	@Path("analyticsOperations")
@@ -112,10 +101,6 @@ public class AnalyticsTaskDesignerView extends AbstractView implements IAnalytic
 	@Ignore
 	@UiField(provided = true)
 	SuggestBox operationSuggest;
-
-	@Ignore
-	@UiField
-	ListBox availableDataProviderTypes;
 
 	@UiField
 	LabelElement dashboardName;
@@ -129,9 +114,6 @@ public class AnalyticsTaskDesignerView extends AbstractView implements IAnalytic
 	 * @Override public Object getKey(DashboardModelProxy item) { return (item
 	 * == null) ? null : item.getId(); } });
 	 */
-
-	@UiField
-	Button addDataProvider;
 
 	@UiField
 	Button addAnalytics;
@@ -210,7 +192,6 @@ public class AnalyticsTaskDesignerView extends AbstractView implements IAnalytic
 		errorPanel.clear();
 		setEnabledPublicCheckBox(false);
 		isPublic.setValue(false);
-		availableDataProviderTypes.clear();
 		setEnabledSaveButton(false);
 		name.clearErrors();
 		description.clearErrors();
@@ -228,13 +209,6 @@ public class AnalyticsTaskDesignerView extends AbstractView implements IAnalytic
 	}
 
 	private void bindToPresenter() {
-
-		Enum<?>[] types = presenter.getDataProviderTypes();
-
-		for (Enum<?> type : types) {
-			availableDataProviderTypes.addItem(type.name());
-		}
-
 		suggestOracle.setSearchProvider(presenter);
 	}
 
@@ -253,18 +227,6 @@ public class AnalyticsTaskDesignerView extends AbstractView implements IAnalytic
 	@Override
 	public RequestFactoryEditorDriver<AnalyticsTaskProxy, ?> getEditorDriver() {
 		return driver;
-	}
-
-	public void onAddDataProvider() {
-		DataProviderType type = DataProviderType.valueOf(availableDataProviderTypes.getValue(availableDataProviderTypes.getSelectedIndex()));
-		List<DataProviderProxy> dataProviders = dataProviderEditor.asEditor().getList();
-		dataProviders.add(presenter.createDataProvider(type));
-	}
-
-	@Editor.Ignore
-	@UiFactory
-	DataProviderListEditor dataProviderEditor() {
-		return new DataProviderListEditor(getResources());
 	}
 
 	@UiHandler("addAnalytics")
@@ -313,11 +275,6 @@ public class AnalyticsTaskDesignerView extends AbstractView implements IAnalytic
 	@Override
 	public void scrollToTop() {
 		contentPanel.getElement().getParentElement().setScrollTop(0);
-	}
-	
-	@UiHandler("addDataProvider")
-	void addDataProvider(ClickEvent event) {
-		onAddDataProvider();
 	}
 	
 	@UiHandler("editDashboard")

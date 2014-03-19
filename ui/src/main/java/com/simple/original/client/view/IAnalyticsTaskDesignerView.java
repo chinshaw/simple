@@ -8,8 +8,6 @@ import com.google.web.bindery.requestfactory.shared.Request;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
-import com.simple.original.client.proxy.DataProviderProxy;
-import com.simple.original.client.proxy.DataProviderProxy.DataProviderType;
 import com.simple.original.client.service.SearchRequestProvider;
 
 public interface IAnalyticsTaskDesignerView extends IView, Editor<AnalyticsTaskProxy> {
@@ -19,10 +17,6 @@ public interface IAnalyticsTaskDesignerView extends IView, Editor<AnalyticsTaskP
         void onCancel();
 
         void onSaveChanges(String name, boolean isPublic);
-
-        DataProviderProxy createDataProvider(DataProviderType type);
-
-        Enum<?>[] getDataProviderTypes();
 
 		void onEditOperation(AnalyticsOperationProxy value);
 

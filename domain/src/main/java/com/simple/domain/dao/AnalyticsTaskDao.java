@@ -244,18 +244,13 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 
 		AnalyticsTask clone = null;
 
-		try {
-			clone = toClone.clone();
-			clone.setOwner(getCurrentPerson());
-			clone.setName(clone.getName() + "_clone");
+		clone = toClone.clone();
+		clone.setOwner(getCurrentPerson());
+		clone.setName(clone.getName() + "_clone");
 
-			clone.addChangeLog(new ChangeLog(getCurrentPerson(), "Cloned from task " + analyticsTaskId));
+		clone.addChangeLog(new ChangeLog(getCurrentPerson(), "Cloned from task " + analyticsTaskId));
 
-			clone = saveAndReturn(clone);
-		} catch (CloneNotSupportedException e) {
-			logger.severe("Unable to clone analytics task object : " + e.getMessage());
-			throw new SimpleException("Unable to clone analytics task object", e);
-		}
+		clone = saveAndReturn(clone);
 
 		return clone;
 	}
@@ -288,11 +283,9 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	 */
 	public String exportAnalyticsTasks() throws JAXBException {
 		StringWriter buffer = new StringWriter();
-		JAXBContext context = JAXBContext.newInstance(AnalyticsTask.class,
-				AnalyticsTasks.class, RAnalyticsOperation.class,
-				DataProvider.class, SqlDataProvider.class, RDataProvider.class,
-				Dashboard.class, Widget.class,
-				IMetricDouble.class, IMetricString.class );
+		JAXBContext context = JAXBContext.newInstance(AnalyticsTask.class, AnalyticsTasks.class, RAnalyticsOperation.class,
+				DataProvider.class, SqlDataProvider.class, RDataProvider.class, Dashboard.class, Widget.class, IMetricDouble.class,
+				IMetricString.class);
 
 		Marshaller marshaller = context.createMarshaller();
 
@@ -302,10 +295,8 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 		List<AnalyticsTask> attached = null;
 
 		TypedQuery<AnalyticsTask> query = getEntityManager().createQuery(
-				"SELECT task FROM  " + AnalyticsTask.class.getName() + " task "
-						+ "left join fetch task.analyticsOperations "
-						+ "left join fetch task.dataProviders",
-				AnalyticsTask.class);
+				"SELECT task FROM  " + AnalyticsTask.class.getName() + " task " + "left join fetch task.analyticsOperations "
+						+ "left join fetch task.dataProviders", AnalyticsTask.class);
 
 		attached = query.getResultList();
 
@@ -393,7 +384,6 @@ public class AnalyticsTaskDao extends DaoBase<AnalyticsTask> {
 	 *             analyticsTask.setOwner(person); }
 	 */
 
-	
 	/**
 	 * Retrieves all the inputs for a specific task. It iterates over all the
 	 * operations and adds their inputs to the returned list.

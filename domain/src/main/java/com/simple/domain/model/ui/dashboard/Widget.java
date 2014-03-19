@@ -59,7 +59,7 @@ public abstract class Widget extends RequestFactoryEntity {
     	this.description = description;
     }
     
-    public Widget clone() throws CloneNotSupportedException {
+    public Widget clone() {
     	Widget clone = (Widget) super.clone();
     	return clone;
     }

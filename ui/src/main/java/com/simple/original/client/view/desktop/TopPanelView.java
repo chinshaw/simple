@@ -16,7 +16,7 @@ import com.simple.original.client.place.AnalyticsTaskExecPlace;
 import com.simple.original.client.place.AnalyticsTaskSchedulerPlace;
 import com.simple.original.client.place.AnalyticsTasksPlace;
 import com.simple.original.client.place.DashboardsPlace;
-import com.simple.original.client.place.DataProvidersPlace;
+import com.simple.original.client.place.DataProviderEditPlace;
 import com.simple.original.client.place.PlaceController;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.ITopPanelView;
@@ -80,7 +80,7 @@ public class TopPanelView extends AbstractView implements ITopPanelView {
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
 		addStyleName(resources.style().topPanel());
 		
-		dataProviders.setScheduledCommand(new MenuPlaceItemCommand(new DataProvidersPlace()));
+		dataProviders.setScheduledCommand(new MenuPlaceItemCommand(new DataProviderEditPlace()));
 		dashboards.setScheduledCommand(new MenuPlaceItemCommand(new DashboardsPlace()));
 		favorites.setScheduledCommand(new MenuPlaceItemCommand(null));
 		operations.setScheduledCommand(new MenuPlaceItemCommand(new AnalyticsOperationsPlace()));

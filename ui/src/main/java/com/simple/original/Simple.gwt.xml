@@ -3,6 +3,7 @@
 <module>
 	<inherits name="com.simple.original.SimpleCommon" />
 	<inherits name="com.simple.original.api.Api" />
+	<inherits name="com.simple.domain.Domain" />
 
 	<inherits name="org.fusesource.restygwt.RestyGWT" />
 

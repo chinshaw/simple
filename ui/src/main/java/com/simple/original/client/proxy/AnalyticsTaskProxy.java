@@ -28,19 +28,6 @@ public interface AnalyticsTaskProxy extends DatastoreObjectProxy {
 
     public void setAnalyticsOperations(List<AnalyticsOperationProxy> analyticsOperations);
 
-    /**
-     * List of all data providers for this analytics task.
-     * 
-     * @return
-     */
-    public List<DataProviderProxy> getDataProviders();
-
-    /**
-     * Setter for all data providers.
-     * 
-     * @param dataProviders
-     */
-    public void setDataProviders(List<DataProviderProxy> dataProviders);
 
     public boolean isPublic();
 

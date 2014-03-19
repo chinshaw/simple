@@ -35,10 +35,9 @@ public abstract class RequestFactoryEntity extends DatastoreObject implements IR
     public void incrementVerison() {
         version += 1;
     }
-    
-    public RequestFactoryEntity clone() throws CloneNotSupportedException {
-    	RequestFactoryEntity clone = (RequestFactoryEntity) super.clone();
-    	clone.setVersion(0);
-    	return clone;
+     
+    public RequestFactoryEntity clone() {
+    	return new RequestFactoryEntity() {
+		};
     }
 }

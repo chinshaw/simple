@@ -140,15 +140,7 @@
 				function.
 			</p>
 			<br />
-			<desktop:DataProviderListEditor
-				ui:field="dataProviderEditor"></desktop:DataProviderListEditor>
-			<div style="margin-top:10px;">
-				<g:ListBox ui:field="availableDataProviderTypes"></g:ListBox>
-				<g:Button styleName="{resources.style.textButton}"
-					ui:field="addDataProvider">add</g:Button>
-			</div>
-			<br />
-
+			
 			<!-- Analytics operations panel -->
 			<h3>Analytics Chain</h3>
 			<t:EditableDNDCellList ui:field="analyticsChainEditor" />

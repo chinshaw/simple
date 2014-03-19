@@ -13,7 +13,6 @@ import com.simple.domain.dao.AnalyticsOperationDao;
 import com.simple.domain.dao.AnalyticsTaskDao;
 import com.simple.domain.dao.DaoBase;
 import com.simple.domain.dao.PersonDao;
-import com.simple.domain.dao.SqlDataProviderDriverDao;
 import com.simple.domain.model.ui.dashboard.DashboardDao;
 import com.simple.original.api.domain.RecordFecthType;
 import com.simple.original.api.domain.SortOrder;
@@ -25,16 +24,12 @@ import com.simple.original.client.proxy.AnalyticsTaskNameProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
 import com.simple.original.client.proxy.ApplicationBookmarkProxy;
 import com.simple.original.client.proxy.DashboardProxy;
-import com.simple.original.client.proxy.DataProviderProxy;
 import com.simple.original.client.proxy.DatastoreObjectProxy;
 import com.simple.original.client.proxy.JavaAnalyticsOperationProxy;
 import com.simple.original.client.proxy.LinkableDashboardProxy;
 import com.simple.original.client.proxy.PersonProxy;
 import com.simple.original.client.proxy.PreferencesProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
-import com.simple.original.client.proxy.RDataProviderProxy;
-import com.simple.original.client.proxy.SqlConnectionProxy;
-import com.simple.original.client.proxy.SqlDataProviderProxy;
 import com.simple.original.client.proxy.UIComplexInputModelProxy;
 import com.simple.original.client.proxy.UIDateInputModelProxy;
 import com.simple.original.client.proxy.UIUserInputModelProxy;
@@ -144,24 +139,13 @@ public interface DaoRequestFactory extends RequestFactory {
 		Request<List<AnalyticsOperationInputProxy>> listInputs(Long operationId);
 	}
 
-	@Service(value = SqlDataProviderDriverDao.class, locator = InjectingServiceLocator.class)
-	public interface DataProviderRequest extends DaoRequest<SqlConnectionProxy> {
-		Request<List<String>> getAvailableSqlDrivers();
-
-		Request<Long> save(SqlConnectionProxy dataProvider);
-
-		Request<List<SqlConnectionProxy>> find(int start, int end);
-
-	}
-
 	/**
 	 * Analytics Task request is the accessor to Analytics Task objects in the
 	 * datastore.
 	 * 
 	 * @author chinshaw
 	 */
-	@ExtraTypes({ RAnalyticsOperationProxy.class, DataProviderProxy.class, DashboardProxy.class, SqlDataProviderProxy.class,
-			RDataProviderProxy.class, UIUserInputModelProxy.class, UIDateInputModelProxy.class, UIComplexInputModelProxy.class,
+	@ExtraTypes({ RAnalyticsOperationProxy.class, DashboardProxy.class, UIUserInputModelProxy.class, UIDateInputModelProxy.class, UIComplexInputModelProxy.class,
 			LinkableDashboardProxy.class })
 	@Service(value = AnalyticsTaskDao.class, locator = InjectingServiceLocator.class)
 	public interface AnalyticsTaskRequest extends DaoRequest<AnalyticsTaskProxy> {
@@ -264,7 +248,5 @@ public interface DaoRequestFactory extends RequestFactory {
 	public DashboardRequest createDashboardRequest();
 
 	public AnalyticsOperationRequest createAnalyticsOperationRequest();
-
-	public DataProviderRequest dataProviderRequest();
 
 }

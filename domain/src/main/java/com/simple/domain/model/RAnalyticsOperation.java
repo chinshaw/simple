@@ -63,7 +63,7 @@ public class RAnalyticsOperation extends AnalyticsOperation implements IRAnalyti
      * Clone the RanalyticsOperation this mainly clones the code field. 
      * This is required because the code is lazily loaded.
      */
-    public RAnalyticsOperation clone() throws CloneNotSupportedException {
+    public RAnalyticsOperation clone() {
         RAnalyticsOperation clone = (RAnalyticsOperation) super.clone();
         // This is fetched lazily so we have to call get.
         clone.setCode(getCode());

@@ -77,7 +77,7 @@ public class DateInput extends AnalyticsOperationInput implements IDateInput {
     	return "";
     }
 
-    public DateInput clone() throws CloneNotSupportedException {
+    public DateInput clone() {
         DateInput clone = (DateInput) super.clone();
         return clone;
     }

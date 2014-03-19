@@ -322,7 +322,7 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 		changeLogs.add(changeLog);
 	}
 
-	public AnalyticsOperation clone() throws CloneNotSupportedException {
+	public AnalyticsOperation clone() {
 		AnalyticsOperation clone = (AnalyticsOperation) super.clone();
 		clone.id = null;
 		clone.version = 0;

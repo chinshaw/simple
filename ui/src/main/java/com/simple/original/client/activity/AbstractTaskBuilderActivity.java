@@ -17,10 +17,6 @@ import com.simple.original.client.place.AnalyticsTaskBuilderPlace;
 import com.simple.original.client.place.AnalyticsTasksPlace;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
-import com.simple.original.client.proxy.DataProviderProxy;
-import com.simple.original.client.proxy.DataProviderProxy.DataProviderType;
-import com.simple.original.client.proxy.RDataProviderProxy;
-import com.simple.original.client.proxy.SqlDataProviderProxy;
 import com.simple.original.client.service.DaoRequestFactory.DaoRequest;
 import com.simple.original.client.view.IAnalyticsTaskDesignerView;
 
@@ -83,44 +79,15 @@ public abstract class AbstractTaskBuilderActivity<E extends AnalyticsTaskProxy, 
 	protected E create(R context, Class<E> clazz) {
 		E editableAnalyticsTask = context.create(clazz);
 
-		List<DataProviderProxy> analyticsTaskDataProviders = new ArrayList<DataProviderProxy>();
 
 		List<AnalyticsOperationProxy> analyticsOperations = new ArrayList<AnalyticsOperationProxy>();
-
-		editableAnalyticsTask.setDataProviders(analyticsTaskDataProviders);
 
 		editableAnalyticsTask.setAnalyticsOperations(analyticsOperations);
 
 		return editableAnalyticsTask;
 	}
 
-	/**
-	 * Create a new data provider by type.
-	 * 
-	 * @param type
-	 * @return
-	 */
-	public DataProviderProxy createDataProvider(DataProviderType type) {
-		DataProviderProxy provider = null;
-		switch (type) {
-		case SQL:
-			provider = getContext().create(SqlDataProviderProxy.class);
-			break;
-		case R_Command:
-			provider = getContext().create(RDataProviderProxy.class);
-			break;
-		}
-		return provider;
-	}
 
-	/**
-	 * The list of data provider types.
-	 * 
-	 * @return
-	 */
-	public Enum<?>[] getDataProviderTypes() {
-		return DataProviderProxy.DataProviderType.values();
-	}
 
 	/**
 	 * validate unique name and save/update editing proxy

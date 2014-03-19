@@ -120,7 +120,7 @@ public class Dashboard extends Widget {
 		this.id = id;
 	}
 
-	public Dashboard clone() throws CloneNotSupportedException {
+	public Dashboard clone() {
 		Dashboard clone = (Dashboard) super.clone();
 		clone.setId(null);
 		clone.setAnalyticsTask(analyticsTask);

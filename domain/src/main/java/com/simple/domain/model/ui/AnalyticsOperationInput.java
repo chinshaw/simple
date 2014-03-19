@@ -127,7 +127,7 @@ public abstract class AnalyticsOperationInput extends RequestFactoryEntity imple
      * com.simple.original.taskengine.shared.analytics.IAnalyticsOperationInput#clone()
      */
     @Override
-    public AnalyticsOperationInput clone() throws CloneNotSupportedException {
+    public AnalyticsOperationInput clone() {
         AnalyticsOperationInput clone = (AnalyticsOperationInput) super.clone();
         return clone;
     }

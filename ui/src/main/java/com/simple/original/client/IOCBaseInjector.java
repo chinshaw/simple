@@ -12,9 +12,10 @@ import com.simple.original.client.activity.AnalyticsTaskSchedulerActivity;
 import com.simple.original.client.activity.AnalyticsTasksActivity;
 import com.simple.original.client.activity.AnalyticsTasksSchedulerActivity;
 import com.simple.original.client.activity.DashboardsActivity;
+import com.simple.original.client.activity.DataProviderEditActivity;
 import com.simple.original.client.activity.DataProvidersActivity;
-import com.simple.original.client.activity.OrchestratorActivity;
 import com.simple.original.client.activity.LoginActivity;
+import com.simple.original.client.activity.OrchestratorActivity;
 import com.simple.original.client.activity.PreferencesActivity;
 import com.simple.original.client.activity.ServerLogsActivity;
 import com.simple.original.client.activity.TopPanelActivity;
@@ -90,6 +91,8 @@ public interface IOCBaseInjector extends Ginjector {
 	AnalyticsTasksSchedulerActivity analyticsTasksSchedulerActivity();
 
 	DataProvidersActivity dataProvidersActivity();
+	
+	DataProviderEditActivity dataProviderEditActivity();
 	
 	
 	/**

@@ -22,12 +22,9 @@ import com.simple.original.api.orchestrator.IDataProvider;
 @XmlTransient
 @XmlSeeAlso({ DBDataProvider.class, HttpDataProvider.class })
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@class")
-@JsonSubTypes({
-    @JsonSubTypes.Type(value=HttpDataProvider.class, name="HttpDataProvider"),
-    @JsonSubTypes.Type(value=DBDataProvider.class, name="DBDataProvider")
-})
-public abstract class DataProvider extends RequestFactoryEntity implements
-		IDataProvider {
+@JsonSubTypes({ @JsonSubTypes.Type(value = HttpDataProvider.class, name = "HttpDataProvider"),
+		@JsonSubTypes.Type(value = DBDataProvider.class, name = "DBDataProvider") })
+public abstract class DataProvider extends RequestFactoryEntity implements IDataProvider {
 
 	/**
 	 * Serialization Id.
@@ -41,7 +38,7 @@ public abstract class DataProvider extends RequestFactoryEntity implements
 	 */
 	protected String variableName;
 
-	private boolean isRequired;
+	private boolean required;
 
 	/*
 	 * (non-Javadoc)
@@ -78,8 +75,8 @@ public abstract class DataProvider extends RequestFactoryEntity implements
 	 * 
 	 * @return
 	 */
-	public boolean isRequired() {
-		return isRequired;
+	public boolean getRequired() {
+		return required;
 	}
 
 	/**
@@ -87,8 +84,8 @@ public abstract class DataProvider extends RequestFactoryEntity implements
 	 * 
 	 * @param isRequired
 	 */
-	public void setRequired(boolean isRequired) {
-		this.isRequired = isRequired;
+	public void setRequired(boolean required) {
+		this.required = required;
 	}
 
 	/*
@@ -97,7 +94,7 @@ public abstract class DataProvider extends RequestFactoryEntity implements
 	 * @see com.simple.original.server.domain.IDataProvider#clone()
 	 */
 	@Override
-	public DataProvider clone() throws CloneNotSupportedException {
+	public DataProvider clone() {
 		DataProvider dataProvider = (DataProvider) super.clone();
 		dataProvider.id = null;
 		dataProvider.version = 0;

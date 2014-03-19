@@ -3,6 +3,7 @@ package com.simple.original.client.activity;
 import com.google.inject.Inject;
 import com.simple.original.client.place.AnalyticsOperationsPlace;
 import com.simple.original.client.place.DashboardsPlace;
+import com.simple.original.client.place.DataProviderEditPlace;
 import com.simple.original.client.place.DataProvidersPlace;
 import com.simple.original.client.place.WelcomePlace;
 import com.simple.original.client.view.IWelcomeView;

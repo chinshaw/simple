@@ -67,7 +67,7 @@ public class StringInput extends AnalyticsOperationInput implements IStringInput
         this.definedInputs = definedInputs;
     }
 
-    public StringInput clone() throws CloneNotSupportedException {
+    public StringInput clone() {
         StringInput clone = (StringInput) super.clone();
 
         clone.setDefinedInputs(new ArrayList<String>());

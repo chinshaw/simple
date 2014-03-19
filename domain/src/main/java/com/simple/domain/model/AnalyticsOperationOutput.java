@@ -171,7 +171,7 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	 * {@link DatastoreObject} class's clone method which will reset the id to
 	 * null and the version back to 0 if it was not already.
 	 */
-	public AnalyticsOperationOutput clone() throws CloneNotSupportedException {
+	public AnalyticsOperationOutput clone() {
 		return (AnalyticsOperationOutput) super.clone();
 	}
 

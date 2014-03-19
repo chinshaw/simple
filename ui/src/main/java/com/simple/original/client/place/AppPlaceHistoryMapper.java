@@ -17,7 +17,7 @@ import com.google.gwt.place.shared.WithTokenizers;
                   DashboardPlace.Tokenizer.class,
                   DashboardsPlace.Tokenizer.class,
                   DashboardDesignerPlace.Tokenizer.class,
-                  DataProvidersPlace.Tokenizer.class,
+                  DataProviderEditPlace.Tokenizer.class,
                   ServerLogsPlace.Tokenizer.class,
                   ErrorMessagePlace.Tokenizer.class,
                   HistoricalMetricsPlace.Tokenizer.class,

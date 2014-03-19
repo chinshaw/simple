@@ -12,7 +12,6 @@ import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.AnalyticsTaskProxy;
 import com.simple.original.client.proxy.DashboardProxy;
-import com.simple.original.client.proxy.DataProviderProxy;
 import com.simple.original.client.proxy.JavaAnalyticsOperationProxy;
 import com.simple.original.client.proxy.LinkableDashboardProxy;
 import com.simple.original.client.proxy.NumberRangeProxy;
@@ -22,7 +21,6 @@ import com.simple.original.client.proxy.QuartzJobKeyProxy;
 import com.simple.original.client.proxy.QuartzTriggerKeyProxy;
 import com.simple.original.client.proxy.QuartzTriggerProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
-import com.simple.original.client.proxy.SqlConnectionProxy;
 import com.simple.original.client.proxy.UIComplexInputModelProxy;
 import com.simple.original.client.proxy.UIDateInputModelProxy;
 import com.simple.original.client.proxy.UIUserInputModelProxy;
@@ -32,7 +30,6 @@ import com.simple.original.server.service.DashboardService;
 import com.simple.original.server.service.InjectingServiceLocator;
 import com.simple.original.server.service.LoggingService;
 import com.simple.original.server.service.SchedulerService;
-import com.simple.original.server.service.SqlDriverService;
 import com.simple.original.shared.NotificationCriticality;
 
 public interface ServiceRequestFactory extends RequestFactory {
@@ -55,9 +52,6 @@ public interface ServiceRequestFactory extends RequestFactory {
 			LinkableDashboardProxy.class })
 	@Service(value = DashboardService.class, locator = InjectingServiceLocator.class)
 	public interface DashboardRequest extends RequestContext {
-
-		Request<DashboardProxy> executeInteractive(Long taskId, List<AnalyticsOperationInputProxy> inputs,
-				List<DataProviderProxy> dataProviders);
 
 		Request<DashboardProxy> getPreviousExecution(Long analyticsTaskExecutionId);
 
@@ -114,11 +108,6 @@ public interface ServiceRequestFactory extends RequestFactory {
 		Request<Boolean> cancelRunningTask(QuartzJobKeyProxy jobKey);
 	}
 
-	@Service(value = SqlDriverService.class)
-	public interface SqlDataProviderRequest extends RequestContext {
-		Request<Boolean> testConnection(SqlConnectionProxy driver);
-	}
-
 	public OperationRequest operationRequest();
 
 	public DashboardRequest dashboardRequest();
@@ -128,6 +117,4 @@ public interface ServiceRequestFactory extends RequestFactory {
 	public LoggingServiceRequest loggingServiceRequest();
 
 	public AdministrationServiceRequest adminiStrationServiceReqest();
-
-	public SqlDataProviderRequest sqlDataProviderRequest();
 }

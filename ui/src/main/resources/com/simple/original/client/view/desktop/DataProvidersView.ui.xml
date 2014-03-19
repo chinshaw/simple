@@ -64,7 +64,7 @@
 
 						<div style="clear:both; margin-top: 20px;">
 							<div>
-								<g:Button ui:field="addAnalytics">Add +</g:Button>
+								<g:Button ui:field="add">Add +</g:Button>
 								<c:CellList ui:field="dataProviders" />
 							</div>
 
