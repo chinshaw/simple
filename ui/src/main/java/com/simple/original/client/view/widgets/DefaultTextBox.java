@@ -41,7 +41,7 @@ public class DefaultTextBox extends TextBox {
 	}
 
 	public void setValue(String text) {
-		if (text == null || text.isEmpty()) {
+		if (text == null) {
 			resetDefaultText();
 		} else {
 			super.setText(text);

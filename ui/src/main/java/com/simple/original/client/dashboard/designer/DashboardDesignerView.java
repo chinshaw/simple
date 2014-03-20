@@ -59,8 +59,8 @@ public class DashboardDesignerView extends AbstractView implements IDashboardDes
 	@UiField
 	ErrorPanel errorPanel;
 
-	@UiField(provided = true)
-	WidgetPalettePanel widgetPalettePanel;
+	//@UiField(provided = true)
+	//WidgetPalettePanel widgetPalettePanel;
 
 	@UiField(provided = true)
 	WidgetPropertiesPanel widgetPropertiesPanel;
@@ -74,14 +74,14 @@ public class DashboardDesignerView extends AbstractView implements IDashboardDes
 			WidgetFactory widgetFactory) {
 
 		super(designerEventBus, resources);
-		this.widgetPalettePanel = widgetPalettePanel;
+		//this.widgetPalettePanel = widgetPalettePanel;
 		this.widgetPropertiesPanel = widgetPropertiesPanel;
 		this.widgetsPanel = new DroppablePanel(widgetFactory, eventBus);
 		container = new SplitLayoutPanel(5);
 
 		initWidget(GWT.<Binder> create(Binder.class).createAndBindUi(this));
 
-		container.getWidgetContainerElement(widgetPalettePanel).getStyle().setOverflow(Overflow.VISIBLE);
+		//container.getWidgetContainerElement(widgetPalettePanel).getStyle().setOverflow(Overflow.VISIBLE);
 		hookupEvents();
 	}
 
@@ -149,7 +149,8 @@ public class DashboardDesignerView extends AbstractView implements IDashboardDes
 
 	@Override
 	public WidgetPalettePanel getWidgetPalettePanel() {
-		return widgetPalettePanel;
+	//	return widgetPalettePanel;
+		return null;
 	}
 
 	@Override

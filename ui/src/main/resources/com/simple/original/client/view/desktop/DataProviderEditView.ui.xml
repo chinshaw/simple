@@ -13,7 +13,7 @@
 			<g:HTMLPanel>
 				<label>Name</label>
 				<g:TextBox ui:field="url"></g:TextBox>
-				<g:Button ui:field="save"/>
+				<g:Button ui:field="save" text="Save"/>
 			</g:HTMLPanel>
 		</g:center>
 	</g:DockLayoutPanel>

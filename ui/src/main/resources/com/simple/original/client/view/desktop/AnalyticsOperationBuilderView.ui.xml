@@ -75,7 +75,7 @@
 				<g:west size="200">
 					<g:HTMLPanel ui:field="contentPanel">
 						<div class="{style.nav}">
-							<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+							
 							<g:Button ui:field="propertiesNavigation" text="Properties" />
 							<br />
 							<g:Button ui:field="codeNavigation" text="R Code" />
@@ -90,7 +90,7 @@
 				<g:center>
 					<g:HTMLPanel styleName="{style.content}">
 						<g:HTMLPanel styleName="{resources.style.content}">
-
+							<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
 							<div class="{resources.style.contentBlock}" ui:field="propertiesBlock"
 								style="display:none">
 								<div class="{resources.style.title}">

@@ -26,11 +26,25 @@
 		border-right: 1px solid #CCC;
 	}
 	
-	.filters > div > a {
-		display:block;
+	.filters>div>a {
+		display: block;
 		padding: 5px 0px;
 	}
 	
+	div.nav {
+		margin-left: -10px;
+	}
+	
+	div.nav button {
+		background: none;
+		border-top: none;
+		border-bottom: 1px solid #CCC;
+		width: 100%;
+		text-align: left;
+		border-radius: 0px;
+		padding: 10px 10px;
+		transition: literal("background 300ms ease-in-out 0s, color 300ms ease-in-out 0s");
+	}
 	</ui:style>
 
 	<g:DockLayoutPanel>
@@ -43,11 +57,17 @@
 				</div>
 			</g:HTMLPanel>
 		</g:north>
-		<g:west size="250">
-			<g:HTMLPanel styleName="{style.filters}">
-				<div>
-					<a>All Operations</a>
-					<a>Operations create by me</a>
+
+		<g:west size="200">
+			<g:HTMLPanel ui:field="contentPanel">
+				<div class="{style.nav}">
+					<g:Button ui:field="propertiesNavigation" text="Properties" />
+					<br />
+					<g:Button ui:field="codeNavigation" text="R Code" />
+					<br />
+					<g:Button ui:field="inputsNavigation" text="Inputs &amp; DataProviders" />
+					<br />
+					<g:Button ui:field="outputsNavigation" text="Outputs" />
 				</div>
 			</g:HTMLPanel>
 		</g:west>

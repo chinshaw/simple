@@ -42,7 +42,7 @@ public class DefaultTextArea extends TextArea {
 	}
 
 	public void setValue(String text) {
-		if (text == null || text.isEmpty()) {
+		if (text == null) {
 			resetDefaultText();
 		} else {
 			super.setText(text);
