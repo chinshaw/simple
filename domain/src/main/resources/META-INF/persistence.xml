@@ -47,8 +47,8 @@
 
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/simple" />
-			<property name="javax.persistence.jdbc.user" value="" />
-			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="javax.persistence.jdbc.user" value="chris" />
+			<property name="javax.persistence.jdbc.password" value="chris" />
 			<property name="show_sql" value="true" />
 			<property name="format_sql" value="true" />
 			<property name="use_sql_comments" value="true" />
