@@ -19,6 +19,8 @@ package com.simple.original.client.view.widgets;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -29,7 +31,6 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.CssResource.NotStrict;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -505,8 +506,8 @@ public class VerticalSlider extends FocusPanel implements RequiresResize, HasVal
 
 			// Mousewheel events
 			case Event.ONMOUSEWHEEL:
-				final int velocityY = DOM.eventGetMouseWheelVelocityY(event);
-				DOM.eventPreventDefault(event);
+				final int velocityY = event.getMouseWheelVelocityY();
+				event.preventDefault();
 				if (velocityY > 0) {
 					shiftDown(1);
 				} else {
@@ -518,49 +519,49 @@ public class VerticalSlider extends FocusPanel implements RequiresResize, HasVal
 			case Event.ONKEYDOWN:
 				if (!slidingKeyboard) {
 					int multiplier = 1;
-					if (DOM.eventGetCtrlKey(event)) {
+					if (event.getCtrlKey()) {
 						multiplier = (int) (getTotalRange() / stepSize / PERCENTAGE);
 					}
 
-					switch (DOM.eventGetKeyCode(event)) {
+					switch (event.getKeyCode()) {
 					case KeyCodes.KEY_HOME:
-						DOM.eventPreventDefault(event);
+						event.preventDefault();;
 						setCurrentValue(minValue);
 						break;
 					case KeyCodes.KEY_END:
-						DOM.eventPreventDefault(event);
+						event.preventDefault();
 						setCurrentValue(maxValue);
 						break;
 					case KeyCodes.KEY_PAGEUP:
-						DOM.eventPreventDefault(event);
+						event.preventDefault();
 						slidingKeyboard = true;
 						startSliding(false, true);
 						shiftUp(pageSize);
 						keyTimer.schedule(INITIALDELAY, true, pageSize);
 						break;
 					case KeyCodes.KEY_PAGEDOWN:
-						DOM.eventPreventDefault(event);
+						event.preventDefault();
 						slidingKeyboard = true;
 						startSliding(false, true);
 						shiftDown(pageSize);
 						keyTimer.schedule(INITIALDELAY, false, pageSize);
 						break;
 					case KeyCodes.KEY_UP:
-						DOM.eventPreventDefault(event);
+						event.preventDefault();
 						slidingKeyboard = true;
 						startSliding(false, true);
 						shiftUp(multiplier);
 						keyTimer.schedule(INITIALDELAY, true, multiplier);
 						break;
 					case KeyCodes.KEY_DOWN:
-						DOM.eventPreventDefault(event);
+						event.preventDefault();
 						slidingKeyboard = true;
 						startSliding(false, true);
 						shiftDown(multiplier);
 						keyTimer.schedule(INITIALDELAY, false, multiplier);
 						break;
 					case SPACEBAR:
-						DOM.eventPreventDefault(event);
+						event.preventDefault();
 						setCurrentValue(minValue + getTotalRange() / 2);
 						break;
 					default:
@@ -715,10 +716,10 @@ public class VerticalSlider extends FocusPanel implements RequiresResize, HasVal
 		this.enabled = enabled2;
 		if (enabled) {
 			knobImage.setResource(images.slider());
-			DOM.setElementProperty(lineElement, "className", "gwt-SliderBarVertical-line");
+			lineElement.setPropertyString("className", "gwt-SliderBarVertical-line");
 		} else {
 			knobImage.setResource(images.sliderDisabled());
-			DOM.setElementProperty(lineElement, "className", "gwt-SliderBarVertical-line gwt-SliderBarVertical-line-disabled");
+			lineElement.setPropertyString("className", "gwt-SliderBarVertical-line gwt-SliderBarVertical-line-disabled");
 		}
 		redraw();
 	}
@@ -824,7 +825,7 @@ public class VerticalSlider extends FocusPanel implements RequiresResize, HasVal
 	@Override
 	protected final void onLoad() {
 		// Reset the position attribute of the parent element
-		DOM.setStyleAttribute(getElement(), "position", "relative");
+		getElement().getStyle().setPosition(Position.RELATIVE);
 	}
 
 	/**
@@ -868,7 +869,7 @@ public class VerticalSlider extends FocusPanel implements RequiresResize, HasVal
 	 *            the mouse event
 	 */
 	private void slideKnob(final Event event) {
-		final int y = DOM.eventGetClientY(event);
+		final int y = event.getClientY();
 		if (y > 0) {
 			final int lineHeight = lineElement.getOffsetHeight();
 			final int lineTop = lineElement.getAbsoluteTop();
@@ -886,7 +887,7 @@ public class VerticalSlider extends FocusPanel implements RequiresResize, HasVal
 	 *            the multiplier
 	 */
 	private void pageKnob(final Event event, final int multiplier) {
-		final int y = DOM.eventGetClientY(event);
+		final int y = event.getClientY();
 		if (y > 0) {
 			mouseDownPos = getMousePositionValue(y);
 			int change = pageSize;
@@ -937,8 +938,8 @@ public class VerticalSlider extends FocusPanel implements RequiresResize, HasVal
 	 */
 	private void startSliding(final boolean highlight, final boolean fireEvent) {
 		if (highlight) {
-			DOM.setElementProperty(lineElement, "className", "gwt-SliderBarVertical-line gwt-SliderBarVertical-line-sliding");
-			DOM.setElementProperty(knobImage.getElement(), "className", "gwt-SliderBarVertical-knob gwt-SliderBarVertical-knob-sliding");
+			lineElement.setPropertyString("className", "gwt-SliderBarVertical-line gwt-SliderBarVertical-line-sliding");
+			knobImage.getElement().setPropertyString("className", "gwt-SliderBarVertical-knob gwt-SliderBarVertical-knob-sliding");
 			knobImage.setResource(images.sliderSliding());
 		}
 	}
@@ -953,9 +954,9 @@ public class VerticalSlider extends FocusPanel implements RequiresResize, HasVal
 	 */
 	private void stopSliding(final boolean unhighlight, final boolean fireEvent) {
 		if (unhighlight) {
-			DOM.setElementProperty(lineElement, "className", "gwt-SliderBarVertical-line");
+			lineElement.setPropertyString("className", "gwt-SliderBarVertical-line");
 
-			DOM.setElementProperty(knobImage.getElement(), "className", "gwt-SliderBarVertical-knob");
+			knobImage.getElement().setPropertyString("className", "gwt-SliderBarVertical-knob");
 			knobImage.setResource(images.slider());
 		}
 	}
@@ -964,7 +965,7 @@ public class VerticalSlider extends FocusPanel implements RequiresResize, HasVal
 	 * Unhighlight this widget.
 	 */
 	private void unhighlight() {
-		DOM.setElementProperty(getElement(), "className", getStylePrimaryName());
+		getElement().setPropertyString("className", getStylePrimaryName());
 	}
 
 	/**

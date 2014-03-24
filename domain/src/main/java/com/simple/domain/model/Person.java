@@ -22,9 +22,9 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Index;
 
-import com.simple.original.api.domain.GroupMembership;
-import com.simple.original.api.orchestrator.IPerson;
-import com.simple.original.security.api.IHasCredentials;
+import com.simple.api.domain.GroupMembership;
+import com.simple.api.orchestrator.IPerson;
+import com.simple.security.api.IHasCredentials;
 
 /**
  * The person is virtual factories representation of a person / user. This
@@ -154,6 +154,14 @@ public class Person extends RequestFactoryEntity implements
 			return null;
 		}
 		return loginDates.get(loginDates.size());
+	}
+	
+	
+	public List<Date> getLoginDates() {
+		return loginDates;
+	}
+	
+	public void setLoginDates(List<Date> loginDate) {
 	}
 
 	public Preferences getPreferences() {

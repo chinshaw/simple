@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.simple.radapter.api.IRexp;
 import com.simple.radapter.api.IRexpCollection;
-import com.simple.radapter.protobuf.REXP;
+import com.simple.radapter.protobuf.Rexp;
 
-public class RexpCollection<T extends IRexp<?>> extends Rexp implements IRexpCollection<T>{
+public class RexpCollection<T extends IRexp<?>> implements IRexpCollection<T>{
 
 	private List<T> values;
 	
@@ -30,7 +30,7 @@ public class RexpCollection<T extends IRexp<?>> extends Rexp implements IRexpCol
 	}
 
 	@Override
-	public REXP getProtoBuf() {
+	public Rexp getProtoBuf() {
 		// TODO Auto-generated method stub
 		return null;
 	}

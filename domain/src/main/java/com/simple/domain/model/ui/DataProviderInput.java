@@ -2,8 +2,8 @@ package com.simple.domain.model.ui;
 
 import javax.persistence.Entity;
 
+import com.simple.api.orchestrator.IDataProviderInput;
 import com.simple.domain.model.RequestFactoryEntity;
-import com.simple.original.api.orchestrator.IDataProviderInput;
 
 @Entity
 public class DataProviderInput extends RequestFactoryEntity implements IDataProviderInput {

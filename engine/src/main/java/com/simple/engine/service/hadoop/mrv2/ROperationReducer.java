@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
 
+import com.simple.api.orchestrator.IAnalyticsOperationOutput.Type;
+import com.simple.api.orchestrator.IMetricKey;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.engine.api.IMetricWritable;
@@ -21,9 +23,6 @@ import com.simple.engine.service.hadoop.AbstractReducer;
 import com.simple.engine.service.hadoop.config.ConfigurationException;
 import com.simple.engine.service.hadoop.config.OperationConfig;
 import com.simple.engine.service.hadoop.io.MetricWritable;
-import com.simple.original.api.orchestrator.IAnalyticsOperationOutput.Type;
-import com.simple.original.api.orchestrator.IMetric;
-import com.simple.original.api.orchestrator.IMetricKey;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;

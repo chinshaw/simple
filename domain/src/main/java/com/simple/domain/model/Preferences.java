@@ -10,8 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Pattern;
 
-import com.simple.original.api.orchestrator.IApplicationBookmark;
-import com.simple.original.api.orchestrator.IPreferences;
+import com.simple.api.orchestrator.IApplicationBookmark;
+import com.simple.api.orchestrator.IPreferences;
 
 @Entity
 public class Preferences extends RequestFactoryEntity implements IPreferences {
@@ -27,7 +27,7 @@ public class Preferences extends RequestFactoryEntity implements IPreferences {
 	private Boolean debugEnabled;
 
 	@OneToMany(cascade= CascadeType.ALL, targetEntity = ApplicationBookmark.class)
-	private List<ApplicationBookmark> bookMarks;
+	private List<ApplicationBookmark> bookmarks;
 
 	/**
 	 * default place for user to navigate to that page on login
@@ -109,24 +109,28 @@ public class Preferences extends RequestFactoryEntity implements IPreferences {
 		this.cellPhoneProvider = cellPhoneProvider;
 	}
 	
-	public Boolean getEmailFlag() {
+	public boolean getEmailFlag() {
 		return emailFlag;
 	}
 
-	public void setEmailFlag(Boolean emailFlag) {
+	public void setEmailFlag(boolean emailFlag) {
 		this.emailFlag = emailFlag;
 	}
 
-	public Boolean getSmsFlag() {
+	public boolean getSmsFlag() {
 		return smsFlag;
 	}
 
-	public void setSmsFlag(Boolean smsFlag) {
+	public void setSmsFlag(boolean smsFlag) {
 		this.smsFlag = smsFlag;
 	}
 
 	public List<ApplicationBookmark> getBookmarks() {
-		return bookMarks;
+		return bookmarks;
+	}
+	
+	public void setBookmarks(List<ApplicationBookmark> bookmarks) {
+		this.bookmarks = bookmarks;
 	}
 
 	public boolean addBookmark(ApplicationBookmark bookmark) {
@@ -134,11 +138,11 @@ public class Preferences extends RequestFactoryEntity implements IPreferences {
 			return false;
 		}
 		
-		if (bookMarks == null) {
-			bookMarks = new ArrayList<ApplicationBookmark>();
+		if (bookmarks == null) {
+			bookmarks = new ArrayList<ApplicationBookmark>();
 		}
 		
-		return bookMarks.add(bookmark);
+		return bookmarks.add(bookmark);
 	}
 
 	public boolean removeBookmark(IApplicationBookmark bookmark) {
@@ -147,6 +151,6 @@ public class Preferences extends RequestFactoryEntity implements IPreferences {
 			return false;
 		}
 		
-		return bookMarks.remove(bookmark);
+		return bookmarks.remove(bookmark);
 	}
 }

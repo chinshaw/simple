@@ -7,11 +7,11 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
+import com.simple.api.exceptions.DomainException;
+import com.simple.api.exceptions.NoSuchUserException;
 import com.simple.domain.IOCDomainModule;
 import com.simple.domain.dao.PersonDao;
 import com.simple.domain.model.Person;
-import com.simple.original.api.exceptions.DomainException;
-import com.simple.original.api.exceptions.NoSuchUserException;
 import com.simple.original.domain.IOCDomainTestModule;
 
 public class DaoTest {

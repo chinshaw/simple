@@ -11,10 +11,10 @@ import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
+import com.simple.api.orchestrator.IMetricKey;
 import com.simple.engine.api.IMetricWritable;
 import com.simple.engine.service.hadoop.io.adapter.AbstractInputFormatAdapter;
 import com.simple.engine.service.hadoop.io.adapter.MetricAdapterFactory;
-import com.simple.original.api.orchestrator.IMetricKey;
 
 public class MetricInputFormat<K extends IMetricKey, V extends IMetricWritable>
 		extends InputFormat<K, V> implements Configurable {

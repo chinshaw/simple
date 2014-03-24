@@ -10,6 +10,25 @@
 	<name>Security Module</name>
 	<description>Security and session support implementation</description>
 
+	<build>
+		<plugins>
+			<!-- We build the source package so that it is possible to use with gwt 
+				and makes a deployable source jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.simple</groupId>

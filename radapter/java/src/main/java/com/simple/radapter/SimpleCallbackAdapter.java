@@ -13,4 +13,8 @@ public class SimpleCallbackAdapter implements RCallbackAdapter {
 	public void writeStdErr(String message) {
 		System.err.println(message);
 	}
+
+    @Override
+    public void flush() {
+    }
 }

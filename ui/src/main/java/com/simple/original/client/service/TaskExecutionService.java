@@ -10,7 +10,7 @@ import org.fusesource.restygwt.client.RestService;
 import org.fusesource.restygwt.client.RestServiceProxy;
 
 import com.google.gwt.core.client.GWT;
-import com.simple.original.api.orchestrator.ITaskExecution;
+import com.simple.api.orchestrator.ITaskExecution;
 
 public interface TaskExecutionService extends RestService {
 

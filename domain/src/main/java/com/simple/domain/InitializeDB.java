@@ -2,9 +2,9 @@ package com.simple.domain;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.simple.api.exceptions.DomainException;
 import com.simple.domain.dao.PersonDao;
 import com.simple.domain.model.Person;
-import com.simple.original.api.exceptions.DomainException;
 
 public class InitializeDB {
 

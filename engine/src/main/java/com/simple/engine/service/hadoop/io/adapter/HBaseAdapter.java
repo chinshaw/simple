@@ -17,12 +17,10 @@ import org.apache.hadoop.mapreduce.Reducer.Context;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
 
+import com.simple.api.orchestrator.IMetricKey;
 import com.simple.engine.api.IMetricWritable;
 import com.simple.engine.service.hadoop.ModuleProperties;
 import com.simple.engine.service.hadoop.io.MetricWritable;
-import com.simple.engine.service.hadoop.io.format.MetricOutputFormat;
-import com.simple.original.api.orchestrator.IMetricKey;
-import com.sun.tools.javac.util.ByteBuffer;
 
 public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		extends AbstractOutputFormatAdapter<K, V> {

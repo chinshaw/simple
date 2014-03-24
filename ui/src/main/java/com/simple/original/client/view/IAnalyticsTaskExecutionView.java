@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.simple.original.api.domain.GroupMembership;
+import com.simple.api.domain.GroupMembership;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsTaskNameProxy;
 import com.simple.original.client.service.ServiceRequestFactory.DashboardRequest;

@@ -4,13 +4,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import com.simple.api.exceptions.NoSuchUserException;
+import com.simple.api.exceptions.NotAuthenticatedException;
+import com.simple.api.orchestrator.IPerson;
 import com.simple.domain.model.ApplicationBookmark;
 import com.simple.domain.model.Person;
 import com.simple.domain.model.Preferences;
-import com.simple.original.api.exceptions.NoSuchUserException;
-import com.simple.original.api.exceptions.NotAuthenticatedException;
-import com.simple.original.api.orchestrator.IPerson;
-import com.simple.original.security.api.IHasCredentials;
 
 /**
  * PersonDao is the means of performing crud updates on person objects in our

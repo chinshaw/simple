@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.simple.original.api.orchestrator.IApplicationBookmark;
+import com.simple.api.orchestrator.IApplicationBookmark;
 
 /**
  * Bookmark is a user defined location that has a name and an address
@@ -29,6 +29,16 @@ public class ApplicationBookmark extends RequestFactoryEntity implements IApplic
 	 */
 	@NotNull
 	private String placeToken;
+	
+	
+	public ApplicationBookmark() {
+		
+	}
+	
+	public ApplicationBookmark(String name, String placeToken) {
+		this.name = name;
+		this.placeToken = placeToken;
+	}
 
 	/**
 	 * Get the name of the bookmark defined by the user
@@ -43,11 +53,12 @@ public class ApplicationBookmark extends RequestFactoryEntity implements IApplic
 		this.name = name;
 	}
 
-	public String getWhere() {
+	
+	public String getPlaceToken() {
 		return placeToken;
 	}
-
-	public void setWhere(String placeToken) {
+	
+	public void setPlaceToken(String placeToken) {
 		this.placeToken = placeToken;
 	}
 }

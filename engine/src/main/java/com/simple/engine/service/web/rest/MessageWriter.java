@@ -11,7 +11,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.dyuproject.protostuff.JsonIOUtil;
@@ -19,7 +18,7 @@ import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.Message;
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.XmlIOUtil;
-import com.simple.original.api.orchestrator.IMetric;
+import com.simple.api.orchestrator.IMetric;
 
 /**
  * This class is used to serialize protostuff messages.

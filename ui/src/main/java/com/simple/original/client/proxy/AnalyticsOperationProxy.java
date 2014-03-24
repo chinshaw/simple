@@ -73,14 +73,14 @@ public interface AnalyticsOperationProxy extends DatastoreObjectProxy {
      * 
      * @return
      */
-    public boolean isPublic();
+    public boolean getPublicAccessible();
 
     /**
      * Setter for isPublic flag.
      * 
      * @param isPublic
      */
-    public void setPublic(boolean isPublic);
+    public void setPublicAccessible(boolean isPublic);
 
     /**
      * Getter for the Person.

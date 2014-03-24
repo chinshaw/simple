@@ -17,7 +17,6 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.dashboard.events.WidgetContextEvent;
 import com.simple.original.client.dashboard.events.WidgetModelChangedEvent;
 import com.simple.original.client.dashboard.model.IPlotWidgetModel;
-import com.simple.original.client.dashboard.model.IWidgetModel;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.widgets.LinkableWidget;
 import com.simple.original.client.view.widgets.ScalableImage;

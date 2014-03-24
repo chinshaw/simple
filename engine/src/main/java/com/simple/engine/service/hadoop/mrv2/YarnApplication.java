@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.simple.domain.model.AnalyticsOperation;
+import com.simple.api.exceptions.RAnalyticsException;
+import com.simple.api.orchestrator.IAnalyticsOperation;
+import com.simple.api.orchestrator.IMetric;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.service.AnalyticsOperationException;
 import com.simple.engine.service.IAnalyticsOperationExecutor;
-import com.simple.original.api.exceptions.RAnalyticsException;
-import com.simple.original.api.orchestrator.IMetric;
 
 public class YarnApplication implements IAnalyticsOperationExecutor {
 
@@ -19,17 +19,15 @@ public class YarnApplication implements IAnalyticsOperationExecutor {
 	@Override
 	public HashMap<Long, IMetric> execute(String jobOwner,
 			List<AnalyticsOperationInput> userInputs,
-			AnalyticsOperation operation, List<DataProvider> dataProviders)
+			IAnalyticsOperation operation, List<DataProvider> dataProviders)
 			throws AnalyticsOperationException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void execute(String jobOwner, AnalyticsOperation operation,
+	public void execute(String jobOwner, IAnalyticsOperation operation,
 			List<DataProvider> dataProvider) throws AnalyticsOperationException {
-		
-		
 	}
 
 	@Override

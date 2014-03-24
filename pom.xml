@@ -20,15 +20,20 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<apache.commons.version>3.1</apache.commons.version>
+
 		<shiro.version>1.2.2</shiro.version>
-		<guice.version>3.0</guice.version>
+
 		<jersey.version>1.18.1</jersey.version>
 		<protostuff.version>1.0.8</protostuff.version>
 		<quartz.version>2.2.1</quartz.version>
+		<guice.version>3.0</guice.version>
 		<guava.version>16.0.1</guava.version>
 		<hadoop.version>2.2.0</hadoop.version>
 		<hbase.version>0.98.0-hadoop2</hbase.version>
 		<jackson.version>1.9.2</jackson.version>
+
+		<jetty.version>7.2.0.v20101020</jetty.version>
 	</properties>
 
 	<modules>
@@ -54,11 +59,32 @@
 	<dependencyManagement>
 		<dependencies>
 
+			<!-- GIN and Guice for IoC / DI -->
+			<dependency>
+				<groupId>com.google.inject.extensions</groupId>
+				<artifactId>guice-servlet</artifactId>
+				<version>${guice.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${guava.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${apache.commons.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>${apache.commons.version}</version>
+			</dependency>
+
+
 
 			<dependency>
 				<groupId>org.quartz-scheduler</groupId>
@@ -156,19 +182,19 @@
 				<artifactId>jackson-core-asl</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-mapper-asl</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-jaxrs</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
 				<artifactId>jackson-xc</artifactId>

@@ -7,12 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.fusesource.restygwt.client.Method;
-import org.fusesource.restygwt.client.MethodCallback;
-
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -32,7 +27,6 @@ import com.simple.original.client.place.HistoricalMetricsPlace;
 import com.simple.original.client.place.LatestDashboardPlace;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.DashboardProxy;
-import com.simple.original.client.service.HBaseRestService;
 import com.simple.original.client.service.ServiceRequestFactory.DashboardRequest;
 import com.simple.original.client.utils.ClientUtils;
 import com.simple.original.client.view.IDashboardView;

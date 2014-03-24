@@ -19,10 +19,10 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.simple.api.orchestrator.IMetric;
 import com.simple.engine.api.MediaType;
 import com.simple.engine.metric.Metric;
 import com.simple.engine.service.hadoop.io.MetricWritable;
-import com.simple.original.api.orchestrator.IMetric;
 
 @Path("/metric")
 public class MetricResource {
@@ -87,8 +87,6 @@ public class MetricResource {
 			Response response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).tag("Could not find entity").build();
 			throw new WebApplicationException(response);
 		}
-
-
 		
 		MetricWritable<Metric<?>> writable = new MetricWritable<Metric<?>>();
 

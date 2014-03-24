@@ -1,10 +1,10 @@
-package radapter_java;
+package radapter;
 
 option optimize_for = LITE_RUNTIME;
 
 option java_package = "com.simple.radapter.protobuf";
 option java_outer_classname = "REXPProtos";
-message REXP {
+message Rexp {
   enum RClass {
 	NILSXP			= 0;    /* nil = NULL */
  	SYMSXP			= 1;    /* symbols */
@@ -51,9 +51,9 @@ message REXP {
   repeated string   stringValue		= 5;
   optional bytes    rawValue		= 6;
   repeated CMPLX    complexValue	= 7;
-  repeated REXP	    rexpValue		= 8;
+  repeated Rexp	    rexpValue		= 8;
   repeated string   attrName		= 11;
-  repeated REXP     attrValue		= 12;
+  repeated Rexp     attrValue		= 12;
 }
 
 

@@ -7,4 +7,6 @@ public interface RCallbackAdapter {
 	
 	
 	public void writeStdErr(String message);
+
+    public void flush();
 }

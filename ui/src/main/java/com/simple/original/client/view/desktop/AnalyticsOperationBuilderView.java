@@ -15,17 +15,21 @@ import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.SimpleLayoutPanel;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.requestfactory.gwt.client.HasRequestContext;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
-import com.simple.original.api.exceptions.SimpleException;
-import com.simple.original.api.orchestrator.IAnalyticsOperationOutput;
+import com.simple.api.exceptions.SimpleException;
+import com.simple.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.IOperationBuilderView;
@@ -64,7 +68,7 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     ErrorPanel errorPanel;
     
 
-    @Path("public")
+    @Path("publicAccessible")
 	@UiField
 	CheckBox isPublic;
 
@@ -160,6 +164,16 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     @UiField
     Button cancel;
 
+    @UiField
+    SimpleLayoutPanel executionContainer;
+    
+    @UiField
+    DockLayoutPanel container;
+    
+    @UiField
+    SplitLayoutPanel splitLayoutPanel;
+    
+    
     private Presenter presenter = null;
 
 
@@ -208,8 +222,8 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     	errorPanel.clear();
         name.clearErrors();
         description.clearErrors();
-        isPublic.setEnabled(false);
         code.setValue("");
+        
     }
 
     private void bindToPresenter() {
@@ -302,7 +316,6 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
 			outputsBlock.getStyle().setDisplay(Display.BLOCK);
 		}
 		
-		
 	}
 	
 
@@ -321,5 +334,21 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
 	void onTest(ClickEvent click) {
 		presenter.onTest();
 	}
-	
+
+
+	@Override
+	public AcceptsOneWidget getExecutionContainer() {
+		return executionContainer;
+	}
+
+	@Override
+	public void setExecutionContainerSize(int size) {
+		splitLayoutPanel.setWidgetSize(executionContainer, 400);
+		splitLayoutPanel.animate(1000);
+	}
+
+	@Override
+	public int getExecutionContainerSize() {
+		return splitLayoutPanel.getWidgetSize(executionContainer).intValue();
+	}
 }

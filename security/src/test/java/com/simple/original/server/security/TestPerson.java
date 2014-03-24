@@ -2,8 +2,8 @@ package com.simple.original.server.security;
 
 import java.util.Set;
 
-import com.simple.original.api.orchestrator.IPerson;
-import com.simple.original.api.orchestrator.IPreferences;
+import com.simple.api.orchestrator.IPerson;
+import com.simple.api.orchestrator.IPreferences;
 
 public class TestPerson implements IPerson {
 

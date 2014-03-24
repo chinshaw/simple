@@ -1,6 +1,6 @@
 package com.simple.original.shared;
 
-import com.simple.original.api.exceptions.SimpleException;
+import com.simple.api.exceptions.SimpleException;
 
 public class SqlDataProviderException extends SimpleException {
 

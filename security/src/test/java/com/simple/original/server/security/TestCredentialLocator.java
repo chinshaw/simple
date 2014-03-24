@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.simple.original.api.orchestrator.IPerson.Role;
-import com.simple.original.security.api.ICredentialLocator;
-import com.simple.original.security.api.IHasCredentials;
+import com.simple.api.orchestrator.IPerson.Role;
+import com.simple.security.api.ICredentialLocator;
+import com.simple.security.api.IHasCredentials;
 
 public class TestCredentialLocator implements ICredentialLocator {
 

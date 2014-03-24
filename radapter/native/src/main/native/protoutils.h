@@ -15,19 +15,18 @@
 
 
 
-
 /*  
  * Utility functions for converting to and fro protocol buffers
  * and SEXP objects
  */
 
-void sexpToRexp(REXP *, const SEXP);
+void sexpToRexp(Radapter__Rexp *, const SEXP);
 
-SEXP rexpToSexp(const REXP *rexp);
+SEXP rexpToSexp(const Radapter__Rexp *rexp);
 
-void fill_rexp(REXP *, const SEXP );
-void writeSexp32(FILE* fout, REXP* prexp_buffer, SEXP obj);
-void writeSexp64(FILE* fout, REXP* prexp_buffer, SEXP obj);
+void fill_rexp(Radapter__Rexp *, const SEXP );
+//void writeSexp32(FILE* fout, Radapter__Rexp* prexp_buffer, SEXP obj);
+//void writeSexp64(FILE* fout, Radapter__Rexp* prexp_buffer, SEXP obj);
 
 
 

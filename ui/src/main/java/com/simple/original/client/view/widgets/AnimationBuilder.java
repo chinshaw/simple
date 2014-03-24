@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.animation.client.Animation;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 
 public class AnimationBuilder {
 
@@ -100,8 +102,9 @@ public class AnimationBuilder {
             }
 
             height = Math.max(height, 1);
-            DOM.setStyleAttribute(element, "height", height + "px");
-            DOM.setStyleAttribute(element, "width", "auto");
+            Style style = element.getStyle();
+            style.setHeight(height, Unit.PX);
+            //DOM.setStyleAttribute(element, "width", "auto");
         }
     }
 

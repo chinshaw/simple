@@ -10,7 +10,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.simple.original.api.orchestrator.IPerson;
 
 /**
  * Changelog is a class used to store historical changes to entities like the
@@ -35,7 +34,7 @@ public class ChangeLog extends DatastoreObject {
 	 */
 	@OneToOne(targetEntity = Person.class)
 	@NotNull(message = "person is a required field for a changelog")
-	private IPerson person;
+	private Person person;
 
 	@Size(max = 256, message = "change message cannot be larger than 256 characters")
 	private String changeMessage;
@@ -51,7 +50,7 @@ public class ChangeLog extends DatastoreObject {
 	 * 
 	 * @param person
 	 */
-	public ChangeLog(IPerson person) {
+	public ChangeLog(Person person) {
 		this(person, null);
 	}
 
@@ -65,7 +64,7 @@ public class ChangeLog extends DatastoreObject {
 	 *            The message that other users will be able to use for tracking
 	 *            changes to the owning entitiy, max length is 256 characters
 	 */
-	public ChangeLog(IPerson person, String changeMessage) {
+	public ChangeLog(Person person, String changeMessage) {
 		this.person = person;
 		this.changeMessage = changeMessage;
 	}
@@ -75,7 +74,7 @@ public class ChangeLog extends DatastoreObject {
 	 * 
 	 * @return The person who made the last change.
 	 */
-	public IPerson getPerson() {
+	public Person getPerson() {
 		return person;
 	}
 
@@ -85,7 +84,7 @@ public class ChangeLog extends DatastoreObject {
 	 * 
 	 * @param person
 	 */
-	public void setPerson(IPerson person) {
+	public void setPerson(Person person) {
 		this.person = person;
 	}
 
@@ -114,6 +113,10 @@ public class ChangeLog extends DatastoreObject {
 	 */
 	public Date getChangeDate() {
 		return changeDate;
+	}
+	
+	public void setChangeDate(Date changeDate) {
+		this.changeDate = changeDate;
 	}
 
 	@PrePersist

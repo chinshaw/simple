@@ -18,10 +18,10 @@ import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
 import com.google.web.bindery.requestfactory.server.ExceptionHandler;
 import com.google.web.bindery.requestfactory.server.ServiceLayerDecorator;
-import com.simple.original.security.api.ICredentialLocator;
 import com.simple.original.server.NotificationServlet;
 import com.simple.original.server.WebCredentialsLocator;
 import com.simple.original.server.service.InjectingServiceLocator;
+import com.simple.security.api.ICredentialLocator;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 public class IOCServletModule extends ServletModule {

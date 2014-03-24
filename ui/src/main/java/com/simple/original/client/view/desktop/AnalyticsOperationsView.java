@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.HasData;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.simple.original.api.domain.GroupMembership;
+import com.simple.api.domain.GroupMembership;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.JavaAnalyticsOperationProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
@@ -316,7 +316,7 @@ public class AnalyticsOperationsView extends AbstractView implements IOperations
 
 			@Override
 			public String getValue(AnalyticsOperationProxy analytics) {
-				if (analytics.isPublic()) {
+				if (analytics.getPublicAccessible()) {
 					return "Public";
 				} else {
 					return "Private";

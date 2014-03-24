@@ -2,7 +2,7 @@ package com.simple.original.client.view;
 
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.view.client.HasData;
-import com.simple.original.api.domain.GroupMembership;
+import com.simple.api.domain.GroupMembership;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.view.widgets.ErrorPanel;
 

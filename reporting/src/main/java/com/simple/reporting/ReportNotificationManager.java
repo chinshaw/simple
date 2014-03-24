@@ -7,12 +7,12 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 
 import com.google.inject.Inject;
+import com.simple.api.orchestrator.IPerson;
 import com.simple.domain.dao.AnalyticsTaskDao;
 import com.simple.domain.model.AnalyticsTask;
 import com.simple.domain.model.MailMessage;
 import com.simple.domain.model.Person;
 import com.simple.engine.metric.AnalyticsTaskExecution;
-import com.simple.original.api.orchestrator.IPerson;
 
 
 public class ReportNotificationManager {

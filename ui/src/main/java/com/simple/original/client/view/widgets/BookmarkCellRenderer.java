@@ -50,7 +50,7 @@ public class BookmarkCellRenderer extends AbstractCell<ApplicationBookmarkProxy>
 	@Override
 	public void render(com.google.gwt.cell.client.Cell.Context context, ApplicationBookmarkProxy value, SafeHtmlBuilder safeHtmlBuilder) {
 		String bookmarkName = value.getName();
-		String bookmarkLocation = value.getWhere();
+		String bookmarkLocation = value.getPlaceToken();
 		uiRenderer.render(safeHtmlBuilder, bookmarkName, bookmarkLocation);
 	}
 

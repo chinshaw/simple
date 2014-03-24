@@ -6,7 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
-import com.simple.original.api.orchestrator.IAnalyticsOperationOutput;
+import com.simple.api.orchestrator.IAnalyticsOperationOutput;
 
 /**
  * This class is an output from the operation, in previous versions the

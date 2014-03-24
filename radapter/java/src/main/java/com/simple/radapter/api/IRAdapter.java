@@ -2,7 +2,7 @@ package com.simple.radapter.api;
 
 import java.io.File;
 
-import com.simple.radapter.protobuf.REXP;
+import com.simple.radapter.protobuf.Rexp;
 
 public interface IRAdapter {
 
@@ -23,14 +23,14 @@ public interface IRAdapter {
 	public void disconnect();
 	
 
-    public REXP get(String var) throws RAdapterException;   
+    public Rexp get(String var) throws RAdapterException;   
     
-    public REXP set(String var, REXP rexp) throws RAdapterException;  
+    public Rexp set(String var, Rexp rexp) throws RAdapterException;  
     
-    public REXP exec(File file) throws RAdapterException;
+    public Rexp exec(File file) throws RAdapterException;
 	
-	public REXP exec(String script) throws RAdapterException;
+	public Rexp exec(String script) throws RAdapterException;
 
-	public REXP getPlot(String string) throws RAdapterException;
+	public Rexp getPlot(String string) throws RAdapterException;
 	
 }

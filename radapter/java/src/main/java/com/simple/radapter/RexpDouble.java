@@ -1,7 +1,7 @@
 package com.simple.radapter;
 
 import com.simple.radapter.api.IRexpDouble;
-import com.simple.radapter.protobuf.REXP;
+import com.simple.radapter.protobuf.Rexp;
 
 public class RexpDouble implements IRexpDouble {
 
@@ -21,7 +21,7 @@ public class RexpDouble implements IRexpDouble {
 	}
 
 	@Override
-	public REXP getProtoBuf() {
+	public Rexp getProtoBuf() {
 		// TODO Auto-generated method stub
 		return null;
 	}

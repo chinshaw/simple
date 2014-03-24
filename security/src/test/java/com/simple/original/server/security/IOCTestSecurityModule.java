@@ -5,8 +5,8 @@ import org.apache.shiro.mgt.SecurityManager;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
-import com.simple.original.security.IOCSecurityModule;
-import com.simple.original.security.api.ICredentialLocator;
+import com.simple.security.IOCSecurityModule;
+import com.simple.security.api.ICredentialLocator;
 
 public class IOCTestSecurityModule extends AbstractModule {
 

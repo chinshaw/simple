@@ -2,7 +2,7 @@ package com.simple.engine.api;
 
 import org.apache.hadoop.io.Writable;
 
-import com.simple.original.api.orchestrator.IMetric;
+import com.simple.api.orchestrator.IMetric;
 
 
 public interface IMetricWritable extends Writable {

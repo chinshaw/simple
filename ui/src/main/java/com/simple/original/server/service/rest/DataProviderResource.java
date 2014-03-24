@@ -14,9 +14,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.google.inject.Inject;
+import com.simple.api.exceptions.DomainException;
 import com.simple.domain.dao.DataProviderDao;
 import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.original.api.exceptions.DomainException;
 
 
 @Path("/dataprovider")

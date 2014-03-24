@@ -26,11 +26,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.simple.api.orchestrator.IAnalyticsTask;
+import com.simple.api.orchestrator.IPerson;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.dashboard.Dashboard;
-import com.simple.original.api.orchestrator.IAnalyticsTask;
-import com.simple.original.api.orchestrator.IPerson;
 
 /**
  * This is an analtyics task template used to describe the execution task chain

@@ -31,13 +31,13 @@ public interface PreferencesProxy extends ValueProxy {
 
 	public void setSubscriberMailId(String subscriberMail);
 
-	public Boolean getEmailFlag();
+	public boolean getEmailFlag();
 
-	public void setEmailFlag(Boolean emailFlag);
+	public void setEmailFlag(boolean emailFlag);
 
-	public void setSmsFlag(Boolean smsFlag);
+	public void setSmsFlag(boolean smsFlag);
 
-	public Boolean getSmsFlag();
+	public boolean getSmsFlag();
 
 	public void setCellPhoneProvider(String cellPhoneProvider);
 

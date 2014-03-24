@@ -15,7 +15,7 @@ import com.dyuproject.protostuff.Output;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
 import com.google.common.primitives.Longs;
-import com.simple.original.api.orchestrator.IMetricKey;
+import com.simple.api.orchestrator.IMetricKey;
 
 /**
  * This is a generic key that has it's basic value

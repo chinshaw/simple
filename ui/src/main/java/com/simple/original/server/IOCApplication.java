@@ -6,9 +6,9 @@ import com.google.inject.Module;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.util.Modules;
 import com.simple.engine.IOCEngineModule;
-import com.simple.original.security.IOCSecurityModule;
 import com.simple.original.server.service.rest.IOCRestModule;
 import com.simple.original.server.servlet.IOCServletModule;
+import com.simple.security.IOCSecurityModule;
 
 public class IOCApplication extends GuiceServletContextListener {
 

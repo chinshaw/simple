@@ -25,36 +25,36 @@
 
 int convertLogical[3] = { 0, 1, 2 };
 // call (void)Rf_PrintValue(model) in gdb
-SEXP rexpToSexp(const REXP *rexp) {
+SEXP rexpToSexp(const Radapter__Rexp *rexp) {
 
 	SEXP s = R_NilValue;
 
 	int i;
 	switch (rexp->rclass) {
-	case REXP__RCLASS__NILSXP:
+	case RADAPTER__REXP__RCLASS__NILSXP:
 		return (R_NilValue);
 
-	case REXP__RCLASS__LGLSXP: {
+	case RADAPTER__REXP__RCLASS__LGLSXP: {
 		PROTECT(s = Rf_allocVector(LGLSXP, rexp->n_booleanvalue));
 		for (i = 0; i < rexp->n_booleanvalue; i++) {
-			REXP__RBOOLEAN v = rexp->booleanvalue[i];
+			Radapter__Rexp__RBOOLEAN v = rexp->booleanvalue[i];
 			LOGICAL(s)[i] = convertLogical[1 * v];
 		}
 		break;
 	}
-	case REXP__RCLASS__INTSXP: {
+	case RADAPTER__REXP__RCLASS__INTSXP: {
 		PROTECT(s = Rf_allocVector(INTSXP, rexp->n_intvalue));
 		for (i = 0; i < rexp->n_intvalue; i++) {
 			INTEGER(s)[i] = rexp->intvalue[i];
 		}
 		break;
 	}
-	case REXP__RCLASS__REALSXP: {
+	case RADAPTER__REXP__RCLASS__REALSXP: {
 		PROTECT(s = Rf_allocVector(REALSXP, rexp->n_realvalue));
 		for (i = 0; i < rexp->n_realvalue; i++)
 			REAL(s)[i] = rexp->realvalue[i];
 	}
-	case REXP__RCLASS__STRSXP: {
+	case RADAPTER__REXP__RCLASS__STRSXP: {
 		PROTECT(s = Rf_allocVector(STRSXP, rexp->n_stringvalue));
 		char *st;
 		for (i = 0; i < rexp->n_stringvalue; i++) {
@@ -78,7 +78,7 @@ SEXP rexpToSexp(const REXP *rexp) {
  switch(rexp->rclass()){
 
 
- case REXP__RCLASS__RAW:
+ case RADAPTER__REXP__RCLASS__RAW:
  {
  const string& r = rexp.rawvalue();
  length = r.size();
@@ -86,7 +86,7 @@ SEXP rexpToSexp(const REXP *rexp) {
  memcpy(RAW(s),r.data(),length);
  break;
  }
- case REXP__RCLASS__COMPLEX:
+ case RADAPTER__REXP__RCLASS__COMPLEX:
  length = rexp.complexvalue_size();
  PROTECT(s = Rf_allocVector(CPLXSXP,length));
  for (int i = 0; i<length; i++){
@@ -94,7 +94,7 @@ SEXP rexpToSexp(const REXP *rexp) {
  COMPLEX(s)[i].i = rexp.complexvalue(i).imag();
  }
  break;
- case REXP__RCLASS__STRING:
+ case RADAPTER__REXP__RCLASS__STRING:
  {
  length = rexp.stringvalue_size();
  PROTECT(s = Rf_allocVector(STRSXP,length));
@@ -110,7 +110,7 @@ SEXP rexpToSexp(const REXP *rexp) {
  }
  break;
  }
- case REXP__RCLASS__LIST:
+ case RADAPTER__REXP__RCLASS__LIST:
  length = rexp.rexpvalue_size();
  PROTECT(s = Rf_allocVector(VECSXP,length));
  for (int i = 0; i< length; i++){
@@ -153,7 +153,7 @@ SEXP rexpToSexp(const REXP *rexp) {
  }
  */
 
-void sexpToRexp(REXP *rexp, const SEXP model) {
+void sexpToRexp(Radapter__Rexp *rexp, const SEXP model) {
 	fill_rexp(rexp, model);
 }
 
@@ -161,7 +161,7 @@ void sexpToRexp(REXP *rexp, const SEXP model) {
  * Copy the properties from the sexp object to
  * the rexp object
  */
-void fill_rexp(REXP* rexp, const SEXP model) {
+void fill_rexp(Radapter__Rexp* rexp, const SEXP model) {
 	fprintf(stderr, "Type of model is %d\n", TYPEOF(model));
 
 	SEXP xx = ATTRIB(model);
@@ -184,19 +184,19 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 
 	switch (TYPEOF(model)) {
 	case LGLSXP: //# define LGLSXP      10    /* logical vectors */
-		rexp->rclass = REXP__RCLASS__LGLSXP;
+		rexp->rclass = RADAPTER__REXP__RCLASS__LGLSXP;
 		for (i = 0; i < LENGTH(model); i++) {
 			int d = LOGICAL(model)[i];
 			switch (d) {
-			REXP__RBOOLEAN value;
+			Radapter__Rexp__RBOOLEAN value;
 		case 0:
-			value = REXP__RBOOLEAN__F;
+			value = RADAPTER__REXP__RBOOLEAN__F;
 			break;
 		case 1:
-			value = REXP__RBOOLEAN__T;
+			value = RADAPTER__REXP__RBOOLEAN__T;
 			break;
 		default:
-			value = REXP__RBOOLEAN__NA;
+			value = RADAPTER__REXP__RBOOLEAN__NA;
 			break;
 			rexp->booleanvalue = &value;
 			}
@@ -211,7 +211,7 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 	}
 		break;
 	case REALSXP: //#define REALSXP     14    /* real variables */
-		rexp->rclass = REXP__RCLASS__REALSXP;
+		rexp->rclass = RADAPTER__REXP__RCLASS__REALSXP;
 		rexp->n_realvalue = LENGTH(model);
 
 		rexp->realvalue = malloc(sizeof(rexp->realvalue) * (rexp->n_realvalue));
@@ -220,7 +220,7 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 		}
 		break;
 	case RAWSXP: { //#define RAWSXP      24    /* raw bytes */
-		rexp->rclass = REXP__RCLASS__RAWSXP;
+		rexp->rclass = RADAPTER__REXP__RCLASS__RAWSXP;
 		rexp->has_rawvalue = 1;
 
 		// set length of rexp;
@@ -237,20 +237,20 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 	}
 	case CPLXSXP: { //#define CPLXSXP     15    /* complex variables */
 
-		rexp->rclass = REXP__RCLASS__CPLXSXP;
+		rexp->rclass = RADAPTER__REXP__RCLASS__CPLXSXP;
 		for (i = 0; i < LENGTH(model); i++) {
-			CMPLX mp = CMPLX__INIT;
+			Radapter__CMPLX mp = RADAPTER__CMPLX__INIT;
 			mp.real = COMPLEX(model)[i].r;
 			mp.imag = COMPLEX(model)[i].i;
 		}
 		break;
 	}
 	case NILSXP: { //#define NILSXP       0    /* nil = NULL */
-		rexp->rclass = REXP__RCLASS__NILSXP;
+		rexp->rclass = RADAPTER__REXP__RCLASS__NILSXP;
 		break;
 	}
 	case STRSXP: { // #define STRSXP      16    /* string vectors */
-		rexp->rclass = REXP__RCLASS__STRSXP;
+		rexp->rclass = RADAPTER__REXP__RCLASS__STRSXP;
 
 		rexp->n_stringvalue = LENGTH(model);
 		rexp->stringvalue = malloc(
@@ -262,15 +262,15 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 	}
 
 	case VECSXP: { // #define VECSXP      19    /* generic vectors */
-		rexp->rclass = REXP__RCLASS__VECSXP;
+		rexp->rclass = RADAPTER__REXP__RCLASS__VECSXP;
 		rexp->n_rexpvalue = LENGTH(model);
 
 		fprintf(stderr, "Size of vector is %zu\n", rexp->n_rexpvalue);
-		rexp->rexpvalue = (REXP **) malloc(sizeof(REXP *) * rexp->n_rexpvalue);
+		rexp->rexpvalue = (Radapter__Rexp **) malloc(sizeof(Radapter__Rexp *) * rexp->n_rexpvalue);
 		for (i = 0; i < rexp->n_rexpvalue; i++) {
-			REXP subval = REXP__INIT;
+			Radapter__Rexp subval = RADAPTER__REXP__INIT;
 
-			REXP *sv = malloc(sizeof(REXP));
+			Radapter__Rexp *sv = malloc(sizeof(Radapter__Rexp));
 			*sv = subval;
 			fill_rexp(sv, VECTOR_ELT(model, i));
 			rexp->rexpvalue[i] = sv;
@@ -278,7 +278,7 @@ void fill_rexp(REXP* rexp, const SEXP model) {
 		break;
 	}
 	default:
-		rexp->rclass = REXP__RCLASS__NILSXP;
+		rexp->rclass = RADAPTER__REXP__RCLASS__NILSXP;
 		break;
 	}
 }

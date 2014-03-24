@@ -6,8 +6,8 @@ import java.util.List;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.simple.original.api.domain.RecordFecthType;
-import com.simple.original.api.domain.SortOrder;
+import com.simple.api.domain.RecordFecthType;
+import com.simple.api.domain.SortOrder;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
 
 public class OperationSuggestOracle extends SuggestOracle {

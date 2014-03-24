@@ -5,8 +5,8 @@ import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.simple.api.orchestrator.Criticality;
 import com.simple.domain.model.RequestFactoryEntity;
-import com.simple.original.api.orchestrator.Criticality;
 
 /**
  * <p>

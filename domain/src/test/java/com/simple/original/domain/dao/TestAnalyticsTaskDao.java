@@ -15,6 +15,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.inject.Inject;
+import com.simple.api.exceptions.DomainException;
+import com.simple.api.exceptions.SimpleException;
+import com.simple.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.domain.dao.AnalyticsOperationDao;
 import com.simple.domain.dao.AnalyticsTaskDao;
 import com.simple.domain.model.AnalyticsOperationOutput;
@@ -25,10 +28,7 @@ import com.simple.domain.model.ui.ComplexInput;
 import com.simple.domain.model.ui.DateInput;
 import com.simple.domain.model.ui.StringInput;
 import com.simple.domain.model.ui.dashboard.Dashboard;
-import com.simple.original.api.exceptions.DomainException;
-import com.simple.original.api.exceptions.SimpleException;
-import com.simple.original.api.orchestrator.IAnalyticsOperationOutput;
-import com.simple.original.security.api.ISession;
+import com.simple.security.api.ISession;
 
 public class TestAnalyticsTaskDao extends DaoTest {
 

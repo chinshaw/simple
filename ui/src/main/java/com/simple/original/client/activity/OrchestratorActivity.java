@@ -3,7 +3,6 @@ package com.simple.original.client.activity;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.RequestException;
@@ -84,7 +83,7 @@ public class OrchestratorActivity extends AbstractActivity<OrchestratorPlace, IO
 
 		String key = URL.encode("1");
 		
-		OrchestratorService service = OrchestratorService.Util.get("localhost", "8080");
+		OrchestratorService service = OrchestratorService.Util.get();
 		
 		service.fetchMetric("1", new MethodCallback<Metric>() {
 			

@@ -1,16 +1,16 @@
 package com.simple.original.client.view;
 
-import com.google.gwt.editor.client.Editor;
+import com.google.gwt.editor.client.Editor.Ignore;
 import com.google.gwt.editor.client.SimpleBeanEditorDriver;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.web.bindery.requestfactory.gwt.client.HasRequestContext;
-import com.simple.original.api.exceptions.SimpleException;
-import com.simple.original.api.orchestrator.IAnalyticsOperationOutput;
+import com.simple.api.exceptions.SimpleException;
+import com.simple.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.view.widgets.ErrorPanel;
 
-public interface IOperationBuilderView extends IView, Editor<RAnalyticsOperationProxy>, HasRequestContext<RAnalyticsOperationProxy> {
+public interface IOperationBuilderView extends IView {
 
     public enum AnalyticsTaskInputType {
         TEXT_INPUT("Text Input"), 
@@ -48,9 +48,14 @@ public interface IOperationBuilderView extends IView, Editor<RAnalyticsOperation
     @Ignore
     public CheckBox getIsPublic();
 
-    @Ignore
     public String getOperationName();
     
     public ErrorPanel getErrorPanel();
+
+    public AcceptsOneWidget getExecutionContainer();
+    
+    public void setExecutionContainerSize(int size);
+    
+    public int getExecutionContainerSize();
 
 }

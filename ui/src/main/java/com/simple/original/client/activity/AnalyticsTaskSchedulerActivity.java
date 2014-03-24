@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
@@ -14,7 +13,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.simple.original.api.orchestrator.ITaskExecution;
+import com.simple.api.orchestrator.ITaskExecution;
 import com.simple.original.client.place.AnalyticsTaskExecPlace;
 import com.simple.original.client.place.AnalyticsTaskSchedulerDetailsPlace;
 import com.simple.original.client.place.AnalyticsTaskSchedulerPlace;

@@ -57,25 +57,23 @@
 	}
 	</ui:style>
 
-	<g:DockLayoutPanel>
+	<g:DockLayoutPanel ui:field="container">
 		<g:north size="75">
 			<g:HTMLPanel styleName="{resources.style.topHeader}">
 				<div style="display:block;">
 					<div class="{resources.style.header}" style="float:left;">
 						<h1 style="line-height: 75px;">Operation Editor</h1>
 					</div>
-					<div style="text-align:left; padding:5px;float: right;">
-						<g:Button ui:field="test">Test</g:Button>
-					</div>
 				</div>
 			</g:HTMLPanel>
 		</g:north>
+
 		<g:center>
-			<g:SplitLayoutPanel>
+			<g:SplitLayoutPanel ui:field="splitLayoutPanel">
 				<g:west size="200">
 					<g:HTMLPanel ui:field="contentPanel">
 						<div class="{style.nav}">
-							
+
 							<g:Button ui:field="propertiesNavigation" text="Properties" />
 							<br />
 							<g:Button ui:field="codeNavigation" text="R Code" />
@@ -86,6 +84,12 @@
 						</div>
 					</g:HTMLPanel>
 				</g:west>
+				
+				<g:south size="0">
+					<g:SimpleLayoutPanel ui:field="executionContainer">
+					</g:SimpleLayoutPanel>
+				</g:south>
+
 
 				<g:center>
 					<g:HTMLPanel styleName="{style.content}">
@@ -176,6 +180,7 @@
 							<br />
 
 							<div class="{resources.style.buttonCollection}" style="text-align: right; margin-bottom: 2em;">
+								<g:Button ui:field="test">Test</g:Button>
 								<g:Button ui:field="cancel">Cancel</g:Button>
 								<g:Button ui:field="save">Save</g:Button>
 							</div>

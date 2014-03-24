@@ -7,12 +7,13 @@ import java.util.logging.Logger;
 import javax.validation.ConstraintViolation;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.EventBus;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
+import com.simple.api.exceptions.SimpleException;
+import com.simple.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
-import com.simple.original.api.exceptions.SimpleException;
-import com.simple.original.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.original.client.place.AnalyticsOperationPlace;
 import com.simple.original.client.place.AnalyticsOperationsPlace;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
@@ -25,6 +26,7 @@ import com.simple.original.client.service.DaoRequestFactory.AnalyticsOperationRe
 import com.simple.original.client.service.ServiceRequestFactory.OperationRequest;
 import com.simple.original.client.view.IOperationBuilderView;
 import com.simple.original.client.view.IOperationBuilderView.Presenter;
+import com.simple.original.client.view.desktop.OperationExecutionView;
 
 public class AnalyticsOperationBuilderActivity extends
 		AbstractActivity<AnalyticsOperationPlace, IOperationBuilderView>
@@ -100,7 +102,6 @@ public class AnalyticsOperationBuilderActivity extends
 	private void edit(RAnalyticsOperationProxy operation) {
 		logger.fine("Editing operation " + operation);
 		display.getEditorDriver().edit(operation);
-		display.setRequestContext(context);
 	}
 
 	/**
@@ -174,7 +175,18 @@ public class AnalyticsOperationBuilderActivity extends
 	@Override
 	public void onTest() {
 		RAnalyticsOperationProxy operation = display.getEditorDriver().flush();
-
+		
+		OperationExecutionActivity execActivity = new OperationExecutionActivity( new OperationExecutionView(eventBus(), resources()));
+		execActivity.start(display.getExecutionContainer(), (EventBus) eventBus());
+		
+		RAnalyticsOperation rOperation = new RAnalyticsOperation(operation.getName());
+		rOperation.setCode(operation.getCode());
+		execActivity.edit(rOperation);
+		
+		if (display.getExecutionContainerSize() == 0) {
+			display.setExecutionContainerSize(400);	
+		}
+		
 		OperationRequest testRequest = service().operationRequest();
 		RAnalyticsOperationProxy clone = ProxyUtils.cloneProxyToNewContext(
 				RAnalyticsOperationProxy.class, operation, testRequest);

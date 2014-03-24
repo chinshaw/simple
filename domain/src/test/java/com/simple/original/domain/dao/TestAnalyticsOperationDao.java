@@ -9,14 +9,14 @@ import java.util.List;
 import org.junit.Test;
 
 import com.google.inject.Inject;
+import com.simple.api.exceptions.DomainException;
+import com.simple.api.orchestrator.IAnalyticsOperationOutput.Type;
 import com.simple.domain.dao.AnalyticsOperationDao;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.DateInput;
 import com.simple.domain.model.ui.StringInput;
-import com.simple.original.api.exceptions.DomainException;
-import com.simple.original.api.orchestrator.IAnalyticsOperationOutput.Type;
 
 public class TestAnalyticsOperationDao extends DaoTest {
 

@@ -1,7 +1,7 @@
 package com.simple.engine;
 
-import com.simple.original.api.orchestrator.IMetricKey;
-import com.simple.original.api.orchestrator.ITaskExecution;
+import com.simple.api.orchestrator.IMetricKey;
+import com.simple.api.orchestrator.ITaskExecution;
 
 
 public interface ITaskExecutionDao {

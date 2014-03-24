@@ -1,8 +1,8 @@
 package com.simple.original.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
+import com.simple.api.orchestrator.Criticality;
 import com.simple.domain.model.ui.dashboard.NumberRange;
-import com.simple.original.api.orchestrator.Criticality;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 
 

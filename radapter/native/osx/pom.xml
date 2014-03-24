@@ -161,18 +161,18 @@
 						</source>
 					</sources>
 					<compilerStartOptions>
-						<compilerStartOption>-g -fpic</compilerStartOption>
+						<compilerStartOption>-DJRI_DEBUG -g -fpic</compilerStartOption>
 					</compilerStartOptions>
 
 					<linkerStartOptions>
-						<linkerStartOption>-g3 -03 -shared -fpic -pipe -D_REENTRANT
+						<linkerStartOption>-g3 -shared -fpic -pipe -D_REENTRANT
 							-L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/
 							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/
 							-L/usr/local/lib
 							-ljvm -lR -lprotobuf-c</linkerStartOption>
 					</linkerStartOptions>
 					<linkerEndOptions>
-						<linkerStartOption>-g3 -03 -shared -fpic -pipe -D_REENTRANT
+						<linkerStartOption>-g3 -shared -fpic -pipe -D_REENTRANT
 							-L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/
 							-ljvm
 							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -lR</linkerStartOption>

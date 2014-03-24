@@ -32,13 +32,13 @@ public interface ApplicationBookmarkProxy extends DatastoreObjectProxy {
 	 * 
 	 * @return
 	 */
-	public String getWhere();
+	public String getPlaceToken();
 
 	/**
 	 * Sets the location of the bookmark.
 	 * 
 	 * @param place
 	 */
-	public void setWhere(String place);
+	public void setPlaceToken(String place);
 
 }

@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ProvidesKey;
 import com.google.inject.Inject;
-import com.simple.original.api.domain.GroupMembership;
+import com.simple.api.domain.GroupMembership;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsTaskNameProxy;
 import com.simple.original.client.resources.Resources;

@@ -16,7 +16,9 @@ import org.apache.hadoop.hbase.mapreduce.TableOutputFormat;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.mapreduce.Job;
 
-import com.simple.domain.model.AnalyticsOperation;
+import com.simple.api.exceptions.RAnalyticsException;
+import com.simple.api.orchestrator.IAnalyticsOperation;
+import com.simple.api.orchestrator.IMetric;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
@@ -34,8 +36,6 @@ import com.simple.engine.service.hadoop.io.format.MetricInputFormat.InputAdapter
 import com.simple.engine.service.hadoop.io.format.MetricOutputFormat;
 import com.simple.engine.service.hadoop.io.format.MetricOutputFormat.OutputAdapterType;
 import com.simple.engine.service.hadoop.job.AnalyticsOperationHadoopJob;
-import com.simple.original.api.exceptions.RAnalyticsException;
-import com.simple.original.api.orchestrator.IMetric;
 
 public class OperationDriver implements IAnalyticsOperationExecutor {
 
@@ -57,7 +57,7 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 	}
 
 	@Override
-	public HashMap<Long, IMetric> execute(String jobOwner, List<AnalyticsOperationInput> userInputs, AnalyticsOperation operation,
+	public HashMap<Long, IMetric> execute(String jobOwner, List<AnalyticsOperationInput> userInputs, IAnalyticsOperation operation,
 			List<DataProvider> dataProviders) throws AnalyticsOperationException, ConfigurationException {
 
 		try {
@@ -68,7 +68,7 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 	}
 
 	@Override
-	public void execute(String jobOwner, AnalyticsOperation operation, List<DataProvider> dataProviders)
+	public void execute(String jobOwner, IAnalyticsOperation operation, List<DataProvider> dataProviders)
 			throws AnalyticsOperationException, ConfigurationException {
 		try {
 			_execute(jobOwner, null, operation, dataProviders);
@@ -78,7 +78,7 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 	}
 
 	private HashMap<Long, IMetric> _execute(final String jobOwner, final List<AnalyticsOperationInput> operationInputs,
-			final AnalyticsOperation operation, List<DataProvider> dataProviders) throws RAnalyticsException, ConfigurationException {
+			final IAnalyticsOperation operation, List<DataProvider> dataProviders) throws RAnalyticsException, ConfigurationException {
 
 		if (operation == null) {
 			throw new RAnalyticsException("operation == null");
@@ -122,7 +122,8 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 				throw new RAnalyticsException("Job failed, see logs");
 			}
 
-			return grabMetrics(operation.getOutputs(), job.getConfiguration());
+			List<AnalyticsOperationOutput> outputs = (List<AnalyticsOperationOutput>) operation.getOutputs();
+			return grabMetrics(outputs, job.getConfiguration());
 			
 		} catch (ClassNotFoundException | IOException | InterruptedException e) {
 			logger.log(Level.SEVERE, "Unable to execute job", e);

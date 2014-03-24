@@ -10,6 +10,12 @@ import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 
 import com.google.inject.Inject;
+import com.simple.api.exceptions.AnalyticsTaskException;
+import com.simple.api.exceptions.DashboardException;
+import com.simple.api.exceptions.DomainException;
+import com.simple.api.orchestrator.IMetric;
+import com.simple.api.orchestrator.ITaskExecution;
+import com.simple.api.orchestrator.ITaskExecution.TaskCompletionStatus;
 import com.simple.domain.dao.AnalyticsTaskDao;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.AnalyticsTask;
@@ -19,12 +25,6 @@ import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.engine.ITaskExecutionDao;
 import com.simple.engine.metric.AnalyticsTaskExecution;
 import com.simple.engine.service.hadoop.config.ConfigurationException;
-import com.simple.original.api.exceptions.AnalyticsTaskException;
-import com.simple.original.api.exceptions.DashboardException;
-import com.simple.original.api.exceptions.DomainException;
-import com.simple.original.api.orchestrator.IMetric;
-import com.simple.original.api.orchestrator.ITaskExecution;
-import com.simple.original.api.orchestrator.ITaskExecution.TaskCompletionStatus;
 
 public class AnalyticsTaskService {
 

@@ -5,7 +5,7 @@ import java.util.Map;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
 import com.google.gwt.place.shared.PlaceTokenizer;
-import com.simple.original.api.domain.GroupMembership;
+import com.simple.api.domain.GroupMembership;
 import com.simple.original.client.proxy.DashboardProxy;
 
 public class DashboardDesignerPlace extends ApplicationPlace {

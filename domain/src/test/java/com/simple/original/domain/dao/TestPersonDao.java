@@ -15,11 +15,11 @@ import org.junit.Test;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
+import com.simple.api.exceptions.DomainException;
+import com.simple.api.orchestrator.IPreferences;
 import com.simple.domain.IOCDomainModule;
 import com.simple.domain.dao.PersonDao;
 import com.simple.domain.model.Person;
-import com.simple.original.api.exceptions.DomainException;
-import com.simple.original.api.orchestrator.IPreferences;
 
 public class TestPersonDao {
 

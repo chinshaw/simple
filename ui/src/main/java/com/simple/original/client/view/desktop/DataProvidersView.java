@@ -3,11 +3,8 @@
  */
 package com.simple.original.client.view.desktop;
 
-import java.util.List;
-
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -22,7 +19,6 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.dataprovider.HttpDataProvider;
 import com.simple.original.client.proxy.SqlConnectionProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.IDataProvidersView;

@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.simple.original.client.place.AnalyticsTaskExecPlace;
 import com.simple.original.client.place.LoginPlace;
 import com.simple.original.client.place.PlaceController;
 import com.simple.original.client.place.WelcomePlace;

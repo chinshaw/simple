@@ -8,7 +8,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -22,12 +21,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.dyuproject.protostuff.ByteString;
-import com.dyuproject.protostuff.JsonIOUtil;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
-import com.simple.radapter.protobuf.REXP;
-import com.simple.radapter.protobuf.REXP.RClass;
+import com.simple.radapter.protobuf.Rexp;
+import com.simple.radapter.protobuf.Rexp.RClass;
 
 public class TestNativeAdapter {
 
@@ -50,9 +48,9 @@ public class TestNativeAdapter {
         logger.info("testEval");
         String command = "x <- 'meaning of life';";
         try {
-            REXP rexp = adapter.exec(command);
+            Rexp rexp = adapter.exec(command);
             assertNotNull(rexp);
-            REXP strValue = adapter.get("x");
+            Rexp strValue = adapter.get("x");
             assertTrue(strValue.getStringValueList().get(0).equals("meaning of life"));
         } catch (RAdapterException e) {
             fail(e.getMessage());
@@ -64,7 +62,7 @@ public class TestNativeAdapter {
         logger.info("testPb");
         String command = "question <- 'meaning of life'; answer <- 42;";
         try {
-            REXP rexp = null;
+            Rexp rexp = null;
 
             rexp = adapter.exec(command);
             assertNotNull(rexp);
@@ -84,7 +82,7 @@ public class TestNativeAdapter {
         String command = "question <- 'meaning of life'; answer <- c(4, 2);";
 
         try {
-            REXP rexp = null;
+            Rexp rexp = null;
 
             rexp = adapter.exec(command);
 
@@ -110,7 +108,7 @@ public class TestNativeAdapter {
         logger.info("testStringArray");
         String command = "question <- c('meaning', 'of', 'life');";
         try {
-            REXP rexp = null;
+            Rexp rexp = null;
             rexp = adapter.exec(command);
             assertNotNull(rexp);
 
@@ -130,7 +128,7 @@ public class TestNativeAdapter {
         logger.info("testStringArray");
         String command = "question <- c('meaning', 'of', 'life');";
         try {
-            REXP rexp = null;
+            Rexp rexp = null;
             rexp = adapter.exec(command);
 
             assertNotNull(rexp);
@@ -151,7 +149,7 @@ public class TestNativeAdapter {
         // String command = "d <- c(1,2,3,4); mydata <- data.frame(d);";
 
         try {
-            REXP rexp = null;
+            Rexp rexp = null;
             rexp = adapter.exec(command);
 
             assertNotNull(rexp);
@@ -174,10 +172,10 @@ public class TestNativeAdapter {
     }
 
     @Test
-    public void testGetREXP() {
+    public void testGetRexp() {
         String command = "e <- c(\"red\", \"white\", \"red\", NA);  mydata <- data.frame(e);";
         try {
-            REXP rexp = null;
+            Rexp rexp = null;
             rexp = adapter.exec(command);
 
             assertNotNull(rexp);
@@ -192,14 +190,15 @@ public class TestNativeAdapter {
     }
 
     @Test
-    public void testGetInvalidREXP() {
+    public void testGetInvalidRexp() {
         String command = "e <- c(\"red\", \"white\", \"red\", NA);  mydata <- data.frame(e);";
         try {
-            REXP rexp = null;
+            Rexp rexp = null;
 
             rexp = adapter.exec(command);
 
             assertNotNull(rexp);
+            
 
             // l does not exit
             rexp = adapter.get("doesntExist");
@@ -218,7 +217,7 @@ public class TestNativeAdapter {
                 + "Cairo(file = '/tmp/temp.png', width=1024, height = 800, type='png',  units = 'px', dpi = 'auto');"
                 + "cars <- c(1, 3, 6, 4, 9); " + "plot(cars);";
         try {
-            REXP rexp = null;
+            Rexp rexp = null;
             rexp = adapter.exec(command);
 
             assertNotNull(rexp);
@@ -251,7 +250,7 @@ public class TestNativeAdapter {
 
     @Test
     public void testScript() throws  RAdapterException {
-        REXP rexp = adapter
+        Rexp rexp = adapter
                 .exec(new File(
                         "/Users/chris/devel/workspace/simple/engine/src/test/resources/com/simple/engine/rscripts/BollingerScript.R"));
 

@@ -25,6 +25,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.google.inject.Inject;
+import com.simple.api.exceptions.DuplicateTaskException;
+import com.simple.api.exceptions.SimpleException;
+import com.simple.api.orchestrator.IMetricDouble;
+import com.simple.api.orchestrator.IMetricString;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.AnalyticsTask;
@@ -37,10 +41,6 @@ import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.dashboard.Dashboard;
 import com.simple.domain.model.ui.dashboard.Widget;
-import com.simple.original.api.exceptions.DuplicateTaskException;
-import com.simple.original.api.exceptions.SimpleException;
-import com.simple.original.api.orchestrator.IMetricDouble;
-import com.simple.original.api.orchestrator.IMetricString;
 
 /**
  * 

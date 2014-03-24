@@ -4,7 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.persist.jpa.JpaPersistModule;
 import com.simple.domain.PersistenceInitializer;
 import com.simple.original.domain.dao.FakeSession;
-import com.simple.original.security.api.ISession;
+import com.simple.security.api.ISession;
 
 public class IOCDomainTestModule extends AbstractModule {
 

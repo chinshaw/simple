@@ -9,7 +9,7 @@ import com.dyuproject.protostuff.Input;
 import com.dyuproject.protostuff.Output;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
-import com.simple.original.api.orchestrator.IMetricKey;
+import com.simple.api.orchestrator.IMetricKey;
 
 public final class MetricCollection<T extends Metric<T>> extends
 		Metric<MetricCollection<T>> {

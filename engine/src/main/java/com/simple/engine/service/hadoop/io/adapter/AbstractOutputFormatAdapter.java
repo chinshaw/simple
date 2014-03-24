@@ -4,8 +4,8 @@ import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.OutputFormat;
 
+import com.simple.api.orchestrator.IMetricKey;
 import com.simple.engine.api.IMetricWritable;
-import com.simple.original.api.orchestrator.IMetricKey;
 
 public abstract class AbstractOutputFormatAdapter<K extends IMetricKey, V extends IMetricWritable>
 		extends OutputFormat<K, V> implements Configurable {

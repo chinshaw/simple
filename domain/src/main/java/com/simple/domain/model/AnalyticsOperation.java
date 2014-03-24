@@ -20,10 +20,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.simple.api.orchestrator.IAnalyticsOperation;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.DataProviderInput;
-import com.simple.original.api.orchestrator.IAnalyticsOperation;
-import com.simple.original.api.orchestrator.IPerson;
 
 /**
  * 
@@ -45,7 +48,7 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 	 * to all users.
 	 */
 	@Column(name = "isPublic")
-	private boolean isPublic;
+	private boolean publicAccessible;
 
 	/**
 	 * Name of the operation.
@@ -94,7 +97,6 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 	 */
 	@OrderColumn
 	@OneToMany(cascade = CascadeType.ALL, targetEntity = AnalyticsOperationOutput.class)
-	//@JoinTable(name = "analyticsoperation_outputs", joinColumns = { @JoinColumn(name = "fk_analyticsoperation_id") }, inverseJoinColumns = { @JoinColumn(name = "fk_analyticsoperation_output_id") })
 	private List<AnalyticsOperationOutput> outputs = new ArrayList<AnalyticsOperationOutput>();
 
 	/**
@@ -102,9 +104,9 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 	 * 
 	 * @see ChangeLog
 	 */
+	@JsonIgnore
 	@OrderColumn
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	//@JoinTable(name = "analyticsoperation_changelogs", joinColumns = { @JoinColumn(name = "fk_analyticsoperation_id") }, inverseJoinColumns = { @JoinColumn(name = "fk_changelog_id") })
 	private List<ChangeLog> changeLogs = new ArrayList<ChangeLog>();
 
 	/**
@@ -235,16 +237,16 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 	/**
 	 * @return the isPublic
 	 */
-	public boolean isPublic() {
-		return isPublic;
+	public boolean getPublicAccessible() {
+		return publicAccessible;
 	}
 
 	/**
 	 * @param isPublic
 	 *            the isPublic to set
 	 */
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
+	public void setPublicAccessible(boolean publicAccessible) {
+		this.publicAccessible = publicAccessible;
 	}
 
 	/**
@@ -280,6 +282,7 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public List<ChangeLog> getChangeLogs() {
 		return changeLogs;
 	}
@@ -304,7 +307,7 @@ public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyti
 	 * @return The last person to modify the operation or null if there are no
 	 *         modifications.
 	 */
-	public IPerson getLastModifiedBy() {
+	public Person getLastModifiedBy() {
 		ChangeLog last = getLastChangeLog();
 		if (last == null) {
 			return null;

@@ -4,8 +4,8 @@ import javax.persistence.EntityManager;
 
 import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Locator;
-import com.simple.original.api.orchestrator.IMetric;
-import com.simple.original.api.orchestrator.IMetricKey;
+import com.simple.api.orchestrator.IMetric;
+import com.simple.api.orchestrator.IMetricKey;
 
 public class IMetricLocator extends Locator<IMetric, IMetricKey> {
 

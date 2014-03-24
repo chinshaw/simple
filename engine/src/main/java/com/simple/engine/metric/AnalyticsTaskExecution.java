@@ -16,12 +16,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Transient;
 
+import com.simple.api.exceptions.ExceptionUtils;
+import com.simple.api.orchestrator.IMetric;
+import com.simple.api.orchestrator.ITaskExecution;
 import com.simple.domain.model.AnalyticsTask;
 import com.simple.domain.model.RequestFactoryEntity;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
-import com.simple.original.api.exceptions.ExceptionUtils;
-import com.simple.original.api.orchestrator.IMetric;
-import com.simple.original.api.orchestrator.ITaskExecution;
 
 
 public class AnalyticsTaskExecution extends RequestFactoryEntity implements ITaskExecution {

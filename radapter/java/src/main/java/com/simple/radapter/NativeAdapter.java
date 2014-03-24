@@ -6,13 +6,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.ParseException;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.api.RCallbackAdapter;
-import com.simple.radapter.protobuf.REXP;
+import com.simple.radapter.protobuf.Rexp;
 
 public class NativeAdapter implements IRAdapter {
 
@@ -72,18 +71,18 @@ public class NativeAdapter implements IRAdapter {
         endR(0);
     }
 
-    public REXP exec(String script) throws RAdapterException {
+    public Rexp exec(String script) throws RAdapterException {
         setString(".tmpCode.", script);
         byte[] packed = evalScript("eval(parse(text=.tmpCode.))");
 
         
-        REXP rexp = new REXP();
-        ProtobufIOUtil.mergeFrom(packed, rexp, REXP.getSchema());
+        Rexp rexp = new Rexp();
+        ProtobufIOUtil.mergeFrom(packed, rexp, Rexp.getSchema());
         return rexp;
     }
 
     @Override
-    public REXP exec(File file) throws RAdapterException {
+    public Rexp exec(File file) throws RAdapterException {
         if (file == null) {
             throw new IllegalArgumentException("File cannot be null");
         }
@@ -138,19 +137,19 @@ public class NativeAdapter implements IRAdapter {
      * @throws InvalidProtocolBufferException
      */
     @Override
-    public REXP get(String var) throws RAdapterException {
+    public Rexp get(String var) throws RAdapterException {
         return exec(var);
     }
     
 
-    public REXP getPlot(String plotName) throws RAdapterException {
+    public Rexp getPlot(String plotName) throws RAdapterException {
 		String command = "readBin(\"" + plotName
 				+ "\", what=\"raw\", n=1e6)";
 		return exec(command);
     }
     
     @Override
-    public synchronized REXP set(String var, REXP rexp) throws RAdapterException {
+    public synchronized Rexp set(String var, Rexp rexp) throws RAdapterException {
         // TODO Auto-generated method stub
         return null;
     }
@@ -174,10 +173,15 @@ public class NativeAdapter implements IRAdapter {
      */
     public synchronized void jriWriteConsole(String text, int outputType) {
         if (outputType == 0) { // stdout
+            System.out.println("Writing to console stdout");
             console.writeStdOut(text);
-        } else {
+        } else if (outputType == 1) {
+            System.out.println("Writing to console stderr");
             console.writeStdErr(text);
+        } else {
+            System.out.println("Writing to something " + text + " out " + outputType);
         }
+        
     }
 
     /**
@@ -187,6 +191,7 @@ public class NativeAdapter implements IRAdapter {
      *            state
      */
     public synchronized void jriBusy(int which) {
+        System.out.println("JRI BUsy" + which);
     }
 
     /**
@@ -205,7 +210,7 @@ public class NativeAdapter implements IRAdapter {
      *         <code>q()</doce>).
      */
     public synchronized String jriReadConsole(String prompt, int addToHistory) {
-
+        System.out.println("Calling read console");
         // System.out.println("Rengine.jreReadConsole BEGIN "
         // + Thread.currentThread());
         return null;
@@ -218,6 +223,7 @@ public class NativeAdapter implements IRAdapter {
      *            message
      */
     public synchronized void jriShowMessage(String message) {
+        System.out.println("Jri Show Message " + message);
     }
 
     /**
@@ -227,6 +233,11 @@ public class NativeAdapter implements IRAdapter {
      *            name of the history file
      */
     public synchronized void jriSaveHistory(String filename) {
+        System.out.println("JRI Save History");
+    }
+    
+    public synchronized void jriFlushConsole() {
+        console.flush();
     }
 
 }

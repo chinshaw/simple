@@ -3,10 +3,10 @@ package com.simple.domain.dao;
 import java.util.List;
 import java.util.Set;
 
-import com.simple.original.api.domain.RecordFecthType;
-import com.simple.original.api.domain.SortOrder;
-import com.simple.original.api.exceptions.DomainException;
-import com.simple.original.api.exceptions.SimpleException;
+import com.simple.api.domain.RecordFecthType;
+import com.simple.api.domain.SortOrder;
+import com.simple.api.exceptions.DomainException;
+import com.simple.api.exceptions.SimpleException;
 
 
 public interface IDaoRequest<T> {

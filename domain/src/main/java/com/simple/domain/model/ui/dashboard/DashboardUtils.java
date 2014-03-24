@@ -2,9 +2,9 @@ package com.simple.domain.model.ui.dashboard;
 
 import java.util.Map;
 
-import com.simple.original.api.exceptions.AnalyticsTaskException;
-import com.simple.original.api.exceptions.DashboardException;
-import com.simple.original.api.orchestrator.IMetric;
+import com.simple.api.exceptions.AnalyticsTaskException;
+import com.simple.api.exceptions.DashboardException;
+import com.simple.api.orchestrator.IMetric;
 
 public class DashboardUtils {
 

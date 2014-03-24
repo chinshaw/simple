@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import com.google.inject.Guice;
 import com.google.inject.Inject;
-import com.simple.original.api.exceptions.DomainException;
-import com.simple.original.security.ArtisanAuthenticationRealm;
+import com.simple.api.exceptions.DomainException;
+import com.simple.security.ArtisanAuthenticationRealm;
 
 public class AuthenticationServiceTest {
 

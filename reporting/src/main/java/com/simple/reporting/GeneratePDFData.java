@@ -21,10 +21,10 @@ import org.jfree.ui.StandardGradientPaintTransformer;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
+import com.simple.api.orchestrator.Criticality;
+import com.simple.api.orchestrator.IMetricDouble;
+import com.simple.api.orchestrator.INumberRange;
 import com.simple.domain.model.ui.dashboard.Dashboard;
-import com.simple.original.api.orchestrator.Criticality;
-import com.simple.original.api.orchestrator.IMetricDouble;
-import com.simple.original.api.orchestrator.INumberRange;
 
 public class GeneratePDFData {
 	//private static Logger logger = Logger.getLogger(GeneratePDFData.class.getName());

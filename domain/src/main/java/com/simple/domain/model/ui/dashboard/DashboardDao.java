@@ -9,11 +9,11 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import com.google.inject.Inject;
+import com.simple.api.exceptions.DomainException;
 import com.simple.domain.dao.AnalyticsTaskDao;
 import com.simple.domain.dao.DaoBase;
 import com.simple.domain.dao.IDaoRequest;
 import com.simple.domain.model.AnalyticsTask;
-import com.simple.original.api.exceptions.DomainException;
 
 public class DashboardDao extends DaoBase<Dashboard> implements IDaoRequest<Dashboard> {
 

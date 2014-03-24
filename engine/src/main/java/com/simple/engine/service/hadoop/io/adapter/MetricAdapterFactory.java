@@ -2,12 +2,12 @@ package com.simple.engine.service.hadoop.io.adapter;
 
 import org.apache.hadoop.conf.Configuration;
 
+import com.simple.api.orchestrator.IMetricKey;
 import com.simple.engine.api.IMetricWritable;
 import com.simple.engine.service.hadoop.io.format.MetricInputFormat;
 import com.simple.engine.service.hadoop.io.format.MetricOutputFormat;
 import com.simple.engine.service.hadoop.io.format.MetricInputFormat.InputAdapterType;
 import com.simple.engine.service.hadoop.io.format.MetricOutputFormat.OutputAdapterType;
-import com.simple.original.api.orchestrator.IMetricKey;
 
 public class MetricAdapterFactory {
 

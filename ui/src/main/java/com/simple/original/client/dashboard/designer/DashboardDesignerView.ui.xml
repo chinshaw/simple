@@ -146,7 +146,6 @@
 								ui:field="widgetsPanel"></designer:DroppablePanel>
 						</div>
 					</g:HTMLPanel>
-
 				</g:center>
 			</g:SplitLayoutPanel>
 		</g:center>

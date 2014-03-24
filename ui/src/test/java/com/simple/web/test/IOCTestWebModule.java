@@ -3,8 +3,8 @@ package com.simple.web.test;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.simple.engine.IOCEngineModule;
-import com.simple.original.security.api.ISession;
 import com.simple.original.server.service.DashboardService;
+import com.simple.security.api.ISession;
 
 public class IOCTestWebModule extends AbstractModule {
 

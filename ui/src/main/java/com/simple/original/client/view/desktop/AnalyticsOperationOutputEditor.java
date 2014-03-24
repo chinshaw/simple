@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.simple.original.api.orchestrator.IAnalyticsOperationOutput;
+import com.simple.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.desktop.AnalyticsOperationOutputEditor.OutputEditor;

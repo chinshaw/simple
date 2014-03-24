@@ -1,7 +1,7 @@
 package com.simple.original.client.place;
 
 import com.google.gwt.place.shared.PlaceTokenizer;
-import com.simple.original.api.domain.GroupMembership;
+import com.simple.api.domain.GroupMembership;
 
 public class SoftwareUpdatePlace extends ApplicationPlace {
 

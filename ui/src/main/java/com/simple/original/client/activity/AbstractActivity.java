@@ -68,10 +68,6 @@ public abstract class AbstractActivity<T extends Place, V extends IView> impleme
 	}
 	*/
 
-	protected EventBus getEventBus() {
-		return this.eventBus;
-	}
-
 	@Override
 	public void start(AcceptsOneWidget parentPanel, com.google.gwt.event.shared.EventBus eventBus) {
 		this.parentPanel = parentPanel;

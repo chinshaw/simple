@@ -2,8 +2,8 @@ package com.simple.original.server;
 
 import com.google.inject.Inject;
 import com.simple.domain.dao.PersonDao;
-import com.simple.original.security.api.ICredentialLocator;
-import com.simple.original.security.api.IHasCredentials;
+import com.simple.security.api.ICredentialLocator;
+import com.simple.security.api.IHasCredentials;
 
 public class WebCredentialsLocator implements ICredentialLocator {
 
