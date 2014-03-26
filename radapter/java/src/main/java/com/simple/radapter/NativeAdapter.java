@@ -11,6 +11,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Logger;
 
 import com.dyuproject.protostuff.ProtobufIOUtil;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.ParseException;
 import com.simple.radapter.api.RAdapterException;
