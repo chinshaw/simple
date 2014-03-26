@@ -26,7 +26,7 @@ import com.simple.engine.service.hadoop.io.MetricWritable;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
-import com.simple.radapter.protobuf.REXP;
+import com.simple.radapter.protobuf.Rexp;
 
 public class ROperationReducer extends
 		AbstractReducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
@@ -116,7 +116,7 @@ public class ROperationReducer extends
 			logger.fine("fetching output from workspace => " + output.getName());
 			try {
 
-				REXP rexp = null;
+				Rexp rexp = null;
 				if (output.getOutputType() == Type.BINARY
 						|| output.getOutputType() == Type.GRAPHIC) {
 					rexp = localAdapter.get().getPlot(output.getName());

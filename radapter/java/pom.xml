@@ -101,6 +101,37 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>com.google.protobuf.tools</groupId>
+				<artifactId>maven-protoc-plugin</artifactId>
+				<version>0.1.11-SNAPSHOT</version>
+				<configuration>
+					<protocExecutable>protoc</protocExecutable>
+					<protoSourceRoot>${project.basedir}/src/main/resources/</protoSourceRoot>
+					<languageSpecifications>
+						<LanguageSpecification>
+							<language>JAVA</language>
+							<outputDirectory>
+								${project.basedir}/target/generated-sources/java
+							</outputDirectory>
+						</LanguageSpecification>
+						<LanguageSpecification>
+							<language>CPP</language>
+							<outputDirectory>
+								${project.basedir}/target/generated-sources/cpp
+							</outputDirectory>
+						</LanguageSpecification>
+					</languageSpecifications>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 
 	</build>
@@ -116,6 +147,12 @@
 		<dependency>
 			<groupId>com.dyuproject.protostuff</groupId>
 			<artifactId>protostuff-json</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>2.4.1</version>
 		</dependency>
 
 	</dependencies>

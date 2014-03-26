@@ -45,6 +45,7 @@
 		<module>reporting</module>
 		<!-- Disabling until complete -->
 		<!-- <module>radapter</module> -->
+		<module>simple-analytics-repository</module>
 	</modules>
 
 	<scm>

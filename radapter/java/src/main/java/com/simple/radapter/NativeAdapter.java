@@ -10,8 +10,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Logger;
 
-import javax.swing.SingleSelectionModel;
-
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.ParseException;
@@ -50,8 +48,6 @@ public class NativeAdapter implements IRAdapter {
     private final String[] rArgs;
 
     private RCallbackAdapter console;
-
-    private Mutex lock = new Mutex();
 
     public NativeAdapter() {
         this(DEFAULT_R_ARGS);

@@ -63,7 +63,6 @@ public class TestNativeAdapter {
         String command = "question <- 'meaning of life'; answer <- 42;";
         try {
             Rexp rexp = null;
-
             rexp = adapter.exec(command);
             assertNotNull(rexp);
 

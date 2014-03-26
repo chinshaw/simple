@@ -1,10 +1,11 @@
 package com.simple.engine.metric;
 
-import com.simple.radapter.protobuf.REXP;
+import com.simple.radapter.protobuf.Rexp;
+
 
 public class RexpUtils {
 
-	public static Metric toMetric(REXP rexp) {
+	public static Metric toMetric(Rexp rexp) {
 
 		switch (rexp.getRclass()) {
 		case RAWSXP:
