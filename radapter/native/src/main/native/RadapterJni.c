@@ -52,8 +52,10 @@ SEXP rexpress(const char* cmd)
 		Rf_error("invalid call: %s", cmd);
 		return(R_NilValue);
 	}
-	for(i = 0; i < Rf_length(cmdexpr); i++)
-		ans = Rf_eval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv);
+	for(i = 0; i < Rf_length(cmdexpr); i++) {
+		ans = R_tryEval(VECTOR_ELT(cmdexpr, i), R_GlobalEnv, R_NilValue);
+	}
+
 	UNPROTECT(2);
 	return(ans);
 }

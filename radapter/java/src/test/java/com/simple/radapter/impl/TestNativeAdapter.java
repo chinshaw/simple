@@ -171,7 +171,7 @@ public class TestNativeAdapter {
         }
     }
 
-    @Test
+  //  @Test
     public void testGetRexp() {
         String command = "e <- c(\"red\", \"white\", \"red\", NA);  mydata <- data.frame(e);";
         try {
@@ -194,12 +194,10 @@ public class TestNativeAdapter {
         String command = "e <- c(\"red\", \"white\", \"red\", NA);  mydata <- data.frame(e);";
         try {
             Rexp rexp = null;
-
             rexp = adapter.exec(command);
 
             assertNotNull(rexp);
             
-
             // l does not exit
             rexp = adapter.get("doesntExist");
             assertNotNull(rexp);

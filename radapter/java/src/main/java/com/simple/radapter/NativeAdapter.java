@@ -4,7 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Logger;
+
+import javax.swing.SingleSelectionModel;
 
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.simple.radapter.api.IRAdapter;
@@ -15,7 +21,10 @@ import com.simple.radapter.protobuf.Rexp;
 
 public class NativeAdapter implements IRAdapter {
 
-    static  {
+    final ScheduledExecutorService singleThreadExecutor = Executors
+            .newSingleThreadScheduledExecutor();
+
+    static {
         try {
             System.loadLibrary("radapter");
         } catch (UnsatisfiedLinkError e) {
@@ -42,6 +51,8 @@ public class NativeAdapter implements IRAdapter {
 
     private RCallbackAdapter console;
 
+    private Mutex lock = new Mutex();
+
     public NativeAdapter() {
         this(DEFAULT_R_ARGS);
     }
@@ -58,27 +69,72 @@ public class NativeAdapter implements IRAdapter {
      * running any R commands.
      */
     @Override
-    public void connect() throws RAdapterException {
-        int configured = initR(rArgs);
-        if (configured != 0) {
-            throw new RAdapterException("Unable to connect to the R environment, R error code "
-                    + configured);
-        }
+    public synchronized void connect() throws RAdapterException {
+        logger.info("Calling connect");
+        Runnable connect = new Runnable() {
+
+            @Override
+            public void run() {
+                int configured = initR(rArgs);
+                if (configured != 0) {
+                    try {
+                        throw new RAdapterException(
+                                "Unable to connect to the R environment, R error code "
+                                        + configured);
+                    } catch (RAdapterException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        singleThreadExecutor.submit(connect);
+
     }
 
     @Override
     public void disconnect() {
-        endR(0);
+        logger.info("Calling disconnect");
+        Runnable connect = new Runnable() {
+
+            @Override
+            public void run() {
+                endR(0);
+            }
+        };
+
+        singleThreadExecutor.submit(connect);
+
     }
 
-    public Rexp exec(String script) throws RAdapterException {
-        setString(".tmpCode.", script);
-        byte[] packed = evalScript("eval(parse(text=.tmpCode.))");
+    public Rexp exec(final String script) throws RAdapterException {
 
-        
-        Rexp rexp = new Rexp();
-        ProtobufIOUtil.mergeFrom(packed, rexp, Rexp.getSchema());
-        return rexp;
+        final Callable<Rexp> exec = new Callable<Rexp>() {
+
+            @Override
+            public Rexp call() throws Exception {
+                setString(".tmpCode.", script);
+                byte[] packed = evalScript("eval(parse(text=.tmpCode.))");
+                System.out.println("trying to convert to protobuf");
+
+                System.out.println("packed is " + new String(packed));
+                System.out.println("Length of buffer is " + packed.length);
+
+                Rexp rexp = new Rexp();
+                ProtobufIOUtil.mergeFrom(packed, rexp, Rexp.getSchema());
+                return rexp;
+            }
+
+        };
+
+        try {
+            System.out.println("Calling exec");
+            return singleThreadExecutor.submit(exec).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -140,20 +196,17 @@ public class NativeAdapter implements IRAdapter {
     public Rexp get(String var) throws RAdapterException {
         return exec(var);
     }
-    
 
     public Rexp getPlot(String plotName) throws RAdapterException {
-		String command = "readBin(\"" + plotName
-				+ "\", what=\"raw\", n=1e6)";
-		return exec(command);
+        String command = "readBin(\"" + plotName + "\", what=\"raw\", n=1e6)";
+        return exec(command);
     }
-    
+
     @Override
     public synchronized Rexp set(String var, Rexp rexp) throws RAdapterException {
         // TODO Auto-generated method stub
         return null;
     }
-
 
     private synchronized native int initR(String[] rArgs);
 
@@ -181,7 +234,7 @@ public class NativeAdapter implements IRAdapter {
         } else {
             System.out.println("Writing to something " + text + " out " + outputType);
         }
-        
+
     }
 
     /**
@@ -235,7 +288,7 @@ public class NativeAdapter implements IRAdapter {
     public synchronized void jriSaveHistory(String filename) {
         System.out.println("JRI Save History");
     }
-    
+
     public synchronized void jriFlushConsole() {
         console.flush();
     }

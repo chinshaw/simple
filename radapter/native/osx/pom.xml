@@ -161,7 +161,7 @@
 						</source>
 					</sources>
 					<compilerStartOptions>
-						<compilerStartOption>-DJRI_DEBUG -g -fpic</compilerStartOption>
+						<compilerStartOption>-DJRI_DEBUG -g3 -fpic</compilerStartOption>
 					</compilerStartOptions>
 
 					<linkerStartOptions>
