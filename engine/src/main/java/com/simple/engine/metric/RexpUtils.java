@@ -1,6 +1,6 @@
 package com.simple.engine.metric;
 
-import com.simple.radapter.protobuf.Rexp;
+import com.simple.radapter.protobuf.REXPProtos.Rexp;
 
 
 public class RexpUtils {

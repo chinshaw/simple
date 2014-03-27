@@ -2,7 +2,7 @@ package com.simple.radapter.api;
 
 import java.io.File;
 
-import com.simple.radapter.protobuf.Rexp;
+import com.simple.radapter.protobuf.REXPProtos.Rexp;
 
 public interface IRAdapter {
 

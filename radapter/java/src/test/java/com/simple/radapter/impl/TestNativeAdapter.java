@@ -20,12 +20,12 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.dyuproject.protostuff.ByteString;
+import com.google.protobuf.ByteString;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
-import com.simple.radapter.protobuf.Rexp;
-import com.simple.radapter.protobuf.Rexp.RClass;
+import com.simple.radapter.protobuf.REXPProtos.Rexp;
+import com.simple.radapter.protobuf.REXPProtos.Rexp.RClass;
 
 public class TestNativeAdapter {
 
@@ -155,7 +155,6 @@ public class TestNativeAdapter {
             assertTrue(rexp.getRclass() == RClass.VECSXP);
 
             int rexpCount = rexp.getRexpValueList().size();
-            System.out.println("count is " + rexpCount);
             assertTrue(rexpCount == 3);
             assertTrue(rexp.getRexpValueList().get(0).getRclass() == RClass.REALSXP);
             assertTrue(rexp.getRexpValueList().get(1).getRclass() == RClass.STRSXP);
@@ -199,9 +198,7 @@ public class TestNativeAdapter {
             
             // l does not exit
             rexp = adapter.get("doesntExist");
-            assertNotNull(rexp);
-            System.out.println("rexp is " + rexp.getRclass());
-
+            assert(rexp == null);
         } catch (RAdapterException e) {
             fail(e.getMessage());
         }

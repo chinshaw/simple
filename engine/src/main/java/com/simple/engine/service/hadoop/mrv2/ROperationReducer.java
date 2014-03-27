@@ -26,7 +26,7 @@ import com.simple.engine.service.hadoop.io.MetricWritable;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
-import com.simple.radapter.protobuf.Rexp;
+import com.simple.radapter.protobuf.REXPProtos.Rexp;
 
 public class ROperationReducer extends
 		AbstractReducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>

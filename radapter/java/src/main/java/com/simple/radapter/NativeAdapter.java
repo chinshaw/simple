@@ -16,7 +16,7 @@ import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.ParseException;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.api.RCallbackAdapter;
-import com.simple.radapter.protobuf.Rexp;
+import com.simple.radapter.protobuf.REXPProtos.Rexp;
 
 public class NativeAdapter implements IRAdapter {
 
@@ -113,20 +113,14 @@ public class NativeAdapter implements IRAdapter {
             public Rexp call() throws Exception {
                 setString(".tmpCode.", script);
                 byte[] packed = evalScript("eval(parse(text=.tmpCode.))");
-                System.out.println("trying to convert to protobuf");
-
-                System.out.println("packed is " + new String(packed));
-                System.out.println("Length of buffer is " + packed.length);
-
-                Rexp rexp = new Rexp();
-                ProtobufIOUtil.mergeFrom(packed, rexp, Rexp.getSchema());
+                
+                logger.fine("exec packed size => " + packed.length);
+                Rexp rexp = Rexp.parseFrom(packed);
                 return rexp;
             }
-
         };
 
         try {
-            System.out.println("Calling exec");
             return singleThreadExecutor.submit(exec).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -223,13 +217,11 @@ public class NativeAdapter implements IRAdapter {
      */
     public synchronized void jriWriteConsole(String text, int outputType) {
         if (outputType == 0) { // stdout
-            System.out.println("Writing to console stdout");
             console.writeStdOut(text);
         } else if (outputType == 1) {
-            System.out.println("Writing to console stderr");
             console.writeStdErr(text);
         } else {
-            System.out.println("Writing to something " + text + " out " + outputType);
+            console.writeStdOut(text);
         }
 
     }
@@ -261,8 +253,6 @@ public class NativeAdapter implements IRAdapter {
      */
     public synchronized String jriReadConsole(String prompt, int addToHistory) {
         System.out.println("Calling read console");
-        // System.out.println("Rengine.jreReadConsole BEGIN "
-        // + Thread.currentThread());
         return null;
     }
 

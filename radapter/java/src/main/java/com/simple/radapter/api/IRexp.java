@@ -1,6 +1,6 @@
 package com.simple.radapter.api;
 
-import com.simple.radapter.protobuf.Rexp;
+import com.simple.radapter.protobuf.REXPProtos.Rexp;
 
 public interface IRexp<V> {
 	
