@@ -218,6 +218,7 @@ void fill_rexp(Radapter__Rexp* rexp, const SEXP model) {
 		for (i = 0; i < rexp->n_realvalue; i++) {
 			rexp->realvalue[i] = (REAL(model)[i]);
 		}
+
 		break;
 	case RAWSXP: { //#define RAWSXP      24    /* raw bytes */
 		rexp->rclass = RADAPTER__REXP__RCLASS__RAWSXP;

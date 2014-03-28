@@ -6,40 +6,41 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.After;
 import org.junit.Test;
 
 public class TestGitRepository {
 
 	final Path testPath = Paths.get("/tmp/testrepo");
-	final GitRepository repo = new GitRepository();
+	final GitRepository repo = new GitRepository(testPath);
 
 	@After
 	public void cleanup() {
-		repo.deleteRepository(testPath);
+		repo.deleteRepository();
 	}
 
 	@Test
 	public void testCreateRepository() throws IOException {
-		repo.createRepository(testPath, true);
+		repo.initialize(true);
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testCreateRepositoryAgainFails() throws IOException {
-		repo.createRepository(testPath, true);
+		repo.initialize(true);
 		try {
-			repo.createRepository(testPath, true);
+			repo.initialize(true);
 		} finally {
-			repo.deleteRepository(testPath);
+			repo.deleteRepository();
 		}
 	}
 
 	@Test
 	public void testDeleteRepository() throws IOException {
 		try {
-			repo.createRepository(testPath, true);
+			repo.initialize( true);
 		} finally {
-			repo.deleteRepository(testPath);
+			repo.deleteRepository();
 		}
 		if (testPath.toFile().exists()) {
 			fail("Could not delete repository path");
@@ -47,8 +48,15 @@ public class TestGitRepository {
 	}
 
 	@Test
-	public void testCreateScript() {
+	public void testCreateScript() throws IOException, GitAPIException {
+		repo.initialize(true);
+		String filename = "donkey";
+		String contents = "what shrek?";
+		repo.add(filename, contents.getBytes());
 		
+		byte[] bytes = repo.get(filename);
+		
+		assert(contents.equals(new String(bytes)));
 	}
 	
 	@Test

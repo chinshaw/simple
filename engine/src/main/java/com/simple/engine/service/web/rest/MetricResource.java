@@ -16,6 +16,7 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.zookeeper.KeeperException.ConnectionLossException;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -49,7 +50,7 @@ public class MetricResource {
 			table = new HTable(new Configuration(), metricTableName);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	@GET
