@@ -38,7 +38,7 @@
 
 	<modules>
 		<module>api</module>
-		<module>engine</module>
+		<module>orchestrator</module>
 		<module>domain</module>
 		<module>ui</module>
 		<module>security</module>

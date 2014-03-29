@@ -44,6 +44,13 @@
 	</servlet-mapping>
  	-->
 
+	<resource-ref>
+		<description>mydb</description>
+		<res-ref-name>jdbc/artisanDB</res-ref-name>
+	    <res-type>javax.sql.DataSource</res-type>
+	    <res-auth>Container</res-auth>
+	</resource-ref>
+
 	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>simple.html</welcome-file>

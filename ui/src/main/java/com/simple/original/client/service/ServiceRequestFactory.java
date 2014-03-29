@@ -15,11 +15,6 @@ import com.simple.original.client.proxy.DashboardProxy;
 import com.simple.original.client.proxy.JavaAnalyticsOperationProxy;
 import com.simple.original.client.proxy.LinkableDashboardProxy;
 import com.simple.original.client.proxy.NumberRangeProxy;
-import com.simple.original.client.proxy.QuartzCronTriggerProxy;
-import com.simple.original.client.proxy.QuartzJobExecutionContextProxy;
-import com.simple.original.client.proxy.QuartzJobKeyProxy;
-import com.simple.original.client.proxy.QuartzTriggerKeyProxy;
-import com.simple.original.client.proxy.QuartzTriggerProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.proxy.UIComplexInputModelProxy;
 import com.simple.original.client.proxy.UIDateInputModelProxy;
@@ -73,46 +68,10 @@ public interface ServiceRequestFactory extends RequestFactory {
 		Request<String> getRLog(int lineCount);
 	}
 
-	@ExtraTypes({ QuartzCronTriggerProxy.class, AnalyticsOperationInputProxy.class, UIDateInputModelProxy.class,
-			UIUserInputModelProxy.class, UIComplexInputModelProxy.class, })
-	@Service(value = SchedulerService.class)
-	public interface SchedulerRequest extends RequestContext {
-
-		Request<Void> scheduleAnalyticsTask(Long analyticsTaskId, List<AnalyticsOperationInputProxy> inputs, String cronExpression,
-				String description, Date startDate);
-
-		Request<List<QuartzTriggerProxy>> getScheduledJobs();
-
-		Request<List<QuartzTriggerProxy>> searchSchedules(String searchString);
-
-		Request<Void> unscheduleJob(String keyName, String groupName);
-
-		Request<Void> pauseTrigger(QuartzTriggerKeyProxy triggerKey);
-
-		Request<Void> resumeTrigger(QuartzTriggerKeyProxy triggerKey);
-
-		Request<QuartzTriggerProxy> getTrigger(String keyName, String groupName);
-
-		Request<Void> fireTriggerNow(QuartzTriggerKeyProxy triggerKey);
-
-		Request<Void> fireJobNow(QuartzJobKeyProxy jobKey);
-
-		Request<Date> rescheduleJob(QuartzTriggerKeyProxy triggerKey, QuartzTriggerProxy trigger);
-
-		Request<AnalyticsTaskProxy> getTaskForTrigger(QuartzJobKeyProxy jobKey);
-
-		Request<String> getTriggerState(QuartzTriggerKeyProxy triggerKey);
-
-		Request<List<QuartzJobExecutionContextProxy>> getAllRunningJobs();
-
-		Request<Boolean> cancelRunningTask(QuartzJobKeyProxy jobKey);
-	}
 
 	public OperationRequest operationRequest();
 
 	public DashboardRequest dashboardRequest();
-
-	public SchedulerRequest schedulerRequest();
 
 	public LoggingServiceRequest loggingServiceRequest();
 

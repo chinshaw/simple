@@ -6,8 +6,6 @@ import com.google.gwt.place.shared.WithTokenizers;
 @WithTokenizers({ AnalyticsOperationsPlace.Tokenizer.class,
                   AnalyticsTasksPlace.Tokenizer.class, 
                   AnalyticsTaskExecPlace.Tokenizer.class,
-                  AnalyticsTaskSchedulerDetailsPlace.Tokenizer.class,
-                  AnalyticsTaskSchedulerPlace.Tokenizer.class,
                   AnalyticsTasksSchedulerPlace.Tokenizer.class,
                   AnalyticsTaskBuilderPlace.Tokenizer.class,
                   AnalyticsTaskCopyPlace.Tokenizer.class,

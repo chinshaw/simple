@@ -8,9 +8,7 @@ import com.simple.original.client.activity.AnalyticsOperationBuilderActivity;
 import com.simple.original.client.activity.AnalyticsOperationsActivity;
 import com.simple.original.client.activity.AnalyticsTaskBuilderActivity;
 import com.simple.original.client.activity.AnalyticsTaskExecActivity;
-import com.simple.original.client.activity.AnalyticsTaskSchedulerActivity;
 import com.simple.original.client.activity.AnalyticsTasksActivity;
-import com.simple.original.client.activity.AnalyticsTasksSchedulerActivity;
 import com.simple.original.client.activity.DashboardsActivity;
 import com.simple.original.client.activity.DataProviderEditActivity;
 import com.simple.original.client.activity.DataProvidersActivity;
@@ -33,10 +31,7 @@ import com.simple.original.client.service.ServiceRequestFactory;
 import com.simple.original.client.view.IAdministrationView;
 import com.simple.original.client.view.IAnalyticsTaskDesignerView;
 import com.simple.original.client.view.IAnalyticsTaskExecutionView;
-import com.simple.original.client.view.IAnalyticsTaskSchedulerDetailsView;
-import com.simple.original.client.view.IAnalyticsTaskSchedulerView;
 import com.simple.original.client.view.IAnalyticsTaskView;
-import com.simple.original.client.view.IAnalyticsTasksSchedulerView;
 import com.simple.original.client.view.IDashboardView;
 import com.simple.original.client.view.IDataProvidersView;
 import com.simple.original.client.view.ILoginView;
@@ -85,10 +80,6 @@ public interface IOCBaseInjector extends Ginjector {
 	AnalyticsTaskExecActivity analyticsTaskExecActivity();
 
 	AnalyticsTasksActivity analyticsTasksActivity();
-
-	AnalyticsTaskSchedulerActivity analyticsTaskSchedulerActivity();
-
-	AnalyticsTasksSchedulerActivity analyticsTasksSchedulerActivity();
 
 	DataProvidersActivity dataProvidersActivity();
 	
@@ -149,13 +140,7 @@ public interface IOCBaseInjector extends Ginjector {
 
 	IPreferencesView getPreferencesView();
 
-	IAnalyticsTaskSchedulerDetailsView getAnalyticsTaskSchedulerDetailsView();
-
-	IAnalyticsTaskSchedulerView getAnalyticsTaskSchedulerView();
-
 	IOperationsView operationsView();
-
-	IAnalyticsTasksSchedulerView getAnalyticsTasksSchedulerView();
 
 	IOperationBuilderView operationBuilderView();
 

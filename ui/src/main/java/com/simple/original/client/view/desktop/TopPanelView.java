@@ -13,7 +13,6 @@ import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.place.AnalyticsOperationsPlace;
 import com.simple.original.client.place.AnalyticsTaskExecPlace;
-import com.simple.original.client.place.AnalyticsTaskSchedulerPlace;
 import com.simple.original.client.place.AnalyticsTasksPlace;
 import com.simple.original.client.place.DashboardsPlace;
 import com.simple.original.client.place.DataProviderEditPlace;
@@ -85,7 +84,6 @@ public class TopPanelView extends AbstractView implements ITopPanelView {
 		favorites.setScheduledCommand(new MenuPlaceItemCommand(null));
 		operations.setScheduledCommand(new MenuPlaceItemCommand(new AnalyticsOperationsPlace()));
 		tasks.setScheduledCommand(new MenuPlaceItemCommand(new AnalyticsTasksPlace()));
-		scheduling.setScheduledCommand(new MenuPlaceItemCommand( new AnalyticsTaskSchedulerPlace()));
 		runTask.setScheduledCommand(new MenuPlaceItemCommand(new AnalyticsTaskExecPlace()));
 		
 	}

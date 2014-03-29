@@ -269,7 +269,12 @@
 	</build>
 
 	<dependencies>
-
+	
+		<dependency>
+			<groupId>com.simple</groupId>
+			<artifactId>orchestrator-client-rest</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>com.simple</groupId>
@@ -305,6 +310,7 @@
 			<scope>provided</scope>
 		</dependency>
 
+	<!-- 
 		<dependency>
 			<groupId>com.simple</groupId>
 			<artifactId>simple-analytics-engine</artifactId>
@@ -319,12 +325,13 @@
 			<scope>provided</scope>
 		</dependency>
 
+	
 		<dependency>
 			<groupId>com.simple</groupId>
 			<artifactId>simple-analytics-reporting</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
+	-->
 		<!-- Google Web Toolkit (GWT) -->
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -406,8 +413,6 @@
 			<artifactId>velocity</artifactId>
 			<version>1.7</version>
 		</dependency>
-
-
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>

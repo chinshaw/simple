@@ -28,7 +28,6 @@ import com.simple.original.client.view.IAnalyticsTaskDesignerView;
 import com.simple.original.client.view.widgets.EditableDNDCellList;
 import com.simple.original.client.view.widgets.ErrorPanel;
 import com.simple.original.client.view.widgets.ValueBoxEditorDecorator;
-import com.sun.jersey.test.framework.spi.client.ClientFactory;
 
 public class AnalyticsTaskDesignerView extends AbstractView implements IAnalyticsTaskDesignerView, Editor<AnalyticsTaskProxy> {
 
