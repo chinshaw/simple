@@ -1,8 +1,5 @@
 package com.simple.original.client.service;
 
-import java.util.Date;
-import java.util.List;
-
 import com.google.web.bindery.requestfactory.shared.ExtraTypes;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
@@ -10,7 +7,6 @@ import com.google.web.bindery.requestfactory.shared.RequestFactory;
 import com.google.web.bindery.requestfactory.shared.Service;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
-import com.simple.original.client.proxy.AnalyticsTaskProxy;
 import com.simple.original.client.proxy.DashboardProxy;
 import com.simple.original.client.proxy.JavaAnalyticsOperationProxy;
 import com.simple.original.client.proxy.LinkableDashboardProxy;
@@ -20,22 +16,13 @@ import com.simple.original.client.proxy.UIComplexInputModelProxy;
 import com.simple.original.client.proxy.UIDateInputModelProxy;
 import com.simple.original.client.proxy.UIUserInputModelProxy;
 import com.simple.original.server.service.AdministrationService;
-import com.simple.original.server.service.AnalyticsService;
 import com.simple.original.server.service.DashboardService;
 import com.simple.original.server.service.InjectingServiceLocator;
 import com.simple.original.server.service.LoggingService;
-import com.simple.original.server.service.SchedulerService;
 import com.simple.original.shared.NotificationCriticality;
 
 public interface ServiceRequestFactory extends RequestFactory {
 
-	@ExtraTypes({ RAnalyticsOperationProxy.class })
-	@Service(value = AnalyticsService.class, locator = InjectingServiceLocator.class)
-	public interface OperationRequest extends RequestContext {
-
-		Request<Void> executeOperation(AnalyticsOperationProxy editable);
-
-	}
 
 	/**
 	 * Dashboard request for dealing with dashboards.
@@ -68,8 +55,6 @@ public interface ServiceRequestFactory extends RequestFactory {
 		Request<String> getRLog(int lineCount);
 	}
 
-
-	public OperationRequest operationRequest();
 
 	public DashboardRequest dashboardRequest();
 

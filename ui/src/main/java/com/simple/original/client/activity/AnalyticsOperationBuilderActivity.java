@@ -23,7 +23,6 @@ import com.simple.original.client.proxy.DataProviderInputProxy;
 import com.simple.original.client.proxy.ProxyUtils;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.service.DaoRequestFactory.AnalyticsOperationRequest;
-import com.simple.original.client.service.ServiceRequestFactory.OperationRequest;
 import com.simple.original.client.view.IOperationBuilderView;
 import com.simple.original.client.view.IOperationBuilderView.Presenter;
 import com.simple.original.client.view.desktop.OperationExecutionView;
@@ -187,10 +186,12 @@ public class AnalyticsOperationBuilderActivity extends
 			display.setExecutionContainerSize(400);	
 		}
 		
+		/*
 		OperationRequest testRequest = service().operationRequest();
 		RAnalyticsOperationProxy clone = ProxyUtils.cloneProxyToNewContext(
 				RAnalyticsOperationProxy.class, operation, testRequest);
 
 		testRequest.executeOperation(clone).fire();
+		*/
 	}
 }

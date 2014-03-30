@@ -15,7 +15,6 @@ import com.simple.domain.model.AnalyticsTask;
 import com.simple.domain.model.Person;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.ui.dashboard.Dashboard;
-import com.simple.engine.utils.ScriptUtils;
 import com.simple.web.test.TestInjectorFactory;
 
 public class TestDashboardService {
@@ -53,7 +52,7 @@ public class TestDashboardService {
 		
 		RAnalyticsOperation operation = new RAnalyticsOperation("TEST OPERATION");
 		operation.setOwner(person);
-		operation.setCode(ScriptUtils.getScriptCode("/rscripts/BollingerScript.R"));
+	//	operation.setCode(ScriptUtils.getScriptCode("/rscripts/BollingerScript.R"));
 		operation.addOutput(new AnalyticsOperationOutput("testMetric",Type.NUMERIC));
 		task.addOperation(operation);
 		//task = taskDao.saveAndReturn(task);

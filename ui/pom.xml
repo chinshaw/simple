@@ -71,7 +71,6 @@
 				<configuration>
 					<issueManagementUser>reports@localhost.com</issueManagementUser>
 					<issueManagementPassword>reports</issueManagementPassword>
-
 					<product>Simple Analytics</product>
 				</configuration>
 				<reportSets>
@@ -269,11 +268,19 @@
 	</build>
 
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>com.simple</groupId>
-			<artifactId>orchestrator-client-rest</artifactId>
+			<artifactId>orchestrator-api</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.simple</groupId>
+			<artifactId>orchestrator-api</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -310,28 +317,12 @@
 			<scope>provided</scope>
 		</dependency>
 
-	<!-- 
-		<dependency>
-			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-engine</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-engine</artifactId>
-			<version>${project.version}</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
-
-	
-		<dependency>
-			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-reporting</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	-->
+		<!-- <dependency> <groupId>com.simple</groupId> <artifactId>simple-analytics-engine</artifactId> 
+			<version>${project.version}</version> </dependency> <dependency> <groupId>com.simple</groupId> 
+			<artifactId>simple-analytics-engine</artifactId> <version>${project.version}</version> 
+			<classifier>sources</classifier> <scope>provided</scope> </dependency> <dependency> 
+			<groupId>com.simple</groupId> <artifactId>simple-analytics-reporting</artifactId> 
+			<version>${project.version}</version> </dependency> -->
 		<!-- Google Web Toolkit (GWT) -->
 		<dependency>
 			<groupId>com.google.gwt</groupId>

@@ -20,7 +20,6 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.simple.original.client.events.NotificationEvent;
 import com.simple.original.client.place.AnalyticsTaskExecPlace;
-import com.simple.original.client.place.AnalyticsTaskSchedulerPlace;
 import com.simple.original.client.place.DashboardPlace;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
 import com.simple.original.client.proxy.AnalyticsOperationProxy;
@@ -296,7 +295,6 @@ public class AnalyticsTaskExecActivity extends AbstractActivity<AnalyticsTaskExe
 	 */
 	@Override
 	public void onScheduleTask() {
-		List<AnalyticsOperationInputProxy> inputs = (List<AnalyticsOperationInputProxy>) display.getInputsEditorDriver().flush();
-		placeController().goTo(new AnalyticsTaskSchedulerPlace(display.getSelectedTaskId(), inputs));
+		throw new RuntimeException("Not implemented");
 	}
 }

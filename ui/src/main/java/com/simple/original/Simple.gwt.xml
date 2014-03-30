@@ -5,7 +5,7 @@
 	
 	<inherits name="com.simple.api.Api" />
 	<inherits name="com.simple.domain.Api" />
-	<inherits name="com.simple.engine.Api" />
+	<inherits name="com.simple.orchestrator.Api" />
 	<inherits name="com.simple.security.Api" />
 	
 	<inherits name="org.fusesource.restygwt.RestyGWT" />

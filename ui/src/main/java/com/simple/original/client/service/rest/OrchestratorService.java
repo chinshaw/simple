@@ -11,7 +11,6 @@ import org.fusesource.restygwt.client.RestService;
 import org.fusesource.restygwt.client.RestServiceProxy;
 
 import com.google.gwt.core.client.GWT;
-import com.simple.engine.api.OperationJob;
 
 public interface OrchestratorService extends RestService  {
 

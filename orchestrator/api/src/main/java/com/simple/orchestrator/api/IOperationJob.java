@@ -32,5 +32,4 @@ public interface IOperationJob {
 	 * @return
 	 */
 	List<? extends IDataProvider> getDataProviders();
-
 }

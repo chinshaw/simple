@@ -6,12 +6,31 @@
 		<artifactId>orchestrator</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	
-	
+
+
 	<artifactId>orchestrator-api</artifactId>
 	<name>Orchestrator API</name>
 	<description>Common API for all orchestrator modules</description>
 
+
+	<build>
+		<plugins>
+			<!-- We build the source package so that it is possible to use with gwt 
+				and makes a deployable source jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -19,7 +38,7 @@
 			<artifactId>simple-analytics-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-client</artifactId>
