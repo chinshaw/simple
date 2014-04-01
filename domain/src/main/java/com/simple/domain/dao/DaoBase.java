@@ -35,10 +35,8 @@ public class DaoBase<T extends IDatastoreObject> {
 
 	protected Class<T> clazz;
 
-	@Inject
 	private EntityManager em;
 
-	@Inject(optional = true)
 	private ISession session;
 	
 	public DaoBase(){}
@@ -336,9 +334,6 @@ public class DaoBase<T extends IDatastoreObject> {
 		return resultList;
 	}
 
-	protected ISession getSession() {
-		return session;
-	}
 
 	/**
 	 * Moving to the security class.
@@ -355,5 +350,19 @@ public class DaoBase<T extends IDatastoreObject> {
 
 	protected EntityManager getEntityManager() {
 		return em;
+	}
+	
+	@Inject
+	public void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
+	
+	protected ISession getSession() {
+		return session;
+	}
+
+	@Inject(optional = true)
+	public void setSession(ISession session) {
+		this.session = session;
 	}
 }

@@ -14,7 +14,7 @@ import com.simple.api.orchestrator.IMetricKey;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.orchestrator.api.IMetricWritable;
-import com.simple.orchestrator.api.MediaType;
+import com.simple.orchestrator.api.rest.MediaType;
 import com.simple.orchestrator.metric.Metric;
 import com.simple.orchestrator.metric.MetricKey;
 import com.simple.orchestrator.metric.MetricString;

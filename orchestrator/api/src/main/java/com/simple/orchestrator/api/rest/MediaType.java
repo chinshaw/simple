@@ -1,4 +1,4 @@
-package com.simple.orchestrator.api;
+package com.simple.orchestrator.api.rest;
 
 import java.util.Map;
 

@@ -20,9 +20,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
 import com.simple.api.orchestrator.IAnalyticsOperation;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
@@ -36,7 +39,10 @@ import com.simple.domain.model.ui.DataProviderInput;
 @XmlRootElement
 @XmlSeeAlso({RAnalyticsOperation.class})
 @Inheritance(strategy =InheritanceType.TABLE_PER_CLASS)
-public class AnalyticsOperation extends RequestFactoryEntity implements IAnalyticsOperation  {
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "@class")
+@JsonSubTypes({ @JsonSubTypes.Type(value = RAnalyticsOperation.class, name="r")})
+@JsonIgnoreProperties(value = {"lastChangeLog", "modifiedDate", "lastModifiedBy"})
+public abstract class AnalyticsOperation extends RequestFactoryEntity implements IAnalyticsOperation  {
 
 	/**
 	 * Serialization Id.

@@ -1,4 +1,4 @@
-package com.simple.orchestrator;
+package com.simple.orchestrator.api;
 
 import com.simple.api.orchestrator.IMetricKey;
 import com.simple.api.orchestrator.ITaskExecution;

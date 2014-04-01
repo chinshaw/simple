@@ -14,6 +14,7 @@ import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.mapreduce.TableOutputFormat;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.mapred.JobClient;
 import org.apache.hadoop.mapreduce.Job;
 
 import com.simple.api.exceptions.RAnalyticsException;
@@ -23,21 +24,26 @@ import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.orchestrator.api.IJobProgress;
+import com.simple.orchestrator.api.IOperationExecutionResponse;
+import com.simple.orchestrator.api.IOperationExecutionService;
+import com.simple.orchestrator.api.IOperationJob;
+import com.simple.orchestrator.api.exception.InvalidJobIdException;
+import com.simple.orchestrator.api.exception.JobException;
 import com.simple.orchestrator.metric.MetricKey;
 import com.simple.orchestrator.service.AnalyticsOperationException;
-import com.simple.orchestrator.service.IAnalyticsOperationExecutor;
 import com.simple.orchestrator.service.hadoop.ModuleProperties;
 import com.simple.orchestrator.service.hadoop.config.ConfigurationException;
 import com.simple.orchestrator.service.hadoop.config.HttpInputConf;
 import com.simple.orchestrator.service.hadoop.config.OperationConfig;
 import com.simple.orchestrator.service.hadoop.io.MetricWritable;
 import com.simple.orchestrator.service.hadoop.io.format.MetricInputFormat;
-import com.simple.orchestrator.service.hadoop.io.format.MetricOutputFormat;
 import com.simple.orchestrator.service.hadoop.io.format.MetricInputFormat.InputAdapterType;
+import com.simple.orchestrator.service.hadoop.io.format.MetricOutputFormat;
 import com.simple.orchestrator.service.hadoop.io.format.MetricOutputFormat.OutputAdapterType;
 import com.simple.orchestrator.service.hadoop.job.AnalyticsOperationHadoopJob;
 
-public class OperationDriver implements IAnalyticsOperationExecutor {
+public class OperationDriver implements IOperationExecutionService {
 
 	private static final Logger logger = Logger.getLogger(OperationDriver.class.getName());
 
@@ -56,7 +62,6 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 		}
 	}
 
-	@Override
 	public HashMap<Long, IMetric> execute(String jobOwner, List<AnalyticsOperationInput> userInputs, IAnalyticsOperation operation,
 			List<DataProvider> dataProviders) throws AnalyticsOperationException, ConfigurationException {
 
@@ -67,7 +72,6 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 		}
 	}
 
-	@Override
 	public void execute(String jobOwner, IAnalyticsOperation operation, List<DataProvider> dataProviders)
 			throws AnalyticsOperationException, ConfigurationException {
 		try {
@@ -171,17 +175,33 @@ public class OperationDriver implements IAnalyticsOperationExecutor {
 		return outputs;
 	}
 
-	@Override
-	public boolean isOperationSuccessful() {
-		return jobSuccess;
+
+	public void attemptStop(String jobId) {
+		//JobClient client = new JobClient(conf)
+		
 	}
 
 	@Override
-	public void reset() throws RAnalyticsException {
-	}
-
-	@Override
-	public void close() {
+	public IOperationExecutionResponse executeSynchronous(IOperationJob operationJob) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String execute(IOperationJob operationJob) throws JobException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void stop(String jobId) throws InvalidJobIdException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public IJobProgress progress(String jobId) throws InvalidJobIdException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

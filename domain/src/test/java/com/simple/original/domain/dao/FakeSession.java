@@ -44,7 +44,6 @@ public class FakeSession implements ISession {
 	@Override
 	public void setMaxInactiveInterval(int timeout) {
 		sessionMap.put("TIMEOUT", timeout);
-
 	}
 
 	@Override

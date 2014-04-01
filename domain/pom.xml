@@ -16,6 +16,8 @@
 
 	<build>
 		<plugins>
+			<!--  This builds the sources jar so that the ui can use it when
+			compiling the gwt code -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -24,6 +26,21 @@
 						<id>attach-sources</id>
 						<goals>
 							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Adding the test classes so that other packages can use the test
+			packages at compile time. Note if you use jar you should use the <scope>test</scope>
+			so that the dependency does not get shipped with the deployables.  -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
 						</goals>
 					</execution>
 				</executions>

@@ -8,7 +8,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import com.simple.api.orchestrator.IMetricKey;
 import com.simple.api.orchestrator.ITaskExecution;
-import com.simple.orchestrator.ITaskExecutionDao;
+import com.simple.orchestrator.api.ITaskExecutionDao;
 
 public class HBaseTaskExecutionDao extends HBaseDao implements ITaskExecutionDao {
 

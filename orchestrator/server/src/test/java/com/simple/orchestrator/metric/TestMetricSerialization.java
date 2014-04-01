@@ -14,7 +14,6 @@ public class TestMetricSerialization {
 	public void testMetricString() {
 		MetricString ms1 = new MetricString("Value 1");
 		
-		
 		LinkedBuffer lb = LinkedBuffer.allocate(4096);
 		byte[] bytes = ProtobufIOUtil.toByteArray(ms1, MetricString.SCHEMA, lb);
 		System.out.println("Length is " + bytes.length);

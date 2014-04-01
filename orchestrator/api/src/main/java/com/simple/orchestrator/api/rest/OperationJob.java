@@ -1,32 +1,36 @@
-package com.simple.orchestrator.service.hadoop.job;
+package com.simple.orchestrator.api.rest;
 
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.orchestrator.api.IOperationJob;
 
+@XmlRootElement
 public class OperationJob implements IOperationJob {
 
-	public String owner;
+	private String owner;
 
-	public List<AnalyticsOperationInput> inputs;
+	private List<AnalyticsOperationInput> inputs;
 
-	public List<DataProvider> dataProviders;
+	private List<DataProvider> dataProviders;
 
-	public AnalyticsOperation operation;
+	private AnalyticsOperation operation;
 
+	
+	public OperationJob() {
+		
+	}
+	
 	public String getOwner() {
 		return owner;
 	}
 
 	public void setOwner(String owner) {
 		this.owner = owner;
-	}
-
-	public List<AnalyticsOperationInput> getInputs() {
-		return inputs;
 	}
 
 	public List<AnalyticsOperationInput> getUserInputs() {

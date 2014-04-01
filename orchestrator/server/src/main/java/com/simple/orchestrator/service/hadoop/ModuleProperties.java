@@ -14,10 +14,9 @@ public class ModuleProperties extends Properties {
 	private static ModuleProperties instance = null;
 	
 	private ModuleProperties() throws IOException {
-		InputStream stream = ModuleProperties.class.getClassLoader().getResourceAsStream("engine.properties");
+		InputStream stream = ModuleProperties.class.getClassLoader().getResourceAsStream("orchestrator-module.properties");
 		load(stream);
 	}
-	
 	
 	public static synchronized  ModuleProperties getInstance() throws IOException {
 		if (instance == null) {

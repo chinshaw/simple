@@ -10,6 +10,42 @@
 	<name>Orchestrator Server</name>
 	<description>Server Implementations for API</description>
 
+	<packaging>jar</packaging>
+
+	<properties>
+		<tomcat.version>7.0.52</tomcat.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>tomcat-run</id>
+						<goals>
+							<goal>exec-war-only</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<path>/</path>
+							<!-- optional, needed only if you want to use a preconfigured server.xml 
+								file 
+							<serverXml>src/main/tomcat/server.xml</serverXml>
+							-->
+							<!-- optional values which can be configurable -->
+							<attachArtifactClassifier>default value is exec-war but you can
+								customize</attachArtifactClassifier>
+							<attachArtifactClassifierType>default value is jar</attachArtifactClassifierType>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.simple</groupId>
@@ -23,11 +59,52 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<!-- Adding this for unit testing, so that the domain has access to the 
+			test classes for domain -->
+		<dependency>
+			<groupId>com.simple</groupId>
+			<artifactId>simple-analytics-domain</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>com.simple.radapter</groupId>
 			<artifactId>radapter-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-dbcp</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-servlet-api</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-core</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-logging-juli</artifactId>
+			<version>${tomcat.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>

@@ -2,10 +2,19 @@ package com.simple.orchestrator.api;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeInfo.As;
+import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
+
 import com.simple.api.orchestrator.IAnalyticsOperation;
 import com.simple.api.orchestrator.IAnalyticsOperationInput;
 import com.simple.api.orchestrator.IDataProvider;
+import com.simple.orchestrator.api.rest.OperationJob;
 
+
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "@class")
+@JsonSubTypes({ @JsonSubTypes.Type(value = OperationJob.class, name="operation")})
 public interface IOperationJob {
 
 	/**
