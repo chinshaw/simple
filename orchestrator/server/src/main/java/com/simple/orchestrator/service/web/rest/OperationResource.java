@@ -3,6 +3,7 @@ package com.simple.orchestrator.service.web.rest;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -75,19 +76,13 @@ public class OperationResource implements IOperationExecutionService {
 		return dao.saveAndReturn(operation);
 	}
 	
-	@POST
+	@DELETE
 	@Path("{id}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_PROTOBUF })
 	public void delete(@PathParam("id") String id) throws DomainException {
 		dao.delete(Long.parseLong(id)); 
 	}
-	
-	
-	@Override
-	public IOperationExecutionResponse executeSynchronous(IOperationJob operationJob) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@POST
 	@Path("/execute")
@@ -113,6 +108,14 @@ public class OperationResource implements IOperationExecutionService {
 
 	@Override
 	public IJobProgress progress(String jobId) throws InvalidJobIdException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
+	@Override
+	public IOperationExecutionResponse executeSynchronous(IOperationJob operationJob) {
 		// TODO Auto-generated method stub
 		return null;
 	}

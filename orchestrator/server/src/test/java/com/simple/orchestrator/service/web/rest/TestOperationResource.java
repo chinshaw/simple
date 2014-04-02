@@ -14,10 +14,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.simple.domain.model.AnalyticsOperation;
+import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.orchestrator.api.rest.OperationJob;
 import com.simple.orchestrator.test.OperationTestUtils;
 import com.simple.orchestrator.test.OrchestratorTestServer;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
@@ -64,23 +66,60 @@ public class TestOperationResource {
 	}
 	
 	@Test
-	public void testGet() {
+	public void testGet() throws IOException {
+		AnalyticsOperation operation = OperationTestUtils.createTestOperation();
+		AnalyticsOperation savedOp = resource.entity(operation).put(AnalyticsOperation.class);
+		assertNotNull(savedOp.getId());
+			
+		AnalyticsOperation fetched = resource.path(savedOp.getId().toString()).accept(MediaType.APPLICATION_JSON).get(AnalyticsOperation.class);
+		assertNotNull(fetched);
+		
+		assert(fetched.getId().equals(savedOp.getId()));
 		
 	}
 	
 	@Test
 	public void testGetInvalid() {
-		
+		ClientResponse response = resource.path("999999").accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+		assert(response.getStatus() == ClientResponse.Status.NO_CONTENT.getStatusCode());
 	}
 	
 	@Test 
-	public void testUpdate() {
+	public void testUpdate() throws IOException {
 		
+		// save
+		RAnalyticsOperation rop = (RAnalyticsOperation) OperationTestUtils.createTestOperation();
+		rop =  resource.entity(rop).put(RAnalyticsOperation.class);
+		assertNotNull(rop.getId());
+		
+		rop.setName("NEW_NAME");
+		rop.setDescription("NEW_DESCRIPTION");
+		rop.setCode("NEW_CODE");
+		
+		// update
+		rop = resource.entity(rop).post(RAnalyticsOperation.class);
+		
+		// Fetch again
+		rop = resource.path(rop.getId().toString()).accept(MediaType.APPLICATION_JSON).get(RAnalyticsOperation.class);
+		assertNotNull(rop);
+		assert(rop.getName().equals("NEW_NAME"));
+		assert(rop.getDescription().equals("NEW_DESCRIPTION"));
+		assert(rop.getCode().equals("NEW_CODE"));
 	}
 	
 	@Test
-	public void testDelete() {
+	public void testDelete() throws IOException {
+		// save
+		RAnalyticsOperation rop = (RAnalyticsOperation) OperationTestUtils.createTestOperation();
+		rop =  resource.entity(rop).put(RAnalyticsOperation.class);
+		assertNotNull(rop.getId());
 		
+		// Delete
+		resource.path(rop.getId().toString()).delete();
+		
+		// Fetch
+		ClientResponse response = resource.path(rop.getId().toString()).accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
+		assert(response.getStatus() == ClientResponse.Status.NO_CONTENT.getStatusCode());
 	}
 	
 	
