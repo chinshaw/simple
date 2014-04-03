@@ -10,12 +10,12 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import com.simple.api.orchestrator.IAnalyticsOperation;
 import com.simple.api.orchestrator.IAnalyticsOperationInput;
 import com.simple.api.orchestrator.IDataProvider;
-import com.simple.orchestrator.api.rest.OperationJob;
+import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 
 
 @JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "@class")
-@JsonSubTypes({ @JsonSubTypes.Type(value = OperationJob.class, name="operation")})
-public interface IOperationJob {
+@JsonSubTypes({ @JsonSubTypes.Type(value = HadoopOperationJobConfiguration.class, name="operation")})
+public interface IHadoopOperationJobConfiguration {
 
 	/**
 	 * Unique key for the job owner

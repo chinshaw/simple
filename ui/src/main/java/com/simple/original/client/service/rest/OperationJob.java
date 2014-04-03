@@ -5,13 +5,13 @@ import java.util.List;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
-import com.simple.orchestrator.api.IOperationJob;
+import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
 
 /**
  * This is a wrapper for the 
  * @author chris
  */
-public class OperationJob implements IOperationJob {
+public class OperationJob implements IHadoopOperationJobConfiguration {
 
 	private String owner;
 	

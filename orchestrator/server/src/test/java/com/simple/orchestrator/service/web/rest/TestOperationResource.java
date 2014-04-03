@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.RAnalyticsOperation;
-import com.simple.orchestrator.api.rest.OperationJob;
+import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.test.OperationTestUtils;
 import com.simple.orchestrator.test.OrchestratorTestServer;
 import com.sun.jersey.api.client.Client;
@@ -125,8 +125,8 @@ public class TestOperationResource {
 	
 	@Test
 	public void testExecute() throws IOException {
-		OperationJob job = new OperationJob();
-		String value =resource.path("execute").entity(job).type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(String.class);
+		HadoopOperationJobConfiguration job = new HadoopOperationJobConfiguration();
+		String value = resource.path("execute").entity(job).type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(String.class);
 		
 		assertNotNull(value);
 		

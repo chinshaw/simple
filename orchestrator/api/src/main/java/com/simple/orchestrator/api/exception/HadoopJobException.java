@@ -1,7 +1,7 @@
 package com.simple.orchestrator.api.exception;
 
 
-public class JobException extends OrchestratorException {
+public class HadoopJobException extends OrchestratorException {
 
 	/**
 	 * Serialization Id
@@ -11,9 +11,8 @@ public class JobException extends OrchestratorException {
 	/**
 	 * 
 	 */
-	public JobException() {
+	public HadoopJobException() {
 		super();
-
 	}
 
 	/**
@@ -22,7 +21,7 @@ public class JobException extends OrchestratorException {
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	public JobException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public HadoopJobException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 
 	}
@@ -31,7 +30,7 @@ public class JobException extends OrchestratorException {
 	 * @param message
 	 * @param cause
 	 */
-	public JobException(String message, Throwable cause) {
+	public HadoopJobException(String message, Throwable cause) {
 		super(message, cause);
 
 	}
@@ -39,7 +38,7 @@ public class JobException extends OrchestratorException {
 	/**
 	 * @param message
 	 */
-	public JobException(String message) {
+	public HadoopJobException(String message) {
 		super(message);
 
 	}
@@ -47,7 +46,7 @@ public class JobException extends OrchestratorException {
 	/**
 	 * @param cause
 	 */
-	public JobException(Throwable cause) {
+	public HadoopJobException(Throwable cause) {
 		super(cause);
 	}
 

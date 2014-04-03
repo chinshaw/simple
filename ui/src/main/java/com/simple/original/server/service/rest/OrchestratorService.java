@@ -7,10 +7,10 @@ import javax.ws.rs.core.MediaType;
 
 import com.simple.orchestrator.api.IJobProgress;
 import com.simple.orchestrator.api.IOperationExecutionResponse;
-import com.simple.orchestrator.api.IOperationJob;
+import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.IOperationExecutionService;
 import com.simple.orchestrator.api.exception.InvalidJobIdException;
-import com.simple.orchestrator.api.exception.JobException;
+import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 
@@ -32,7 +32,7 @@ public class OrchestratorService implements IOperationExecutionService {
 	}
 
 	@Override
-	public IOperationExecutionResponse executeSynchronous(IOperationJob operationJob) {
+	public IOperationExecutionResponse executeSynchronous(IHadoopOperationJobConfiguration operationJob) {
 		Client client = Client.create();
 		
 		final String orchestratorUrl = "http://" + host + ":" + Integer.toString(port) + "/rest/v1";
@@ -51,7 +51,7 @@ public class OrchestratorService implements IOperationExecutionService {
 	}
 
 	@Override
-	public String execute(IOperationJob operationJob) throws JobException {
+	public String execute(IHadoopOperationJobConfiguration operationJob) throws HadoopJobException {
 		// TODO Auto-generated method stub
 		return null;
 	}

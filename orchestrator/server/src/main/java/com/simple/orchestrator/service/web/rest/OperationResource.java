@@ -21,12 +21,10 @@ import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.orchestrator.api.IJobProgress;
 import com.simple.orchestrator.api.IOperationExecutionResponse;
 import com.simple.orchestrator.api.IOperationExecutionService;
-import com.simple.orchestrator.api.IOperationJob;
+import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
+import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.exception.InvalidJobIdException;
-import com.simple.orchestrator.api.exception.JobException;
 import com.simple.orchestrator.api.rest.MediaType;
-import com.simple.orchestrator.service.AnalyticsOperationException;
-import com.simple.orchestrator.service.hadoop.config.ConfigurationException;
 import com.simple.orchestrator.service.hadoop.mrv2.OperationDriver;
 
 @Path("/operation")
@@ -44,7 +42,8 @@ public class OperationResource implements IOperationExecutionService {
 
 	@GET
 	@Path("{id}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_PROTOBUF })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_PROTOBUF })
 	public AnalyticsOperation get(@PathParam("id") String id) {
 		try {
 			Long dbId = Long.parseLong(id);
@@ -53,51 +52,57 @@ public class OperationResource implements IOperationExecutionService {
 			throw new IllegalArgumentException("id must be of type long");
 		}
 	}
-	
+
 	@GET
 	@Path("/page")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_PROTOBUF })
-	public List<AnalyticsOperation> page(@QueryParam("start") int start, @QueryParam("max") int max) throws DomainException {
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_PROTOBUF })
+	public List<AnalyticsOperation> page(@QueryParam("start") int start,
+			@QueryParam("max") int max) throws DomainException {
 		return dao.findRange(start, max);
 	}
-	
-	
+
 	@PUT
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_PROTOBUF })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_PROTOBUF })
-	public AnalyticsOperation put(AnalyticsOperation operation) throws DomainException {
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_PROTOBUF })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_PROTOBUF })
+	public AnalyticsOperation put(AnalyticsOperation operation)
+			throws DomainException {
 		return update(operation);
 	}
-	
+
 	@POST
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_PROTOBUF })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_PROTOBUF })
-	public AnalyticsOperation update(AnalyticsOperation operation) throws DomainException {
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_PROTOBUF })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_PROTOBUF })
+	public AnalyticsOperation update(AnalyticsOperation operation)
+			throws DomainException {
 		return dao.saveAndReturn(operation);
 	}
-	
+
 	@DELETE
 	@Path("{id}")
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_PROTOBUF })
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_PROTOBUF })
 	public void delete(@PathParam("id") String id) throws DomainException {
-		dao.delete(Long.parseLong(id)); 
+		dao.delete(Long.parseLong(id));
 	}
-
 
 	@POST
 	@Path("/execute")
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_PROTOBUF })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_PROTOBUF })
-	public String execute(IOperationJob operationJob) throws JobException {
-		try {
-			List<AnalyticsOperationInput> inputs = (List<AnalyticsOperationInput>) operationJob.getUserInputs();
-			List<DataProvider> dataProviders = (List<DataProvider>) operationJob.getDataProviders();
-			driver.execute(operationJob.getOwner(), inputs, operationJob.getOperation(), dataProviders);
-		} catch (AnalyticsOperationException | ConfigurationException e) {
-			throw new JobException("Unable to execute operation job ", e);
-		}
-
-		return "FOO";
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_PROTOBUF })
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
+			MediaType.APPLICATION_PROTOBUF })
+	public String execute(IHadoopOperationJobConfiguration operationJob)
+			throws HadoopJobException {
+		List<AnalyticsOperationInput> inputs = (List<AnalyticsOperationInput>) operationJob
+				.getUserInputs();
+		List<DataProvider> dataProviders = (List<DataProvider>) operationJob
+				.getDataProviders();
+		return driver.execute(operationJob);
 	}
 
 	@Override
@@ -111,11 +116,10 @@ public class OperationResource implements IOperationExecutionService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
+
 	@Override
-	public IOperationExecutionResponse executeSynchronous(IOperationJob operationJob) {
+	public IOperationExecutionResponse executeSynchronous(
+			IHadoopOperationJobConfiguration operationJob) {
 		// TODO Auto-generated method stub
 		return null;
 	}
