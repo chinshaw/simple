@@ -4,13 +4,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.logging.Logger;
 
-import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.ParseException;
@@ -68,26 +70,21 @@ public class NativeAdapter implements IRAdapter {
     @Override
     public synchronized void connect() throws RAdapterException {
         logger.info("Calling connect");
-        Runnable connect = new Runnable() {
+
+        Callable<Void> connect = new Callable<Void>() {
 
             @Override
-            public void run() {
+            public Void call() throws Exception {
                 int configured = initR(rArgs);
                 if (configured != 0) {
-                    try {
-                        throw new RAdapterException(
-                                "Unable to connect to the R environment, R error code "
-                                        + configured);
-                    } catch (RAdapterException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
+                    throw new RAdapterException(
+                            "Unable to connect to the R environment, R error code " + configured);
                 }
+                return null;
             }
         };
 
         singleThreadExecutor.submit(connect);
-
     }
 
     @Override
@@ -113,7 +110,7 @@ public class NativeAdapter implements IRAdapter {
             public Rexp call() throws Exception {
                 setString(".tmpCode.", script);
                 byte[] packed = evalScript("eval(parse(text=.tmpCode.))");
-                
+
                 logger.fine("exec packed size => " + packed.length);
                 Rexp rexp = Rexp.parseFrom(packed);
                 return rexp;
@@ -278,6 +275,52 @@ public class NativeAdapter implements IRAdapter {
 
     public synchronized void jriFlushConsole() {
         console.flush();
+    }
+
+    
+    protected static void discoverAndSetRhome() {
+        
+    }
+    /**
+     * Borrowed from
+     * http://stackoverflow.com/questions/318239/how-do-i-set-environment
+     * -variables-from-java
+     * 
+     * @param newenv
+     */
+    protected static void setEnv(Map<String, String> newenv) {
+        try {
+            Class<?> processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
+            Field theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment");
+            theEnvironmentField.setAccessible(true);
+            Map<String, String> env = (Map<String, String>) theEnvironmentField.get(null);
+            env.putAll(newenv);
+            Field theCaseInsensitiveEnvironmentField = processEnvironmentClass
+                    .getDeclaredField("theCaseInsensitiveEnvironment");
+            theCaseInsensitiveEnvironmentField.setAccessible(true);
+            Map<String, String> cienv = (Map<String, String>) theCaseInsensitiveEnvironmentField
+                    .get(null);
+            cienv.putAll(newenv);
+        } catch (NoSuchFieldException e) {
+            try {
+                Class[] classes = Collections.class.getDeclaredClasses();
+                Map<String, String> env = System.getenv();
+                for (Class cl : classes) {
+                    if ("java.util.Collections$UnmodifiableMap".equals(cl.getName())) {
+                        Field field = cl.getDeclaredField("m");
+                        field.setAccessible(true);
+                        Object obj = field.get(env);
+                        Map<String, String> map = (Map<String, String>) obj;
+                        map.clear();
+                        map.putAll(newenv);
+                    }
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
     }
 
 }

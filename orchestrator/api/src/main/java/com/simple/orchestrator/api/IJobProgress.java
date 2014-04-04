@@ -1,13 +1,11 @@
 package com.simple.orchestrator.api;
 
-import java.util.List;
+import java.io.IOException;
+
 
 public interface IJobProgress {
 
-	public int getPercentageComplete();
+	public float getPercentageComplete();
 
-	public List<String> getWarnings();
-
-	public List<String> getErrors();
-	
+	public String getErrors();
 }

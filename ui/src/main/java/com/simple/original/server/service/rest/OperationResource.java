@@ -1,4 +1,4 @@
-package com.simple.orchestrator.service.web.rest;
+package com.simple.original.server.service.rest;
 
 import java.util.List;
 
@@ -16,27 +16,20 @@ import com.google.inject.Inject;
 import com.simple.api.exceptions.DomainException;
 import com.simple.domain.dao.AnalyticsOperationDao;
 import com.simple.domain.model.AnalyticsOperation;
-import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.ui.AnalyticsOperationInput;
-import com.simple.orchestrator.api.IJobProgress;
-import com.simple.orchestrator.api.IOperationExecutionResponse;
-import com.simple.orchestrator.api.IOperationExecutionService;
-import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
-import com.simple.orchestrator.api.exception.HadoopJobException;
-import com.simple.orchestrator.api.exception.InvalidJobIdException;
 import com.simple.orchestrator.api.rest.MediaType;
-import com.simple.orchestrator.service.hadoop.mrv2.OperationDriver;
 
+/**
+ * Rest api to manage storing and retrieving operations from the
+ * data store.
+ * @author chris
+ */
 @Path("/operation")
-public class OperationResource implements IOperationExecutionService {
-
-	private final OperationDriver driver;
+public class OperationResource {
 
 	private final AnalyticsOperationDao dao;
 
 	@Inject
-	public OperationResource(OperationDriver driver, AnalyticsOperationDao dao) {
-		this.driver = driver;
+	public OperationResource(AnalyticsOperationDao dao) {
 		this.dao = dao;
 	}
 
@@ -88,39 +81,5 @@ public class OperationResource implements IOperationExecutionService {
 			MediaType.APPLICATION_PROTOBUF })
 	public void delete(@PathParam("id") String id) throws DomainException {
 		dao.delete(Long.parseLong(id));
-	}
-
-	@POST
-	@Path("/execute")
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
-			MediaType.APPLICATION_PROTOBUF })
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
-			MediaType.APPLICATION_PROTOBUF })
-	public String execute(IHadoopOperationJobConfiguration operationJob)
-			throws HadoopJobException {
-		List<AnalyticsOperationInput> inputs = (List<AnalyticsOperationInput>) operationJob
-				.getUserInputs();
-		List<DataProvider> dataProviders = (List<DataProvider>) operationJob
-				.getDataProviders();
-		return driver.execute(operationJob);
-	}
-
-	@Override
-	public void stop(String jobId) throws InvalidJobIdException {
-		driver.attemptStop(jobId);
-
-	}
-
-	@Override
-	public IJobProgress progress(String jobId) throws InvalidJobIdException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IOperationExecutionResponse executeSynchronous(
-			IHadoopOperationJobConfiguration operationJob) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

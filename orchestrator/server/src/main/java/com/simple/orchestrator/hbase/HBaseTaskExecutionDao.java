@@ -15,7 +15,7 @@ public class HBaseTaskExecutionDao extends HBaseDao implements ITaskExecutionDao
 	public static final String TABLE_NAME ="taskexecution";
 	
 	public HBaseTaskExecutionDao() throws IOException {
-		super(new HBaseConfiguration(), TABLE_NAME);
+		super(new HBaseClientConfiguration(), TABLE_NAME);
 	}
 	
 	public ITaskExecution find(String column, String qualifier, IMetricKey key) throws IOException {

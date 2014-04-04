@@ -13,7 +13,7 @@ public class HBaseDao {
 	private final HTable table;
 	
 	protected HBaseDao(final String tableName) throws IOException {
-		this(new HBaseConfiguration(), tableName);
+		this(new HBaseClientConfiguration(), tableName);
 	}
 	
 	protected HBaseDao(final Configuration conf, final String tableName) throws IOException {

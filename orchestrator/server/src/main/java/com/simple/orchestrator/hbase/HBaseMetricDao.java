@@ -14,7 +14,7 @@ public class HBaseMetricDao {
 	private final HTable table;
 	
 	protected HBaseMetricDao(final String tableName) throws IOException {
-		table = new HTable(new HBaseConfiguration(), tableName);
+		table = new HTable(new HBaseClientConfiguration(), tableName);
 	}
 	
 	

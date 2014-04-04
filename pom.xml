@@ -34,6 +34,7 @@
 		<jackson.version>1.9.2</jackson.version>
 
 		<jetty.version>7.2.0.v20101020</jetty.version>
+		<tomcat.version>7.0.52</tomcat.version>
 	</properties>
 
 	<modules>
@@ -46,6 +47,7 @@
 		<module>repository</module>
 		<!-- Disabling until complete -->
 		<!-- <module>radapter</module> -->
+		<module>artisan-utils</module>
 	</modules>
 
 	<scm>
@@ -59,6 +61,39 @@
 
 	<dependencyManagement>
 		<dependencies>
+
+			<dependency>
+				<groupId>org.apache.tomcat</groupId>
+				<artifactId>tomcat-dbcp</artifactId>
+				<version>${tomcat.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.tomcat</groupId>
+				<artifactId>tomcat-servlet-api</artifactId>
+				<version>${tomcat.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<artifactId>tomcat-embed-core</artifactId>
+				<version>${tomcat.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<artifactId>tomcat-embed-jasper</artifactId>
+				<version>${tomcat.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<artifactId>tomcat-embed-logging-juli</artifactId>
+				<version>${tomcat.version}</version>
+			</dependency>
+
+
+
 
 			<!-- GIN and Guice for IoC / DI -->
 			<dependency>

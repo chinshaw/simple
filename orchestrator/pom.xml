@@ -10,7 +10,6 @@
 	<artifactId>orchestrator</artifactId>
 	<packaging>pom</packaging>
 
-
 	<repositories>
 		<repository>
 			<id>local_repo</id>

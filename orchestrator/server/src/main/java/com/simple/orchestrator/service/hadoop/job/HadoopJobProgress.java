@@ -7,15 +7,13 @@ import com.simple.orchestrator.api.IJobProgress;
 public class HadoopJobProgress implements IJobProgress {
 
 	
-	private int completion;
+	private float completion;
 	
-	private List<String> warnings;
-	
-	private List<String> errors;
+	private String errors;
 	
 	
 	@Override
-	public int getPercentageComplete() {
+	public float getPercentageComplete() {
 		return completion;
 	}
 	
@@ -24,20 +22,11 @@ public class HadoopJobProgress implements IJobProgress {
 	}
 
 	@Override
-	public List<String> getWarnings() {
-		return this.warnings;
-	}
-	
-	public void setWarnings(List<String> warnings) {
-		this.warnings = warnings;
-	}
-
-	@Override
-	public List<String> getErrors() {
+	public String getErrors() {
 		return errors;
 	}
 	
-	public void setErrors(List<String> errors) {
+	public void setErrors(String errors) {
 		this.errors = errors;
 	}
 

@@ -5,9 +5,6 @@ import com.simple.orchestrator.api.exception.HadoopJobException;
 
 public interface IOperationExecutionService {
 	
-	public IOperationExecutionResponse executeSynchronous(IHadoopOperationJobConfiguration operationJob);
-	
-	
 	/**
 	 * This returns a job receipt for the job you are executing.
 	 * @param operationJob
@@ -20,9 +17,10 @@ public interface IOperationExecutionService {
 	 * Stop a job with it's job id.
 	 * @param jobId
 	 * @throws InvalidJobIdException
+	 * @throws HadoopJobException 
 	 */
-	public void stop(String jobId) throws InvalidJobIdException;
+	public void stop(String jobId) throws InvalidJobIdException, HadoopJobException;
 	
 	
-	public IJobProgress progress(String jobId) throws InvalidJobIdException;
+	public IJobProgress progress(String jobId) throws InvalidJobIdException, HadoopJobException;
 }
