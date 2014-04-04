@@ -6,8 +6,8 @@ public interface IJobProgress {
 
 	public int getPercentageComplete();
 
-	public List<String> warnings();
+	public List<String> getWarnings();
 
-	public List<String> errors();
+	public List<String> getErrors();
 	
 }

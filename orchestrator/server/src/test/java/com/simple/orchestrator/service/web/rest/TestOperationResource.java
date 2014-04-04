@@ -16,6 +16,7 @@ import org.junit.Test;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
+import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration.Builder;
 import com.simple.orchestrator.test.OperationTestUtils;
 import com.simple.orchestrator.test.OrchestratorTestServer;
 import com.sun.jersey.api.client.Client;
@@ -125,11 +126,21 @@ public class TestOperationResource {
 	
 	@Test
 	public void testExecute() throws IOException {
-		HadoopOperationJobConfiguration job = new HadoopOperationJobConfiguration();
-		String value = resource.path("execute").entity(job).type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(String.class);
+		Builder builder   =  new HadoopOperationJobConfiguration.Builder();
 		
+		String value = resource.path("execute").entity(builder.build()).type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(String.class);
 		assertNotNull(value);
-		
 	}
 	 
+	/**
+	 * This test will execute a job returning the job id and then fetch the outputs
+	 * from the operation when it is complete.
+	 */
+	@Test 
+	public void testFullExecute() {
+		Builder builder   =  new HadoopOperationJobConfiguration.Builder();
+		String value = resource.path("execute").entity(builder.build()).type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(String.class);
+		
+		assertNotNull(value);
+	}
 }

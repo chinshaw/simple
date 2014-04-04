@@ -21,9 +21,12 @@ public class HadoopOperationJobConfiguration implements IHadoopOperationJobConfi
 
 	private AnalyticsOperation operation;
 
-	
+
+	/**
+	 * 
+	 * @deprecated Use {@link Builder}
+	 */
 	public HadoopOperationJobConfiguration() {
-		
 	}
 	
 	public String getOwner() {
