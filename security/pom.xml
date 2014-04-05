@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.simple</groupId>
-		<artifactId>simple-analytics</artifactId>
+		<artifactId>artisan</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>simple-analytics-security</artifactId>
+	<artifactId>artisan-security</artifactId>
 	<name>Security Module</name>
 	<description>Security and session support implementation</description>
 
@@ -32,7 +32,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-api</artifactId>
+			<artifactId>artisan-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

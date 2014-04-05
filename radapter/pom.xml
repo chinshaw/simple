@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.simple</groupId>
-		<artifactId>simple-analytics</artifactId>
+		<artifactId>artisan</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.simple.radapter</groupId>
-	<artifactId>simple-analytics-radapter</artifactId>
-	<name>simple-analytics-jni</name>
+	<artifactId>artisan-radapter</artifactId>
+	<name>R Adapter Module</name>
 	<description>Java to R adapter</description>
 	<packaging>pom</packaging>
 

@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.simple.radapter</groupId>
-		<artifactId>simple-analytics-radapter</artifactId>
+		<artifactId>artisan-radapter</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>radapter-client</artifactId>
-	<name>simple-analytics-radapter</name>
+	<artifactId>artisan-radapter-client</artifactId>
+	<name>R Adapter Client</name>
 	<description>Java to R adapter</description>
 	<packaging>jar</packaging>
 

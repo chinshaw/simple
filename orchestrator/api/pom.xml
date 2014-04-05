@@ -3,12 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.simple</groupId>
-		<artifactId>orchestrator</artifactId>
+		<artifactId>artisan-orchestrator</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 
-
-	<artifactId>orchestrator-api</artifactId>
+	<artifactId>artisan-orchestrator-api</artifactId>
 	<name>Orchestrator API</name>
 	<description>Common API for all orchestrator modules</description>
 
@@ -35,13 +34,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-api</artifactId>
+			<artifactId>artisan-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-domain</artifactId>
+			<artifactId>artisan-domain</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

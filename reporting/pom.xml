@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.simple</groupId>
-		<artifactId>simple-analytics</artifactId>
+		<artifactId>artisan</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>simple-analytics-reporting</artifactId>
+	<artifactId>artisan-reporting</artifactId>
 	<name>Reporting Module</name>
 	<description>Used to manage all the reporting features</description>
 
@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-engine</artifactId>
+			<artifactId>artisan-orchestrator-api</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
 

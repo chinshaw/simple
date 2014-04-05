@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.simple</groupId>
-	<artifactId>simple-analytics</artifactId>
+	<artifactId>artisan</artifactId>
 	<version>1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Simple Analytics</name>
-	<description>Simple Analytics Main Project</description>
+	<name>Artisan Analytics</name>
+	<description>Artisan Analytics</description>
 
 	<issueManagement>
 		<system>github</system>
@@ -41,7 +41,7 @@
 		<module>api</module>
 		<module>orchestrator</module>
 		<module>domain</module>
-		<module>ui</module>
+		<module>web</module>
 		<module>security</module>
 		<module>reporting</module>
 		<module>repository</module>

@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.simple</groupId>
-		<artifactId>simple-analytics</artifactId>
+		<artifactId>artisan</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>simple-analytics-domain</artifactId>
-	<name>Domain Module</name>
+	<artifactId>artisan-domain</artifactId>
+	<name>Artisan Domain Module</name>
 	<description>Domain module contains all the beans needed for the project.</description>
 
 	<properties>
@@ -51,13 +51,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-api</artifactId>
+			<artifactId>artisan-api</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.simple</groupId>
-			<artifactId>simple-analytics-security</artifactId>
+			<artifactId>artisan-security</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
 

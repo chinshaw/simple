@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.simple</groupId>
-		<artifactId>simple-analytics</artifactId>
+		<artifactId>artisan</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>simple-analytics-repository</artifactId>
+	<artifactId>artisan-repository</artifactId>
 	<name>Simple Analytics Repository</name>
 	<description>Respository service for things like scripts</description>
 

@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.simple.radapter</groupId>
-		<artifactId>simple-analytics-radapter</artifactId>
+		<artifactId>artisan-radapter</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>radapter-native</artifactId>
-	<name>simple-analytics-radapter</name>
+	<artifactId>artisan-radapter-native</artifactId>
+	<name>R Adapter Native Module</name>
 	<description>Java to R adapter</description>
 	<packaging>pom</packaging>
 
@@ -44,7 +44,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.simple.radapter</groupId>
-			<artifactId>radapter-client</artifactId>
+			<artifactId>artisan-radapter-client</artifactId>
 			<version>1.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
