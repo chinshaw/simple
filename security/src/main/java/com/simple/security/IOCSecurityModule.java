@@ -19,7 +19,6 @@ public class IOCSecurityModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		
 		bind(Realm.class).to(ArtisanAuthenticationRealm.class).in(Scopes.SINGLETON);
 		// bindRealm().toConstructor(IniRealm.class.getConstructor(Ini.class));
 		bind(ISession.class).to(ShiroSession.class);

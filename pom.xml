@@ -34,7 +34,8 @@
 		<jackson.version>1.9.2</jackson.version>
 
 		<jetty.version>7.2.0.v20101020</jetty.version>
-		<tomcat.version>7.0.52</tomcat.version>
+		<tomcat.version>7.0.53</tomcat.version>
+		<activemq.version>5.9.0</activemq.version>
 	</properties>
 
 	<modules>
@@ -61,7 +62,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-
 			<dependency>
 				<groupId>org.apache.tomcat</groupId>
 				<artifactId>tomcat-dbcp</artifactId>
@@ -92,8 +92,11 @@
 				<version>${tomcat.version}</version>
 			</dependency>
 
-
-
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>activemq-all</artifactId>
+				<version>${activemq.version}</version>
+			</dependency>
 
 			<!-- GIN and Guice for IoC / DI -->
 			<dependency>

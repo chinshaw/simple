@@ -6,7 +6,7 @@
 		<artifactId>artisan-orchestrator</artifactId>
 		<version>1.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>artisan-orchestrator-server</artifactId>
 	<name>Orchestrator Server</name>
 	<description>Server Implementations for API</description>
@@ -29,9 +29,7 @@
 						<configuration>
 							<path>/</path>
 							<!-- optional, needed only if you want to use a preconfigured server.xml 
-								file 
-							<serverXml>src/main/tomcat/server.xml</serverXml>
-							-->
+								file <serverXml>src/main/tomcat/server.xml</serverXml> -->
 							<!-- optional values which can be configurable -->
 							<attachArtifactClassifier>default value is exec-war but you can
 								customize</attachArtifactClassifier>
@@ -152,6 +150,13 @@
 		<dependency>
 			<groupId>com.dyuproject.protostuff</groupId>
 			<artifactId>protostuff-runtime</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-all</artifactId>
+			<version>5.8.0</version>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

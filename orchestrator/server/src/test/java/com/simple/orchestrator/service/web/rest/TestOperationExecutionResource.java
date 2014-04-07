@@ -68,14 +68,12 @@ public class TestOperationExecutionResource {
 		String jobId = resource.path("execute").type(MediaType.APPLICATION_JSON).entity(confBuilder.build())
 				.post(String.class);
 		
-		
-		
 		System.out.println("jobId is " + jobId);
 		assertNotNull(jobId);
 		
 		latch.await(10, TimeUnit.SECONDS);
 		
-		System.out.println("jobId is " + jobId);
+		logger.info("jobId is " + jobId);
 		assertNotNull(jobId);
 		logger.info("end testExecute");
 	}
