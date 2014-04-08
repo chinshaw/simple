@@ -1,0 +1,170 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:t="urn:import:com.simple.original.client.view.widgets"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:desktop="urn:import:com.simple.original.client.view.desktop">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+	@external .gwt-CheckBox;
+	span.gwt-CheckBox label {
+		display: inline;
+	}
+	
+	.code {
+		width: 100em;
+		height: 25em;
+	}
+	
+	.contentPanelContent>label {
+		font-weight: bolder;
+	}
+	
+	.buttonCollection {
+		margin-top: 10px;
+		float: right;
+		margin-bottom: 3em;
+	}
+	
+	.inlined {
+		display: inline;
+	}
+	
+	.dateTable  td {
+		text-align: left;
+		width: 6em;
+	}
+	</ui:style>
+
+	<g:FlowPanel styleName="{resources.style.content}">
+		<g:HTMLPanel styleName="" ui:field="contentPanel">
+			<t:ErrorPanel ui:field="errorPanel"></t:ErrorPanel>
+
+			<!-- Global Panel -->
+			<h3>Global</h3>
+			<p>
+				<b>Description:</b>
+				The analytics task builder facilitates building a customized
+				analytics job that can be used to drive built-in
+				ui screens or a user
+				runnable analytics task with customized inputs.
+				UI User Inputs will
+				be used to allow a user
+				to define what inputs will be provided to the
+				screen (example "start
+				date", "factory id", etc). A analytics task
+				consists of a name, description, analtyics operations, optional
+				outputs
+				and data providers. UI User Inputs are
+				are ui widgets that
+				will prompt the user for input. Data Providers
+				add the ability to
+				provide input to the
+				analytics operation, this could be in the form
+				of an sql command or a r
+				command. At the heart is the analytics chain
+				which allows you to run a single or multiple analtyics operations to
+				complete the analtyics job. They will be
+				called syncronously and the
+				workspace will not be cleared between
+				operations. Last is the outputs
+				which is the output
+				of the analytics task that matters. Many
+				variables may be created
+				during the analtytics operations and the
+				outputs allows you
+				to specify which outputs the operation cares
+				about. The public
+				access option will make the analytics task public
+				for all users to
+				run otherwise you will be the only
+				one that can view
+				this analytics task. The analytics task name must
+				be unique and
+				should be fairly explanatory. The description
+				should contain as much
+				information about what the analytics task does as
+				possible.
+			</p>
+			<br />
+			<g:CheckBox ui:field="isPublic">Public Access</g:CheckBox>
+			<label>
+				<span style="color:red; padding-right:1px;">*</span>
+				Name
+			</label>
+			<t:ValueBoxEditorDecorator errorLocation="RIGHT"
+				ui:field="name">
+				<t:valuebox>
+					<g:TextBox />
+				</t:valuebox>
+			</t:ValueBoxEditorDecorator>
+
+			<label>Description</label>
+			<t:ValueBoxEditorDecorator errorLocation="RIGHT"
+				ui:field="description">
+				<t:valuebox>
+					<g:TextArea />
+				</t:valuebox>
+			</t:ValueBoxEditorDecorator>
+
+			<br />
+
+			<!-- Data provider panel -->
+			<h3>Data Providers</h3>
+			<p>
+				<b>Description:</b>
+				Data Providers are a flexible way of allowing the analytics task
+				creator to provide the data
+				that the analtyics operations will
+				analyze without putting the data in
+				the analytics operation itself.
+				This
+				makes the Analytics operations more flexible in the sense that
+				they are
+				not tied to a specific data source.
+				Examples of data
+				providers' are the sql query and the R input. The sql
+				query would be
+				used to query data and
+				assign the output of that query to a defined
+				variable that an analytics
+				operation may care about. For example if
+				you
+				have a PchartAnalytics operation that requires a Vector called
+				Pchartdata you could define the sql query to
+				provide the variable
+				Pchartdata with the output or your sql query. The R
+				data provider
+				gives you an opportunity
+				to define hard coded text input or a R
+				function.
+			</p>
+			<br />
+			
+			<!-- Analytics operations panel -->
+			<h3>Analytics Chain</h3>
+			<t:EditableDNDCellList ui:field="analyticsChainEditor" />
+			<div>
+				<g:SuggestBox ui:field="operationSuggest"></g:SuggestBox>
+				<!-- <t:ValueListBox ui:field="availableOperations"></t:ValueListBox> -->
+				<g:Button styleName="{resources.style.textButton}"
+					ui:field="addAnalytics">add</g:Button>
+			</div>
+			<br />
+
+			<h3>Dashboard</h3>
+
+			<div style="display:inline">
+				<label ui:field="dashboardName"></label>
+				<g:Button styleName="{resources.style.textButton}"
+					ui:field="editDashboard">edit</g:Button>
+			</div>
+			<br />
+
+			<div class="{resources.style.buttonCollection} {style.buttonCollection}">
+				<g:Button ui:field="cancel">Cancel</g:Button>
+				<g:Button ui:field="saveTask">Save</g:Button>
+			</div>
+		</g:HTMLPanel>
+	</g:FlowPanel>
+</ui:UiBinder> 

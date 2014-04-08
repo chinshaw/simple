@@ -1,0 +1,18 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:t="urn:import:com.simple.original.client.view.widgets" xmlns:d="urn:import:com.simple.original.client.view.desktop">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+
+	</ui:style>
+
+	<g:HTMLPanel>
+		<label>R Variable Name</label>
+		<g:TextBox ui:field="variableName"></g:TextBox>
+		<label>Data Provider</label>
+		<g:TextArea width="100em" height="10em" ui:field="sqlStatement"></g:TextArea>
+	</g:HTMLPanel>
+</ui:UiBinder>

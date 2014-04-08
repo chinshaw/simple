@@ -1,0 +1,183 @@
+<!-- Uncomment this for XHTML entities <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent"> -->
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client" xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:vf="urn:import:com.simple.original.client.view.widgets" xmlns:d="urn:import:com.google.gwt.user.datepicker.client">
+
+	<ui:with field='resources' type='com.simple.original.client.resources.Resources' />
+
+	<ui:style>
+	.dateTable {
+		
+	}
+	
+	.imageIcon {
+		position: absolute;
+	}
+	
+	.dateTable  td {
+		text-align: left;
+		width: 6em;
+	}
+	
+	.delete {
+		background-color: darkred;
+	}
+	</ui:style>
+
+	<g:DockLayoutPanel ui:field="dockLayoutPanel"
+		styleName="{resources.style.content}" unit="PX">
+		<g:center>
+			<g:HTMLPanel styleName="">
+				<vf:ErrorPanel ui:field="errorPanel"></vf:ErrorPanel>
+				<!-- Top overview panel -->
+				<h3>Overview</h3>
+				<div class="">
+					<p>Schedule a analytics task to run at a given time or a recurring
+						time in
+						the future. Set the starting date and the occurrence, and
+						give the
+						schedule a unique name. The Schedule Description is
+						required and
+						will be used
+						to view jobs that have completed. The
+						starting date is
+						the date that the analytics task will be run.
+					</p>
+				</div>
+				<br />
+
+				<!-- Scheduling options panel -->
+				<h3>Status</h3>
+				<div class="">
+					<p>
+						Task Status:
+						<span style="font-weight:bold" ui:field="taskState">Checking...</span>
+					</p>
+					<br />
+					<g:Button ui:field="pause">pause</g:Button>
+					<br />
+					<br />
+					<g:Button ui:field="delete" styleName="{style.delete}">delete
+					</g:Button>
+
+					<!-- Not supported yet -->
+					<!-- <g:Label>Starting Date</g:Label> <d:DateBox ui:field="startingDate"></d:DateBox> 
+						<g:Label>Starting Time</g:Label> <g:ListBox ui:field="startingTime"></g:ListBox> -->
+				</div>
+				<br />
+
+
+				<!-- Scheduling options panel -->
+				<h3>Scheduling Options</h3>
+				<div class="">
+					<span>
+						Scheduling options for analytics task:
+						<span ui:field="analyticsTaskName" style="font-weight:bold">Analytics Task NAME</span>
+					</span>
+					<br />
+
+					<g:Label>Schedule Name</g:Label>
+					<g:TextBox ui:field="description"></g:TextBox>
+
+
+					<!-- Not supported yet -->
+					<!-- <g:Label>Starting Date</g:Label> <d:DateBox ui:field="startingDate"></d:DateBox> 
+						<g:Label>Starting Time</g:Label> <g:ListBox ui:field="startingTime"></g:ListBox> -->
+					<br />
+					<g:Label>Start Date</g:Label>
+					<d:DateBox width="16em" ui:field="schedulerDateTime"></d:DateBox>
+					<g:Image ui:field="calendarImage"></g:Image>
+					<br />
+					<g:Label>Start Time:</g:Label>
+					<div>
+						<div style="float : left;">
+							<div style="float:left;">
+								<g:Label>Hrs</g:Label>
+							</div>
+							<div style="float : left; margin-left:2px">
+								<vf:SpinBox maxValue="23" ui:field="Hours"></vf:SpinBox>
+							</div>
+						</div>
+						<div style="float : left; margin-left:1em;">
+							<div style="float : left;">
+								<g:Label>Min</g:Label>
+							</div>
+							<div style="float : left; margin-left:2px">
+								<vf:SpinBox maxValue="59" ui:field="Minutes"></vf:SpinBox>
+							</div>
+						</div>
+					</div>
+					<br />
+				</div>
+				<br />
+
+				<!-- Recurrence options for the analytics task -->
+				<h3>Reccurrence Options</h3>
+				<div>
+					<g:Label>Reoccurs</g:Label>
+					<vf:EnumEditor ui:field="occurrence" />
+					<table class="{style.dateTable}" ui:field="dayChooser">
+						<tr>
+							<td>
+								Sunday
+							</td>
+							<td>
+								Monday
+							</td>
+							<td>
+								Tuesday
+							</td>
+							<td>
+								Wednesday
+							</td>
+							<td>
+								Thursday
+							</td>
+							<td>
+								Friday
+							</td>
+							<td>
+								Saturday
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<g:CheckBox ui:field="sunday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="monday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="tuesday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="wednesday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="thursday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="friday" />
+							</td>
+							<td>
+								<g:CheckBox ui:field="saturday" />
+							</td>
+						</tr>
+					</table>
+				</div>
+				<br />
+				<h3>History</h3>
+				<c:CellTable ui:field="historyTable" />
+				<c:SimplePager location="LEFT" ui:field="historyPager">
+				</c:SimplePager>
+				<br />
+
+				<div style="float:right">
+					<g:Button ui:field="cancel">cancel</g:Button>
+					<g:Button ui:field="update">update</g:Button>
+				</div>
+				<br />
+			</g:HTMLPanel>
+		</g:center>
+	</g:DockLayoutPanel>
+</ui:UiBinder>

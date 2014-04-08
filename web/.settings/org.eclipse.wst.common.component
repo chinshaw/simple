@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="simple-analytics-web">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <dependent-module archiveName="artisan-orchestrator-api-1.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/artisan-orchestrator-api/artisan-orchestrator-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="artisan-api-1.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/artisan-api/artisan-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="artisan-security-1.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/artisan-security/artisan-security">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="artisan-domain-1.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/artisan-domain/artisan-domain">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/simple-analytics-web/target/simple-analytics-web-1.1-SNAPSHOT/WEB-INF/classes"/>
+        <property name="context-root" value="artisan-web"/>
+    </wb-module>
+</project-modules>
