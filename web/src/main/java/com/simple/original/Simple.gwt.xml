@@ -28,6 +28,6 @@
 		<when-type-is class="com.simple.original.client.InjectorProvider" />
 	</replace-with>
 
-	<entry-point class="com.simple.original.client.Simple" />
+	<entry-point class="com.simple.original.client.Artisan" />
 
 </module>

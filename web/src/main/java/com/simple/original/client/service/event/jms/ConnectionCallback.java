@@ -1,4 +1,4 @@
-package com.simple.original.client.service.jms;
+package com.simple.original.client.service.event.jms;
 
 public interface ConnectionCallback {
 

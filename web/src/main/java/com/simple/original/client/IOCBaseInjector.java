@@ -28,6 +28,7 @@ import com.simple.original.client.resources.Resources;
 import com.simple.original.client.service.DaoRequestFactory;
 import com.simple.original.client.service.PublicRequestFactory;
 import com.simple.original.client.service.ServiceRequestFactory;
+import com.simple.original.client.service.event.IEventService;
 import com.simple.original.client.view.IAdministrationView;
 import com.simple.original.client.view.IAnalyticsTaskDesignerView;
 import com.simple.original.client.view.IAnalyticsTaskExecutionView;
@@ -160,10 +161,12 @@ public interface IOCBaseInjector extends Ginjector {
 
 	IWelcomeView getWelcomeView();
 
+	IEventService eventService();
+	
 	//
 	// Helpers
 	//
 
-	void injectMembers(Simple simple);
+	void injectMembers(Artisan simple);
 
 }

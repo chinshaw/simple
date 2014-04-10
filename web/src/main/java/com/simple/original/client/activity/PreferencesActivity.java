@@ -12,13 +12,13 @@ import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.simple.original.client.events.BookmarkCreatedEvent;
-import com.simple.original.client.events.BookmarkDeletedEvent;
-import com.simple.original.client.events.NotificationEvent;
 import com.simple.original.client.place.PreferencesPlace;
 import com.simple.original.client.proxy.ApplicationBookmarkProxy;
 import com.simple.original.client.proxy.PreferencesProxy;
 import com.simple.original.client.service.DaoRequestFactory.PersonRequest;
+import com.simple.original.client.service.event.BookmarkCreatedEvent;
+import com.simple.original.client.service.event.BookmarkDeletedEvent;
+import com.simple.original.client.service.event.NotificationEvent;
 import com.simple.original.client.view.IPreferencesView;
 import com.simple.original.shared.NotificationCriticality;
 

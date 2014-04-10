@@ -10,11 +10,18 @@ import com.google.web.bindery.requestfactory.gwt.client.DefaultRequestTransport;
 import com.simple.original.client.service.DaoRequestFactory;
 import com.simple.original.client.service.PublicRequestFactory;
 import com.simple.original.client.service.ServiceRequestFactory;
+import com.simple.original.client.service.event.IEventService;
+import com.simple.original.client.service.event.jms.ConnectionCallback;
+import com.simple.original.client.service.event.jms.JmsEventService;
+import com.simple.original.client.service.event.jms.StompEventService;
+import com.simple.original.client.service.event.jms.StompMessage;
 
 public class IOCServicesModule extends AbstractGinModule {
 
+	
 	@Override
 	protected void configure() {
+		
 	}
 
 	@Inject
@@ -50,5 +57,23 @@ public class IOCServicesModule extends AbstractGinModule {
 		transport.setRequestUrl(GWT.getHostPageBaseURL() + "rf/secure/analytics");
 		factory.initialize(eventBus, transport);
 		return factory;
+	}
+	
+	/**
+	 * This creates and injector for the event service, it injects the 
+	 * eventbus and a connection callback to be used for information debugging. The 
+	 * eventbus is where all events will be directed so that you can use it for 
+	 * registering for Events.
+	 * @param eventBus
+	 * @param connectionCallback
+	 * @return
+	 */
+	@Inject
+	@Provides
+	@Singleton
+	IEventService eventService(EventBus eventBus) {
+		
+		JmsEventService eventService = new JmsEventService(eventBus);
+		return eventService;
 	}
 }

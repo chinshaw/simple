@@ -1,4 +1,4 @@
-package com.simple.original.client.service.jms.amq;
+package com.simple.original.client.service.event.jms.amq;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Node;

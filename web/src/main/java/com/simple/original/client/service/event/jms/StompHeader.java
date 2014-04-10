@@ -1,4 +1,4 @@
-package com.simple.original.client.service.jms;
+package com.simple.original.client.service.event.jms;
 
 import com.google.gwt.core.client.JavaScriptObject;
 

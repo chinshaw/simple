@@ -1,11 +1,11 @@
-package com.simple.original.client.service.jms;
+package com.simple.original.client.service.event.jms;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
-public class StompMessage extends JavaScriptObject implements IJmsMessage {
+public final class StompMessage extends JavaScriptObject implements IJmsMessage {
 	
 	
 	protected StompMessage(){}
