@@ -1,6 +1,5 @@
 package com.simple.original.client.service.event.jms;
 
-import java.net.MalformedURLException;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -31,30 +30,29 @@ public class JmsEventService implements IEventService, IJmsService.MessageHandle
 
 	}
 
-	public void start() throws MalformedURLException {
-		service.setUrl("ws://" + GWT.getHostPageBaseURL() + ":61614/stomp");
-		Window.alert("url is " + service.getUrl());
+	public void start() {
+		service.setUrl("ws://" + Window.Location.getHostName() + ":61614/stomp");
 		GWT.log("connecting to url " + service.getUrl());
 		service.setConnectionCallback(new ConnectionCallback() {
 
 			@Override
 			public void onError(StompMessage cause) {
-				// TODO Auto-generated method stub
-
+				GWT.log("Error " + cause);
 			}
 
 			@Override
 			public void onDisconnect() {
-				// TODO Auto-generated method stub
+				GWT.log("Disconnected");
 
 			}
 
 			@Override
 			public void onConnect() {
-				// TODO Auto-generated method stub
+				GWT.log("Connected");
 
 			}
 		});
+		service.start();
 		service.addMessageHandler(this);
 	}
 

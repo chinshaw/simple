@@ -1,9 +1,6 @@
 package com.simple.original.client.service.event.jms;
 
-
-
 import java.net.MalformedURLException;
-import java.net.URL;
 
 import com.google.gwt.user.client.Window;
 
@@ -95,7 +92,7 @@ public class StompEventService implements IJmsService {
 			$wnd.subscriptions.push(id);
 		} catch (err) {
 			alert("unable to subscribe to url " + this.url + " with channel "
-					+ channel);
+					+ channel + " Error " + err);
 		}
 		return id;
 	}-*/;
@@ -166,9 +163,7 @@ public class StompEventService implements IJmsService {
 	 * @throws MalformedURLException
 	 */
 	@Override
-	public void setUrl(String url) throws MalformedURLException {
-		URL toSet = new URL(url);
-		Window.alert(toSet.getHost());
+	public void setUrl(String url) {
 		this.url = url;
 	}
 
@@ -195,5 +190,14 @@ public class StompEventService implements IJmsService {
 	 */
 	public ConnectionCallback getConnectionCallback() {
 		return this.callback;
+	}
+
+	@Override
+	public void start() {
+		if (this.url == null) {
+			throw new IllegalStateException("Url must be provided");
+		}
+
+		init();
 	}
 }

@@ -1,6 +1,5 @@
 package com.simple.original.client.service.event.jms;
 
-import java.net.MalformedURLException;
 
 public interface IJmsService {
 
@@ -10,11 +9,13 @@ public interface IJmsService {
 
 	public void addMessageHandler(MessageHandler messageHandler);
 
-	public void setUrl(String string) throws MalformedURLException;
+	public void setUrl(String string);
 
 	public String getUrl();
 	
 	public void setConnectionCallback(ConnectionCallback callback);
+	
+	public void start();
 
 
 }

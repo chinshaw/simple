@@ -9,7 +9,7 @@ public interface IEventService {
 	 * Used to start the event service.
 	 * @throws MalformedURLException 
 	 */
-	void start() throws MalformedURLException;
+	void start();
 	
 	/**
 	 * Used to stop the event service.
