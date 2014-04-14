@@ -13,7 +13,6 @@ import com.simple.original.client.service.ServiceRequestFactory;
 import com.simple.original.client.service.event.IEventService;
 import com.simple.original.client.service.event.jms.ConnectionCallback;
 import com.simple.original.client.service.event.jms.JmsEventService;
-import com.simple.original.client.service.event.jms.StompEventService;
 import com.simple.original.client.service.event.jms.StompMessage;
 
 public class IOCServicesModule extends AbstractGinModule {

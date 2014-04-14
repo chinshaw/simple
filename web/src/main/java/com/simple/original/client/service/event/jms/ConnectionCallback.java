@@ -13,7 +13,7 @@ public interface ConnectionCallback {
 	 * @param cause
 	 *            - the reason behind the error
 	 */
-	void onError(StompMessage cause);
+	void onError(String cause);
 
 	/**
 	 * Called on a disconnection initiated from the client

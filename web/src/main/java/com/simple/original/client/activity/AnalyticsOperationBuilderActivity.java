@@ -23,14 +23,14 @@ import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.DataProviderInputProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.service.DaoRequestFactory.AnalyticsOperationRequest;
-import com.simple.original.client.service.event.JmsEvent;
-import com.simple.original.client.service.event.jms.StompEventService;
+import com.simple.original.client.service.event.jms.JmsEvent;
 import com.simple.original.client.view.IOperationBuilderView;
 import com.simple.original.client.view.IOperationBuilderView.Presenter;
 import com.simple.original.client.view.desktop.OperationExecutionView;
+import com.simple.original.client.service.event.JobCompletionEvent;
 
 public class AnalyticsOperationBuilderActivity extends AbstractActivity<AnalyticsOperationPlace, IOperationBuilderView> implements
-		Presenter, JmsEvent.Handler {
+		Presenter, JobCompletionEvent.Handler {
 
 	private static final Logger logger = Logger.getLogger(AnalyticsOperationBuilderActivity.class.getName());
 
@@ -39,7 +39,6 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 	 */
 	private AnalyticsOperationRequest context;
 
-	private StompEventService stompClient;
 
 	@Inject
 	public AnalyticsOperationBuilderActivity(IOperationBuilderView view) {
@@ -49,14 +48,9 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 	@Override
 	protected void bindToView() {
 		GWT.log("Adding event handler");
-		eventBus().addHandler(JmsEvent.TYPE, new JmsEvent.Handler() {
-			
-			@Override
-			public void onJmsEvent(JmsEvent event) {
-				Window.alert("JMS Event " + event.getMessage().getMessage());
-				
-			}
-		});
+		
+		
+		eventBus().addHandler(JobCompletionEvent.TYPE, this);
 
 		display.setPresenter(this);
 		context = dao().createAnalyticsOperationRequest();
@@ -69,10 +63,6 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 		} else {
 			findAndEditOperation(operationId);
 		}
-	}
-
-	private void doRegistration() {
-		GWT.log("StompClient is " + stompClient);
 	}
 
 	/**
@@ -202,9 +192,10 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 		 */
 	}
 
+
 	@Override
-	public void onJmsEvent(JmsEvent event) {
-		Window.alert("GOt event " + event.getMessage().getMessage());
+	public void onJobCompleted(JobCompletionEvent event) {
+		Window.alert("Job Completed " + event.getJobId());
 		
 	}
 }

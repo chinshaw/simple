@@ -7,7 +7,7 @@ public interface IJmsService {
 		void onMessage(IJmsMessage message);
 	}
 
-	public void addMessageHandler(MessageHandler messageHandler);
+	public void addMessageHandler(String queue, MessageHandler messageHandler);
 
 	public void setUrl(String string);
 
@@ -16,6 +16,8 @@ public interface IJmsService {
 	public void setConnectionCallback(ConnectionCallback callback);
 	
 	public void start();
+
+	public void disconnect();
 
 
 }

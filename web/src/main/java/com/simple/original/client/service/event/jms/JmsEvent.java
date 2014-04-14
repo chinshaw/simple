@@ -1,8 +1,7 @@
-package com.simple.original.client.service.event;
+package com.simple.original.client.service.event.jms;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
-import com.simple.original.client.service.event.jms.IJmsMessage;
 
 public class JmsEvent extends GwtEvent<JmsEvent.Handler> {
 

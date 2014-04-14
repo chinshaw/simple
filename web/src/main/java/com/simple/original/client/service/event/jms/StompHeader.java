@@ -7,27 +7,31 @@ public class StompHeader extends JavaScriptObject {
 	protected StompHeader() {
 	}
 
-	public final native String getDestination()/*-{
-		return this.destination;
-	}-*/;
+	public final String getDestination() {
+		return get("destination");
+	}
+	
+	public final String getExpires() {
+		return get("expires");
+	}
 
-	public final native Integer getExpires()/*-{
-		return this.expires;
-	}-*/;
+	public final String getSubscription() {
+		return get("subscription");
+	}
 
-	public final native String getSubscription()/*-{
-		return this.subscription;
-	}-*/;
-
-	public final native String getId()/*-{
-		return this["message-id"];
-	}-*/;
-
-	public final native Integer getPriority()/*-{
+	public final String getId() {
+		return get("message-id");
+	}
+	
+	public final native String getPriority()/*-{
 		return this.priority;
 	}-*/;
 
-	public final native Long getTimestamp()/*-{
-		return this.timestamp;
+	public final String getTimestamp() {
+		return get("timestamp");
+	}
+	
+	public final native String get(String header) /*-{
+		return this[header];
 	}-*/;
 }

@@ -1,10 +1,9 @@
 package com.simple.original.client.service.event.jms;
 
-import java.util.Map;
 
 public interface IJmsMessage {
 
-	Map<String, String> getHeaders();
-	
+	StompHeader getStompHeader();
+
 	String getMessage();
 }
