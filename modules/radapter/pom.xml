@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.simple</groupId>
+		<artifactId>artisan</artifactId>
+		<version>1.1-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+	<groupId>com.simple.radapter</groupId>
+	<artifactId>artisan-radapter</artifactId>
+	<name>R Adapter Module</name>
+	<description>Java to R adapter</description>
+	<packaging>pom</packaging>
+
+	<properties>
+		<main.basedir>${project.basedir}</main.basedir>
+		<protobuf.dir>${main.basedir}/src/main/proto</protobuf.dir>
+	</properties>
+
+	<modules>
+		<module>java</module>
+		<module>native</module>
+	</modules>
+</project>
