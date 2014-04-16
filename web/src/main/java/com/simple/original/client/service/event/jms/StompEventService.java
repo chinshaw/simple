@@ -1,46 +1,53 @@
-package com.simple.original.client.service.jms;
+package com.simple.original.client.service.event.jms;
 
-import com.google.gwt.user.client.Window;
+import java.net.MalformedURLException;
 
-public class StompClient implements IJmsService {
+class StompEventService implements IJmsService {
+
 	private String url;
 
 	private ConnectionCallback callback;
-
-	public StompClient(String url) {
-		this(url, null);
-	}
-
-	public StompClient(String url, ConnectionCallback callback) {
+	
+	
+	public StompEventService(String url, ConnectionCallback callback) {
 		this.url = url;
 		this.callback = callback;
 		init();
 	}
 
+
+	@Override
+	public void start() {
+		if (this.url == null) {
+			throw new IllegalStateException("URL must be set prior to calling start");
+		}
+
+		connect();
+	}
+	
 	private native final void init()/*-{
 		$wnd.subscriptions = new Array();
 		$wnd.stompClient = $wnd.Stomp
-				.client(this.@com.simple.original.client.service.jms.StompClient::url);
+				.client(this.@com.simple.original.client.service.event.jms.StompEventService::url);
 	}-*/;
 
 	/**
 	 * Connects to the JMS broker and invokes the callback interface if one was
 	 * provided
 	 */
-	public native final void connect() /*-{
+	private native final void connect() /*-{
 		var self = this;
 		var onsuccess = function(frame) {
 			try {
-				alert(frame);
-				self.@com.simple.original.client.service.jms.StompClient::onConnect()();
-				alert(self.@com.simple.original.client.service.jms.StompClient::onConnect()());
+				self.@com.simple.original.client.service.event.jms.StompEventService::onConnect()();
 			} catch (err) {
-				alert("SHITS BROKEN " + err);
+				alert("Stomp Connection Error: " + err);
 			}
 		}
-		var onfail = function(cause) {
-			alert("Calling fail");
-			self.@com.simple.original.client.service.jms.StompClient::onError(Lcom/simple/original/client/service/jms/StompMessage;)(cause);
+		var onfail = function(cause) {	
+			if (cause != null) {
+				self.@com.simple.original.client.service.event.jms.StompEventService::onError(Ljava/lang/String;)(cause);
+			}
 		}
 		$wnd.stompClient.connect('guest', 'guest', onsuccess, onfail);
 	}-*/;
@@ -56,8 +63,9 @@ public class StompClient implements IJmsService {
 				$wnd.stompClient.unsubscribe($wnd.subscriptions[i]);
 			}
 		}
-		var ondisconnect = function() {
-			self.@com.simple.original.client.service.jms.StompClient::onDisconnect()();
+		var ondisconnect = function(cause) {
+			console.log(cause);
+			self.@com.simple.original.client.service.event.jms.StompEventService::onDisconnect()();
 		}
 		$wnd.stompClient.disconnect(ondisconnect);
 	}-*/;
@@ -74,21 +82,21 @@ public class StompClient implements IJmsService {
 	 * @return Subscription Identifier
 	 */
 	public native final String subscribe(String channel, MessageHandler handler)/*-{
+
 		var onmessage = function(message) {
-			//listener.@com.simple.original.client.service.jms.MessageListener::onMessage(Ljava/lang/String;)(message);
-			listener.@com.simple.original.client.service.jms.IJmsService.MessageHandler::onMessage(Lcom/simple/original/client/service/jms/IJmsMessage;)(message);
+			handler.@com.simple.original.client.service.event.jms.IJmsService.MessageHandler::onMessage(Lcom/simple/original/client/service/event/jms/IJmsMessage;)(message);
 		}
-		
-		var id = null;
+
+		var subscribeResponse = null;
 		try {
-			alert("doing subscribe");
-			id = $wnd.stompClient.subscribe(channel, onmessage);
-			$wnd.subscriptions.push(id);
-			alert("Done with subscribe");
+			subscribeResponse = $wnd.stompClient.subscribe(channel, onmessage);
+			$wnd.subscriptions.push(subscribeResponse);
 		} catch (err) {
-			alert("unable to connect");
+			alert("unable to subscribe to url " + this.url + " with channel "
+					+ channel + " Error " + err);
 		}
-		return id;
+		console.log(subscribeResponse.id);
+		return subscribeResponse.id;
 	}-*/;
 
 	/**
@@ -128,13 +136,12 @@ public class StompClient implements IJmsService {
 	}-*/;
 
 	void onConnect() {
-		Window.alert("Calling callback");
 		if (callback != null) {
 			callback.onConnect();
 		}
 	}
 
-	void onError(StompMessage cause) {
+	void onError(String cause) {
 		if (callback != null) {
 			callback.onError(cause);
 		}
@@ -147,8 +154,44 @@ public class StompClient implements IJmsService {
 	}
 
 	@Override
-	public void addMessageHandler(MessageHandler messageHandler) {
-		// TODO Auto-generated method stub
-		
+	public void addMessageHandler(String queue, MessageHandler messageHandler) {
+		this.subscribe(queue, messageHandler);
 	}
+
+	/**
+	 * Set the base ws url for the stomp service. Note this must be a ws:// url
+	 * and not an http url to a public accessible jms queue that supports stomp.
+	 * 
+	 * @throws MalformedURLException
+	 */
+	@Override
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	/**
+	 * @see StompEventService#setUrl(String)
+	 */
+	public String getUrl() {
+		return this.url;
+	}
+
+	/**
+	 * The connection will respond with on connect, disconnect and error. This
+	 * will be useful for debugging connection problems and for validating that
+	 * the connection is connected before trying to subscribe.
+	 */
+	@Override
+	public void setConnectionCallback(ConnectionCallback callback) {
+		this.callback = callback;
+	}
+
+	/**
+	 * @see #setConnectionCallback(ConnectionCallback)
+	 * @return
+	 */
+	public ConnectionCallback getConnectionCallback() {
+		return this.callback;
+	}
+
 }

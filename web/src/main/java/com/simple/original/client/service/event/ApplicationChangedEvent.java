@@ -1,10 +1,10 @@
-package com.simple.original.client.events;
+package com.simple.original.client.service.event;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.place.shared.PlaceChangeEvent;
 
-public class ApplicationSignOutEvent extends GwtEvent<ApplicationSignOutEvent.Handler> {
+public class ApplicationChangedEvent extends GwtEvent<ApplicationChangedEvent.Handler> {
 
     
     /**
@@ -16,7 +16,7 @@ public class ApplicationSignOutEvent extends GwtEvent<ApplicationSignOutEvent.Ha
        *
        * @param event the {@link PlaceChangeEvent}
        */
-      void onSignOut(ApplicationSignOutEvent event);
+      void onApplicationChange(ApplicationChangedEvent event);
     }
 
     /**
@@ -24,9 +24,19 @@ public class ApplicationSignOutEvent extends GwtEvent<ApplicationSignOutEvent.Ha
      */
     public static final Type<Handler> TYPE = new Type<Handler>();
     
+    private String applicationName = "";
+    
+    public ApplicationChangedEvent(String applicationName) {
+        this.applicationName = applicationName;
+    }
+    
     @Override
     protected void dispatch(Handler handler) {
-      handler.onSignOut(this);
+      handler.onApplicationChange(this);
+    }
+    
+    public String getApplicationName() {
+        return applicationName;
     }
 
     @Override

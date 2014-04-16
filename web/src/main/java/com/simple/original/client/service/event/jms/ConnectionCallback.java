@@ -1,4 +1,4 @@
-package com.simple.original.client.service.jms;
+package com.simple.original.client.service.event.jms;
 
 public interface ConnectionCallback {
 
@@ -13,7 +13,7 @@ public interface ConnectionCallback {
 	 * @param cause
 	 *            - the reason behind the error
 	 */
-	void onError(StompMessage cause);
+	void onError(String cause);
 
 	/**
 	 * Called on a disconnection initiated from the client

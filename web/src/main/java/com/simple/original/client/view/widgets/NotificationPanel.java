@@ -20,10 +20,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
-import com.simple.original.client.events.EntityCreateEvent;
-import com.simple.original.client.events.NotificationEvent;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.resources.ResourcesFactory;
+import com.simple.original.client.service.event.EntityCreateEvent;
+import com.simple.original.client.service.event.NotificationEvent;
 import com.simple.original.client.view.widgets.AnimationBuilder.AnimationCompletionHandler;
 import com.simple.original.shared.NotificationCriticality;
 

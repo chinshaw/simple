@@ -23,58 +23,35 @@ import com.simple.original.client.proxy.AnalyticsOperationProxy;
 import com.simple.original.client.proxy.DataProviderInputProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.service.DaoRequestFactory.AnalyticsOperationRequest;
-import com.simple.original.client.service.jms.ConnectionCallback;
-import com.simple.original.client.service.jms.MessageListener;
-import com.simple.original.client.service.jms.StompClient;
-import com.simple.original.client.service.jms.StompMessage;
+import com.simple.original.client.service.event.jms.JmsEvent;
 import com.simple.original.client.view.IOperationBuilderView;
 import com.simple.original.client.view.IOperationBuilderView.Presenter;
 import com.simple.original.client.view.desktop.OperationExecutionView;
+import com.simple.original.client.service.event.JobCompletionEvent;
 
-public class AnalyticsOperationBuilderActivity extends
-		AbstractActivity<AnalyticsOperationPlace, IOperationBuilderView>
-		implements Presenter {
+public class AnalyticsOperationBuilderActivity extends AbstractActivity<AnalyticsOperationPlace, IOperationBuilderView> implements
+		Presenter, JobCompletionEvent.Handler {
 
-	private static final Logger logger = Logger
-			.getLogger(AnalyticsOperationBuilderActivity.class.getName());
+	private static final Logger logger = Logger.getLogger(AnalyticsOperationBuilderActivity.class.getName());
 
 	/**
 	 * This is the request context for the
 	 */
 	private AnalyticsOperationRequest context;
-	
-	private StompClient stompClient;
-	
+
 
 	@Inject
 	public AnalyticsOperationBuilderActivity(IOperationBuilderView view) {
 		super(view);
 	}
-	
 
 	@Override
 	protected void bindToView() {
-		GWT.log("Trying to connect to stomp");
-		stompClient = new StompClient("ws://localhost:61614/stomp",new ConnectionCallback() {
+		GWT.log("Adding event handler");
 		
-			@Override
-			public void onError(StompMessage cause) {
-				GWT.log("ERrror " + cause);
-			}
-			
-			@Override
-			public void onDisconnect() {
-				GWT.log("Disconnected");
-			}
-			
-			@Override
-			public void onConnect() {
-				GWT.log("Connected");
-				doRegistration();
-			}
-		});
-		stompClient.connect();
-				
+		
+		eventBus().addHandler(JobCompletionEvent.TYPE, this);
+
 		display.setPresenter(this);
 		context = dao().createAnalyticsOperationRequest();
 
@@ -87,25 +64,6 @@ public class AnalyticsOperationBuilderActivity extends
 			findAndEditOperation(operationId);
 		}
 	}
-	
-	private void doRegistration() {
-		GWT.log("StompClient is " + stompClient);
-
-		if (stompClient != null) {
-			GWT.log("Connected");
-			
-			MessageListener listener = new MessageListener() {
-				
-				@Override
-				public void onMessage(StompMessage message) {
-					Window.alert("MESSAGE IS " + message.getBody());
-				}
-			};
-			
-			stompClient.subscribe("com.artisan.web.events", listener);
-			//stompClient.send("com.artisan.web.events", StompMessage.create("FOOO"));
-		}
-	}
 
 	/**
 	 * Creates a context and then uses the context to create an
@@ -113,8 +71,7 @@ public class AnalyticsOperationBuilderActivity extends
 	 * actual editing on the view.
 	 */
 	private void createAndEditOperation() {
-		RAnalyticsOperationProxy operation = context
-				.create(RAnalyticsOperationProxy.class);
+		RAnalyticsOperationProxy operation = context.create(RAnalyticsOperationProxy.class);
 		operation.setDataProviders(new ArrayList<DataProviderInputProxy>());
 		operation.setInputs(new ArrayList<AnalyticsOperationInputProxy>());
 		operation.setOutputs(new ArrayList<AnalyticsOperationOutputProxy>());
@@ -122,22 +79,19 @@ public class AnalyticsOperationBuilderActivity extends
 	}
 
 	private void findAndEditOperation(Long operationId) {
-		dao().createAnalyticsOperationRequest().find(operationId).with("*")
-				.fire(new Receiver<AnalyticsOperationProxy>() {
+		dao().createAnalyticsOperationRequest().find(operationId).with("*").fire(new Receiver<AnalyticsOperationProxy>() {
 
-					@Override
-					public void onSuccess(AnalyticsOperationProxy operation) {
-						if (!(operation instanceof RAnalyticsOperationProxy)) {
-							throw new RuntimeException(
-									"Operation is not of type R");
-						}
+			@Override
+			public void onSuccess(AnalyticsOperationProxy operation) {
+				if (!(operation instanceof RAnalyticsOperationProxy)) {
+					throw new RuntimeException("Operation is not of type R");
+				}
 
-						RAnalyticsOperationProxy editable = (RAnalyticsOperationProxy) context
-								.edit(operation);
-						edit(editable);
+				RAnalyticsOperationProxy editable = (RAnalyticsOperationProxy) context.edit(operation);
+				edit(editable);
 
-					}
-				});
+			}
+		});
 	}
 
 	/**
@@ -171,14 +125,10 @@ public class AnalyticsOperationBuilderActivity extends
 			}
 
 			@Override
-			public void onConstraintViolation(
-					Set<ConstraintViolation<?>> violations) {
+			public void onConstraintViolation(Set<ConstraintViolation<?>> violations) {
 				for (ConstraintViolation<?> violation : violations) {
-					GWT.log("Constraint violation "
-							+ violation.getPropertyPath()
-							+ violation.getMessage());
-					display.showError(violation.getPropertyPath() + " "
-							+ violation.getMessage());
+					GWT.log("Constraint violation " + violation.getPropertyPath() + violation.getMessage());
+					display.showError(violation.getPropertyPath() + " " + violation.getMessage());
 				}
 			}
 		}).fire();
@@ -194,12 +144,10 @@ public class AnalyticsOperationBuilderActivity extends
 	 * class type and creat it that way but that is no longer needed.
 	 */
 	@Override
-	public AnalyticsOperationOutputProxy createOutput(
-			IAnalyticsOperationOutput.Type outputType) throws SimpleException {
+	public AnalyticsOperationOutputProxy createOutput(IAnalyticsOperationOutput.Type outputType) throws SimpleException {
 		logger.fine("Cretaing output with type " + outputType.name());
 
-		AnalyticsOperationOutputProxy output = context
-				.create(AnalyticsOperationOutputProxy.class);
+		AnalyticsOperationOutputProxy output = context.create(AnalyticsOperationOutputProxy.class);
 		output.setOutputType(outputType);
 
 		return output;
@@ -211,10 +159,11 @@ public class AnalyticsOperationBuilderActivity extends
 	}
 
 	/**
-	 * This is a little quirky behind the scenes because we have to clone
-	 * the proxy to another context. This is because the edit context owns the bean
-	 * and it will throw an exception if we try to send it to another context to 
-	 * execute the operation. We use proxy utils to clone the proxy to another context.
+	 * This is a little quirky behind the scenes because we have to clone the
+	 * proxy to another context. This is because the edit context owns the bean
+	 * and it will throw an exception if we try to send it to another context to
+	 * execute the operation. We use proxy utils to clone the proxy to another
+	 * context.
 	 * 
 	 * 
 	 * 
@@ -222,24 +171,31 @@ public class AnalyticsOperationBuilderActivity extends
 	@Override
 	public void onTest() {
 		RAnalyticsOperationProxy operation = display.getEditorDriver().flush();
-		
-		OperationExecutionActivity execActivity = new OperationExecutionActivity( new OperationExecutionView(eventBus(), resources()));
+
+		OperationExecutionActivity execActivity = new OperationExecutionActivity(new OperationExecutionView(eventBus(), resources()));
 		execActivity.start(display.getExecutionContainer(), (EventBus) eventBus());
-		
+
 		RAnalyticsOperation rOperation = new RAnalyticsOperation(operation.getName());
 		rOperation.setCode(operation.getCode());
 		execActivity.edit(rOperation);
-		
-		if (display.getExecutionContainerSize() == 0) {
-			display.setExecutionContainerSize(400);	
-		}
-		
-		/*
-		OperationRequest testRequest = service().operationRequest();
-		RAnalyticsOperationProxy clone = ProxyUtils.cloneProxyToNewContext(
-				RAnalyticsOperationProxy.class, operation, testRequest);
 
-		testRequest.executeOperation(clone).fire();
-		*/
+		if (display.getExecutionContainerSize() == 0) {
+			display.setExecutionContainerSize(400);
+		}
+
+		/*
+		 * OperationRequest testRequest = service().operationRequest();
+		 * RAnalyticsOperationProxy clone = ProxyUtils.cloneProxyToNewContext(
+		 * RAnalyticsOperationProxy.class, operation, testRequest);
+		 * 
+		 * testRequest.executeOperation(clone).fire();
+		 */
+	}
+
+
+	@Override
+	public void onJobCompleted(JobCompletionEvent event) {
+		Window.alert("Job Completed " + event.getJobId());
+		
 	}
 }

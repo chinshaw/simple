@@ -21,11 +21,12 @@ import com.simple.original.client.proxy.PersonProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.service.PublicRequestFactory;
 import com.simple.original.client.service.RemoteDebugService;
+import com.simple.original.client.service.event.IEventService;
 import com.simple.original.client.view.IMasterLayoutPanel;
 
-public class Simple implements EntryPoint {
+public class Artisan implements EntryPoint {
 
-	private static final Logger logger = Logger.getLogger(Simple.class.getName());
+	private static final Logger logger = Logger.getLogger(Artisan.class.getName());
 	
 	private final InjectorProvider provider = GWT.create(InjectorProvider.class);
 
@@ -48,6 +49,10 @@ public class Simple implements EntryPoint {
 	 */
 	@Inject
 	Application app;
+	
+	@Inject
+	IEventService eventService;
+	
 
 	private Place defaultPlace = new WelcomePlace();
 
@@ -113,12 +118,13 @@ public class Simple implements EntryPoint {
 			public void onSuccess(PersonProxy person) {
 				app.setCurrentPerson(person);
 				historyHandler.handleCurrentHistory();
+				GWT.log("Calling start on evnet service");
+				eventService.start();
 			}
 
 			public void onFailure(ServerFailure error) {
 				// Lets just assume that the user is not authenticated and
 				// we need to send them to the login screen.
-				
 				GWT.log("Got server failure " + error.getMessage());
 				placeController.goTo(new LoginPlace());
 			}

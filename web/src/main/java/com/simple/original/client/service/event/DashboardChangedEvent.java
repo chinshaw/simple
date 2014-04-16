@@ -1,4 +1,4 @@
-package com.simple.original.client.events;
+package com.simple.original.client.service.event;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;

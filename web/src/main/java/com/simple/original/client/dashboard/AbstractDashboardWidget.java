@@ -8,8 +8,8 @@ import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.simple.original.client.dashboard.events.WidgetSelectedEvent;
 import com.simple.original.client.dashboard.model.IWidgetModel;
-import com.simple.original.client.events.HandlerCollection;
 import com.simple.original.client.resources.Resources;
+import com.simple.original.client.service.event.HandlerCollection;
 import com.simple.original.client.view.widgets.Tooltip;
 import com.simple.original.client.view.widgets.Tooltip.TooltipPosition;
 

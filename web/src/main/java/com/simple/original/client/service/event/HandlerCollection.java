@@ -1,4 +1,4 @@
-package com.simple.original.client.events;
+package com.simple.original.client.service.event;
 
 import java.util.HashSet;
 import java.util.Iterator;
