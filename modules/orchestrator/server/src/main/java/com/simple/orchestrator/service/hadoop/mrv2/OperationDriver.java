@@ -75,7 +75,6 @@ public class OperationDriver implements IOperationExecutionService {
 			AnalyticsOperationHadoopJob job = createJob(jobDetails);
 			job.submit();
 			return job.getJobID().toString();
-			
 		} catch (ClassNotFoundException | IOException | InterruptedException | RAnalyticsException | ConfigurationException e) {
 			logger.log(Level.SEVERE, "Unable to execute job", e);
 			throw new HadoopJobException("Unable to execute operation", e);
@@ -105,26 +104,6 @@ public class OperationDriver implements IOperationExecutionService {
 		job.setJar("/Users/chris/devel/workspace/simple/engine/target/simple-analytics-engine-1.1-SNAPSHOT.jar");
 
 		return job;
-	}
-
-	protected HashMap<Long, IMetric> grabMetrics(
-			final List<AnalyticsOperationOutput> opOutputs, Configuration conf)
-			throws IOException, InterruptedException {
-		HTable table = new HTable(conf, "metrics");
-		HashMap<Long, IMetric> outputs = new HashMap<Long, IMetric>();
-		for (AnalyticsOperationOutput output : opOutputs) {
-			Get get = new Get(Bytes.toBytes(output.getName()));
-			get.addFamily(Bytes.toBytes("rexp"));
-			get.setMaxVersions(1);
-			Result result = table.get(get);
-
-			byte[] bytes = result.getValue(Bytes.toBytes("rexp"), null);
-			// Metric metric = Metric.fromBytes(bytes);
-			// outputs.put(output.getId(), metric);
-		}
-		table.close();
-
-		return outputs;
 	}
 
 	@Override

@@ -28,8 +28,7 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	
 	public AnalyticsOperationHadoopJob(Configuration conf, String jobName)
 			throws IOException {
-		super(conf, jobName);
-		
+		super(conf, jobName);	
 	}
 
 	

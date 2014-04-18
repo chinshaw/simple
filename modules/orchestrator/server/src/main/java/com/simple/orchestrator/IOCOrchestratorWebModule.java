@@ -12,7 +12,7 @@ import com.simple.orchestrator.service.web.rest.MetricResource;
 import com.simple.orchestrator.service.web.rest.OperationExecutionResource;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
-public class IOCOrchestratorRestModule extends ServletModule {
+public class IOCOrchestratorWebModule extends ServletModule {
 
 	@Override
 	public void configureServlets() {
