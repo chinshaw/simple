@@ -2,18 +2,15 @@ package com.simple.orchestrator.service.web;
 
 import java.io.IOException;
 
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.MessageProducer;
-import javax.jms.Session;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import com.simple.orchestrator.service.hadoop.job.JobCompletionEvent;
 
 @WebServlet(urlPatterns = { "/h/v2/status", "/h/v2/status" })
 public class HadoopStatusCallbackServlet extends HttpServlet {
@@ -26,10 +23,8 @@ public class HadoopStatusCallbackServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -9071615085127018327L;
-
-	private Session session;
 	
-	private Destination destination;
+	private EventBus eventBus;
 
 	public HadoopStatusCallbackServlet() {
 
@@ -48,23 +43,12 @@ public class HadoopStatusCallbackServlet extends HttpServlet {
 			throw new ServletException("job status is null");
 		}
 
-		try {
-			MessageProducer producer = session.createProducer(destination);
-
-		} catch (JMSException e) {
-			e.printStackTrace();
-		}
-		
+		JobCompletionEvent jobCompletion = new JobCompletionEvent(jobid, jobstatus);
+		eventBus.post(jobCompletion);
 	}
 
 	@Inject
-	public void setQueue(Session session) {
-		this.session = session;
-	}
-
-	@Inject
-	public void setDestination(
-			@Named("job.status.destination") Destination destination) {
-		this.destination = destination;
+	public void setEventBus(EventBus eventBus) {
+		this.eventBus = eventBus;
 	}
 }

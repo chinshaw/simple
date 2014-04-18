@@ -72,5 +72,4 @@ public class IOCOrchestratorModule extends AbstractModule {
         Destination destination = activeMqSession.createQueue("job.status.destination");
         return destination;
 	}
-	
 }
