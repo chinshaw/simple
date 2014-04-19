@@ -22,8 +22,15 @@ import com.simple.orchestrator.service.hadoop.job.JobCompletionEvent;
 @Singleton
 public class JmsEventBridge {
 
-	private static final Logger logger = Logger.getLogger(JmsEventBridge.class.getName());
+	/**
+	 * Logger
+	 */
+	private static final Logger logger = Logger.getLogger(JmsEventBridge.class
+			.getName());
 
+	/**
+	 * Object mapper used to serialized events.
+	 */
 	private static final ObjectMapper objectMaper = new ObjectMapper();
 
 	private final EventBus eventBus;
@@ -39,6 +46,7 @@ public class JmsEventBridge {
 	}
 
 	public void start() throws JMSException {
+		logger.fine("start()");
 		eventBus.register(this);
 		jobTopic = session.createTopic("com.artisan.orchestrator.jobs");
 	}
@@ -67,9 +75,19 @@ public class JmsEventBridge {
 				}
 			}
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "Failed to send message to topic " + jobTopic, e);
+			logger.log(Level.SEVERE, "Failed to send message to topic "
+					+ jobTopic, e);
 		} catch (JMSException e) {
-			logger.log(Level.SEVERE, "Failed to send message to topic " + jobTopic, e);
+			logger.log(Level.SEVERE, "Failed to send message to topic "
+					+ jobTopic, e);
 		}
+	}
+	
+	public EventBus getEventBus() {
+		return eventBus;
+	}
+	
+	public Session getJmsSession() {
+		return session;
 	}
 }
