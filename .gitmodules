@@ -4,3 +4,6 @@
 [submodule "externals/hadoop-lzo"]
 	path = externals/hadoop-lzo
 	url = https://github.com/twitter/hadoop-lzo.git
+[submodule "externals/hadoop"]
+	path = externals/hadoop
+	url = https://github.com/chinshaw/hadoop-common

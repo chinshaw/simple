@@ -23,8 +23,8 @@ import com.google.common.eventbus.EventBus;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.simple.orchestrator.IOCOrchestratorModule;
-import com.simple.orchestrator.service.hadoop.job.JobCompletionEvent;
+import com.simple.orchestrator.IOCOrchestratorTestModule;
+import com.simple.orchestrator.hadoop.job.JobCompletionEvent;
 
 public class TestJmsEventBridge {
 
@@ -56,7 +56,7 @@ public class TestJmsEventBridge {
 	}
 
 	public TestJmsEventBridge() {
-		Injector injector = Guice.createInjector(new IOCOrchestratorModule());
+		Injector injector = Guice.createInjector(new IOCOrchestratorTestModule());
 		injector.injectMembers(this);
 	}
 	

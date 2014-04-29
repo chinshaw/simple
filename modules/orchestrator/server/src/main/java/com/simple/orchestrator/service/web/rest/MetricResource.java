@@ -23,8 +23,8 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.simple.api.orchestrator.IMetric;
 import com.simple.orchestrator.api.rest.MediaType;
+import com.simple.orchestrator.hadoop.io.MetricWritable;
 import com.simple.orchestrator.metric.Metric;
-import com.simple.orchestrator.service.hadoop.io.MetricWritable;
 
 @Path("/metric")
 public class MetricResource {

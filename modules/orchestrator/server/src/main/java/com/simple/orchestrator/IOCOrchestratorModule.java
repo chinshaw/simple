@@ -3,7 +3,6 @@ package com.simple.orchestrator;
 import java.io.IOException;
 
 import javax.jms.Connection;
-import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Session;
 
@@ -18,9 +17,9 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.simple.orchestrator.api.IOperationExecutionService;
 import com.simple.orchestrator.api.ITaskExecutionDao;
+import com.simple.orchestrator.hadoop.ModuleProperties;
+import com.simple.orchestrator.hadoop.mrv2.OperationDriver;
 import com.simple.orchestrator.hbase.HBaseTaskExecutionDao;
-import com.simple.orchestrator.service.hadoop.ModuleProperties;
-import com.simple.orchestrator.service.hadoop.mrv2.OperationDriver;
 import com.simple.orchestrator.service.jms.JmsEventBridge;
 
 public class IOCOrchestratorModule extends AbstractModule {
@@ -69,15 +68,5 @@ public class IOCOrchestratorModule extends AbstractModule {
 	@Singleton
 	public Session activeMqSession(Connection connection) throws JMSException {
 		return connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-	}
-
-	@Inject
-	@Provides
-	@Named("job.status.destination")
-	public Destination jobStatusDestination(Session activeMqSession)
-			throws JMSException {
-		Destination destination = activeMqSession
-				.createQueue("job.status.destination");
-		return destination;
 	}
 }

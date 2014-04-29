@@ -16,7 +16,7 @@ import com.simple.orchestrator.api.IOperationExecutionService;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.exception.InvalidJobIdException;
 import com.simple.orchestrator.api.rest.MediaType;
-import com.simple.orchestrator.service.hadoop.mrv2.OperationDriver;
+import com.simple.orchestrator.hadoop.mrv2.OperationDriver;
 
 @Path("/operation")
 public class OperationExecutionResource implements IOperationExecutionService {

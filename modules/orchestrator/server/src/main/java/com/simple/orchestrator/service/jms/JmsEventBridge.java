@@ -17,7 +17,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.simple.orchestrator.service.hadoop.job.JobCompletionEvent;
+import com.simple.orchestrator.hadoop.job.JobCompletionEvent;
 
 @Singleton
 public class JmsEventBridge {

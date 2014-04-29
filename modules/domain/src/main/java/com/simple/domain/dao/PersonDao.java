@@ -10,6 +10,7 @@ import com.simple.api.orchestrator.IPerson;
 import com.simple.domain.model.ApplicationBookmark;
 import com.simple.domain.model.Person;
 import com.simple.domain.model.Preferences;
+import com.simple.security.api.IPersonProvider;
 
 /**
  * PersonDao is the means of performing crud updates on person objects in our
@@ -19,7 +20,7 @@ import com.simple.domain.model.Preferences;
  * @author chinshaw
  * 
  */
-public class PersonDao extends DaoBase<Person> {
+public class PersonDao extends DaoBase<Person> implements IPersonProvider {
 
 	public PersonDao() {
 		super(Person.class);
@@ -121,5 +122,10 @@ public class PersonDao extends DaoBase<Person> {
 
 		em.getTransaction().commit();
 		return removed;
+	}
+
+	@Override
+	public IPerson findByEmail(String id) {
+		return this.findUser(id);
 	}
 }
