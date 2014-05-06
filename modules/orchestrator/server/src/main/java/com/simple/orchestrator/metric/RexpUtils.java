@@ -2,14 +2,13 @@ package com.simple.orchestrator.metric;
 
 import com.simple.radapter.protobuf.REXPProtos.Rexp;
 
-
 public class RexpUtils {
 
-	public static Metric toMetric(Rexp rexp) {
+	public static Metric toMetric(MetricKey key, Rexp rexp) {
 
 		switch (rexp.getRclass()) {
 		case RAWSXP:
-			return new MetricRaw(rexp.getRawValue().toByteArray());
+			return new MetricRaw(key, rexp.getRawValue().toByteArray());
 		case ANYSXP:
 			break;
 		case BCODESXP:

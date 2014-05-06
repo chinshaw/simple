@@ -11,10 +11,9 @@ import com.simple.orchestrator.hadoop.io.format.MetricOutputFormat.OutputAdapter
 
 public class MetricAdapterFactory {
 
-	public static <K extends IMetricKey, V extends IMetricWritable> AbstractOutputFormatAdapter<K, V> createOutputAdapter(
-			Configuration conf) {
+	public static <K extends IMetricKey, V extends IMetricWritable> AbstractOutputFormatAdapter<K, V> createOutputAdapter(Configuration conf) {
 		OutputAdapterType type = conf.getEnum(MetricOutputFormat.OUTPUT_ADAPTER_TYPE, OutputAdapterType.NONE);
-		
+
 		switch (type) {
 		case HBASE:
 			return new HBaseAdapter<K, V>(conf);
@@ -22,12 +21,11 @@ public class MetricAdapterFactory {
 			return null;
 		default:
 			throw new RuntimeException("Unknown output adapter type");
-		
+
 		}
 	}
-	
-	public static <K extends IMetricKey, V extends IMetricWritable> AbstractInputFormatAdapter<K, V> createInputAdapter(
-			Configuration conf) {
+
+	public static <K extends IMetricKey, V extends IMetricWritable> AbstractInputFormatAdapter<K, V> createInputAdapter(Configuration conf) {
 		InputAdapterType type = conf.getEnum(MetricInputFormat.INPUT_ADAPTER_TYPE, InputAdapterType.NONE);
 		switch (type) {
 		case HTTP:

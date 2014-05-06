@@ -28,12 +28,9 @@ import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.protobuf.REXPProtos.Rexp;
 
-public class ROperationReducer extends
-		AbstractReducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
-		implements Configurable {
+public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable> implements Configurable {
 
-	private static final Logger logger = Logger
-			.getLogger(ROperationMapper.class.getName());
+	private static final Logger logger = Logger.getLogger(ROperationMapper.class.getName());
 
 	/**
 	 * This is the required way to access the r adapter. It must be thread local
@@ -55,18 +52,19 @@ public class ROperationReducer extends
 	}
 
 	@Override
-	public synchronized void run(Context context) throws IOException,
-			InterruptedException {
+	public synchronized void run(Context context) throws IOException, InterruptedException {
 		assert (conf != null) : "configuration not specified";
 
 		while (context.nextKey()) {
 			IMetricKey key = context.getCurrentKey();
 			Iterator<IMetricWritable> iter = context.getValues().iterator();
-			
-			while(iter.hasNext()) {
+
+			while (iter.hasNext()) {
 				IMetricWritable writable = iter.next();
 				MetricString string = (MetricString) writable.getMetric();
-				logger.info(" Key is " + key.toString() + " Value is " + string.getStringValue());
+				//logger.info(" Key is " + key.toString() + " Value is " + string.getStringValue());
+				
+				// TODO assign these into the workspace.
 			}
 		}
 
@@ -74,8 +72,7 @@ public class ROperationReducer extends
 			setup(context);
 
 			// Wrap the context.
-			RAnalyticsOperation operation = (RAnalyticsOperation) OperationConfig
-					.getOperation(getConf());
+			RAnalyticsOperation operation = (RAnalyticsOperation) OperationConfig.getOperation(getConf());
 
 			if (operation == null) {
 				throw new RuntimeException("Operation cannot be null");
@@ -85,8 +82,7 @@ public class ROperationReducer extends
 				try {
 					localAdapter.get().connect();
 				} catch (RAdapterException e) {
-					throw new IOException("unable to connect to R environment",
-							e);
+					throw new IOException("unable to connect to R environment", e);
 				}
 
 				String code = operation.getCode();
@@ -100,46 +96,46 @@ public class ROperationReducer extends
 				e.printStackTrace();
 			}
 		} catch (ConfigurationException e) {
-			throw new RuntimeException(
-					"cannot extract operation from configuration, unbale to continue, see cause:",
-					e);
+			throw new RuntimeException("cannot extract operation from configuration, unbale to continue, see cause:", e);
 		} finally {
 			cleanup(context);
 		}
 	}
 
-	private void writeOutputsToContext(
-			Collection<AnalyticsOperationOutput> outputs, Context context)
-			throws IOException, InterruptedException {
+	/**
+	 * Write the outputs to the Hadoop {@link org.apache.hadoop.mapreduce.Mapper.Context}
+	 * @param outputs
+	 * @param context
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	private void writeOutputsToContext(Collection<AnalyticsOperationOutput> outputs, Context context) throws IOException,
+			InterruptedException {
 
 		for (AnalyticsOperationOutput output : outputs) {
 			logger.fine("fetching output from workspace => " + output.getName());
 			try {
-
 				Rexp rexp = null;
-				if (output.getOutputType() == Type.BINARY
-						|| output.getOutputType() == Type.GRAPHIC) {
+				if (output.getOutputType() == Type.BINARY || output.getOutputType() == Type.GRAPHIC) {
 					rexp = localAdapter.get().getPlot(output.getName());
 				} else {
 					rexp = localAdapter.get().get(output.getName());
 				}
 
 				if (rexp == null) {
-					logger.log(Level.WARNING,
-							"rexp not found => " + output.getName());
+					logger.log(Level.WARNING, "rexp not found => " + output.getName());
 					continue;
 				}
 
 				logger.info("found rexp => type " + rexp.getRclass());
 
-				Metric<?> metric = RexpUtils.toMetric(rexp);
-
-				context.write(new MetricKey("1"),
-						new MetricWritable<Metric<?>>(metric, MediaType.APPLICATION_PROTOBUF));
+				Metric<?> metric = RexpUtils.toMetric(new MetricKey(output.getId()), rexp);
 				
+				logger.info("Writing metric key => " + metric.getKey());
+				context.write(metric.getKey(), new MetricWritable<Metric<?>>(metric, MediaType.APPLICATION_PROTOBUF));
+
 			} catch (RAdapterException e) {
-				logger.log(Level.SEVERE, "Error while retrieving output => "
-						+ output.getName(), e);
+				logger.log(Level.SEVERE, "Error while retrieving output => " + output.getName(), e);
 			}
 		}
 	}
@@ -151,8 +147,7 @@ public class ROperationReducer extends
 	 * so much because they are reaped at the end of the job. Shut down the
 	 * engine.
 	 */
-	protected void cleanup(Context context) throws IOException,
-			InterruptedException {
+	protected void cleanup(Context context) throws IOException, InterruptedException {
 		logger.info("caling close on reduer");
 		if (localAdapter.get() != null) {
 			localAdapter.get().disconnect();

@@ -13,10 +13,9 @@ import com.dyuproject.protostuff.Output;
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
-import com.simple.api.orchestrator.IMetricKey;
 
-@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="@class")
-public final class MetricRaw extends Metric<MetricRaw>  {
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "@class")
+public final class MetricRaw extends Metric<MetricRaw> {
 
 	/**
 	 * Serialization Id
@@ -55,6 +54,7 @@ public final class MetricRaw extends Metric<MetricRaw>  {
 
 		public void mergeFrom(Input input, MetricRaw message) throws IOException {
 			for (int number = input.readFieldNumber(this);; number = input.readFieldNumber(this)) {
+				System.out.println("Number is " + number);
 				switch (number) {
 				case 0:
 					return;
@@ -90,31 +90,39 @@ public final class MetricRaw extends Metric<MetricRaw>  {
 		@Override
 		public void writeTo(Output output, MetricRaw message) throws IOException {
 			if (message.value != null) {
+				output.writeObject(1, message.getKey(), MetricKey.SCHEMA, false);
 				output.writeBytes(2, ByteString.copyFrom(message.value), false);
 			}
 		}
 	};
-
+	
 	@Tag(1)
-	private IMetricKey key;
-
+	public MetricKey key;
+	
 	@Tag(2)
 	private byte[] value;
 
 	public MetricRaw() {
-
 	}
 
-	public MetricRaw(byte[] value) {
-		setValue(value);
-		
+	public MetricRaw(MetricKey key) {
+		this.key = key;
 	}
 
-	@Override
-	public IMetricKey getKey() {
+	public MetricRaw(MetricKey key, byte[] value) {
+		this.key = key;
+		this.value = value;
+	}
+
+
+	public MetricKey getKey() {
 		return key;
 	}
-
+	
+	public void setKey(MetricKey key) {
+		this.key = key;
+	}
+	
 	public byte[] getValue() {
 		return value;
 	}
@@ -129,6 +137,12 @@ public final class MetricRaw extends Metric<MetricRaw>  {
 		return ProtobufIOUtil.toByteArray(this, SCHEMA, buffer);
 	}
 
+	public static MetricRaw fromBytes(byte[] readBytes) {
+		MetricRaw raw = new MetricRaw();
+		ProtobufIOUtil.mergeFrom(readBytes, raw, SCHEMA);
+		return raw;
+	}
+	
 	@Override
 	public Schema<MetricRaw> cachedSchema() {
 		return SCHEMA;

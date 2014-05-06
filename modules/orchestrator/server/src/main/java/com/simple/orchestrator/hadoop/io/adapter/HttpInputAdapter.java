@@ -105,7 +105,6 @@ public class HttpInputAdapter<K extends IMetricKey, V extends IMetricWritable> e
 	public RecordReader<K, V> createRecordReader(
 			InputSplit split, TaskAttemptContext context) throws IOException,
 			InterruptedException {
-		logger.info("Getting record recorder");
 		return new AdaptedRecordReader(adapted.createRecordReader(split,
 				context));
 	}

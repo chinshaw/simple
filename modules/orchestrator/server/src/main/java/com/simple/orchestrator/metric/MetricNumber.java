@@ -91,15 +91,12 @@ public final class MetricNumber extends Metric<MetricNumber> {
 
 	};
 
-	
-
 	@Tag(1)
 	private IMetricKey key;
 
 	@Tag(2)
 	private Number value;
-	
-	
+
 	public MetricNumber(List<Double> realValueList) {
 	}
 
@@ -107,9 +104,20 @@ public final class MetricNumber extends Metric<MetricNumber> {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
 	public IMetricKey getKey() {
 		return key;
+	}
+
+	public void setKey(IMetricKey key) {
+		this.key = key;
+	}
+
+	public Number getValue() {
+		return value;
+	}
+
+	public void setValue(Number value) {
+		this.value = value;
 	}
 
 	@Override

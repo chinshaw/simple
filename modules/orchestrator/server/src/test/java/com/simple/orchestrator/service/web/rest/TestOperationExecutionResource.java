@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -33,6 +34,14 @@ import com.sun.jersey.api.json.JSONConfiguration;
 
 public class TestOperationExecutionResource {
 
+	{
+		try {
+			LogManager.getLogManager().readConfiguration(TestOperationExecutionResource.class.getResourceAsStream("/logging.properties"));
+		} catch (SecurityException | IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	private static final Logger logger = Logger.getLogger(TestOperationExecutionResource.class.getName());
 
 	static OrchestratorTomcatServer server = new OrchestratorTomcatServer();

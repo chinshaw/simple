@@ -1,15 +1,25 @@
 package com.simple.orchestrator.hadoop.job;
 
+/**
+ * Job completion event is fired when a job completes.
+ * This contains the unique hadoop jobid and the
+ * job status that comes from hadoop. 
+ * 
+ * @author chris
+ */
 public class JobCompletionEvent {
 
 	private String jobId;
-	
+
 	private String jobStatus;
 
+	/**
+	 * Empty constructor
+	 */
 	public JobCompletionEvent() {
-		
+
 	}
-	
+
 	/**
 	 * @param jobId
 	 * @param jobStatus
@@ -35,7 +45,7 @@ public class JobCompletionEvent {
 	public void setJobStatus(String jobStatus) {
 		this.jobStatus = jobStatus;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

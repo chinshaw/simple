@@ -9,35 +9,38 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
 import com.dyuproject.protostuff.Message;
+import com.dyuproject.protostuff.Tag;
 import com.simple.api.orchestrator.IMetric;
-
-
+import com.simple.api.orchestrator.IMetricKey;
 
 /**
- * This is the base metric class and all other metrics inherit from this. It extends
- * the api's IMetric class for uses in other packages along with the Message<T> for
- * support with protostuff. The Message<T> interface supports serialization using the 
- * protostuff api. 
+ * This is the base metric class and all other metrics inherit from this. It
+ * extends the api's IMetric class for uses in other packages along with the
+ * Message<T> for support with protostuff. The Message<T> interface supports
+ * serialization using the protostuff api.
  * 
- * NOTE!! If you update this api or add another metric class you have to update the
- * corresponding class in the ui's rest packages. This is needed for rest serialization.
- * An example of this is if you add another class that extends Metric you need to add
- * another @JsonSubTypes.
+ * NOTE!! If you update this api or add another metric class you have to update
+ * the corresponding class in the ui's rest packages. This is needed for rest
+ * serialization. An example of this is if you add another class that extends
+ * Metric you need to add another @JsonSubTypes.
+ * 
  * @author chris
- *
+ * 
  * @param <T>
  */
-@JsonSubTypes({@Type(value = MetricRaw.class, name="MetricRaw"), @Type(value=MetricString.class, name="MetricString")})
-@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="@class")
-public abstract class Metric<T extends Metric> implements IMetric, Message<T>,  Serializable  {
+@JsonSubTypes({ @Type(value = MetricRaw.class, name = "MetricRaw"), @Type(value = MetricString.class, name = "MetricString") })
+@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "@class")
+public abstract class Metric<T extends Metric> implements IMetric, Message<T>, Serializable {
 
 	/**
 	 * Serialization Id
 	 */
 	private static final long serialVersionUID = 8227819619655788172L;
-
+	
 	public Metric() {
-
 	}
+
+	
+	public abstract IMetricKey getKey();
 	
 }

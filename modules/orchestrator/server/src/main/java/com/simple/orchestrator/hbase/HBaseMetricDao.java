@@ -25,6 +25,5 @@ public class HBaseMetricDao {
 		Result result = table.get(get);
 		byte[] bytes = result.getValue(Bytes.toBytes("rexp"), null);
 		return null;
-		
 	}
 }
