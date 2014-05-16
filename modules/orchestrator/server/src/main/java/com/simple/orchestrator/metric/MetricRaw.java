@@ -59,7 +59,7 @@ public final class MetricRaw extends Metric<MetricRaw> {
 				case 0:
 					return;
 				case 1:
-					message.key = MetricKey.valueOf(input.readByteArray());
+					message.key = MetricKey.from(input.readByteArray());
 					break;
 				case 2:
 					message.value = input.readBytes().toByteArray();

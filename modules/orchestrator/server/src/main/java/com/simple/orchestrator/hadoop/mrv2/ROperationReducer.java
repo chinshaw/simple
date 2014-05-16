@@ -48,6 +48,8 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 	 */
 	private Configuration conf;
 
+	private RAnalyticsOperation operation;
+
 	public ROperationReducer() {
 	}
 
@@ -73,7 +75,7 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 			setup(context);
 
 			// Wrap the context.
-			RAnalyticsOperation operation = (RAnalyticsOperation) OperationConfig.getOperation(getConf());
+			operation = (RAnalyticsOperation) OperationConfig.getOperation(getConf());
 
 			if (operation == null) {
 				throw new RuntimeException("Operation cannot be null");
@@ -91,6 +93,7 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 
 				// executing script
 				localAdapter.get().exec(code);
+
 				// write the outputs to the context
 				writeOutputsToContext(operation.getOutputs(), context);
 			} catch (RAdapterException e) {
@@ -131,6 +134,7 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 				}
 
 				logger.info("found rexp => type " + rexp.getRclass());
+
 
 				Metric<?> metric = RexpUtils.toMetric(new MetricKey(output.getId()), rexp);
 
