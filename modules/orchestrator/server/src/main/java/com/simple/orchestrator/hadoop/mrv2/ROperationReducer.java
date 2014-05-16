@@ -62,8 +62,9 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 			while (iter.hasNext()) {
 				IMetricWritable writable = iter.next();
 				MetricString string = (MetricString) writable.getMetric();
-				//logger.info(" Key is " + key.toString() + " Value is " + string.getStringValue());
-				
+				// logger.info(" Key is " + key.toString() + " Value is " +
+				// string.getStringValue());
+
 				// TODO assign these into the workspace.
 			}
 		}
@@ -103,7 +104,9 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 	}
 
 	/**
-	 * Write the outputs to the Hadoop {@link org.apache.hadoop.mapreduce.Mapper.Context}
+	 * Write the outputs to the Hadoop
+	 * {@link org.apache.hadoop.mapreduce.Mapper.Context}
+	 * 
 	 * @param outputs
 	 * @param context
 	 * @throws IOException
@@ -130,7 +133,7 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 				logger.info("found rexp => type " + rexp.getRclass());
 
 				Metric<?> metric = RexpUtils.toMetric(new MetricKey(output.getId()), rexp);
-				
+
 				logger.info("Writing metric key => " + metric.getKey());
 				context.write(metric.getKey(), new MetricWritable<Metric<?>>(metric, MediaType.APPLICATION_PROTOBUF));
 

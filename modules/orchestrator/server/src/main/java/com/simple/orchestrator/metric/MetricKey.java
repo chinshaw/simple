@@ -169,4 +169,5 @@ public class MetricKey implements IMetricKey, WritableComparable<IMetricKey>, Me
 	public String toString() {
 		return new StringBuilder("MetricKey[").append(Longs.fromByteArray(value)).append("]").toString();
 	}
+	
 }
