@@ -38,6 +38,9 @@ public class OperationDriver implements IOperationExecutionService {
 
 	public static final String TIMESTAMP_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
+	/**
+	 * Public constructor.
+	 */
 	public OperationDriver() {
 		try {
 			props = ModuleProperties.getInstance();
@@ -120,6 +123,14 @@ public class OperationDriver implements IOperationExecutionService {
 		}
 	}
 
+	/**
+	 * Helper to create a job based on an IHadoopOperationJobConfiguration
+	 * @param details
+	 * @return
+	 * @throws IOException
+	 * @throws ConfigurationException
+	 * @throws RAnalyticsException
+	 */
 	static AnalyticsOperationHadoopJob createJob(IHadoopOperationJobConfiguration details) throws IOException, ConfigurationException, RAnalyticsException {
 
 		if (details.getOperation() == null) {
@@ -168,10 +179,22 @@ public class OperationDriver implements IOperationExecutionService {
 		return job;
 	}
 	
+	/**
+	 * Helper to get the job by it's id
+	 * @param jobID
+	 * @return the job
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
 	private Job getJobById(JobID jobID) throws IOException, InterruptedException {
 		return getCluster().getJob(jobID);
 	}
 	
+	/**
+	 * Helper to get the cluster
+	 * @return
+	 * @throws IOException
+	 */
 	private Cluster getCluster() throws IOException {
 		Cluster cluster = new Cluster(new Configuration());
 		return cluster;

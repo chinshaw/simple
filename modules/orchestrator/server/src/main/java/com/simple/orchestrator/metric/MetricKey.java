@@ -12,6 +12,7 @@ import com.dyuproject.protostuff.ByteString;
 import com.dyuproject.protostuff.Input;
 import com.dyuproject.protostuff.Message;
 import com.dyuproject.protostuff.Output;
+import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
 import com.google.common.primitives.Longs;
@@ -23,7 +24,7 @@ import com.simple.api.orchestrator.IMetricKey;
  * @author chris
  * 
  */
-public class MetricKey  implements IMetricKey, WritableComparable<IMetricKey>, Message<MetricKey> {
+public class MetricKey implements IMetricKey, WritableComparable<IMetricKey>, Message<MetricKey> {
 
 	/**
 	 * Serialization Id
@@ -99,7 +100,7 @@ public class MetricKey  implements IMetricKey, WritableComparable<IMetricKey>, M
 
 	@Tag(1)
 	private byte[] value;
-
+	
 	public MetricKey() {
 	}
 
@@ -107,6 +108,11 @@ public class MetricKey  implements IMetricKey, WritableComparable<IMetricKey>, M
 		this.value = bytes;
 	}
 
+	/**
+	 * Use Long only because they are smaller.
+	 * @param stringKey
+	 */
+	@Deprecated
 	public MetricKey(String stringKey) {
 		this.value = Bytes.toBytes(stringKey);
 	}
@@ -114,7 +120,7 @@ public class MetricKey  implements IMetricKey, WritableComparable<IMetricKey>, M
 	public MetricKey(Long longKey) {
 		this.value = Bytes.toBytes(longKey);
 	}
-
+	
 	@Override
 	public byte[] toBytes() {
 		return value;

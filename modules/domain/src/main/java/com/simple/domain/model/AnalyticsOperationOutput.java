@@ -49,12 +49,6 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	@Basic(optional = false)
 	private boolean required = false;
 
-	/**
-	 * This is the operation that owns this output.
-	 */
-	// @ManyToOne
-	// @JoinColumn(name = "operation_id")
-	// private AnalyticsOperation operation;
 
 	/**
 	 * Empty constructor.
@@ -86,6 +80,7 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 		this.name = name;
 		this.outputType = outputType;
 	}
+	
 
 	/**
 	 * The name of the output which will be used when retriving the output from

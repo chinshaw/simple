@@ -28,9 +28,7 @@ import com.simple.radapter.api.IRAdapter;
 import com.simple.radapter.api.RAdapterException;
 import com.simple.radapter.protobuf.REXPProtos.Rexp;
 
-public class ROperationReducer extends
-		AbstractReducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable> implements
-		Configurable {
+public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable> implements Configurable {
 
 	private static final Logger logger = Logger.getLogger(ROperationMapper.class.getName());
 
@@ -66,7 +64,9 @@ public class ROperationReducer extends
 			while (iter.hasNext()) {
 				IMetricWritable writable = iter.next();
 				MetricString string = (MetricString) writable.getMetric();
-				logger.info(" Key is " + key.toString() + " Value is " + string.getStringValue());
+				//logger.info(" Key is " + key.toString() + " Value is " + string.getStringValue());
+				
+				// TODO assign these into the workspace.
 			}
 		}
 
@@ -99,21 +99,25 @@ public class ROperationReducer extends
 				e.printStackTrace();
 			}
 		} catch (ConfigurationException e) {
-			throw new RuntimeException(
-					"cannot extract operation from configuration, unbale to continue, see cause:",
-					e);
+			throw new RuntimeException("cannot extract operation from configuration, unbale to continue, see cause:", e);
 		} finally {
 			cleanup(context);
 		}
 	}
 
-	private void writeOutputsToContext(Collection<AnalyticsOperationOutput> outputs, Context context)
-			throws IOException, InterruptedException {
+	/**
+	 * Write the outputs to the Hadoop {@link org.apache.hadoop.mapreduce.Mapper.Context}
+	 * @param outputs
+	 * @param context
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	private void writeOutputsToContext(Collection<AnalyticsOperationOutput> outputs, Context context) throws IOException,
+			InterruptedException {
 
 		for (AnalyticsOperationOutput output : outputs) {
 			logger.fine("fetching output from workspace => " + output.getName());
 			try {
-
 				Rexp rexp = null;
 				if (output.getOutputType() == Type.BINARY || output.getOutputType() == Type.GRAPHIC) {
 					rexp = localAdapter.get().getPlot(output.getName());
@@ -128,10 +132,11 @@ public class ROperationReducer extends
 
 				logger.info("found rexp => type " + rexp.getRclass());
 
-				Metric<?> metric = RexpUtils.toMetric(rexp);
 
-				context.write(MetricKey.create(operation.getId(), output.getId()), new MetricWritable<Metric<?>>(metric,
-						MediaType.APPLICATION_PROTOBUF));
+				Metric<?> metric = RexpUtils.toMetric(new MetricKey(output.getId()), rexp);
+				
+				logger.info("Writing metric key => " + metric.getKey());
+				context.write(metric.getKey(), new MetricWritable<Metric<?>>(metric, MediaType.APPLICATION_PROTOBUF));
 
 			} catch (RAdapterException e) {
 				logger.log(Level.SEVERE, "Error while retrieving output => " + output.getName(), e);

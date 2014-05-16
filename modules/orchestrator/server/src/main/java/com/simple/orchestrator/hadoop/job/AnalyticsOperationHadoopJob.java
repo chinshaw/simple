@@ -184,24 +184,49 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 		OperationConfig.setOperation(getConfiguration(), operation);
 	}
 
+	/**
+	 * Get the underlying operation to be executed
+	 * @return the analytics operation
+	 * @throws ConfigurationException
+	 */
 	public AnalyticsOperation getOperation() throws ConfigurationException {
 		return OperationConfig.getOperation(getConfiguration());
 	}
 
+	/**
+	 * Set data providers
+	 * @param dataProviders data providers
+	 * @throws ConfigurationException
+	 */
 	public void setDataProviders(List<DataProvider> dataProviders)
 			throws ConfigurationException {
 		OperationConfig.setDataProviders(getConfiguration(),dataProviders);
 	}
 
+	/**
+	 * Get data providers
+	 * @return dataproviders
+	 * @throws ConfigurationException
+	 */
 	public List<DataProvider> getDataProviders() throws ConfigurationException {
 		return OperationConfig.getDataProviders(getConfiguration());
 	}
 
+	/**
+	 * Set operation inputs
+	 * @param operationInputs operation inputs
+	 * @throws ConfigurationException
+	 */
 	public void setOperationInputs(List<AnalyticsOperationInput> operationInputs)
 			throws ConfigurationException {
 		OperationConfig.setOperationInputs(getConfiguration(),operationInputs);
 	}
 
+	/**
+	 * Get the operation inputs
+	 * @return operation inputs
+	 * @throws ConfigurationException
+	 */
 	public List<AnalyticsOperationInput> getOperationInputs()
 			throws ConfigurationException {
 		return OperationConfig.getOperationInputs(getConfiguration());
