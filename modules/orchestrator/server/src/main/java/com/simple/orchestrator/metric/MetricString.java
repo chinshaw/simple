@@ -54,7 +54,7 @@ public final class MetricString extends Metric<MetricString>  {
 				case 0:
 					return;
 				case 1:
-					message.key = MetricKey.valueOf(input.readByteArray());
+					message.key = MetricKey.from(input.readByteArray());
 					break;
 				case 2:
 					message.value = input.readByteArray();

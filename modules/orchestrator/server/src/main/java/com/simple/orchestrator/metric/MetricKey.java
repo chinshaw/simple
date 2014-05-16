@@ -137,23 +137,67 @@ public class MetricKey  implements IMetricKey, WritableComparable<IMetricKey>, M
 		in.readFully(value);
 	}
 
+	/**
+	 * Simple method that will create and initialize a metric key from the byte array.
+	 * @param readByteArray
+	 * @return
+	 */
+	public static MetricKey from(byte[] readByteArray) {
+		return new MetricKey(readByteArray);
+	}
+
+	/**
+	 * Helper method to create a key from the task id's long id and 
+	 * the metric's long id.
+	 * 
+	 * @param taskId
+	 * @param metricId
+	 * @return
+	 */
+	public static MetricKey create(Long taskId, Long metricId) {
+		return create(Bytes.toBytes(taskId), Bytes.toBytes(metricId));
+	}
+	
+	/**
+	 * This will create a key using the task id byte buffer appended with
+	 * a dash and then the operation output id byte buffer.
+	 * 
+	 * @param taskId
+	 * @param opId
+	 * @return Metric key with value of the taskId and metricId concatenated with a single '-' character.
+	 */
+	public static MetricKey create(byte[] taskId, byte[] metricId) {
+		byte[] value = Bytes.add(taskId, Bytes.toBytes("-"), metricId);
+		return new MetricKey(value);
+	}
+	
+	/**
+	 * Protostuff schema converter. This is used to convert the object
+	 * to another serialized type.
+	 */
+	@Override
+	public Schema<MetricKey> cachedSchema() {
+		return SCHEMA;
+	}
+
+	/**
+	 * Overriden compare to method, this will return 0 if the
+	 * values are the same.
+	 */
 	@Override
 	public int compareTo(IMetricKey o) {
 		byte[] thisValue = this.value;
 		byte[] thatValue = o.toBytes();
 		return (Bytes.equals(thisValue, thatValue) ? -1 : (thisValue == thatValue ? 0 : 1));
 	}
-
-	public static MetricKey valueOf(byte[] readByteArray) {
-		return new MetricKey(readByteArray);
-	}
-
+	
+	/**
+	 * Overridden way to view the metric key, this will print the value as a string.
+	 * This converts the value to a string and prints it.
+	 */
 	@Override
-	public Schema<MetricKey> cachedSchema() {
-		return SCHEMA;
-	}
-
 	public String toString() {
-		return new StringBuilder("MetricKey[").append(Longs.fromByteArray(value)).append("]").toString();
+		return new StringBuilder("MetricKey[").append(Bytes.toString(value)).append("]").toString();
 	}
+	
 }

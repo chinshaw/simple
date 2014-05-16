@@ -157,6 +157,12 @@
 			<artifactId>activemq-core</artifactId>
 		</dependency>
 
-	</dependencies>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.7.8.1</version>
+		</dependency>
 
+
+	</dependencies>
 </project>

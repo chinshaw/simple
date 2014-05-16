@@ -50,7 +50,7 @@ public class HttpInputAdapter<K extends IMetricKey, V extends IMetricWritable> e
 		public K getCurrentKey() throws IOException,
 				InterruptedException {
 			LongWritable longWritable = adaptedReader.getCurrentKey();
-			return (K) MetricKey.valueOf(Bytes.toBytes(longWritable.get()));
+			return (K) MetricKey.from(Bytes.toBytes(longWritable.get()));
 		}
 
 		@Override
