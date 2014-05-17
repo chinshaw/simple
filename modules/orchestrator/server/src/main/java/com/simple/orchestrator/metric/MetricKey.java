@@ -12,10 +12,8 @@ import com.dyuproject.protostuff.ByteString;
 import com.dyuproject.protostuff.Input;
 import com.dyuproject.protostuff.Message;
 import com.dyuproject.protostuff.Output;
-import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.Tag;
-import com.google.common.primitives.Longs;
 import com.simple.api.orchestrator.IMetricKey;
 
 /**
@@ -26,6 +24,9 @@ import com.simple.api.orchestrator.IMetricKey;
  */
 public class MetricKey implements IMetricKey, WritableComparable<IMetricKey>, Message<MetricKey> {
 
+	public static final char VALUE_SEPARATOR = ':';
+	
+	
 	/**
 	 * Serialization Id
 	 */
@@ -109,10 +110,10 @@ public class MetricKey implements IMetricKey, WritableComparable<IMetricKey>, Me
 	}
 
 	/**
-	 * Use Long only because they are smaller.
+	 * You should use the long key whenever possible because
+	 * it is dramatically smaller.
 	 * @param stringKey
 	 */
-	@Deprecated
 	public MetricKey(String stringKey) {
 		this.value = Bytes.toBytes(stringKey);
 	}
@@ -123,6 +124,14 @@ public class MetricKey implements IMetricKey, WritableComparable<IMetricKey>, Me
 	
 	@Override
 	public byte[] toBytes() {
+		return value;
+	}
+	
+	protected void setValue(byte[] value) {
+		this.value = value;
+	}
+	
+	protected byte[] getValue() {
 		return value;
 	}
 
@@ -152,30 +161,6 @@ public class MetricKey implements IMetricKey, WritableComparable<IMetricKey>, Me
 		return new MetricKey(readByteArray);
 	}
 
-	/**
-	 * Helper method to create a key from the task id's long id and 
-	 * the metric's long id.
-	 * 
-	 * @param taskId
-	 * @param metricId
-	 * @return
-	 */
-	public static MetricKey create(Long taskId, Long metricId) {
-		return create(Bytes.toBytes(taskId), Bytes.toBytes(metricId));
-	}
-	
-	/**
-	 * This will create a key using the task id byte buffer appended with
-	 * a dash and then the operation output id byte buffer.
-	 * 
-	 * @param taskId
-	 * @param opId
-	 * @return Metric key with value of the taskId and metricId concatenated with a single '-' character.
-	 */
-	public static MetricKey create(byte[] taskId, byte[] metricId) {
-		byte[] value = Bytes.add(taskId, Bytes.toBytes("-"), metricId);
-		return new MetricKey(value);
-	}
 	
 	/**
 	 * Protostuff schema converter. This is used to convert the object
@@ -205,5 +190,18 @@ public class MetricKey implements IMetricKey, WritableComparable<IMetricKey>, Me
 	public String toString() {
 		return new StringBuilder("MetricKey[").append(Bytes.toString(value)).append("]").toString();
 	}
+	
+	/**
+	 * This is a simple helper that will allow you to create a key statically
+	 * using a byte[] value. It is equivilent to calling {@link #MetricKey(byte[])}
+	 * 
+	 * @param taskId
+	 * @param opId
+	 * @return Metric key with value set to value
+	 */
+	public static MetricKey create(byte[] value) {
+		return new MetricKey(value);
+	}
+	
 	
 }
