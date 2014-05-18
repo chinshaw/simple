@@ -22,6 +22,7 @@ import com.simple.orchestrator.hadoop.io.MetricWritable;
 import com.simple.orchestrator.metric.Metric;
 import com.simple.orchestrator.metric.MetricKey;
 import com.simple.orchestrator.metric.MetricString;
+import com.simple.orchestrator.metric.OperationOutputKey;
 import com.simple.orchestrator.metric.RexpUtils;
 import com.simple.radapter.RAdapterFactory;
 import com.simple.radapter.api.IRAdapter;
@@ -135,8 +136,8 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 
 				logger.info("found rexp => type " + rexp.getRclass());
 
-
-				Metric<?> metric = RexpUtils.toMetric(new MetricKey(output.getId()), rexp);
+				OperationOutputKey key = new OperationOutputKey(operation.getId(), output.getId());
+				Metric<?> metric = RexpUtils.toMetric(key, rexp);
 
 				logger.info("Writing metric key => " + metric.getKey());
 				context.write(metric.getKey(), new MetricWritable<Metric<?>>(metric, MediaType.APPLICATION_PROTOBUF));
