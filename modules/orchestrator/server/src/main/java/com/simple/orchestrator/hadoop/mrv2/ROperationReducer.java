@@ -14,13 +14,13 @@ import com.simple.api.orchestrator.IMetricKey;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.orchestrator.api.IMetricWritable;
+import com.simple.orchestrator.api.exception.ReducerException;
 import com.simple.orchestrator.api.rest.MediaType;
 import com.simple.orchestrator.hadoop.AbstractReducer;
 import com.simple.orchestrator.hadoop.config.ConfigurationException;
 import com.simple.orchestrator.hadoop.config.OperationConfig;
 import com.simple.orchestrator.hadoop.io.MetricWritable;
 import com.simple.orchestrator.metric.Metric;
-import com.simple.orchestrator.metric.MetricKey;
 import com.simple.orchestrator.metric.MetricString;
 import com.simple.orchestrator.metric.OperationOutputKey;
 import com.simple.orchestrator.metric.RexpUtils;
@@ -57,7 +57,36 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 	@Override
 	public synchronized void run(Context context) throws IOException, InterruptedException {
 		assert (conf != null) : "configuration not specified";
+		setup(context);
+		
+		try {
 
+			// Wrap the context.
+			operation = (RAnalyticsOperation) OperationConfig.getOperation(getConf());
+			if (operation == null) {
+				throw new ReducerException("Operation cannot be null");
+			}
+
+			if (operation.getId() == null) {
+				throw new ReducerException("Invalid id for operation => " + operation.getId());
+			}
+			
+			// Write input to workspace
+			doWriteToWorkspace(context);
+			
+			// Execute the operation
+			doOperation(context);
+
+			// write the outputs to the context
+			doWriteOutputsToContext(operation.getOutputs(), context);
+		} catch (ConfigurationException e) {
+			throw new RuntimeException("cannot extract operation from configuration, unbale to continue, see cause:", e);
+		} finally {
+			cleanup(context);
+		}
+	}
+
+	private void doWriteToWorkspace(Context context) throws IOException, InterruptedException {
 		while (context.nextKey()) {
 			IMetricKey key = context.getCurrentKey();
 			Iterator<IMetricWritable> iter = context.getValues().iterator();
@@ -71,39 +100,24 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 				// TODO assign these into the workspace.
 			}
 		}
+	}
 
+	private void doOperation(Context context) throws IOException, InterruptedException {
 		try {
-			setup(context);
-
-			// Wrap the context.
-			operation = (RAnalyticsOperation) OperationConfig.getOperation(getConf());
-
-			if (operation == null) {
-				throw new RuntimeException("Operation cannot be null");
-			}
-
 			try {
-				try {
-					localAdapter.get().connect();
-				} catch (RAdapterException e) {
-					throw new IOException("unable to connect to R environment", e);
-				}
-
-				String code = operation.getCode();
-				logger.fine("Assigning code to operation " + code);
-
-				// executing script
-				localAdapter.get().exec(code);
-
-				// write the outputs to the context
-				writeOutputsToContext(operation.getOutputs(), context);
+				localAdapter.get().connect();
 			} catch (RAdapterException e) {
-				e.printStackTrace();
+				throw new IOException("unable to connect to R environment", e);
 			}
-		} catch (ConfigurationException e) {
-			throw new RuntimeException("cannot extract operation from configuration, unbale to continue, see cause:", e);
-		} finally {
-			cleanup(context);
+
+			String code = operation.getCode();
+			logger.fine("Assigning code to operation " + code);
+
+			// executing script
+			localAdapter.get().exec(code);
+
+		} catch (RAdapterException e) {
+			throw new ReducerException("Failed to execute operation ", e);
 		}
 	}
 
@@ -116,7 +130,7 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	private void writeOutputsToContext(Collection<AnalyticsOperationOutput> outputs, Context context) throws IOException,
+	private void doWriteOutputsToContext(Collection<AnalyticsOperationOutput> outputs, Context context) throws IOException,
 			InterruptedException {
 
 		for (AnalyticsOperationOutput output : outputs) {

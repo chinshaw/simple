@@ -26,14 +26,8 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		extends AbstractOutputFormatAdapter<K, V> {
 
 	
-	private static final ModuleProperties props;
-	static {
-		try {
-			props = ModuleProperties.getInstance();
-		} catch (IOException e) {
-			throw new RuntimeException("Could not load module properties", e);
-		}
-	}
+	private static final ModuleProperties props = ModuleProperties.getInstance(); 
+	
 	
 	public static String COLUMN_VALUE = props.getProperty("com.artisan.orchestrator.hbase.metric.colvalue");
 	

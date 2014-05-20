@@ -24,7 +24,7 @@ import com.simple.orchestrator.IOCApplicationInjector;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.hadoop.job.JobCompletionEvent;
 import com.simple.orchestrator.test.OperationTestUtils;
-import com.simple.orchestrator.test.OrchestratorTomcatServer;
+import com.simple.orchestrator.test.OrchestratorServer;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
@@ -44,7 +44,7 @@ public class TestOperationExecutionResource {
 	
 	private static final Logger logger = Logger.getLogger(TestOperationExecutionResource.class.getName());
 
-	static OrchestratorTomcatServer server = new OrchestratorTomcatServer();
+	static OrchestratorServer server = new OrchestratorServer();
 
 	@Inject
 	private EventBus eventBus;
