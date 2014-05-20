@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jms.Connection;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -11,12 +12,14 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.simple.orchestrator.hadoop.job.JobCompletionEvent;
 
 @Singleton
@@ -33,25 +36,38 @@ public class JmsEventBridge {
 	 */
 	private static final ObjectMapper objectMaper = new ObjectMapper();
 
+	private final ActiveMQConnectionFactory activeMqConnectionFactory;
+	
 	private final EventBus eventBus;
 
-	private final Session session;
-
 	private Destination jobTopic;
+	
+	private Connection connection = null;
+	
+	private Session session = null;
+	
+
 
 	@Inject
-	public JmsEventBridge(EventBus eventBus, Session session) {
+	public JmsEventBridge(EventBus eventBus, @Named("com.artisan.orchestrator.queue.url") String queueUrl) {
+		activeMqConnectionFactory = new ActiveMQConnectionFactory(queueUrl);
 		this.eventBus = eventBus;
-		this.session = session;
+
 	}
 
 	public void start() throws JMSException {
 		logger.fine("start()");
-		eventBus.register(this);
+		
+		connection = activeMqConnectionFactory.createConnection();
+		this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		jobTopic = session.createTopic("com.artisan.orchestrator.jobs");
+		connection.start();
+		
+		eventBus.register(this);
 	}
 
 	public void stop() throws JMSException {
+		connection.stop();
 		session.close();
 		eventBus.unregister(this);
 	}

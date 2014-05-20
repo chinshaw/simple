@@ -29,8 +29,8 @@
 		<quartz.version>2.2.1</quartz.version>
 		<guice.version>3.0</guice.version>
 		<guava.version>16.0.1</guava.version>
-		<hadoop.version>2.2.0</hadoop.version>
-		<hbase.version>0.98.0-hadoop2</hbase.version>
+		<hadoop.version>2.4.0</hadoop.version>
+		<hbase.version>0.98.2-hadoop2</hbase.version>
 		<jackson.version>1.9.2</jackson.version>
 
 		<jetty.version>7.2.0.v20101020</jetty.version>

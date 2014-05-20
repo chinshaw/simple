@@ -34,7 +34,7 @@ public class OperationDriver implements IOperationExecutionService {
 	private static final Logger logger = Logger.getLogger(OperationDriver.class
 			.getName());
 
-	private static ModuleProperties props;
+	private static ModuleProperties props = ModuleProperties.getInstance();
 
 	public static final String TIMESTAMP_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
@@ -42,12 +42,6 @@ public class OperationDriver implements IOperationExecutionService {
 	 * Public constructor.
 	 */
 	public OperationDriver() {
-		try {
-			props = ModuleProperties.getInstance();
-		} catch (IOException e) {
-			throw new RuntimeException(
-					"Unable to instantiate module properties", e);
-		}
 	}
 
 	/**
