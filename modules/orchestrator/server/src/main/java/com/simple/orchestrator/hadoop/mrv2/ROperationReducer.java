@@ -20,7 +20,6 @@ import com.simple.orchestrator.hadoop.config.ConfigurationException;
 import com.simple.orchestrator.hadoop.config.OperationConfig;
 import com.simple.orchestrator.hadoop.io.MetricWritable;
 import com.simple.orchestrator.metric.Metric;
-import com.simple.orchestrator.metric.MetricKey;
 import com.simple.orchestrator.metric.MetricString;
 import com.simple.orchestrator.metric.OperationOutputKey;
 import com.simple.orchestrator.metric.RexpUtils;

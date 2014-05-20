@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 jarsExcludedFromWebInfLib=
-lastWarOutDir=/Users/chris/devel/workspace/artisan/modules/web/target/artisan-web-1.1-SNAPSHOT
-launchConfigExternalUrlPrefix=http\://localhost\:8080/
+lastWarOutDir=/Users/chinshaw/devel/workspace/simple/modules/web/target/artisan-web-1.1-SNAPSHOT
+launchConfigExternalUrlPrefix=http\://localhost\:8080/artisan
 warSrcDir=src/main/webapp
 warSrcDirIsOutput=false

@@ -151,7 +151,7 @@
 						</source>
 
 						<source>
-							<directory>/Library/Frameworks/R.framework/Versions/3.0/Resources/include/</directory>
+							<directory>/Library/Frameworks/R.framework/Versions/3.1/Resources/include/</directory>
 							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
 						</source>
 
