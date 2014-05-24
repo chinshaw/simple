@@ -54,6 +54,16 @@
 	<modules>
 		<module>api</module>
 		<module>server</module>
+		<module>client</module>
 	</modules>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.simple</groupId>
+			<artifactId>artisan-utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 
 </project>

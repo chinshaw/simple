@@ -1,4 +1,4 @@
-package com.simple.orchestrator.hadoop.job;
+package com.simple.orchestrator.api.event;
 
 /**
  * Job completion event is fired when a job completes.

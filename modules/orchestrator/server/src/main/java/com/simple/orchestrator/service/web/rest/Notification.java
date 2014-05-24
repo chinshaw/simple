@@ -10,7 +10,7 @@ import org.apache.hadoop.mapreduce.JobID;
 
 import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
-import com.simple.orchestrator.hadoop.job.JobCompletionEvent;
+import com.simple.orchestrator.api.event.JobCompletionEvent;
 
 /**
  * This is used for anonymous notification services such as the cluster

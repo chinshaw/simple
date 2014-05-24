@@ -134,8 +134,13 @@ public class ROperationReducer extends AbstractReducer<IMetricKey, IMetricWritab
 			InterruptedException {
 
 		for (AnalyticsOperationOutput output : outputs) {
+			if (output.getId() == null) {
+				logger.warning("skipping output invalid id for metric " + output.getName());
+				continue;
+			}
 			logger.fine("fetching output from workspace => " + output.getName());
 			try {
+				
 				Rexp rexp = null;
 				if (output.getOutputType() == Type.BINARY || output.getOutputType() == Type.GRAPHIC) {
 					rexp = localAdapter.get().getPlot(output.getName());

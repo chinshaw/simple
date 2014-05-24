@@ -9,7 +9,6 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
-import javax.ws.rs.core.MediaType;
 
 import org.apache.catalina.LifecycleException;
 import org.junit.AfterClass;
@@ -17,22 +16,21 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.artisan.orchestrator.rest.client.ArtisanClient;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.simple.orchestrator.IOCApplicationInjector;
+import com.simple.orchestrator.api.IOperationExecutionService;
+import com.simple.orchestrator.api.event.JobCompletionEvent;
+import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
-import com.simple.orchestrator.hadoop.job.JobCompletionEvent;
 import com.simple.orchestrator.test.OperationTestUtils;
 import com.simple.orchestrator.test.OrchestratorServer;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.LoggingFilter;
-import com.sun.jersey.api.json.JSONConfiguration;
 
 public class TestOperationExecutionResource {
+
+	public static final String TEST_BASE_URL = "http://localhost:52280/r/v1";
 
 	{
 		try {
@@ -41,7 +39,7 @@ public class TestOperationExecutionResource {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	private static final Logger logger = Logger.getLogger(TestOperationExecutionResource.class.getName());
 
 	static OrchestratorServer server = new OrchestratorServer();
@@ -49,8 +47,8 @@ public class TestOperationExecutionResource {
 	@Inject
 	private EventBus eventBus;
 
-	private WebResource resource;
-	
+	private ArtisanClient client;
+
 	public TestOperationExecutionResource() {
 		IOCApplicationInjector.getInjector().injectMembers(TestOperationExecutionResource.this);
 	}
@@ -67,23 +65,21 @@ public class TestOperationExecutionResource {
 
 	@Before
 	public void initResource() {
-		ClientConfig clientConfig = new DefaultClientConfig();
-		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-		Client client = Client.create(clientConfig);
-		client.addFilter(new LoggingFilter(System.out));
-
-		resource = client.resource("http://localhost:52280/r/v1/operation");
+		client = ArtisanClient.create(TEST_BASE_URL);
+		client.enableDebug();
 	}
 
 	@Test
-	public void testExecute() throws IOException, InterruptedException {
+	public void testExecute() throws IOException, InterruptedException, HadoopJobException {
 		logger.info("start testExecute");
 		HadoopOperationJobConfiguration.Builder confBuilder = new HadoopOperationJobConfiguration.Builder();
 		confBuilder.setAnalyticsOperation(OperationTestUtils.createTestOperation());
 
 		CountDownLatch latch = new CountDownLatch(1);
 
-		String jobId = resource.path("execute").type(MediaType.APPLICATION_JSON).entity(confBuilder.build()).post(String.class);
+		IOperationExecutionService service = client.createExecutionService();
+
+		String jobId = service.execute(confBuilder.build());
 
 		System.out.println("jobId is " + jobId);
 		assertNotNull(jobId);
@@ -96,14 +92,19 @@ public class TestOperationExecutionResource {
 	}
 
 	@Test
-	public void testFull() throws IOException, InterruptedException {
+	public void testFull() throws IOException, InterruptedException, HadoopJobException {
 		logger.info("start testExecute");
 		final CountDownLatch latch = new CountDownLatch(1);
 
 		final HadoopOperationJobConfiguration.Builder confBuilder = new HadoopOperationJobConfiguration.Builder();
 		confBuilder.setAnalyticsOperation(OperationTestUtils.createTestOperation());
 
-		final String jobId = resource.path("execute").type(MediaType.APPLICATION_JSON).entity(confBuilder.build()).post(String.class);
+		IOperationExecutionService opExec = client.createExecutionService();
+
+		final String jobId = opExec.execute(confBuilder.build());
+
+		// final String jobId =
+		// resource.path("execute").type(MediaType.APPLICATION_JSON).entity(confBuilder.build()).post(String.class);
 		logger.info("submitted job => " + jobId);
 		assert (jobId != null);
 		logger.finest("testFull() : jobid => " + jobId);
@@ -114,7 +115,7 @@ public class TestOperationExecutionResource {
 			public void onJobCompletion(JobCompletionEvent event) {
 				if (event.getJobId().equals(jobId)) {
 					// Check that our job id's match
-					assert(event.getJobId().equals(jobId));
+					assert (event.getJobId().equals(jobId));
 					logger.info("callback: jobid => " + event.getJobId());
 					// unlock
 					latch.countDown();
@@ -123,8 +124,10 @@ public class TestOperationExecutionResource {
 		};
 
 		eventBus.register(callback);
-
+		
+		// Start max wait if we get to two minutes, for readability I use TimeUnit
 		latch.await(120, TimeUnit.SECONDS);
+
 		assert (latch.getCount() != 1);
 		assertNotNull(jobId);
 

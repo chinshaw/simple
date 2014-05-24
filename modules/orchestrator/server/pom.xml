@@ -44,6 +44,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.simple</groupId>
+			<artifactId>artisan-utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.simple</groupId>
 			<artifactId>artisan-orchestrator-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -69,6 +75,8 @@
 			<artifactId>artisan-radapter-client</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+
 
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
@@ -109,6 +117,7 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -163,6 +172,16 @@
 			<version>1.7.8.1</version>
 		</dependency>
 
+
+		<!-- Test packages -->
+
+
+		<dependency>
+			<groupId>com.simple</groupId>
+			<artifactId>artisan-orchestrator-java-client</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
 </project>

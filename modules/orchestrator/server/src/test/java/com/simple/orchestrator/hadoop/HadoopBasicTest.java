@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
+import com.artisan.utils.ClasspathUtils;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
@@ -17,7 +18,6 @@ import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration.Builder;
 import com.simple.orchestrator.hadoop.config.ConfigurationException;
 import com.simple.orchestrator.hadoop.mrv2.OperationDriver;
 import com.simple.orchestrator.service.AnalyticsOperationException;
-import com.simple.orchestrator.utils.ScriptUtils;
 
 
 /**
@@ -44,7 +44,7 @@ public class HadoopBasicTest {
 	@Test
 	public void testGraphic() throws IOException, AnalyticsOperationException, ConfigurationException, HadoopJobException {
 		logger.info("testGraphic");
-		String script = ScriptUtils.getScriptCode("/com/simple/engine/rscripts/BollingerScript.R");
+		String script = ClasspathUtils.getScriptCode("/com/simple/engine/rscripts/BollingerScript.R");
 		RAnalyticsOperation operation = new RAnalyticsOperation("runTestScript");
 		operation.addOutput(new AnalyticsOperationOutput("/tmp/instrument.png", AnalyticsOperationOutput.Type.BINARY));
 		//operation.addOutput(new AnalyticsOperationOutput("y", Type.TEXT));

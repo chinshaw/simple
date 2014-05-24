@@ -1,4 +1,4 @@
-package com.simple.orchestrator.utils;
+package com.artisan.utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,7 +13,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 
-public class ScriptUtils {
+public class ClasspathUtils {
 
     public static String readFile(String path) throws IOException {
         FileInputStream stream = new FileInputStream(new File(path));
@@ -30,7 +30,7 @@ public class ScriptUtils {
     public static String getScriptCode(String fileName) throws IOException {
         InputStream is = null;
         try {
-            is = ScriptUtils.class.getResourceAsStream(fileName);
+            is = ClasspathUtils.class.getResourceAsStream(fileName);
             if (is == null) {
                 throw new RuntimeException("Unable to find script file " + fileName);
             }

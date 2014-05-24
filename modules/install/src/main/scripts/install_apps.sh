@@ -30,7 +30,9 @@ R_URL=file://$(pwd)/../resources/${R_VERSION}.tar.gz
 ZOO_URL=file://$(pwd)/../resources/${ZOO_VERSION}.tar.gz
 
 
-R_CONFIG_OPTIONS="--without-x --with-cairo --with-libpng"
+# r_arch=x86_64 F77="gfortran-4.2 -arch x86_64" --prefix=/opt/artisan/apps/versions/R-3.1.0 --without-x --with-cairo --with-libpng
+export F77="gfortran-4.2 -arch x86_64"
+R_CONFIG_OPTIONS="r_arch=x86_64 --enable-R-shlib --without-x --with-cairo --with-libpng"
 
 do_install_hadoop() {
 	if [[ ! -d ${HADOOP_VERSIONS_DIR} ]]; then
@@ -55,7 +57,7 @@ do_install_tomcat() {
 
 do_install_r() {
 	if [[ ! -d ${R_VERSIONS_DIR} ]]; then
-		r_install_base=$(mktemp -d)
+		r_install_base=$(mktemp -d /tmp/r_install.XXXXX)
 		cd ${r_install_base} && curl ${R_URL} | tar xz
 		cd ${r_install_base}/${R_VERSION}
 		./configure --prefix=${R_VERSIONS_DIR} ${R_CONFIG_OPTIONS} && make && make install
