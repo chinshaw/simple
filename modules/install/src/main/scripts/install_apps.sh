@@ -36,14 +36,14 @@ do_install_hadoop() {
 do_install_hbase() {
 	if [[ ! -d ${HBASE_VERSIONS_DIR} ]]; then
 		cd ${VERSIONS_DIR} && curl ${HBASE_URL} | tar xz
-		ln -s ${HBASE_VERSION} ../hbase
+		cd ${APPS_DIR} && ln -s versions/${HBASE_VERSION} ${APPS_DIR}/hbase
 	fi;
 }
 
 do_install_tomcat() {
 	if [[ ! -d ${TOMCAT_VERSIONS_DIR} ]]; then 
 		cd ${VERSIONS_DIR} && curl ${TOMCAT_URL} | tar xz
-		ln -s ${TOMCAT_VERSION} ../tomcat
+		ln -s ${TOMCAT_VERSION} ${APPS_DIR}/tomcat
 	fi;
 }
 
@@ -53,14 +53,14 @@ do_install_r() {
 		cd ${r_install_base} && curl ${R_URL} | tar xz
 		cd ${r_install_base}/${R_VERSION}
 		./configure --prefix=${R_VERSIONS_DIR} ${R_CONFIG_OPTIONS} && make && make install
-		cd ${VERSIONS_DIR} && ln -s ${R_VERSION} ../R
+		cd ${APPS_DIR} && ln -s versions/${R_VERSION} R
 	fi;
 }
 
 do_install_zoo() {
 	if [[ ! -d ${ZOO_VERSIONS_DIR} ]]; then 
 		cd ${VERSIONS_DIR} && curl ${ZOO_URL} | tar xz
-		cd ${APPS_DIR} && ln -s versions/${ZOO_VERSION} zoo
+		ln -s ${ZOO_VERSION} ${APPS_DIR}/zoo
 	fi
 
 }
@@ -69,10 +69,10 @@ do_install_zoo() {
 install() {
 	mkdir -p ${VERSIONS_DIR}
 	do_install_zoo;
-	#do_install_hadoop;
-	#do_install_hbase;
-	#do_install_tomcat;
-	#do_install_r;
+	do_install_hadoop;
+	do_install_hbase;
+	do_install_tomcat;
+	do_install_r;
 	
 }
 
