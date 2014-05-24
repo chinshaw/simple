@@ -20,7 +20,7 @@ import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import com.simple.orchestrator.hadoop.job.JobCompletionEvent;
+import com.simple.orchestrator.api.event.JobCompletionEvent;
 
 @Singleton
 public class JmsEventBridge {
