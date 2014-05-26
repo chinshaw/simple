@@ -1,0 +1,74 @@
+# This script is used to start all the daemons on the 
+# machine. This is useful for init scripts to call
+
+
+
+
+
+JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home"
+APPS_DIR="/opt/artisan/apps"
+HADOOP_BIN="${APPS_DIR}/hadoop/sbin"
+ZOOKEEPER_BIN="${APPS_DIR}/zoo/bin"
+HBASE_BIN="${APPS_DIR}/hbase/bin"
+TOMCAT_BIN="${APPS_DIR}/tomcat/bin"
+
+
+
+
+export HADOOP_CONF_DIR=/opt/artisan/conf/hadoop
+export HBASE_CONF_DIR=/opt/artisan/conf/hbase
+export ZOOBINDIR=/opt/artisan/data/zookeeper/bin
+export ZOOCFGDIR=/opt/artisan/conf/zoo
+
+
+
+function test_syntax() {
+    declare -f -F $1 > /dev/null
+    return $?
+}
+
+function start_hadoop {
+    ${HADOOP_BIN}/start-dfs.sh
+    ${HADOOP_BIN}/start-yarn.sh
+}
+
+
+function stop_hadoop {
+    ${HADOOP_BIN}/stop-dfs.sh
+    ${HADOOP_BIN}/stop-yarn.sh
+}
+
+function start_tomcat {
+    ${TOMCAT_BIN}/startup.sh
+}
+
+function stop_tomcat {
+    ${TOMCAT_BIN}/shutdown.sh
+}
+
+function start_hbase {
+    ${HBASE_BIN}/start-hbase.sh
+}
+
+function stop_hbase {
+   ${HBASE_BIN}/stop-hbase.sh
+}
+
+function start_zookeeper {
+  ${ZOOKEEPER_BIN}/zkServer.sh start
+}
+
+function stop_zookeeper {
+  ${ZOOKEEPER_BIN}/zkServer.sh stop
+}
+
+#case "$1" in 
+#    zookeeper)
+#        ${2}_${1};
+#        ;;
+#    stop)
+#        stop_$2;
+#esac;
+
+${2}_${1}
+
