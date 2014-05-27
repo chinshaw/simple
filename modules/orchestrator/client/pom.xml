@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.simple</groupId>
+		<artifactId>artisan-orchestrator</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>artisan-orchestrator-java-client</artifactId>
+	<name>Artisan Orchestrator Rest Client</name>
+	<description>Rest client for communicating with artisan server</description>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.simple</groupId>
+			<artifactId>artisan-orchestrator-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+		</dependency>
+	</dependencies>
+</project>
