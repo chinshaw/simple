@@ -20,6 +20,8 @@
 # */
 
 # Set environment variables here.
+export ARTISAN_CONF_DIR=/opt/artisan/conf
+source $ARTISAN_CONF_DIR/artisan/artisan-env.sh
 
 # This script sets variables multiple times over the course of starting an hbase process,
 # so try to keep things idempotent unless you want to take an even deeper look
@@ -38,6 +40,9 @@
 # Below are what we set by default.  May only work with SUN JVM.
 # For more on why as well as other possible settings,
 # see http://wiki.apache.org/hadoop/PerformanceTuning
+
+
+
 export HBASE_OPTS="-XX:+UseConcMarkSweepGC"
 
 # Uncomment one of the below three options to enable java garbage collection logging for the server-side processes.

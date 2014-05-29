@@ -4,6 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableUtils;
@@ -22,6 +24,7 @@ import com.simple.api.orchestrator.IMetricKey;
  * @author chris
  * 
  */
+@XmlRootElement
 public class MetricKey implements IMetricKey, WritableComparable<IMetricKey>, Message<MetricKey> {
 
 	public static final char VALUE_SEPARATOR = ':';

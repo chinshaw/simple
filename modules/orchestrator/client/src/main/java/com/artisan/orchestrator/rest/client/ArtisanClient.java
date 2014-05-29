@@ -37,6 +37,10 @@ public class ArtisanClient implements ClientHandler {
 	public OperationExecutionService createExecutionService() {
 		return new OperationExecutionService(this, baseUrl);
 	}
+	
+	public MetricService createMetricService() {
+		return new MetricService(this, baseUrl);
+	}
 
 	@Override
 	public ClientResponse handle(ClientRequest cr) throws ClientHandlerException {

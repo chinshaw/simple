@@ -3,6 +3,8 @@ package com.simple.orchestrator.service.web.rest;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,21 +15,24 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.ResultScanner;
+import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.simple.api.orchestrator.IMetric;
 import com.simple.orchestrator.api.rest.MediaType;
+import com.simple.orchestrator.api.service.IMetricService;
 import com.simple.orchestrator.hadoop.io.MetricWritable;
+import com.simple.orchestrator.hadoop.job.ArtisanConfiguration;
 import com.simple.orchestrator.metric.Metric;
 
 @Path("/metric")
-public class MetricResource {
+public class MetricResource implements IMetricService {
 
 	private static final Logger logger = Logger.getLogger(MetricResource.class.getName());
 
@@ -66,7 +71,7 @@ public class MetricResource {
 
 		final Get get = new Get(Bytes.toBytes(rowKey));
 		byte[] bytes = null;
-		byte[] classBytes = null;
+		//byte[] classBytes = null;
 
 		HTable table;
 		try {
@@ -83,17 +88,17 @@ public class MetricResource {
 				Result result = table.get(get);
 				bytes = result.getValue(Bytes.toBytes(column), Bytes.toBytes(qualifier));
 
-				classBytes = result.getValue(Bytes.toBytes(column), Bytes.toBytes(colClass));
+	//			classBytes = result.getValue(Bytes.toBytes(column), Bytes.toBytes(colClass));
 			} catch (IOException e) {
 				throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
 			}
-
+/*
 			if (classBytes == null) {
 				Response response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).tag("class column was not specified for metric")
 						.build();
 				throw new WebApplicationException(response);
 			}
-
+*/
 			if (bytes == null) {
 				Response response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).tag("Could not find entity").build();
 				throw new WebApplicationException(response);
@@ -120,11 +125,62 @@ public class MetricResource {
 
 		return writable.getMetric();
 	}
-
 	
-	static Configuration createConfiguration() {
-		Configuration conf = new Configuration();
+	static ArtisanConfiguration createConfiguration() {
+		return new ArtisanConfiguration();
+	}
+
+	@GET
+	@Path("/operation/{operationId}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF })
+	public List<IMetric> find(@PathParam("operationId") Long operationId) {
 		
-		return conf;
+		Scan scan = new Scan(Bytes.toBytes(operationId));
+		HTable table = null;
+		
+		try {
+			table = new HTable(createConfiguration(), metricTableName);
+		} catch (IOException e) {
+			logger.log(Level.SEVERE, "Unable to connect to hbase", e);
+			throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
+		}
+		
+		List<IMetric> metrics = new ArrayList<IMetric>();
+		try {
+			try {
+				ResultScanner resultScanner = table.getScanner(scan);
+				for (Result result : resultScanner) {
+					// This is the value of the metric
+					byte[] bytes = result.getValue(Bytes.toBytes(colFamily), Bytes.toBytes(colValue));	
+					// This is the class family to say what the type is
+					//byte[] classBytes = result.getValue(Bytes.toBytes(colFamily), Bytes.toBytes(colClass));
+
+					MetricWritable<Metric<?>> writable = new MetricWritable<Metric<?>>();
+					ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+					DataInputStream dais = new DataInputStream(bais);
+
+					try {
+						writable.readFields(dais);
+						metrics.add(writable.getMetric());
+					} catch (IOException e) {
+						throw new WebApplicationException(e);
+					}
+				}
+				
+			} catch (IOException e) {
+				throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
+			}
+
+		} finally {
+			if (table != null) {
+				try {
+					table.close();
+				} catch (IOException e) {
+					logger.log(Level.SEVERE, "Unable to close htable", e);
+				}	
+			}
+		}
+		
+		return metrics;
 	}
 }

@@ -63,7 +63,7 @@ public class OrchestratorServer {
 		// or we could do this for root context:
 		tomcat.addWebapp("/", webRoot);
 		tomcat.start();
-		// tomcat.getServer().await();
+		tomcat.getServer().await();
 	}
 
 	private void doConfigureHbase() throws MasterNotRunningException, ZooKeeperConnectionException, IOException {

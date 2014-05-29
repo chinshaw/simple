@@ -21,10 +21,10 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 import com.simple.orchestrator.IOCApplicationInjector;
-import com.simple.orchestrator.api.IOperationExecutionService;
 import com.simple.orchestrator.api.event.JobCompletionEvent;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
+import com.simple.orchestrator.api.service.IOperationExecutionService;
 import com.simple.orchestrator.test.OperationTestUtils;
 import com.simple.orchestrator.test.OrchestratorServer;
 
@@ -80,13 +80,9 @@ public class TestOperationExecutionResource {
 		IOperationExecutionService service = client.createExecutionService();
 
 		String jobId = service.execute(confBuilder.build());
-
-		System.out.println("jobId is " + jobId);
 		assertNotNull(jobId);
 
 		latch.await(10, TimeUnit.SECONDS);
-
-		logger.info("jobId is " + jobId);
 		assertNotNull(jobId);
 		logger.info("end testExecute");
 	}

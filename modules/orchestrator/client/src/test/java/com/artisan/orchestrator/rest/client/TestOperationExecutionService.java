@@ -14,15 +14,14 @@ import com.google.common.eventbus.Subscribe;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
-import com.simple.orchestrator.api.IOperationExecutionService;
 import com.simple.orchestrator.api.event.JobCompletionEvent;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
+import com.simple.orchestrator.api.service.IOperationExecutionService;
 
 public class TestOperationExecutionService {
 	
 	private static final Logger logger = Logger.getLogger(TestOperationExecutionService.class.getName());
-	
 	
 	private ArtisanClient client;
 

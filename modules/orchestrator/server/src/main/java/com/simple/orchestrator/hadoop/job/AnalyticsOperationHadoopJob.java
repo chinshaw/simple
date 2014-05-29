@@ -19,16 +19,16 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	
 	
 	public AnalyticsOperationHadoopJob() throws IOException {
-		this(new Configuration());
+		this(new ArtisanConfiguration());
 	}
 
-	public AnalyticsOperationHadoopJob(Configuration conf) throws IOException {
+	public AnalyticsOperationHadoopJob(ArtisanConfiguration conf) throws IOException {
 		super(conf);
 	}
 	
-	public AnalyticsOperationHadoopJob(Configuration conf, String jobName)
+	public AnalyticsOperationHadoopJob(ArtisanConfiguration conf, String jobName)
 			throws IOException {
-		super(conf, jobName);	
+		super(conf, jobName);
 	}
 
 	
@@ -41,7 +41,7 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 */
 	public static AnalyticsOperationHadoopJob getInstance() throws IOException {
 		// create with a null Cluster
-		return getInstance(new Configuration());
+		return getInstance(new ArtisanConfiguration());
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 * @return the {@link Job} , with no connection to a cluster yet.
 	 * @throws IOException
 	 */
-	public static AnalyticsOperationHadoopJob getInstance(Configuration conf) throws IOException {
+	public static AnalyticsOperationHadoopJob getInstance(ArtisanConfiguration conf) throws IOException {
 		// create with a null Cluster
 		return new AnalyticsOperationHadoopJob(conf);
 	}
@@ -78,7 +78,7 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 * @return the {@link Job} , with no connection to a cluster yet.
 	 * @throws IOException
 	 */
-	public static AnalyticsOperationHadoopJob getInstance(Configuration conf, String jobName)
+	public static AnalyticsOperationHadoopJob getInstance(ArtisanConfiguration conf, String jobName)
 			throws IOException {
 		// create with a null Cluster
 		AnalyticsOperationHadoopJob result = getInstance(conf);
@@ -142,7 +142,7 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 * @deprecated Use {@link #getInstance(Configuration)}
 	 */
 	@Deprecated
-	public static AnalyticsOperationHadoopJob getInstance(Cluster ignored, Configuration conf)
+	public static AnalyticsOperationHadoopJob getInstance(Cluster ignored, ArtisanConfiguration conf)
 			throws IOException {
 		return getInstance(conf);
 	}

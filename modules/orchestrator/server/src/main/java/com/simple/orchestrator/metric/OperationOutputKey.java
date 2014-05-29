@@ -11,7 +11,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 public class OperationOutputKey extends MetricKey {
 
 	/**
-	 * 
+	 * Serialization Id
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -25,16 +25,12 @@ public class OperationOutputKey extends MetricKey {
 		setValue(taskId, outputId);
 	}
 	
-	
 	/**
 	 * Get the task id, this will look at the value byte array and read the first part of it
 	 * to grab the first long value.
 	 * @return
 	 */
 	public Long getTaskId() {
-		System.out.println("Long.SIZE " + Long.SIZE);
-		System.out.println("SIze of value " + getValue().length);
-		//System.out.println("Value is " + toString());
 		return Bytes.toLong(Bytes.head(getValue(), Bytes.SIZEOF_LONG));
 	}
 	

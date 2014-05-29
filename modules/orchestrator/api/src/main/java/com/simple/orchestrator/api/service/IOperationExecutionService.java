@@ -1,5 +1,7 @@
-package com.simple.orchestrator.api;
+package com.simple.orchestrator.api.service;
 
+import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
+import com.simple.orchestrator.api.IJobProgress;
 import com.simple.orchestrator.api.exception.InvalidJobIdException;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 

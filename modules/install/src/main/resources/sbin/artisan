@@ -2,17 +2,15 @@
 # machine. This is useful for init scripts to call
 
 
+export ARTISAN_CONF_DIR="/opt/artisan/conf"
 
+source $ARTISAN_CONF_DIR/artisan/artisan-env.sh
 
-
-JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home"
 APPS_DIR="/opt/artisan/apps"
 HADOOP_BIN="${APPS_DIR}/hadoop/sbin"
 ZOOKEEPER_BIN="${APPS_DIR}/zoo/bin"
 HBASE_BIN="${APPS_DIR}/hbase/bin"
 TOMCAT_BIN="${APPS_DIR}/tomcat/bin"
-
-
 
 
 export HADOOP_CONF_DIR=/opt/artisan/conf/hadoop

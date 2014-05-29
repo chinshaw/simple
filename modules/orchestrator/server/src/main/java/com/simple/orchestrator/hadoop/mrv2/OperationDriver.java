@@ -1,6 +1,7 @@
 package com.simple.orchestrator.hadoop.mrv2;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,9 +16,9 @@ import com.simple.api.exceptions.RAnalyticsException;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.IJobProgress;
-import com.simple.orchestrator.api.IOperationExecutionService;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.exception.InvalidJobIdException;
+import com.simple.orchestrator.api.service.IOperationExecutionService;
 import com.simple.orchestrator.hadoop.ModuleProperties;
 import com.simple.orchestrator.hadoop.config.ConfigurationException;
 import com.simple.orchestrator.hadoop.config.HttpInputConf;
@@ -31,20 +32,21 @@ import com.simple.orchestrator.metric.MetricKey;
 
 public class OperationDriver implements IOperationExecutionService {
 
-	private static final Logger logger = Logger.getLogger(OperationDriver.class
-			.getName());
+	private static final Logger logger = Logger.getLogger(OperationDriver.class.getName());
 
 	private static ModuleProperties props = ModuleProperties.getInstance();
 
 	public static final String TIMESTAMP_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
 	/**
-	 * Public constructor.
+	 * 
 	 */
 	public OperationDriver() {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 * 
 	 * This will fire off the job and return the job id in string format, this
 	 * can be used to register status listeners for the job status.
 	 * 
@@ -59,7 +61,8 @@ public class OperationDriver implements IOperationExecutionService {
 			AnalyticsOperationHadoopJob job = createJob(jobDetails);
 			job.submit();
 			return job.getJobID().toString();
-		} catch (ClassNotFoundException | IOException | InterruptedException | RAnalyticsException | ConfigurationException e) {
+		} catch (ClassNotFoundException | IOException | InterruptedException | RAnalyticsException
+				| ConfigurationException e) {
 			logger.log(Level.SEVERE, "Unable to execute job", e);
 			throw new HadoopJobException("Unable to execute operation", e);
 		} catch (Exception e) {
@@ -67,6 +70,11 @@ public class OperationDriver implements IOperationExecutionService {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 *  This will connect to the service and kill the running job found by it's jobId.
+	 */
 	@Override
 	public void stop(String jobId) throws InvalidJobIdException, HadoopJobException {
 		try {
@@ -79,27 +87,29 @@ public class OperationDriver implements IOperationExecutionService {
 	}
 
 	/**
-	 * Get the progress of the job, this will return the {@link IJobProgress} which
-	 * will have more information about the status of the job.
+	 * Get the progress of the job, this will return the {@link IJobProgress}
+	 * which will have more information about the status of the job.
 	 * 
 	 */
 	@Override
-	public IJobProgress progress(final String jobId) throws InvalidJobIdException, HadoopJobException {
+	public IJobProgress progress(final String jobId) throws InvalidJobIdException,
+			HadoopJobException {
 		try {
 			final Job job = getJobById(JobID.forName(jobId));
 			return new IJobProgress() {
-		
+
 				@Override
 				public float getPercentageComplete() {
 					try {
 						JobStatus status = job.getStatus();
-						float totalProgress = status.getMapProgress() + status.getReduceProgress() + status.getCleanupProgress();
+						float totalProgress = status.getMapProgress() + status.getReduceProgress()
+								+ status.getCleanupProgress();
 						return (totalProgress / 3);
 					} catch (IOException | InterruptedException e) {
 						return -1;
 					}
 				}
-				
+
 				@Override
 				public String getErrors() {
 					try {
@@ -109,7 +119,7 @@ public class OperationDriver implements IOperationExecutionService {
 					}
 				}
 			};
-			
+
 		} catch (IllegalArgumentException e) {
 			throw new InvalidJobIdException("Invalid job id" + jobId);
 		} catch (IOException | InterruptedException e) {
@@ -119,52 +129,44 @@ public class OperationDriver implements IOperationExecutionService {
 
 	/**
 	 * Helper to create a job based on an IHadoopOperationJobConfiguration
+	 * 
 	 * @param details
 	 * @return
 	 * @throws IOException
 	 * @throws ConfigurationException
 	 * @throws RAnalyticsException
 	 */
-	static AnalyticsOperationHadoopJob createJob(IHadoopOperationJobConfiguration details) throws IOException, ConfigurationException, RAnalyticsException {
+	static AnalyticsOperationHadoopJob createJob(IHadoopOperationJobConfiguration details)
+			throws IOException, ConfigurationException, RAnalyticsException {
 
 		if (details.getOperation() == null) {
 			throw new RAnalyticsException("operation == null");
 		}
 
 		RAnalyticsOperation rop = (RAnalyticsOperation) details.getOperation();
-		
-		// Set configurations before creating job, otherwise they are lost
-		// not sure why though???
-		AnalyticsOperationHadoopJob job = AnalyticsOperationHadoopJob
-				.getInstance();
+
+		AnalyticsOperationHadoopJob job = AnalyticsOperationHadoopJob.getInstance();
 		job.setOperation(rop);
-		
-		job.setDataProviders((List)details.getDataProviders());
+
+		job.setDataProviders((List) details.getDataProviders());
 		job.setOperationInputs((List) details.getUserInputs());
 
 		job.setJobName(details.getOperation().getName());
-		
+
 		job.setMapperClass(ROperationMapper.class);
 		job.setReducerClass(ROperationReducer.class);
 		job.setInputFormatClass(MetricInputFormat.class);
 		job.setOutputFormatClass(MetricOutputFormat.class);
 		job.setMapOutputKeyClass(MetricKey.class);
 		job.setMapOutputValueClass(MetricWritable.class);
-		
-		//job.setJar("/Users/chris/devel/workspace/simple/engine/target/simple-analytics-engine-1.1-SNAPSHOT.jar");
-		
-		Configuration configuration = job.getConfiguration();
-		configuration.addResource(OperationDriver.class.getResourceAsStream("/configuration/hbase/hbase-client.xml"));
-		
-		configuration
-				.set("conf.column",
-						props.getProperty("com.artisan.orchestrator.hbase.metric.colfamily"));
 
-		MetricOutputFormat.setOutputAdatperType(configuration,
-				OutputAdapterType.HBASE);
-		
-		MetricInputFormat.setInputAdapterType(configuration,
-				InputAdapterType.HTTP);
+		Configuration configuration = job.getConfiguration();
+
+		configuration.set("conf.column",
+				props.getProperty("com.artisan.orchestrator.hbase.metric.colfamily"));
+
+		MetricOutputFormat.setOutputAdatperType(configuration, OutputAdapterType.HBASE);
+		MetricInputFormat.setInputAdapterType(configuration, InputAdapterType.HTTP);
 
 		configuration
 				.set(HttpInputConf.WEB_URL_PROPERTY,
@@ -172,9 +174,10 @@ public class OperationDriver implements IOperationExecutionService {
 
 		return job;
 	}
-	
+
 	/**
 	 * Helper to get the job by it's id
+	 * 
 	 * @param jobID
 	 * @return the job
 	 * @throws IOException
@@ -183,9 +186,10 @@ public class OperationDriver implements IOperationExecutionService {
 	private Job getJobById(JobID jobID) throws IOException, InterruptedException {
 		return getCluster().getJob(jobID);
 	}
-	
+
 	/**
 	 * Helper to get the cluster
+	 * 
 	 * @return
 	 * @throws IOException
 	 */
