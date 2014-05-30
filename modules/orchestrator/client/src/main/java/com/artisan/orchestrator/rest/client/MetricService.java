@@ -30,12 +30,14 @@ public class MetricService implements IMetricService {
 	 */
 	@Override
 	public IMetric find(String rowKey) {
-		IMetric metric = resource.path(rowKey).type(MediaType.APPLICATION_JSON).get(IMetric.class);
+		IMetric metric = resource.path(rowKey).type(MediaType.APPLICATION_JSON)
+				.get(IMetric.class);
 		return metric;
 	}
 
 	/**
-	 * Implementation for fetching a specify value by it's row key column and qualifier
+	 * Implementation for fetching a specify value by it's row key column and
+	 * qualifier
 	 * 
 	 * @GET
 	 * @Path("/{rowKey /{column}:{qualifier}")
@@ -44,12 +46,15 @@ public class MetricService implements IMetricService {
 	 */
 	@Override
 	public IMetric find(String rowKey, String column, String qualifier) {
-		return resource.path(rowKey).path(column + ":" + qualifier).get(IMetric.class);
+		return resource.path(rowKey).path(column + ":" + qualifier)
+				.get(IMetric.class);
 	}
 
 	@Override
 	public List<IMetric> find(Long operationId) {
-		List<IMetric> metrics = resource.path("operation").path(operationId.toString()).accept(MediaType.APPLICATION_JSON).get(List.class);
+		List<IMetric> metrics = resource.path("operation")
+				.path(operationId.toString())
+				.accept(MediaType.APPLICATION_JSON).get(List.class);
 		return metrics;
 	}
 }

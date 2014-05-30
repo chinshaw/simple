@@ -30,6 +30,10 @@ public class ArtisanClient implements ClientHandler {
 		this.baseUrl = baseUrl;
 	}
 
+	/**
+	 * This will print all messages to stdout for debugging
+	 * usage.
+	 */
 	public void enableDebug() {
 		client.addFilter(new LoggingFilter(System.out));
 	}
