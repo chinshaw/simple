@@ -9,8 +9,8 @@ import org.apache.hadoop.io.WritableUtils;
 
 import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.simple.orchestrator.api.IMetricWritable;
+import com.simple.orchestrator.api.metric.Metric;
 import com.simple.orchestrator.api.rest.MediaType;
-import com.simple.orchestrator.metric.Metric;
 
 public class MetricWritable<M extends Metric> implements IMetricWritable {
 

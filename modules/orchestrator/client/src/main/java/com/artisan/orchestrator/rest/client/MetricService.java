@@ -5,7 +5,9 @@ import java.util.List;
 import javax.ws.rs.core.MediaType;
 
 import com.simple.api.orchestrator.IMetric;
+import com.simple.orchestrator.api.metric.Metric;
 import com.simple.orchestrator.api.service.IMetricService;
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 
 public class MetricService implements IMetricService {
@@ -29,9 +31,9 @@ public class MetricService implements IMetricService {
 	 *             MediaType.APPLICATION_PROTOBUF })
 	 */
 	@Override
-	public IMetric find(String rowKey) {
-		IMetric metric = resource.path(rowKey).type(MediaType.APPLICATION_JSON)
-				.get(IMetric.class);
+	public Metric<?> find(String rowKey) {
+		Metric<?> metric = resource.path(rowKey).type(MediaType.APPLICATION_JSON)
+				.get(Metric.class);
 		return metric;
 	}
 
@@ -45,16 +47,16 @@ public class MetricService implements IMetricService {
 	 *             MediaType.APPLICATION_PROTOBUF })
 	 */
 	@Override
-	public IMetric find(String rowKey, String column, String qualifier) {
+	public Metric<?> find(String rowKey, String column, String qualifier) {
 		return resource.path(rowKey).path(column + ":" + qualifier)
-				.get(IMetric.class);
+				.get(Metric.class);
 	}
 
 	@Override
 	public List<IMetric> find(Long operationId) {
 		List<IMetric> metrics = resource.path("operation")
 				.path(operationId.toString())
-				.accept(MediaType.APPLICATION_JSON).get(List.class);
+				.accept(MediaType.APPLICATION_JSON).get(new GenericType<List<IMetric>>(){});
 		return metrics;
 	}
 }

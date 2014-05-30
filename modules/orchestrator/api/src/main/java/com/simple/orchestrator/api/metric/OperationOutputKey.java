@@ -1,4 +1,4 @@
-package com.simple.orchestrator.metric;
+package com.simple.orchestrator.api.metric;
 
 import org.apache.hadoop.hbase.util.Bytes;
 

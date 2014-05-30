@@ -15,11 +15,11 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
 import com.simple.api.orchestrator.IMetricKey;
 import com.simple.orchestrator.api.IMetricWritable;
+import com.simple.orchestrator.api.metric.MetricKey;
+import com.simple.orchestrator.api.metric.MetricString;
 import com.simple.orchestrator.api.rest.MediaType;
 import com.simple.orchestrator.hadoop.io.MetricWritable;
 import com.simple.orchestrator.hadoop.io.format.HttpInputFormat;
-import com.simple.orchestrator.metric.MetricKey;
-import com.simple.orchestrator.metric.MetricString;
 
 public class HttpInputAdapter<K extends IMetricKey, V extends IMetricWritable> extends
 		AbstractInputFormatAdapter<K, V> {

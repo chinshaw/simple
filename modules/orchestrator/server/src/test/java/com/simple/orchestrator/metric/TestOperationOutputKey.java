@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtobufIOUtil;
+import com.simple.orchestrator.api.metric.OperationOutputKey;
 
 public class TestOperationOutputKey {
 

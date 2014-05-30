@@ -1,4 +1,4 @@
-package com.simple.orchestrator.metric;
+package com.simple.orchestrator.api.metric;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +18,7 @@ public final class MetricString extends Metric<MetricString>  {
 	 */
 	private static final long serialVersionUID = 2744454200350645571L;
 
-	static final Schema<MetricString> SCHEMA = new Schema<MetricString>() {
+	public static final Schema<MetricString> SCHEMA = new Schema<MetricString>() {
 
 		final java.util.HashMap<String, Integer> fieldMap = new java.util.HashMap<String, Integer>();
 		{

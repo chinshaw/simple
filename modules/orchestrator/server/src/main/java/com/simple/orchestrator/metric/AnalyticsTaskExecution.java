@@ -22,6 +22,7 @@ import com.simple.api.orchestrator.ITaskExecution;
 import com.simple.domain.model.AnalyticsTask;
 import com.simple.domain.model.RequestFactoryEntity;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
+import com.simple.orchestrator.api.metric.Metric;
 
 
 public class AnalyticsTaskExecution extends RequestFactoryEntity implements ITaskExecution {

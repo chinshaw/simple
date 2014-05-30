@@ -25,11 +25,11 @@ import org.apache.hadoop.hbase.util.Bytes;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.simple.api.orchestrator.IMetric;
+import com.simple.orchestrator.api.metric.Metric;
 import com.simple.orchestrator.api.rest.MediaType;
 import com.simple.orchestrator.api.service.IMetricService;
 import com.simple.orchestrator.hadoop.io.MetricWritable;
 import com.simple.orchestrator.hadoop.job.ArtisanConfiguration;
-import com.simple.orchestrator.metric.Metric;
 
 @Path("/metric")
 public class MetricResource implements IMetricService {
@@ -145,7 +145,7 @@ public class MetricResource implements IMetricService {
 			throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
 		}
 		
-		List<IMetric> metrics = new ArrayList<IMetric>();
+		ArrayList<IMetric> metrics = new ArrayList<IMetric>();
 		try {
 			try {
 				ResultScanner resultScanner = table.getScanner(scan);

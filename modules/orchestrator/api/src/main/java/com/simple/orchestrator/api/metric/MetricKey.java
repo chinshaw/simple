@@ -1,4 +1,4 @@
-package com.simple.orchestrator.metric;
+package com.simple.orchestrator.api.metric;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -38,7 +38,7 @@ public class MetricKey implements IMetricKey, WritableComparable<IMetricKey>, Me
 	/**
 	 * Embedded schema fro faster runtime processing
 	 */
-	static final Schema<MetricKey> SCHEMA = new Schema<MetricKey>() {
+	public static final Schema<MetricKey> SCHEMA = new Schema<MetricKey>() {
 
 		final java.util.HashMap<String, Integer> fieldMap = new java.util.HashMap<String, Integer>();
 		{

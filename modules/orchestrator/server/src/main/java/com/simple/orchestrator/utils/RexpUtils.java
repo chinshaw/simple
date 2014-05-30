@@ -1,5 +1,10 @@
-package com.simple.orchestrator.metric;
+package com.simple.orchestrator.utils;
 
+import com.simple.orchestrator.api.metric.Metric;
+import com.simple.orchestrator.api.metric.MetricKey;
+import com.simple.orchestrator.api.metric.MetricNumber;
+import com.simple.orchestrator.api.metric.MetricRaw;
+import com.simple.orchestrator.api.metric.MetricString;
 import com.simple.radapter.protobuf.REXPProtos.Rexp;
 
 public class RexpUtils {
