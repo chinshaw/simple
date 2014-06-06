@@ -16,6 +16,11 @@ public class MetricService implements IMetricService {
 
 	private final WebResource resource;
 
+	/**
+	 * Default Constructor
+	 * @param client The Artisan client to use
+	 * @param baseUrl Base url for the service
+	 */
 	public MetricService(ArtisanClient client, String baseUrl) {
 		resource = client.resource(baseUrl + "/" + SERVICE_PATH);
 		resource.accept(MediaType.APPLICATION_JSON);

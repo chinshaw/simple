@@ -1,4 +1,4 @@
-package com.simple.orchestrator.service.web.rest;
+package com.artisan.orchestrator.rest.client;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -8,15 +8,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
-
-import org.apache.catalina.LifecycleException;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.artisan.orchestrator.rest.client.ArtisanClient;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
@@ -25,10 +19,13 @@ import com.simple.orchestrator.api.event.JobCompletionEvent;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.service.IOperationExecutionService;
+import com.simple.orchestrator.service.web.WebContextInjectorListener;
 import com.simple.orchestrator.test.OperationTestUtils;
-import com.simple.orchestrator.test.OrchestratorServer;
+import com.sun.jersey.test.framework.AppDescriptor;
+import com.sun.jersey.test.framework.JerseyTest;
+import com.sun.jersey.test.framework.WebAppDescriptor;
 
-public class TestOperationExecutionResource {
+public class TestOperationExecutionResource extends JerseyTest {
 
 	public static final String TEST_BASE_URL = "http://localhost:52280/r/v1";
 
@@ -42,26 +39,19 @@ public class TestOperationExecutionResource {
 
 	private static final Logger logger = Logger.getLogger(TestOperationExecutionResource.class.getName());
 
-	static OrchestratorServer server = new OrchestratorServer();
 
 	@Inject
 	private EventBus eventBus;
 
 	private ArtisanClient client;
-
+	
 	public TestOperationExecutionResource() {
 		IOCApplicationInjector.getInjector().injectMembers(TestOperationExecutionResource.this);
 	}
 
-	@BeforeClass
-	public static void init() throws LifecycleException, InterruptedException, ServletException, IOException {
-		server.start();
-	}
-
-	@AfterClass
-	public static void stop() throws LifecycleException {
-		server.stop();
-	}
+    protected AppDescriptor configure() {
+    	return new WebAppDescriptor.Builder().contextListenerClass(WebContextInjectorListener.class).build();
+    }
 
 	@Before
 	public void initResource() {

@@ -38,6 +38,21 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Adding the test classes so that other packages can use the test packages 
+				at compile time. Note if you use jar you should use the <scope>test</scope> 
+				so that the dependency does not get shipped with the deployables. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -174,12 +189,6 @@
 		<!-- Test packages -->
 
 
-		<dependency>
-			<groupId>com.simple</groupId>
-			<artifactId>artisan-orchestrator-java-client</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
 
 	</dependencies>
 </project>

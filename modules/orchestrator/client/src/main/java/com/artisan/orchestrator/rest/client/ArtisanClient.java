@@ -1,10 +1,6 @@
 package com.artisan.orchestrator.rest.client;
 
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandler;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
@@ -19,12 +15,35 @@ import com.sun.jersey.api.json.JSONConfiguration;
  * 
  * @author chris
  */
-public class ArtisanClient implements ClientHandler {
+public class ArtisanClient {
 
+	public static final int CLIENT_DEFAULT_PORT = 80;
+	
+	public static final String CLIENT_DEFAULT_PROTOCOL = "http";
+	
 	private final Client client;
 
 	private final String baseUrl;
 
+	
+	public ArtisanClient(String host) {
+		this(host, CLIENT_DEFAULT_PORT);
+	}
+	
+	public ArtisanClient(String host, int port) {
+		this(host, port, CLIENT_DEFAULT_PROTOCOL);
+	}
+	
+	public ArtisanClient(String host, int port, String protocol) {
+		this(new Client(), String.format("%s://%s:%s",  protocol, host, port));
+	}
+	
+	public ArtisanClient(Client client, String baseUrl) {
+		this.client = client;
+		this.baseUrl = baseUrl;
+	}
+	
+	
 	private ArtisanClient(ClientConfig config, String baseUrl) {
 		this.client = Client.create(config);
 		this.baseUrl = baseUrl;
@@ -46,10 +65,6 @@ public class ArtisanClient implements ClientHandler {
 		return new MetricService(this, baseUrl);
 	}
 
-	@Override
-	public ClientResponse handle(ClientRequest cr) throws ClientHandlerException {
-		return client.handle(cr);
-	}
 
 	/**
 	 * Used to create a client that can communicate with the server instance.
