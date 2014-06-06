@@ -6,9 +6,8 @@ import javax.persistence.InheritanceType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.simple.api.orchestrator.IDataProvider;
 import com.simple.domain.model.RequestFactoryEntity;
 

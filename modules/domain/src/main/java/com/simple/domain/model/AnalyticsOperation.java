@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -20,13 +21,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.annotate.JsonTypeInfo.As;
-import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.simple.api.orchestrator.IAnalyticsOperation;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.DataProviderInput;
@@ -39,7 +38,7 @@ import com.simple.domain.model.ui.DataProviderInput;
 @XmlRootElement
 @XmlSeeAlso({RAnalyticsOperation.class})
 @Inheritance(strategy =InheritanceType.TABLE_PER_CLASS)
-@JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "@class")
+@JsonTypeInfo(use =  JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "@class")
 @JsonSubTypes({ @JsonSubTypes.Type(value = RAnalyticsOperation.class, name="r")})
 @JsonIgnoreProperties(value = {"lastChangeLog", "modifiedDate", "lastModifiedBy"})
 public abstract class AnalyticsOperation extends RequestFactoryEntity implements IAnalyticsOperation  {

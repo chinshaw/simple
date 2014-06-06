@@ -9,7 +9,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
 import com.dyuproject.protostuff.Message;
-import com.dyuproject.protostuff.Tag;
 import com.simple.api.orchestrator.IMetric;
 import com.simple.api.orchestrator.IMetricKey;
 

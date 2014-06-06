@@ -59,7 +59,7 @@ public class MetricResource implements IMetricService {
 
 	@GET
 	@Path("/{rowKey}")
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF })
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROTOBUF })
 	public IMetric find(@PathParam("rowKey") String rowKey) {
 		return find(rowKey, colFamily, colValue);
 	}

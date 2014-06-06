@@ -1,15 +1,8 @@
 package com.artisan.orchestrator.rest.client;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientHandler;
-import com.sun.jersey.api.client.ClientHandlerException;
-import com.sun.jersey.api.client.ClientRequest;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.LoggingFilter;
-import com.sun.jersey.api.json.JSONConfiguration;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+
 
 /**
  * This class is merely a wrapper around the jersey library but it gives us a
@@ -19,53 +12,35 @@ import com.sun.jersey.api.json.JSONConfiguration;
  * 
  * @author chris
  */
-public class ArtisanClient implements ClientHandler {
+public class ArtisanClient {
+	
+	private static final String BASE_URL_TEMPLATE = "%s://%s:%s/rest/v1";
 
 	private final Client client;
 
-	private final String baseUrl;
-
-	private ArtisanClient(ClientConfig config, String baseUrl) {
-		this.client = Client.create(config);
-		this.baseUrl = baseUrl;
+	private final BaseUrlProvider baseUrlProvider;
+	
+	public ArtisanClient(final String protocol, final String host, final String port) {
+		this(ClientBuilder.newClient(), new BaseUrlProvider() {
+			
+			@Override
+			public String getBaseUrl() {
+				return String.format(BASE_URL_TEMPLATE, protocol, host, port);
+			}
+		});
 	}
-
-	/**
-	 * This will print all messages to stdout for debugging
-	 * usage.
-	 */
-	public void enableDebug() {
-		client.addFilter(new LoggingFilter(System.out));
+	
+	
+	public ArtisanClient(Client client, BaseUrlProvider baseUrlProvider) {
+		this.client = client;
+		this.baseUrlProvider = baseUrlProvider;
 	}
 
 	public OperationExecutionService createExecutionService() {
-		return new OperationExecutionService(this, baseUrl);
+		return new OperationExecutionService(client, baseUrlProvider.getBaseUrl());
 	}
 	
 	public MetricService createMetricService() {
-		return new MetricService(this, baseUrl);
+		return new MetricService(client, baseUrlProvider.getBaseUrl());
 	}
-
-	@Override
-	public ClientResponse handle(ClientRequest cr) throws ClientHandlerException {
-		return client.handle(cr);
-	}
-
-	/**
-	 * Used to create a client that can communicate with the server instance.
-	 * 
-	 * @param clientConfig
-	 * @param baseUrl
-	 * @return
-	 */
-	public static final ArtisanClient create(String baseUrl) {
-		ClientConfig clientConfig = new DefaultClientConfig();
-		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-		return new ArtisanClient(clientConfig, baseUrl);
-	}
-
-	protected WebResource resource(String urlString) {
-		return client.resource(urlString);
-	}
-
 }

@@ -24,14 +24,15 @@
 
 		<shiro.version>1.2.2</shiro.version>
 
-		<jersey.version>1.18.1</jersey.version>
+		<jersey.version>2.9</jersey.version>
+		<hk2.version>2.3.0-b05</hk2.version>
+		<jackson.version>2.3.2</jackson.version>
 		<protostuff.version>1.0.8</protostuff.version>
 		<quartz.version>2.2.1</quartz.version>
 		<guice.version>3.0</guice.version>
 		<guava.version>16.0.1</guava.version>
 		<hadoop.version>2.4.0</hadoop.version>
 		<hbase.version>0.98.2-hadoop2</hbase.version>
-		<jackson.version>1.9.2</jackson.version>
 
 		<jetty.version>7.2.0.v20101020</jetty.version>
 		<tomcat.version>7.0.53</tomcat.version>
@@ -210,51 +211,77 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-server</artifactId>
+				<groupId>org.glassfish.jersey</groupId>
+				<artifactId>jersey-bom</artifactId>
+				<version>${jersey.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-servlet-core</artifactId>
 				<version>${jersey.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.sun.jersey</groupId>
+				<groupId>org.glassfish.jersey.core</groupId>
 				<artifactId>jersey-client</artifactId>
 				<version>${jersey.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.sun.jersey</groupId>
-				<artifactId>jersey-json</artifactId>
+				<groupId>org.glassfish.jersey.test-framework.providers</groupId>
+				<artifactId>jersey-test-framework-provider-jetty</artifactId>
 				<version>${jersey.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-core-asl</artifactId>
+				<groupId>org.glassfish.hk2</groupId>
+				<artifactId>hk2</artifactId>
+				<version>${hk2.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.hk2</groupId>
+				<artifactId>core</artifactId>
+				<version>${hk2.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.hk2</groupId>
+				<artifactId>hk2-api</artifactId>
+				<version>${hk2.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.hk2</groupId>
+				<artifactId>guice-bridge</artifactId>
+				<version>${hk2.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-asl</artifactId>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-jaxrs</artifactId>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-xc</artifactId>
+				<groupId>com.fasterxml.jackson.module</groupId>
+				<artifactId>jackson-module-jaxb-annotations</artifactId>
 				<version>${jackson.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.sun.jersey.contribs</groupId>
-				<artifactId>jersey-guice</artifactId>
-				<version>${jersey.version}</version>
 			</dependency>
 
 		</dependencies>
@@ -361,6 +388,28 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-client</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>jersey-core</artifactId>
+					<groupId>com.sun.jersey</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jersey-json</artifactId>
+					<groupId>com.sun.jersey</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jersey-server</artifactId>
+					<groupId>com.sun.jersey</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jersey-guice</artifactId>
+					<groupId>com.sun.jersey.contribs</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 

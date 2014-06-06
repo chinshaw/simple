@@ -14,9 +14,9 @@ import com.google.inject.Injector;
  * @author chris
  *
  */
-public class IOCApplicationInjector {
+public class IOCApplicationInjectorFactory {
 
-	private static final Injector injector = Guice.createInjector(new IOCOrchestratorWebModule());
+	private static final Injector injector = Guice.createInjector(new IOCOrchestratorModule());
 	
 	public static final Injector getInjector() {
 		return injector;

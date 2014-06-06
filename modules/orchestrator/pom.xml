@@ -28,7 +28,6 @@
 			<id>hbase</id>
 			<url>http://repo1.maven.org/</url>
 		</repository>
-
 	</repositories>
 
 	<build>

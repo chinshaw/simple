@@ -6,6 +6,8 @@ import com.simple.api.orchestrator.IMetric;
 
 public interface IMetricService {
 	
+	public static final String REST_BASE_URL = "metric";
+	
 	public Collection<IMetric> find(Long operationId);
 	
 	public IMetric find(String rowKey);

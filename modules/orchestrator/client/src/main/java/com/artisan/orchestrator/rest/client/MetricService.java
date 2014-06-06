@@ -2,23 +2,22 @@ package com.artisan.orchestrator.rest.client;
 
 import java.util.List;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
 import com.simple.api.orchestrator.IMetric;
 import com.simple.orchestrator.api.metric.Metric;
 import com.simple.orchestrator.api.service.IMetricService;
-import com.sun.jersey.api.client.GenericType;
-import com.sun.jersey.api.client.WebResource;
 
 public class MetricService implements IMetricService {
 
-	public static final String SERVICE_PATH = "metric";
 
-	private final WebResource resource;
+	private final WebTarget webTarget;
 
-	public MetricService(ArtisanClient client, String baseUrl) {
-		resource = client.resource(baseUrl + "/" + SERVICE_PATH);
-		resource.accept(MediaType.APPLICATION_JSON);
+	public MetricService(Client client, String baseUrl) {
+		webTarget = client.target(baseUrl + "/" + IMetricService.REST_BASE_URL);
 	}
 
 	/**
@@ -32,7 +31,7 @@ public class MetricService implements IMetricService {
 	 */
 	@Override
 	public Metric<?> find(String rowKey) {
-		Metric<?> metric = resource.path(rowKey).type(MediaType.APPLICATION_JSON)
+		Metric<?> metric = webTarget.path(rowKey).request(MediaType.APPLICATION_JSON)
 				.get(Metric.class);
 		return metric;
 	}
@@ -48,15 +47,17 @@ public class MetricService implements IMetricService {
 	 */
 	@Override
 	public Metric<?> find(String rowKey, String column, String qualifier) {
-		return resource.path(rowKey).path(column + ":" + qualifier)
+		return webTarget.path(rowKey)
+				.path(column + ":" + qualifier)
+				.request(MediaType.APPLICATION_JSON)
 				.get(Metric.class);
 	}
 
 	@Override
 	public List<IMetric> find(Long operationId) {
-		List<IMetric> metrics = resource.path("operation")
+		List<IMetric> metrics = webTarget.path("operation")
 				.path(operationId.toString())
-				.accept(MediaType.APPLICATION_JSON).get(new GenericType<List<IMetric>>(){});
+				.request(MediaType.APPLICATION_JSON).get(new GenericType<List<IMetric>>(){});
 		return metrics;
 	}
 }

@@ -8,66 +8,71 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
+import javax.ws.rs.core.Application;
 
-import org.apache.catalina.LifecycleException;
-import org.junit.AfterClass;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.test.JerseyTest;
+import org.glassfish.jersey.test.TestProperties;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.artisan.orchestrator.rest.client.ArtisanClient;
+import com.artisan.orchestrator.rest.client.BaseUrlProvider;
+import com.artisan.orchestrator.rest.client.OperationExecutionService;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
-import com.simple.orchestrator.IOCApplicationInjector;
+import com.simple.orchestrator.IOCApplicationInjectorFactory;
 import com.simple.orchestrator.api.event.JobCompletionEvent;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.service.IOperationExecutionService;
 import com.simple.orchestrator.test.OperationTestUtils;
-import com.simple.orchestrator.test.OrchestratorServer;
 
-public class TestOperationExecutionResource {
+public class TestOperationExecutionResource extends JerseyTest {
 
-	public static final String TEST_BASE_URL = "http://localhost:52280/r/v1";
 
-	{
-		try {
-			LogManager.getLogManager().readConfiguration(TestOperationExecutionResource.class.getResourceAsStream("/logging.properties"));
-		} catch (SecurityException | IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 	private static final Logger logger = Logger.getLogger(TestOperationExecutionResource.class.getName());
-
-	static OrchestratorServer server = new OrchestratorServer();
+	
+	private static final ResourceConfig config = new ResourceConfig() {
+		{
+			register(OperationExecutionService.class);
+		}
+	};
 
 	@Inject
 	private EventBus eventBus;
 
 	private ArtisanClient client;
 
-	public TestOperationExecutionResource() {
-		IOCApplicationInjector.getInjector().injectMembers(TestOperationExecutionResource.this);
-	}
-
-	@BeforeClass
-	public static void init() throws LifecycleException, InterruptedException, ServletException, IOException {
-		server.start();
-	}
-
-	@AfterClass
-	public static void stop() throws LifecycleException {
-		server.stop();
-	}
-
 	@Before
 	public void initResource() {
-		client = ArtisanClient.create(TEST_BASE_URL);
-		client.enableDebug();
+		client = new ArtisanClient(client(), new BaseUrlProvider() {
+			
+			@Override
+			public String getBaseUrl() {
+				return getBaseUri().toString();
+			}
+		});
 	}
+	
+	public TestOperationExecutionResource() {
+		IOCApplicationInjectorFactory.getInjector().injectMembers(TestOperationExecutionResource.this);
+		try {
+			LogManager.getLogManager().readConfiguration(TestOperationExecutionResource.class.getResourceAsStream("/logging.properties"));
+		} catch (SecurityException | IOException e) {
+			throw new RuntimeException(e);
+		}
+		enable(TestProperties.LOG_TRAFFIC);
+		enable(TestProperties.DUMP_ENTITY);
+	}
+
+	@Override
+	public Application configure() {
+		return config;
+	}
+
 
 	@Test
 	public void testExecute() throws IOException, InterruptedException, HadoopJobException {

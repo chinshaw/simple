@@ -32,7 +32,7 @@ ZOO_URL=file://$(pwd)/../resources/${ZOO_VERSION}.tar.gz
 
 # r_arch=x86_64 F77="gfortran-4.2 -arch x86_64" --prefix=/opt/artisan/apps/versions/R-3.1.0 --without-x --with-cairo --with-libpng
 export F77="gfortran-4.2 -arch x86_64"
-R_CONFIG_OPTIONS="r_arch=x86_64 --enable-R-shlib --without-x --with-cairo --with-libpng"
+R_CONFIG_OPTIONS="--enable-R-shlib --without-x --with-cairo --with-libpng"
 
 do_install_hadoop() {
 	if [[ ! -d ${HADOOP_VERSIONS_DIR} ]]; then

@@ -9,7 +9,7 @@
 #include <Rdefines.h>
 #include <R_ext/Parse.h>
 
-#include <google/protobuf-c/protobuf-c-rpc.h>
+//#include <google/protobuf-c/protobuf-c-rpc.h>
 
 #include "rexp.pb-c.h"
 
