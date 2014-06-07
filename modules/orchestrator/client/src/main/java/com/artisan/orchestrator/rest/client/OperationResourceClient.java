@@ -1,6 +1,7 @@
 package com.artisan.orchestrator.rest.client;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
 
 import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.IJobProgress;
@@ -9,14 +10,16 @@ import com.simple.orchestrator.api.exception.InvalidJobIdException;
 import com.simple.orchestrator.api.service.IOperationExecutionService;
 import com.sun.jersey.api.client.WebResource;
 
-public class OperationExecutionService implements IOperationExecutionService {
+public class OperationResourceClient implements IOperationExecutionService {
 
 	public static final String SERVICE_PATH = "operation";
 
 	private final WebResource resource;
 
-	public OperationExecutionService(ArtisanClient client, String baseUrl) {
-		resource = client.resource(baseUrl + "/" + SERVICE_PATH);
+	public OperationResourceClient(ArtisanClient client, String baseUrl) {
+		resource = client.resource(UriBuilder.fromPath(baseUrl)
+				.path(IOperationExecutionService.RESOURCE_PATH)
+				.build().toString());
 	}
 
 	/**

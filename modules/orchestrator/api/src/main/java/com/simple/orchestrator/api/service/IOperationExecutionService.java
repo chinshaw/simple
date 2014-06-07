@@ -2,10 +2,12 @@ package com.simple.orchestrator.api.service;
 
 import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.IJobProgress;
-import com.simple.orchestrator.api.exception.InvalidJobIdException;
 import com.simple.orchestrator.api.exception.HadoopJobException;
+import com.simple.orchestrator.api.exception.InvalidJobIdException;
 
 public interface IOperationExecutionService {
+	
+	public static final String RESOURCE_PATH = "operation";
 	
 	/**
 	 * This returns a job receipt for the job you are executing.

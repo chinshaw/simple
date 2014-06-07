@@ -10,7 +10,7 @@ import com.simple.orchestrator.api.service.IMetricService;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.WebResource;
 
-public class MetricService implements IMetricService {
+public class MetricResourceClient implements IMetricService {
 
 	public static final String SERVICE_PATH = "metric";
 
@@ -21,7 +21,7 @@ public class MetricService implements IMetricService {
 	 * @param client The Artisan client to use
 	 * @param baseUrl Base url for the service
 	 */
-	public MetricService(ArtisanClient client, String baseUrl) {
+	public MetricResourceClient(ArtisanClient client, String baseUrl) {
 		resource = client.resource(baseUrl + "/" + SERVICE_PATH);
 		resource.accept(MediaType.APPLICATION_JSON);
 	}

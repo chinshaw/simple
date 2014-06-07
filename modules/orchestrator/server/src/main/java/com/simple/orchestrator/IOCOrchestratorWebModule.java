@@ -33,6 +33,7 @@ public class IOCOrchestratorWebModule extends ServletModule {
 	private Map<String, String> createJerseyParams() {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("com.sun.jersey.api.json.POJOMappingFeature", "true");
+		params.put("com.sun.jersey.config.feature.Trace", "true");
 		return params;
 	}
 }

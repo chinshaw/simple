@@ -57,12 +57,12 @@ public class ArtisanClient {
 		client.addFilter(new LoggingFilter(System.out));
 	}
 
-	public OperationExecutionService createExecutionService() {
-		return new OperationExecutionService(this, baseUrl);
+	public OperationResourceClient createExecutionService() {
+		return new OperationResourceClient(this, baseUrl);
 	}
 	
-	public MetricService createMetricService() {
-		return new MetricService(this, baseUrl);
+	public MetricResourceClient createMetricService() {
+		return new MetricResourceClient(this, baseUrl);
 	}
 
 

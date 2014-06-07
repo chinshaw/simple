@@ -15,7 +15,7 @@ import org.junit.Test;
 import com.simple.api.orchestrator.IMetric;
 import com.simple.orchestrator.OrchestratorServer;
 
-public class TestMetricService {
+public class MetricResourceClientTest {
 
 	public static final String TEST_BASE_URL = "http://localhost:52280/r/v1";
 
@@ -36,7 +36,7 @@ public class TestMetricService {
 
 	@Test
 	public void testFind() {
-		MetricService service = client.createMetricService();
+		MetricResourceClient service = client.createMetricService();
 		IMetric metric = service.find("123:123");
 		Assert.assertTrue(metric != null);
 	}
@@ -49,7 +49,7 @@ public class TestMetricService {
 	@Test
 	public void testFindOperationOutputs() {
 		client.enableDebug();
-		MetricService service = client.createMetricService();
+		MetricResourceClient service = client.createMetricService();
 		List<IMetric> metrics = service.find(99999l);
 		Assert.assertTrue(metrics.size() > 0);
 
