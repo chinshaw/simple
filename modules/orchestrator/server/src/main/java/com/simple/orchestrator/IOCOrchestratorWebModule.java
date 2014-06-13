@@ -26,8 +26,6 @@ public class IOCOrchestratorWebModule extends ServletModule {
 		bind(HadoopResource.class).in(Scopes.SINGLETON);
 		bind(Notification.class).in(Scopes.SINGLETON);
 		serve("/r/v1/*").with(GuiceContainer.class, createJerseyParams());
-		
-		
 	}
 
 	private Map<String, String> createJerseyParams() {

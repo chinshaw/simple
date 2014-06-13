@@ -30,7 +30,7 @@ import com.simple.orchestrator.hadoop.io.format.MetricInputFormat;
 import com.simple.orchestrator.hadoop.io.format.MetricInputFormat.InputAdapterType;
 import com.simple.orchestrator.hadoop.io.format.MetricOutputFormat;
 import com.simple.orchestrator.hadoop.io.format.MetricOutputFormat.OutputAdapterType;
-import com.simple.orchestrator.hadoop.job.AnalyticsOperationHadoopJob;
+import com.simple.orchestrator.hadoop.job.ArtisanJob;
 
 public class OperationDriver implements IOperationExecutionService {
 
@@ -64,7 +64,7 @@ public class OperationDriver implements IOperationExecutionService {
 	 */
 	public String execute(IHadoopOperationJobConfiguration jobDetails) throws HadoopJobException {
 		try {
-			AnalyticsOperationHadoopJob job = createJob(jobDetails);
+			ArtisanJob job = createJob(jobDetails);
 			job.submit();
 			return job.getJobID().toString();
 		} catch (ClassNotFoundException | IOException | InterruptedException | RAnalyticsException
@@ -143,7 +143,7 @@ public class OperationDriver implements IOperationExecutionService {
 	 * @throws ConfigurationException
 	 * @throws RAnalyticsException
 	 */
-	static AnalyticsOperationHadoopJob createJob(IHadoopOperationJobConfiguration details)
+	static ArtisanJob createJob(IHadoopOperationJobConfiguration details)
 			throws IOException, ConfigurationException, RAnalyticsException {
 
 		if (details.getOperation() == null) {
@@ -152,7 +152,7 @@ public class OperationDriver implements IOperationExecutionService {
 
 		RAnalyticsOperation rop = (RAnalyticsOperation) details.getOperation();
 
-		AnalyticsOperationHadoopJob job = AnalyticsOperationHadoopJob.getInstance();
+		ArtisanJob job = ArtisanJob.getInstance();
 		job.setOperation(rop);
 
 		job.setDataProviders((List) details.getDataProviders());

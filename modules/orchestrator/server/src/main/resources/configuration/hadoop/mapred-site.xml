@@ -24,9 +24,11 @@
 		<!-- <value>yarn</value> -->
 	</property>
 
+	<!--
 	<property>
 		<name>job.end.notification.url</name>
 		<value>http://localhost:52280/r/v1/notification/hadoop/completed/$jobId?status=$jobStatus
 		</value>
 	</property>
+	-->
 </configuration>

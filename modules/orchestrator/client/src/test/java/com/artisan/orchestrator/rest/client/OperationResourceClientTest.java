@@ -37,7 +37,6 @@ public class OperationResourceClientTest extends GuiceJerseyTest {
 	}
 
 	private static final Logger logger = Logger.getLogger(OperationResourceClientTest.class.getName());
-
 	
 	private ArtisanClient client;
 	
@@ -88,7 +87,7 @@ public class OperationResourceClientTest extends GuiceJerseyTest {
 
 		// Start max wait if we get to two minutes, for readability I use
 		// TimeUnit
-		latch.await(120, TimeUnit.SECONDS);
+		latch.await(30, TimeUnit.SECONDS);
 
 		assert (latch.getCount() != 1);
 		assertNotNull(jobId);

@@ -15,18 +15,18 @@ import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.orchestrator.hadoop.config.ConfigurationException;
 import com.simple.orchestrator.hadoop.config.OperationConfig;
 
-public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
+public class ArtisanJob extends Job implements IHadoopJob {
 	
 	
-	public AnalyticsOperationHadoopJob() throws IOException {
+	public ArtisanJob() throws IOException {
 		this(new ArtisanConfiguration());
 	}
 
-	public AnalyticsOperationHadoopJob(ArtisanConfiguration conf) throws IOException {
+	public ArtisanJob(ArtisanConfiguration conf) throws IOException {
 		super(conf);
 	}
 	
-	public AnalyticsOperationHadoopJob(ArtisanConfiguration conf, String jobName)
+	public ArtisanJob(ArtisanConfiguration conf, String jobName)
 			throws IOException {
 		super(conf, jobName);
 	}
@@ -39,7 +39,7 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 * @return the {@link Job} , with no connection to a cluster yet.
 	 * @throws IOException
 	 */
-	public static AnalyticsOperationHadoopJob getInstance() throws IOException {
+	public static ArtisanJob getInstance() throws IOException {
 		// create with a null Cluster
 		return getInstance(new ArtisanConfiguration());
 	}
@@ -59,9 +59,9 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 * @return the {@link Job} , with no connection to a cluster yet.
 	 * @throws IOException
 	 */
-	public static AnalyticsOperationHadoopJob getInstance(ArtisanConfiguration conf) throws IOException {
+	public static ArtisanJob getInstance(ArtisanConfiguration conf) throws IOException {
 		// create with a null Cluster
-		return new AnalyticsOperationHadoopJob(conf);
+		return new ArtisanJob(conf);
 	}
 
 	/**
@@ -78,10 +78,10 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 * @return the {@link Job} , with no connection to a cluster yet.
 	 * @throws IOException
 	 */
-	public static AnalyticsOperationHadoopJob getInstance(ArtisanConfiguration conf, String jobName)
+	public static ArtisanJob getInstance(ArtisanConfiguration conf, String jobName)
 			throws IOException {
 		// create with a null Cluster
-		AnalyticsOperationHadoopJob result = getInstance(conf);
+		ArtisanJob result = getInstance(conf);
 		result.setJobName(jobName);
 		return result;
 	}
@@ -102,7 +102,7 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 * @return the {@link Job} , with no connection to a cluster yet.
 	 * @throws IOException
 	 */
-	public static AnalyticsOperationHadoopJob getInstance(JobStatus status, Configuration conf)
+	public static ArtisanJob getInstance(JobStatus status, Configuration conf)
 			throws IOException {
 		throw new RuntimeException("Not supported");
 	}
@@ -121,7 +121,7 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 * @deprecated Use {@link #getInstance()}
 	 */
 	@Deprecated
-	public static AnalyticsOperationHadoopJob getInstance(Cluster ignored) throws IOException {
+	public static ArtisanJob getInstance(Cluster ignored) throws IOException {
 		return getInstance();
 	}
 
@@ -142,7 +142,7 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 * @deprecated Use {@link #getInstance(Configuration)}
 	 */
 	@Deprecated
-	public static AnalyticsOperationHadoopJob getInstance(Cluster ignored, ArtisanConfiguration conf)
+	public static ArtisanJob getInstance(Cluster ignored, ArtisanConfiguration conf)
 			throws IOException {
 		return getInstance(conf);
 	}
@@ -166,7 +166,7 @@ public class AnalyticsOperationHadoopJob extends Job implements IHadoopJob {
 	 * @throws IOException
 	 */
 	@Private
-	public static AnalyticsOperationHadoopJob getInstance(Cluster cluster, JobStatus status,
+	public static ArtisanJob getInstance(Cluster cluster, JobStatus status,
 			Configuration conf) throws IOException {
 		throw new RuntimeException("Not supported");
 	}
