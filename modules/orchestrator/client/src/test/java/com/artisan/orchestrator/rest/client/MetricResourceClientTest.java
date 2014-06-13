@@ -19,7 +19,7 @@ public class MetricResourceClientTest {
 
 	public static final String TEST_BASE_URL = "http://localhost:52280/r/v1";
 
-	private ArtisanClient client = ArtisanClient.create(TEST_BASE_URL);
+	private ArtisanClient client;
 
 	private static final OrchestratorServer server = OrchestratorServer.create(OrchestratorServer.DEFAULT_HOST,
 			OrchestratorServer.DEFAULT_PORT, true);
@@ -48,7 +48,7 @@ public class MetricResourceClientTest {
 
 	@Test
 	public void testFindOperationOutputs() {
-		client.enableDebug();
+	//	client.enableDebug();
 		MetricResourceClient service = client.createMetricService();
 		List<IMetric> metrics = service.find(99999l);
 		Assert.assertTrue(metrics.size() > 0);

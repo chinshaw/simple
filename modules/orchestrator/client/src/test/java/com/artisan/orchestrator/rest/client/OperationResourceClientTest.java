@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.Before;
@@ -25,6 +24,7 @@ import com.simple.orchestrator.api.event.JobCompletionEvent;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.service.IOperationExecutionService;
+import com.sun.jersey.api.client.Client;
 
 public class OperationResourceClientTest extends GuiceJerseyTest {
 
@@ -50,13 +50,13 @@ public class OperationResourceClientTest extends GuiceJerseyTest {
 
 	@Before
 	public void before() {
-		client = new ArtisanClient(client(), getBaseURI().toString());
+		client = new ArtisanClient(Client.create(ArtisanClient.clientConfig), getBaseURI().toString());
 		client.enableDebug();
 	}
 
 
 	@Test
-	public void testFull() throws IOException, InterruptedException, HadoopJobException {
+	public void textExecuteWithPlot() throws IOException, InterruptedException, HadoopJobException {
 		final CountDownLatch latch = new CountDownLatch(1);
 
 		final HadoopOperationJobConfiguration.Builder confBuilder = new HadoopOperationJobConfiguration.Builder();

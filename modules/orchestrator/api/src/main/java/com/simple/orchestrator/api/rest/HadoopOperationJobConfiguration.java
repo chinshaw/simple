@@ -3,15 +3,14 @@ package com.simple.orchestrator.api.rest;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-import org.codehaus.jackson.annotate.JsonTypeInfo.As;
-import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
 
+@XmlRootElement
 public class HadoopOperationJobConfiguration implements IHadoopOperationJobConfiguration {
 
 	private String owner;

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 APPS_DIR=/opt/artisan/apps
 VERSIONS_DIR=${APPS_DIR}/versions
@@ -30,9 +30,14 @@ R_URL=file://$(pwd)/../resources/${R_VERSION}.tar.gz
 ZOO_URL=file://$(pwd)/../resources/${ZOO_VERSION}.tar.gz
 
 
-# r_arch=x86_64 F77="gfortran-4.2 -arch x86_64" --prefix=/opt/artisan/apps/versions/R-3.1.0 --without-x --with-cairo --with-libpng
+# r_arch=x86_64 F77="gfortran-4.2 -arch=x86_64" --prefix=/opt/artisan/apps/versions/R-3.1.0 --without-x --with-cairo --with-libpng
+export CC="gcc -arch x86_64 -std=gnu99"
+export OBJC="gcc -arch x86_64"
 export F77="gfortran-4.2 -arch x86_64"
+export FC="gfortran -arch x86_64"
+
 R_CONFIG_OPTIONS="r_arch=x86_64 --enable-R-shlib --without-x --with-cairo --with-libpng"
+
 
 do_install_hadoop() {
 	if [[ ! -d ${HADOOP_VERSIONS_DIR} ]]; then

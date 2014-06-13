@@ -17,6 +17,12 @@ import com.sun.jersey.api.json.JSONConfiguration;
  */
 public class ArtisanClient {
 
+	public static ClientConfig clientConfig = new DefaultClientConfig() {
+		{
+			getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
+		}
+	};
+	
 	public static final int CLIENT_DEFAULT_PORT = 80;
 	
 	public static final String CLIENT_DEFAULT_PROTOCOL = "http";
@@ -24,7 +30,7 @@ public class ArtisanClient {
 	private final Client client;
 
 	private final String baseUrl;
-
+	
 	
 	public ArtisanClient(String host) {
 		this(host, CLIENT_DEFAULT_PORT);
@@ -35,20 +41,16 @@ public class ArtisanClient {
 	}
 	
 	public ArtisanClient(String host, int port, String protocol) {
-		this(new Client(), String.format("%s://%s:%s",  protocol, host, port));
+		this(Client.create(clientConfig), String.format("%s://%s:%s",  protocol, host, port));
 	}
 	
 	public ArtisanClient(Client client, String baseUrl) {
 		this.client = client;
 		this.baseUrl = baseUrl;
+		
+		client.getProperties().put("JSONConfiguration.FEATURE_POJO_MAPPING", Boolean.TRUE);
 	}
 	
-	
-	private ArtisanClient(ClientConfig config, String baseUrl) {
-		this.client = Client.create(config);
-		this.baseUrl = baseUrl;
-	}
-
 	/**
 	 * This will print all messages to stdout for debugging
 	 * usage.
@@ -72,12 +74,10 @@ public class ArtisanClient {
 	 * @param clientConfig
 	 * @param baseUrl
 	 * @return
-	 */
 	public static final ArtisanClient create(String baseUrl) {
-		ClientConfig clientConfig = new DefaultClientConfig();
-		clientConfig.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
-		return new ArtisanClient(clientConfig, baseUrl);
+		return new ArtisanClient(baseUrl);
 	}
+	*/
 
 	protected WebResource resource(String urlString) {
 		return client.resource(urlString);

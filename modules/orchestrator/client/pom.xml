@@ -20,13 +20,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>artisan-orchestrator-server</artifactId>
-			<version>${project.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
 
 		<dependency>
 			<groupId>com.simple</groupId>
@@ -54,6 +47,16 @@
 			<groupId>com.sun.jersey.jersey-test-framework</groupId>
 			<artifactId>jersey-test-framework-grizzly</artifactId>
 		</dependency>
+
+		<!--  Test only packages -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>artisan-orchestrator-server</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
 </project>

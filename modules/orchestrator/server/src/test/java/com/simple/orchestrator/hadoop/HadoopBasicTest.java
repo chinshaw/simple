@@ -5,13 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.inject.Inject;
+
 import org.junit.Test;
 
 import com.artisan.utils.ClasspathUtils;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.dataprovider.HttpDataProvider;
+import com.simple.orchestrator.IOCOrchestratorTestModule;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration.Builder;
@@ -30,7 +35,13 @@ public class HadoopBasicTest {
 
 	private static final Logger logger = Logger.getLogger(HadoopBasicTest.class.getName());
 	
-	private OperationDriver executor = new OperationDriver();
+	@Inject
+	private OperationDriver executor; 
+	
+	public HadoopBasicTest() {
+		Injector injector = Guice.createInjector(new IOCOrchestratorTestModule());
+		injector.injectMembers(this);
+	}
 	
 	@Test
 	public void testBasic() throws AnalyticsOperationException, ConfigurationException, HadoopJobException {

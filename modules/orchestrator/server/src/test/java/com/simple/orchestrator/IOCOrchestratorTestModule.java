@@ -6,7 +6,6 @@ public class IOCOrchestratorTestModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		
+		install(new IOCOrchestratorWebModule());
 	}
-
 }

@@ -1,10 +1,11 @@
 package com.simple.orchestrator.hadoop.mrv2;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.inject.Inject;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapred.JobID;
@@ -12,6 +13,7 @@ import org.apache.hadoop.mapreduce.Cluster;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.JobStatus;
 
+import com.google.common.eventbus.EventBus;
 import com.simple.api.exceptions.RAnalyticsException;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
@@ -38,10 +40,14 @@ public class OperationDriver implements IOperationExecutionService {
 
 	public static final String TIMESTAMP_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
+	private EventBus eventBus;
+	
 	/**
 	 * 
 	 */
-	public OperationDriver() {
+	@Inject
+	public OperationDriver(EventBus eventBus) {
+		this.eventBus = eventBus;
 	}
 
 	/**
@@ -84,6 +90,7 @@ public class OperationDriver implements IOperationExecutionService {
 		} catch (IOException | InterruptedException e) {
 			throw new HadoopJobException("Unable to stop job " + jobId, e);
 		}
+		
 	}
 
 	/**
