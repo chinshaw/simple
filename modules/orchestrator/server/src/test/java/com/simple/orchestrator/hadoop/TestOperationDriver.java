@@ -3,10 +3,13 @@ package com.simple.orchestrator.hadoop;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.artisan.utils.ClasspathUtils;
@@ -17,6 +20,7 @@ import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.dataprovider.HttpDataProvider;
 import com.simple.orchestrator.IOCOrchestratorTestModule;
+import com.simple.orchestrator.OrchestratorTest;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration.Builder;
@@ -31,14 +35,22 @@ import com.simple.orchestrator.service.AnalyticsOperationException;
  * @author chris
  *
  */
-public class HadoopBasicTest {
+public class TestOperationDriver extends OrchestratorTest {
 
-	private static final Logger logger = Logger.getLogger(HadoopBasicTest.class.getName());
+	private static final CountDownLatch latch = new CountDownLatch(1);
+	
+	private static final Logger logger = Logger.getLogger(TestOperationDriver.class.getName());
 	
 	@Inject
 	private OperationDriver executor; 
 	
-	public HadoopBasicTest() {
+	
+	@Before
+	public void before() {
+		getInjector().injectMembers(this);
+	}
+	
+	public TestOperationDriver() {
 		Injector injector = Guice.createInjector(new IOCOrchestratorTestModule());
 		injector.injectMembers(this);
 	}
@@ -53,7 +65,7 @@ public class HadoopBasicTest {
 	}
 	
 	@Test
-	public void testGraphic() throws IOException, AnalyticsOperationException, ConfigurationException, HadoopJobException {
+	public void testGraphic() throws IOException, AnalyticsOperationException, ConfigurationException, HadoopJobException, InterruptedException {
 		logger.info("testGraphic");
 		String script = ClasspathUtils.getScriptCode("/com/simple/engine/rscripts/BollingerScript.R");
 		RAnalyticsOperation operation = new RAnalyticsOperation("runTestScript");
@@ -69,7 +81,12 @@ public class HadoopBasicTest {
 		
 		builder.addDataProvider(dp).setAnalyticsOperation(operation);
 		
+		
+		
 		executor.execute(builder.build());
+
+		latch.await(15, TimeUnit.SECONDS);
+		
 	}
 	
 	@Test

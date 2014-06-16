@@ -31,6 +31,7 @@ import com.simple.orchestrator.hadoop.io.format.MetricInputFormat.InputAdapterTy
 import com.simple.orchestrator.hadoop.io.format.MetricOutputFormat;
 import com.simple.orchestrator.hadoop.io.format.MetricOutputFormat.OutputAdapterType;
 import com.simple.orchestrator.hadoop.job.ArtisanJob;
+import com.simple.orchestrator.hadoop.job.ArtisanJobStatus;
 
 public class OperationDriver implements IOperationExecutionService {
 
@@ -143,7 +144,7 @@ public class OperationDriver implements IOperationExecutionService {
 	 * @throws ConfigurationException
 	 * @throws RAnalyticsException
 	 */
-	static ArtisanJob createJob(IHadoopOperationJobConfiguration details)
+	ArtisanJob createJob(IHadoopOperationJobConfiguration details)
 			throws IOException, ConfigurationException, RAnalyticsException {
 
 		if (details.getOperation() == null) {
@@ -152,7 +153,7 @@ public class OperationDriver implements IOperationExecutionService {
 
 		RAnalyticsOperation rop = (RAnalyticsOperation) details.getOperation();
 
-		ArtisanJob job = ArtisanJob.getInstance();
+		ArtisanJob job = ArtisanJob.getInstance(new ArtisanJobStatus(eventBus), new Configuration());
 		job.setOperation(rop);
 
 		job.setDataProviders((List) details.getDataProviders());
@@ -181,6 +182,7 @@ public class OperationDriver implements IOperationExecutionService {
 
 		return job;
 	}
+	
 
 	/**
 	 * Helper to get the job by it's id

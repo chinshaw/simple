@@ -104,7 +104,7 @@ public class ArtisanJob extends Job implements IHadoopJob {
 	 */
 	public static ArtisanJob getInstance(JobStatus status, Configuration conf)
 			throws IOException {
-		throw new RuntimeException("Not supported");
+		return (ArtisanJob) Job.getInstance(status, conf);
 	}
 
 	/**

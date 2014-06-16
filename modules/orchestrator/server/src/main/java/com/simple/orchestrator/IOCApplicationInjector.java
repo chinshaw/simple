@@ -16,7 +16,7 @@ import com.google.inject.Injector;
  */
 public class IOCApplicationInjector {
 
-	private static final Injector injector = Guice.createInjector(new IOCOrchestratorWebModule());
+	private static final Injector injector = Guice.createInjector(new IOCApplicationModule());
 	
 	public static final Injector getInjector() {
 		return injector;
