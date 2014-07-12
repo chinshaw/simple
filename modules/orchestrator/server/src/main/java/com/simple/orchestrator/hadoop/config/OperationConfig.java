@@ -7,12 +7,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.mapred.JobConf;
 
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 
-public class OperationConfig extends Configuration {
+public class OperationConfig extends JobConf {
 
 	@XmlRootElement
 	@XmlAccessorType(XmlAccessType.FIELD)
@@ -53,6 +54,18 @@ public class OperationConfig extends Configuration {
 	public static final String OPERATION_INPUT_PARAMS = "mapreduce.artisan.operationinputs";
 	
 	
+	public void setOperation(AnalyticsOperation operation) throws ConfigurationException {
+		setOperation(this, operation);
+	}
+
+	public void setDataProviders(List dataProviders) throws ConfigurationException {
+		setDataProviders(this, dataProviders);
+	}
+
+	public void setOperationInputs(List userInputs) throws ConfigurationException {
+		setOperationInputs(this, userInputs);
+	}
+	
 	public static List<DataProvider> getDataProviders(Configuration conf) throws ConfigurationException {
 		String xml = conf.get(DATA_PROVIDER_PARAMS);
 		if (xml == null || xml.isEmpty()) {
@@ -88,4 +101,8 @@ public class OperationConfig extends Configuration {
 	public static void setOperation(Configuration conf, AnalyticsOperation operation) throws ConfigurationException {
 		conf.set(OPERATION, ConfigurationUtils.serializeToXml(AnalyticsOperation.class, operation));
 	}
+
+
+
+
 }

@@ -64,6 +64,12 @@
 			<artifactId>artisan-utils</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.hbase</groupId>
+			<artifactId>hbase-client</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>

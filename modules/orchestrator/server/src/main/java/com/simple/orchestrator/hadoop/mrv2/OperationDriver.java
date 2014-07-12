@@ -12,6 +12,11 @@ import org.apache.hadoop.mapred.JobID;
 import org.apache.hadoop.mapreduce.Cluster;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.JobStatus;
+import org.apache.hadoop.mapreduce.v2.app.job.event.JobEvent;
+import org.apache.hadoop.mapreduce.v2.app.job.event.JobEventType;
+import org.apache.hadoop.yarn.event.AsyncDispatcher;
+import org.apache.hadoop.yarn.event.Dispatcher;
+import org.apache.hadoop.yarn.event.EventHandler;
 
 import com.google.common.eventbus.EventBus;
 import com.simple.api.exceptions.RAnalyticsException;
@@ -25,30 +30,35 @@ import com.simple.orchestrator.api.service.IOperationExecutionService;
 import com.simple.orchestrator.hadoop.ModuleProperties;
 import com.simple.orchestrator.hadoop.config.ConfigurationException;
 import com.simple.orchestrator.hadoop.config.HttpInputConf;
+import com.simple.orchestrator.hadoop.config.OperationConfig;
 import com.simple.orchestrator.hadoop.io.MetricWritable;
 import com.simple.orchestrator.hadoop.io.format.MetricInputFormat;
 import com.simple.orchestrator.hadoop.io.format.MetricInputFormat.InputAdapterType;
 import com.simple.orchestrator.hadoop.io.format.MetricOutputFormat;
 import com.simple.orchestrator.hadoop.io.format.MetricOutputFormat.OutputAdapterType;
+import com.simple.orchestrator.hadoop.job.ArtisanConfiguration;
 import com.simple.orchestrator.hadoop.job.ArtisanJob;
-import com.simple.orchestrator.hadoop.job.ArtisanJobStatus;
 
 public class OperationDriver implements IOperationExecutionService {
 
-	private static final Logger logger = Logger.getLogger(OperationDriver.class.getName());
+	private static final Logger logger = Logger.getLogger(OperationDriver.class
+			.getName());
 
 	private static ModuleProperties props = ModuleProperties.getInstance();
 
 	public static final String TIMESTAMP_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
 	private EventBus eventBus;
-	
+
+	private AsyncDispatcher dispatcher;
+
 	/**
 	 * 
 	 */
 	@Inject
 	public OperationDriver(EventBus eventBus) {
 		this.eventBus = eventBus;
+		dispatcher = createDispatcher();
 	}
 
 	/**
@@ -63,13 +73,27 @@ public class OperationDriver implements IOperationExecutionService {
 	 * @param dataProviders
 	 * @return
 	 */
-	public String execute(IHadoopOperationJobConfiguration jobDetails) throws HadoopJobException {
+	public String execute(IHadoopOperationJobConfiguration jobDetails)
+			throws HadoopJobException {
 		try {
+
+			dispatcher.register(JobEventType.class, new EventHandler<JobEvent>() {
+
+				@Override
+				public void handle(JobEvent arg0) {
+					System.out.println("GOT AN EVENT $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+				}
+			});
+			
+
 			ArtisanJob job = createJob(jobDetails);
+			dispatcher.init(job.getConfiguration());
+			dispatcher.start();
+			job.getConfiguration().set("mapreduce.framework.name", "local");
 			job.submit();
 			return job.getJobID().toString();
-		} catch (ClassNotFoundException | IOException | InterruptedException | RAnalyticsException
-				| ConfigurationException e) {
+		} catch (ClassNotFoundException | IOException | InterruptedException
+				| RAnalyticsException | ConfigurationException e) {
 			logger.log(Level.SEVERE, "Unable to execute job", e);
 			throw new HadoopJobException("Unable to execute operation", e);
 		} catch (Exception e) {
@@ -80,10 +104,12 @@ public class OperationDriver implements IOperationExecutionService {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 *  This will connect to the service and kill the running job found by it's jobId.
+	 * This will connect to the service and kill the running job found by it's
+	 * jobId.
 	 */
 	@Override
-	public void stop(String jobId) throws InvalidJobIdException, HadoopJobException {
+	public void stop(String jobId) throws InvalidJobIdException,
+			HadoopJobException {
 		try {
 			getJobById(JobID.forName(jobId)).killJob();
 		} catch (IllegalArgumentException e) {
@@ -91,7 +117,7 @@ public class OperationDriver implements IOperationExecutionService {
 		} catch (IOException | InterruptedException e) {
 			throw new HadoopJobException("Unable to stop job " + jobId, e);
 		}
-		
+
 	}
 
 	/**
@@ -100,8 +126,8 @@ public class OperationDriver implements IOperationExecutionService {
 	 * 
 	 */
 	@Override
-	public IJobProgress progress(final String jobId) throws InvalidJobIdException,
-			HadoopJobException {
+	public IJobProgress progress(final String jobId)
+			throws InvalidJobIdException, HadoopJobException {
 		try {
 			final Job job = getJobById(JobID.forName(jobId));
 			return new IJobProgress() {
@@ -110,7 +136,8 @@ public class OperationDriver implements IOperationExecutionService {
 				public float getPercentageComplete() {
 					try {
 						JobStatus status = job.getStatus();
-						float totalProgress = status.getMapProgress() + status.getReduceProgress()
+						float totalProgress = status.getMapProgress()
+								+ status.getReduceProgress()
 								+ status.getCleanupProgress();
 						return (totalProgress / 3);
 					} catch (IOException | InterruptedException e) {
@@ -123,7 +150,8 @@ public class OperationDriver implements IOperationExecutionService {
 					try {
 						return job.getStatus().getFailureInfo();
 					} catch (IOException | InterruptedException e) {
-						return "Unable to communicate with cluster " + e.getMessage();
+						return "Unable to communicate with cluster "
+								+ e.getMessage();
 					}
 				}
 			};
@@ -131,7 +159,8 @@ public class OperationDriver implements IOperationExecutionService {
 		} catch (IllegalArgumentException e) {
 			throw new InvalidJobIdException("Invalid job id" + jobId);
 		} catch (IOException | InterruptedException e) {
-			throw new HadoopJobException("Unable to retrive job from cluster", e);
+			throw new HadoopJobException("Unable to retrive job from cluster",
+					e);
 		}
 	}
 
@@ -153,12 +182,13 @@ public class OperationDriver implements IOperationExecutionService {
 
 		RAnalyticsOperation rop = (RAnalyticsOperation) details.getOperation();
 
-		ArtisanJob job = ArtisanJob.getInstance(new ArtisanJobStatus(eventBus), new Configuration());
-		job.setOperation(rop);
-
-		job.setDataProviders((List) details.getDataProviders());
-		job.setOperationInputs((List) details.getUserInputs());
-
+		OperationConfig conf = new OperationConfig();
+		
+		ArtisanJob job = new ArtisanJob(new ArtisanConfiguration());
+		conf.setDataProviders( (List) details.getDataProviders());
+		conf.setOperationInputs((List) details.getUserInputs());
+		
+		
 		job.setJobName(details.getOperation().getName());
 
 		job.setMapperClass(ROperationMapper.class);
@@ -168,21 +198,27 @@ public class OperationDriver implements IOperationExecutionService {
 		job.setMapOutputKeyClass(MetricKey.class);
 		job.setMapOutputValueClass(MetricWritable.class);
 
-		Configuration configuration = job.getConfiguration();
+		//Configuration configuration = job.getConfiguration();
 
-		configuration.set("conf.column",
-				props.getProperty("com.artisan.orchestrator.hbase.metric.colfamily"));
+		job.getConfiguration()
+				.set("conf.column",
+						props.getProperty("com.artisan.orchestrator.hbase.metric.colfamily"));
 
-		MetricOutputFormat.setOutputAdatperType(configuration, OutputAdapterType.HBASE);
-		MetricInputFormat.setInputAdapterType(configuration, InputAdapterType.HTTP);
+		MetricOutputFormat.setOutputAdatperType(job.getConfiguration(),
+				OutputAdapterType.HBASE);
+		MetricInputFormat.setInputAdapterType(job.getConfiguration(),
+				InputAdapterType.HTTP);
 
-		configuration
+		job.getConfiguration()
 				.set(HttpInputConf.WEB_URL_PROPERTY,
 						"http://ichart.finance.yahoo.com/table.csv?s=HPQ&a=00&b=12&c=2013&d=00&e=15&f=2014&g=d&ignore=.csv");
 
+		
+		job.setOperation(rop);
+
+		
 		return job;
 	}
-	
 
 	/**
 	 * Helper to get the job by it's id
@@ -192,7 +228,8 @@ public class OperationDriver implements IOperationExecutionService {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	private Job getJobById(JobID jobID) throws IOException, InterruptedException {
+	private Job getJobById(JobID jobID) throws IOException,
+			InterruptedException {
 		return getCluster().getJob(jobID);
 	}
 
@@ -205,5 +242,9 @@ public class OperationDriver implements IOperationExecutionService {
 	private Cluster getCluster() throws IOException {
 		Cluster cluster = new Cluster(new Configuration());
 		return cluster;
+	}
+
+	protected AsyncDispatcher createDispatcher() {
+		return new AsyncDispatcher();
 	}
 }

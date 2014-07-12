@@ -17,7 +17,7 @@ public class IOCOrchestratorWebModule extends ServletModule {
 
 	@Override
 	public void configureServlets() {
-		//install(new IOCOrchestratorModule());
+		install(new IOCOrchestratorModule());
 
 		bind(MetricResource.class).in(Scopes.SINGLETON);
 		bind(MessageWriter.class).in(Scopes.SINGLETON);

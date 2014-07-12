@@ -14,16 +14,21 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-yarn-client</artifactId>
+		</dependency>
+ 
+
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>artisan-orchestrator-server</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.simple</groupId>
-			<artifactId>artisan-orchestrator-api</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
@@ -46,7 +51,7 @@
 			<artifactId>jersey-test-framework-grizzly</artifactId>
 		</dependency>
 
-		<!--  Test only packages -->
+		<!-- Test only packages -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>artisan-orchestrator-server</artifactId>

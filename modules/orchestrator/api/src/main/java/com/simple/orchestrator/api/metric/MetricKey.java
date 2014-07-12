@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.hadoop.hbase.util.HasThread;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableUtils;

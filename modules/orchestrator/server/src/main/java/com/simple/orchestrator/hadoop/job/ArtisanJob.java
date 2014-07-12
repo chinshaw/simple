@@ -31,6 +31,9 @@ public class ArtisanJob extends Job implements IHadoopJob {
 		super(conf, jobName);
 	}
 
+	public ArtisanJob(ArtisanJobStatus status, ArtisanConfiguration conf) throws IOException {
+		super(status, conf);
+	}
 	
 	/**
 	 * Creates a new {@link Job} with no particular {@link Cluster} . A Cluster
@@ -102,10 +105,12 @@ public class ArtisanJob extends Job implements IHadoopJob {
 	 * @return the {@link Job} , with no connection to a cluster yet.
 	 * @throws IOException
 	 */
+	/*
 	public static ArtisanJob getInstance(JobStatus status, Configuration conf)
 			throws IOException {
-		return (ArtisanJob) Job.getInstance(status, conf);
+		return  Job.getInstance(status, conf);
 	}
+	*/
 
 	/**
 	 * Creates a new {@link Job} with no particular {@link Cluster}. A Cluster

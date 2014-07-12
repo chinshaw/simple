@@ -28,8 +28,8 @@
 		<protostuff.version>1.0.8</protostuff.version>
 		<quartz.version>2.2.1</quartz.version>
 		<guice.version>3.0</guice.version>
-		<guava.version>16.0.1</guava.version>
-		<hadoop.version>2.4.0</hadoop.version>
+		<guava.version>11.0.2</guava.version>
+		<hadoop.version>3.0.0-SNAPSHOT</hadoop.version>
 		<hbase.version>0.98.2-hadoop2</hbase.version>
 		<jackson.version>1.9.2</jackson.version>
 
@@ -207,6 +207,12 @@
 				<groupId>org.apache.hbase</groupId>
 				<artifactId>hbase-client</artifactId>
 				<version>${hbase.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.hadoop</groupId>
+						<artifactId>hadoop-common</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>

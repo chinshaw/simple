@@ -1,4 +1,4 @@
-package com.simple.orchestrator.hadoop;
+package com.simple.orchestrator.hadoop.mrv2;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,6 +72,7 @@ public class TestOperationDriver extends OrchestratorTest {
 		operation.addOutput(new AnalyticsOperationOutput("/tmp/instrument.png", AnalyticsOperationOutput.Type.BINARY));
 		//operation.addOutput(new AnalyticsOperationOutput("y", Type.TEXT));
 		operation.setCode(script);
+		operation.setId(445L);
 
 		Builder builder = new HadoopOperationJobConfiguration.Builder();
 		
@@ -81,12 +82,9 @@ public class TestOperationDriver extends OrchestratorTest {
 		
 		builder.addDataProvider(dp).setAnalyticsOperation(operation);
 		
-		
-		
 		executor.execute(builder.build());
 
 		latch.await(15, TimeUnit.SECONDS);
-		
 	}
 	
 	@Test
