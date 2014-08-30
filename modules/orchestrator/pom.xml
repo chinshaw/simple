@@ -59,6 +59,12 @@
 
 
 	<dependencies>
+	    <dependency>
+	        <groupId>com.simple</groupId>
+	        <artifactId>artisan-api</artifactId>
+	        <version>${project.version}</version>
+	    </dependency>
+	    
 		<dependency>
 			<groupId>com.simple</groupId>
 			<artifactId>artisan-utils</artifactId>

@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/resources"/>
-	<classpathentry kind="src" path="target/generated-sources/annotations"/>
 	<classpathentry including="**/*.java" kind="src" path="src/test/resources"/>
 	<classpathentry kind="src" output="target/artisan-web-1.1-SNAPSHOT/WEB-INF/classes" path="src/main/java">
 		<attributes>

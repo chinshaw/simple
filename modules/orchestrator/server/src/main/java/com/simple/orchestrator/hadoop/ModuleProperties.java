@@ -11,12 +11,12 @@ public class ModuleProperties extends Properties {
 	 */
 	private static final long serialVersionUID = 3614057311168472970L;
 
-	private static final String MODULE_PROPERTIES_FILE = "orchestrator-module.properties";
+	private static final String MODULE_PROPERTIES_FILE = "/orchestrator-module.properties";
 
 	private static ModuleProperties instance = null;
 
 	private ModuleProperties() {
-		InputStream stream = ModuleProperties.class.getClassLoader().getResourceAsStream(MODULE_PROPERTIES_FILE);
+		InputStream stream = ModuleProperties.class.getResourceAsStream(MODULE_PROPERTIES_FILE);
 		try {
 			load(stream);
 		} catch (IOException e) {

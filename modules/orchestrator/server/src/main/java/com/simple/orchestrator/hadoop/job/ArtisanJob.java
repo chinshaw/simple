@@ -31,9 +31,6 @@ public class ArtisanJob extends Job implements IHadoopJob {
 		super(conf, jobName);
 	}
 
-	public ArtisanJob(ArtisanJobStatus status, ArtisanConfiguration conf) throws IOException {
-		super(status, conf);
-	}
 	
 	/**
 	 * Creates a new {@link Job} with no particular {@link Cluster} . A Cluster

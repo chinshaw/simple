@@ -69,7 +69,9 @@ public class TestOperationDriver extends OrchestratorTest {
 		logger.info("testGraphic");
 		String script = ClasspathUtils.getScriptCode("/com/simple/engine/rscripts/BollingerScript.R");
 		RAnalyticsOperation operation = new RAnalyticsOperation("runTestScript");
-		operation.addOutput(new AnalyticsOperationOutput("/tmp/instrument.png", AnalyticsOperationOutput.Type.BINARY));
+		AnalyticsOperationOutput output = new AnalyticsOperationOutput("/tmp/instrument.png", AnalyticsOperationOutput.Type.BINARY);
+		output.setId(1233l);
+		operation.addOutput(output);
 		//operation.addOutput(new AnalyticsOperationOutput("y", Type.TEXT));
 		operation.setCode(script);
 		operation.setId(445L);

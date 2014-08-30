@@ -29,7 +29,7 @@
 		<quartz.version>2.2.1</quartz.version>
 		<guice.version>3.0</guice.version>
 		<guava.version>11.0.2</guava.version>
-		<hadoop.version>3.0.0-SNAPSHOT</hadoop.version>
+		<hadoop.version>2.4.1</hadoop.version>
 		<hbase.version>0.98.2-hadoop2</hbase.version>
 		<jackson.version>1.9.2</jackson.version>
 
