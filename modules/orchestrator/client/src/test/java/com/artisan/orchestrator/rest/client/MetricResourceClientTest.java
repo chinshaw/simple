@@ -13,7 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.simple.api.orchestrator.IMetric;
-import com.simple.orchestrator.OrchestratorServer;
+import com.simple.orchestrator.server.OrchestratorServer;
 
 public class MetricResourceClientTest {
 

@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.simple.orchestrator.IOCOrchestratorTestModule;
 import com.simple.orchestrator.api.event.JobCompletionEvent;
+import com.simple.orchestrator.server.service.jms.JmsEventBridge;
 
 public class TestJmsEventBridge {
 

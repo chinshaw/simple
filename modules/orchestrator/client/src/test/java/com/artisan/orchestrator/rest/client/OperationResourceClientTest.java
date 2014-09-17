@@ -18,12 +18,12 @@ import com.google.inject.Inject;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
-import com.simple.orchestrator.IOCOrchestratorWebModule;
 import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.event.JobCompletionEvent;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.service.IOperationExecutionService;
+import com.simple.orchestrator.server.IOCOrchestratorWebModule;
 import com.sun.jersey.api.client.Client;
 
 public class OperationResourceClientTest extends GuiceJerseyTest {
