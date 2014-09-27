@@ -12,11 +12,7 @@ import org.apache.hadoop.mapred.JobID;
 import org.apache.hadoop.mapreduce.Cluster;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.JobStatus;
-import org.apache.hadoop.mapreduce.v2.app.job.event.JobEvent;
-import org.apache.hadoop.mapreduce.v2.app.job.event.JobEventType;
 import org.apache.hadoop.yarn.event.AsyncDispatcher;
-import org.apache.hadoop.yarn.event.Dispatcher;
-import org.apache.hadoop.yarn.event.EventHandler;
 
 import com.google.common.eventbus.EventBus;
 import com.simple.api.exceptions.RAnalyticsException;
@@ -33,8 +29,8 @@ import com.simple.orchestrator.server.hadoop.config.HttpInputConf;
 import com.simple.orchestrator.server.hadoop.config.OperationConfig;
 import com.simple.orchestrator.server.hadoop.io.MetricWritable;
 import com.simple.orchestrator.server.hadoop.io.format.MetricInputFormat;
-import com.simple.orchestrator.server.hadoop.io.format.MetricOutputFormat;
 import com.simple.orchestrator.server.hadoop.io.format.MetricInputFormat.InputAdapterType;
+import com.simple.orchestrator.server.hadoop.io.format.MetricOutputFormat;
 import com.simple.orchestrator.server.hadoop.io.format.MetricOutputFormat.OutputAdapterType;
 import com.simple.orchestrator.server.hadoop.job.ArtisanConfiguration;
 import com.simple.orchestrator.server.hadoop.job.ArtisanJob;
@@ -48,12 +44,15 @@ public class OperationDriver implements IOperationExecutionService {
 
 	public static final String TIMESTAMP_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 
+	/**
+	 * Event bus for eventing.
+	 */
 	private EventBus eventBus;
 
 	private AsyncDispatcher dispatcher;
 
 	/**
-	 * 
+	 * Default constructor with the event bus.
 	 */
 	@Inject
 	public OperationDriver(EventBus eventBus) {
@@ -76,7 +75,7 @@ public class OperationDriver implements IOperationExecutionService {
 	public String execute(IHadoopOperationJobConfiguration jobDetails)
 			throws HadoopJobException {
 		try {
-			
+
 			ArtisanJob job = createJob(jobDetails);
 			dispatcher.init(job.getConfiguration());
 			dispatcher.start();
@@ -174,11 +173,11 @@ public class OperationDriver implements IOperationExecutionService {
 		RAnalyticsOperation rop = (RAnalyticsOperation) details.getOperation();
 
 		OperationConfig conf = new OperationConfig();
-		
+
 		ArtisanJob job = new ArtisanJob(new ArtisanConfiguration());
-		conf.setDataProviders( (List) details.getDataProviders());
+		conf.setDataProviders((List) details.getDataProviders());
 		conf.setOperationInputs((List) details.getUserInputs());
-		
+
 		job.setJobName(details.getOperation().getName());
 
 		job.setMapperClass(ROperationMapper.class);
@@ -188,7 +187,7 @@ public class OperationDriver implements IOperationExecutionService {
 		job.setMapOutputKeyClass(MetricKey.class);
 		job.setMapOutputValueClass(MetricWritable.class);
 
-		//Configuration configuration = job.getConfiguration();
+		// Configuration configuration = job.getConfiguration();
 
 		job.getConfiguration()
 				.set("conf.column",
@@ -203,10 +202,8 @@ public class OperationDriver implements IOperationExecutionService {
 				.set(HttpInputConf.WEB_URL_PROPERTY,
 						"http://ichart.finance.yahoo.com/table.csv?s=HPQ&a=00&b=12&c=2013&d=00&e=15&f=2014&g=d&ignore=.csv");
 
-		
 		job.setOperation(rop);
 
-		
 		return job;
 	}
 
