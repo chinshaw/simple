@@ -15,6 +15,7 @@ import com.simple.api.orchestrator.IAnalyticsOperationOutput.Type;
 import com.simple.api.orchestrator.IMetricKey;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
+import com.simple.orchestrator.api.AbstractMetricReducer;
 import com.simple.orchestrator.api.IMetricWritable;
 import com.simple.orchestrator.api.exception.ReducerException;
 import com.simple.orchestrator.api.metric.Metric;
@@ -25,7 +26,6 @@ import com.simple.orchestrator.server.IOCApplicationInjector;
 import com.simple.orchestrator.server.event.IEventConnector;
 import com.simple.orchestrator.server.event.OperationReducerStateChange;
 import com.simple.orchestrator.server.event.OperationReducerStateChange.State;
-import com.simple.orchestrator.server.hadoop.AbstractReducer;
 import com.simple.orchestrator.server.hadoop.config.ConfigurationException;
 import com.simple.orchestrator.server.hadoop.config.OperationConfig;
 import com.simple.orchestrator.server.hadoop.io.MetricWritable;
@@ -37,7 +37,7 @@ import com.simple.radapter.protobuf.REXPProtos.Rexp;
 
 public class ROperationReducer
 		extends
-		AbstractReducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
+		AbstractMetricReducer<IMetricKey, IMetricWritable, IMetricKey, IMetricWritable>
 		implements Configurable {
 
 	private static final Logger logger = Logger

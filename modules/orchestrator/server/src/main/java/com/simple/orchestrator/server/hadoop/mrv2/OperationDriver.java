@@ -79,7 +79,6 @@ public class OperationDriver implements IOperationExecutionService {
 			ArtisanJob job = createJob(jobDetails);
 			dispatcher.init(job.getConfiguration());
 			dispatcher.start();
-			job.getConfiguration().set("mapreduce.framework.name", "local");
 			job.submit();
 			return job.getJobID().toString();
 		} catch (ClassNotFoundException | IOException | InterruptedException
