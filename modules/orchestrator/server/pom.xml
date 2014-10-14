@@ -11,7 +11,7 @@
 	<name>Orchestrator Server</name>
 	<description>Server Implementations for API</description>
 
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<build>
 		<plugins>
@@ -219,4 +219,8 @@
 		<!-- Test packages -->
 
 	</dependencies>
+	<modules>
+		<module>artisan-orchestrator-server-hadoop</module>
+		<module>artisan-orchestrator-server-web</module>
+	</modules>
 </project>

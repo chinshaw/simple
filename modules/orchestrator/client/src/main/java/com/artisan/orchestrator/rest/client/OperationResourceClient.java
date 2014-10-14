@@ -3,8 +3,8 @@ package com.artisan.orchestrator.rest.client;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
-import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.IJobProgress;
+import com.simple.orchestrator.api.conf.IHadoopJobConfiguration;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.exception.InvalidJobIdException;
 import com.simple.orchestrator.api.service.IOperationExecutionService;
@@ -28,7 +28,7 @@ public class OperationResourceClient implements IOperationExecutionService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public String execute(IHadoopOperationJobConfiguration hadoopJobConfiguration) throws HadoopJobException {
+	public String execute(IHadoopJobConfiguration hadoopJobConfiguration) throws HadoopJobException {
 		String jobReceipt = resource.path("execute").type(MediaType.APPLICATION_JSON).entity(hadoopJobConfiguration).post(String.class);
 		return jobReceipt;
 	}

@@ -1,7 +1,7 @@
 package com.simple.orchestrator.api.service;
 
-import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.IJobProgress;
+import com.simple.orchestrator.api.conf.IHadoopJobConfiguration;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.exception.InvalidJobIdException;
 
@@ -15,7 +15,7 @@ public interface IOperationExecutionService {
 	 * @return String id of the job that is being executed. This way you can
 	 * get the job status or stop the job using the job Id
 	 */
-	public String execute(IHadoopOperationJobConfiguration operationJob) throws HadoopJobException;
+	public String execute(IHadoopJobConfiguration operationJob) throws HadoopJobException;
 	
 	/**
 	 * Stop a job with it's job id.

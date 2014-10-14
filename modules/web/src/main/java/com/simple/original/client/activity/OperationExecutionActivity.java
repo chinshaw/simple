@@ -15,7 +15,7 @@ import com.simple.domain.model.dataprovider.HttpDataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.DataProviderInput;
 import com.simple.original.client.place.OperationExecutionPlace;
-import com.simple.original.client.service.rest.OperationJob;
+import com.simple.original.client.service.rest.HadoopOperationJobConfiguration;
 import com.simple.original.client.service.rest.OrchestratorService;
 import com.simple.original.client.view.IOperationExecutionView;
 
@@ -73,7 +73,7 @@ public class OperationExecutionActivity extends AbstractActivity<OperationExecut
 
 	@Override
 	public void onExecute() {
-		OperationJob job = new OperationJob();
+		HadoopOperationJobConfiguration job = new HadoopOperationJobConfiguration();
 		job.setOperation(operation);
 		job.setDataProviders(dataProviders);
 		

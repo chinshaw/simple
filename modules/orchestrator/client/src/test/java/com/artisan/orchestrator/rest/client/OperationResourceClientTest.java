@@ -18,12 +18,12 @@ import com.google.inject.Inject;
 import com.simple.domain.model.AnalyticsOperation;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
-import com.simple.orchestrator.api.IHadoopOperationJobConfiguration;
+import com.simple.orchestrator.api.conf.IHadoopJobConfiguration;
 import com.simple.orchestrator.api.event.JobCompletionEvent;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.service.IOperationExecutionService;
-import com.simple.orchestrator.server.IOCOrchestratorWebModule;
+import com.simple.orchestrator.server.web.IOCOrchestratorWebModule;
 import com.sun.jersey.api.client.Client;
 
 public class OperationResourceClientTest extends GuiceJerseyTest {
@@ -59,11 +59,11 @@ public class OperationResourceClientTest extends GuiceJerseyTest {
 		final CountDownLatch latch = new CountDownLatch(1);
 
 		final HadoopOperationJobConfiguration.Builder confBuilder = new HadoopOperationJobConfiguration.Builder();
-		confBuilder.setAnalyticsOperation(createTestOperation());
+		confBuilder.setReducerOperation(createTestOperation());
 
 		IOperationExecutionService opExec = client.createExecutionService();
 
-		IHadoopOperationJobConfiguration configuration = confBuilder.build();
+		IHadoopJobConfiguration configuration = confBuilder.build();
 		final String jobId = opExec.execute(configuration);
 
 		assert (jobId != null);

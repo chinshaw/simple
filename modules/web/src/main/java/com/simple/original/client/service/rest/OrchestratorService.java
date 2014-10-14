@@ -37,5 +37,5 @@ public interface OrchestratorService extends RestService  {
 	
 	@POST
 	@Path("/operation/execute")
-	public void executeOperation(OperationJob job, MethodCallback<Void> callback);
+	public void executeOperation(HadoopOperationJobConfiguration job, MethodCallback<Void> callback);
 }
