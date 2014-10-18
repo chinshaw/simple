@@ -59,9 +59,9 @@
 
 		<!-- Test only packages -->
 		<dependency>
-			<groupId>com.simple.orchestrator.server</groupId>
-			<artifactId>artisan-orchestrator-server-web</artifactId>
+			<groupId>${project.groupId}</groupId>
 			<version>${project.version}</version>
+			<artifactId>artisan-orchestrator-server-web</artifactId>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>

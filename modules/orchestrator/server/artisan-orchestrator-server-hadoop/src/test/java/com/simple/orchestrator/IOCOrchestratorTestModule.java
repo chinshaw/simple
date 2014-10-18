@@ -1,7 +1,7 @@
 package com.simple.orchestrator;
 
+import com.artisan.orchestrator.hadoop.IOCApplicationModule;
 import com.google.inject.AbstractModule;
-import com.simple.orchestrator.server.IOCApplicationModule;
 
 public class IOCOrchestratorTestModule extends AbstractModule {
 

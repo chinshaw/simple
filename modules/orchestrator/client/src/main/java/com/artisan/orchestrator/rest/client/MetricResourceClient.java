@@ -16,7 +16,7 @@ public class MetricResourceClient implements IMetricService {
 
 	private final WebResource resource;
 
-	/**
+	/**ˇ
 	 * Default Constructor
 	 * @param client The Artisan client to use
 	 * @param baseUrl Base url for the service

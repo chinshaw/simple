@@ -15,30 +15,7 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<executions>
-					<execution>
-						<id>tomcat-run</id>
-						<goals>
-							<goal>exec-war-only</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<path>/</path>
-							<!-- optional, needed only if you want to use a preconfigured server.xml 
-								file <serverXml>src/main/tomcat/server.xml</serverXml> -->
-							<!-- optional values which can be configurable -->
-							<attachArtifactClassifier>default value is exec-war but you can
-								customize</attachArtifactClassifier>
-							<attachArtifactClassifierType>default value is jar</attachArtifactClassifierType>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
+			
 			<!-- Adding the test classes so that other packages can use the test packages 
 				at compile time. Note if you use jar you should use the <scope>test</scope> 
 				so that the dependency does not get shipped with the deployables. -->
@@ -61,28 +38,6 @@
 			<groupId>com.simple</groupId>
 			<artifactId>artisan-utils</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.simple</groupId>
-			<artifactId>artisan-orchestrator-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.simple</groupId>
-			<artifactId>artisan-domain</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<!-- Adding this for unit testing, so that the domain has access to the 
-			test classes for domain -->
-		<dependency>
-			<groupId>com.simple</groupId>
-			<artifactId>artisan-domain</artifactId>
-			<version>${project.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -123,68 +78,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-server</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-client</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-json</artifactId>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-client</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>hadoop-auth</artifactId>
-					<groupId>org.apache.hadoop</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-yarn-client</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-auth</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
-		</dependency>
-
-		
-		<dependency>
-			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase-client</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>hadoop-auth</artifactId>
-					<groupId>org.apache.hadoop</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.hbase</groupId>
-			<artifactId>hbase-server</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>hadoop-auth</artifactId>
-					<groupId>org.apache.hadoop</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
@@ -222,5 +115,6 @@
 	<modules>
 		<module>artisan-orchestrator-server-hadoop</module>
 		<module>artisan-orchestrator-server-web</module>
+		<module>artisan-orchestrator-server-hadoop-job</module>
 	</modules>
 </project>

@@ -9,8 +9,8 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
-import com.simple.api.orchestrator.IDataProvider;
 import com.simple.domain.model.RequestFactoryEntity;
+import com.simple.orchestrator.api.dataprovider.IDataProvider;
 
 /**
  * Base class for other data providers

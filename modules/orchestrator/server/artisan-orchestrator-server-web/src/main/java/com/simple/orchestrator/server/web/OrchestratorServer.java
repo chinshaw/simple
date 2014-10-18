@@ -17,7 +17,7 @@ import org.apache.hadoop.hbase.TableNotFoundException;
 import org.apache.hadoop.hbase.ZooKeeperConnectionException;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 
-import com.simple.orchestrator.server.ModuleProperties;
+import com.artisan.orchestrator.hadoop.ModuleProperties;
 
 public class OrchestratorServer {
 

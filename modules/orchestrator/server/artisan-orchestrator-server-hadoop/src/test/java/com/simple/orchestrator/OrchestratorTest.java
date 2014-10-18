@@ -1,7 +1,7 @@
 package com.simple.orchestrator;
 
+import com.artisan.orchestrator.hadoop.IOCApplicationInjector;
 import com.google.inject.Injector;
-import com.simple.orchestrator.server.IOCApplicationInjector;
 
 public class OrchestratorTest  {
 

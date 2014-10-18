@@ -22,14 +22,14 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 
+import com.artisan.orchestrator.hadoop.job.config.ArtisanConfiguration;
+import com.artisan.orchestrator.hadoop.job.io.MetricWritable;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.simple.api.orchestrator.IMetric;
 import com.simple.orchestrator.api.metric.Metric;
 import com.simple.orchestrator.api.rest.MediaType;
 import com.simple.orchestrator.api.service.IMetricService;
-import com.simple.orchestrator.server.hadoop.io.MetricWritable;
-import com.simple.orchestrator.server.hadoop.job.ArtisanConfiguration;
 
 @Path("/metric")
 public class MetricResource implements IMetricService {

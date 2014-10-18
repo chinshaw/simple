@@ -29,7 +29,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.requestfactory.gwt.client.HasRequestContext;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.simple.api.exceptions.SimpleException;
-import com.simple.api.orchestrator.IAnalyticsOperationOutput;
+import com.simple.orchestrator.api.IRHadoopOperationOutput;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.IOperationBuilderView;
@@ -241,7 +241,7 @@ public class AnalyticsOperationBuilderView extends AbstractView implements IOper
     }
 
     public void onAddOutput() {
-        IAnalyticsOperationOutput.Type type = IAnalyticsOperationOutput.Type.valueOf(availableOutputTypes.getValue(availableOutputTypes.getSelectedIndex()));
+        IRHadoopOperationOutput.Type type = IRHadoopOperationOutput.Type.valueOf(availableOutputTypes.getValue(availableOutputTypes.getSelectedIndex()));
         
         try {
             outputsEditor.asEditor().getList().add(presenter.createOutput(type));

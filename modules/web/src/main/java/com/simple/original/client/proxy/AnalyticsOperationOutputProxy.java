@@ -1,8 +1,8 @@
 package com.simple.original.client.proxy;
 
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
-import com.simple.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.domain.model.AnalyticsOperationOutput;
+import com.simple.orchestrator.api.IRHadoopOperationOutput;
 import com.simple.original.server.service.locators.RequestFactoryEntityLocator;
 
 /**
@@ -23,7 +23,7 @@ public interface AnalyticsOperationOutputProxy extends DatastoreObjectProxy {
      * 
      * @return The output
      */
-    public IAnalyticsOperationOutput.Type getOutputType();
+    public IRHadoopOperationOutput.Type getOutputType();
 
     /**
      * Set the output type for the operation this is used as a recommended
@@ -33,7 +33,7 @@ public interface AnalyticsOperationOutputProxy extends DatastoreObjectProxy {
      * 
      * @param outputType
      */
-    public void setOutputType(IAnalyticsOperationOutput.Type outputType);
+    public void setOutputType(IRHadoopOperationOutput.Type outputType);
 
     /**
      * The name of the output. This is used to find the output when the

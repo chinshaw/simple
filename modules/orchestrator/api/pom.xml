@@ -31,17 +31,20 @@
 	</build>
 
 	<dependencies>
+	<!-- 
 		<dependency>
 			<groupId>com.simple</groupId>
 			<artifactId>artisan-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
+ -->
+<!-- 
 		<dependency>
 			<groupId>com.simple</groupId>
 			<artifactId>artisan-domain</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		 -->
 
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>

@@ -13,8 +13,8 @@ import com.google.inject.Inject;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.simple.api.exceptions.SimpleException;
-import com.simple.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.domain.model.RAnalyticsOperation;
+import com.simple.orchestrator.api.IRHadoopOperationOutput;
 import com.simple.original.client.place.AnalyticsOperationPlace;
 import com.simple.original.client.place.AnalyticsOperationsPlace;
 import com.simple.original.client.proxy.AnalyticsOperationInputProxy;
@@ -144,7 +144,7 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 	 * class type and creat it that way but that is no longer needed.
 	 */
 	@Override
-	public AnalyticsOperationOutputProxy createOutput(IAnalyticsOperationOutput.Type outputType) throws SimpleException {
+	public AnalyticsOperationOutputProxy createOutput(IRHadoopOperationOutput.Type outputType) throws SimpleException {
 		logger.fine("Cretaing output with type " + outputType.name());
 
 		AnalyticsOperationOutputProxy output = context.create(AnalyticsOperationOutputProxy.class);
@@ -155,7 +155,7 @@ public class AnalyticsOperationBuilderActivity extends AbstractActivity<Analytic
 
 	@Override
 	public Enum<?>[] getAvailableOutputTypes() {
-		return IAnalyticsOperationOutput.Type.values();
+		return IRHadoopOperationOutput.Type.values();
 	}
 
 	/**

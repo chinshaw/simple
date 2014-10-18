@@ -6,7 +6,7 @@ import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 
-import com.simple.api.orchestrator.IAnalyticsOperationOutput;
+import com.simple.orchestrator.api.IRHadoopOperationOutput;
 
 /**
  * This class is an output from the operation, in previous versions the
@@ -18,7 +18,7 @@ import com.simple.api.orchestrator.IAnalyticsOperationOutput;
  */
 @Entity
 @Access(AccessType.FIELD)
-public class AnalyticsOperationOutput extends RequestFactoryEntity implements IAnalyticsOperationOutput {
+public class AnalyticsOperationOutput extends RequestFactoryEntity implements IRHadoopOperationOutput {
 
 	/**
 	 * Serialization Id
@@ -30,13 +30,13 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	 * the output into a widget so that we can give the correct types when
 	 * listing available outputs.
 	 */
-	private IAnalyticsOperationOutput.Type outputType;
+	private IRHadoopOperationOutput.Type outputType;
 
 	/**
 	 * This is the variable name used to identify the output from the operation.
 	 */
 	@Basic(optional = false)
-	private String name;
+	private String workspaceVarName;
 
 	@Basic
 	@Size(max = 255)
@@ -75,33 +75,12 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	 * @param outputType
 	 *            The output type.
 	 */
-	public AnalyticsOperationOutput(String name,
-			IAnalyticsOperationOutput.Type outputType) {
-		this.name = name;
+	public AnalyticsOperationOutput(String workspaceVarName,
+			IRHadoopOperationOutput.Type outputType) {
+		this.workspaceVarName = workspaceVarName;
 		this.outputType = outputType;
 	}
 	
-
-	/**
-	 * The name of the output which will be used when retriving the output from
-	 * the workspace.
-	 * 
-	 * @return
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * Sets the name of the output, this is used when retrieving the output from
-	 * the operation after it has completed succesfully.
-	 * 
-	 * @param name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	/**
 	 * Is the output required by the operation?
 	 * 
@@ -127,7 +106,7 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	 * 
 	 * @return
 	 */
-	public IAnalyticsOperationOutput.Type getOutputType() {
+	public IRHadoopOperationOutput.Type getOutputType() {
 		return outputType;
 	}
 
@@ -137,7 +116,7 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	 * 
 	 * @param outputType
 	 */
-	public void setOutputType(IAnalyticsOperationOutput.Type outputType) {
+	public void setOutputType(IRHadoopOperationOutput.Type outputType) {
 		this.outputType = outputType;
 	}
 
@@ -168,6 +147,17 @@ public class AnalyticsOperationOutput extends RequestFactoryEntity implements IA
 	 */
 	public AnalyticsOperationOutput clone() {
 		return (AnalyticsOperationOutput) super.clone();
+	}
+
+	@Override
+	public String getWorkspaceVarName() {
+		return workspaceVarName;
+	}
+
+	@Override
+	public void setWorkspaceVarName(String workspaceVarName) {
+		this.workspaceVarName = workspaceVarName;
+		
 	}
 
 }

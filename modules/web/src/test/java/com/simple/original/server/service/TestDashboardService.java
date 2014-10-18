@@ -9,12 +9,12 @@ import org.junit.Test;
 import com.google.inject.Inject;
 import com.simple.api.exceptions.DashboardException;
 import com.simple.api.exceptions.DomainException;
-import com.simple.api.orchestrator.IAnalyticsOperationOutput.Type;
 import com.simple.domain.model.AnalyticsOperationOutput;
 import com.simple.domain.model.AnalyticsTask;
 import com.simple.domain.model.Person;
 import com.simple.domain.model.RAnalyticsOperation;
 import com.simple.domain.model.ui.dashboard.Dashboard;
+import com.simple.orchestrator.api.IRHadoopOperationOutput.Type;
 import com.simple.web.test.TestInjectorFactory;
 
 public class TestDashboardService {

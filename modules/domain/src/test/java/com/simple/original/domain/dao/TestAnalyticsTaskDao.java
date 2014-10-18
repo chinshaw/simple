@@ -17,7 +17,6 @@ import org.junit.Test;
 import com.google.inject.Inject;
 import com.simple.api.exceptions.DomainException;
 import com.simple.api.exceptions.SimpleException;
-import com.simple.api.orchestrator.IAnalyticsOperationOutput;
 import com.simple.domain.dao.AnalyticsOperationDao;
 import com.simple.domain.dao.AnalyticsTaskDao;
 import com.simple.domain.model.AnalyticsOperationOutput;
@@ -28,6 +27,7 @@ import com.simple.domain.model.ui.ComplexInput;
 import com.simple.domain.model.ui.DateInput;
 import com.simple.domain.model.ui.StringInput;
 import com.simple.domain.model.ui.dashboard.Dashboard;
+import com.simple.orchestrator.api.IRHadoopOperationOutput;
 import com.simple.security.api.ISession;
 
 public class TestAnalyticsTaskDao extends DaoTest {
@@ -129,7 +129,7 @@ public class TestAnalyticsTaskDao extends DaoTest {
 		
 		operation.getOutputs().add(
 				new AnalyticsOperationOutput("output1",
-						IAnalyticsOperationOutput.Type.NUMERIC));
+						IRHadoopOperationOutput.Type.NUMERIC));
 		
 		Long id = operationDao.save(operation);
 

@@ -1,5 +1,7 @@
 package com.simple.api.orchestrator;
 
+import com.simple.orchestrator.api.dataprovider.IDataProvider;
+
 
 public interface ISqlDataProvider extends IDataProvider {
 

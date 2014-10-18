@@ -8,8 +8,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.simple.api.orchestrator.IRAnalyticsOperation;
-
 
 /**
  * Representation of an R analytics oepration extends
@@ -24,7 +22,7 @@ import com.simple.api.orchestrator.IRAnalyticsOperation;
 @Entity
 @XmlRootElement
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class RAnalyticsOperation extends AnalyticsOperation implements IRAnalyticsOperation {
+public class RAnalyticsOperation extends AnalyticsOperation implements IRHadoopOperation {
 
     /**
      * Serialization ID.

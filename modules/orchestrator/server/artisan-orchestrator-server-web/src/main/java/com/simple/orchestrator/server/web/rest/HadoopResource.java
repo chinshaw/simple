@@ -13,10 +13,10 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.artisan.orchestrator.hadoop.job.config.SiteConfigEditor;
+import com.artisan.orchestrator.hadoop.job.config.SiteConfigurationException;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.simple.orchestrator.server.hadoop.config.SiteConfigEditor;
-import com.simple.orchestrator.server.hadoop.config.SiteConfigurationException;
 
 @Path("/hadoop")
 public class HadoopResource {

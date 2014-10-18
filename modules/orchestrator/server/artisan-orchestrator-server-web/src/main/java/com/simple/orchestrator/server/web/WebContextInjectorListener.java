@@ -1,8 +1,8 @@
 package com.simple.orchestrator.server.web;
 
+import com.artisan.orchestrator.hadoop.IOCApplicationInjector;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
-import com.simple.orchestrator.server.IOCApplicationInjector;
 
 public class WebContextInjectorListener extends GuiceServletContextListener {
 	

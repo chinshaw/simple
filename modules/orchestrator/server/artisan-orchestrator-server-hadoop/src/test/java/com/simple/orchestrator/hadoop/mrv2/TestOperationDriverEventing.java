@@ -10,17 +10,17 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.artisan.orchestrator.hadoop.hadoop.mrv2.OperationDriver;
+import com.artisan.orchestrator.hadoop.job.mapper.NullOperationMapper;
+import com.artisan.orchestrator.hadoop.job.reducer.NullOperationReducer;
 import com.google.common.eventbus.Subscribe;
 import com.simple.orchestrator.OrchestratorTest;
 import com.simple.orchestrator.api.conf.IHadoopJobConfiguration;
+import com.simple.orchestrator.api.event.IEventConnector;
+import com.simple.orchestrator.api.event.OperationReducerStateChange;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration.Builder;
-import com.simple.orchestrator.server.event.IEventConnector;
-import com.simple.orchestrator.server.event.OperationReducerStateChange;
-import com.simple.orchestrator.server.hadoop.mrv2.NullOperationMapper;
-import com.simple.orchestrator.server.hadoop.mrv2.NullOperationReducer;
-import com.simple.orchestrator.server.hadoop.mrv2.OperationDriver;
 
 public class TestOperationDriverEventing extends OrchestratorTest {
 

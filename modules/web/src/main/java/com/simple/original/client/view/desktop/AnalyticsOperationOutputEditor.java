@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.simple.api.orchestrator.IAnalyticsOperationOutput;
+import com.simple.orchestrator.api.IRHadoopOperationOutput;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 import com.simple.original.client.resources.Resources;
 import com.simple.original.client.view.desktop.AnalyticsOperationOutputEditor.OutputEditor;
@@ -37,8 +37,8 @@ public class AnalyticsOperationOutputEditor extends Composite implements
 			Editor<AnalyticsOperationOutputProxy> {
 
 		@UiField(provided = true)
-		EnumEditor<IAnalyticsOperationOutput.Type> outputType = new EnumEditor<IAnalyticsOperationOutput.Type>(
-				IAnalyticsOperationOutput.Type.class);
+		EnumEditor<IRHadoopOperationOutput.Type> outputType = new EnumEditor<IRHadoopOperationOutput.Type>(
+				IRHadoopOperationOutput.Type.class);
 
 		@UiField
 		TextBox name;

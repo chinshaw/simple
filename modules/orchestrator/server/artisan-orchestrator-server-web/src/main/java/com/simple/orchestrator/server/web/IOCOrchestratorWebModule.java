@@ -3,9 +3,9 @@ package com.simple.orchestrator.server.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.artisan.orchestrator.hadoop.IOCOrchestratorModule;
 import com.google.inject.Scopes;
 import com.google.inject.servlet.ServletModule;
-import com.simple.orchestrator.server.IOCOrchestratorModule;
 import com.simple.orchestrator.server.web.rest.HadoopResource;
 import com.simple.orchestrator.server.web.rest.HbaseResource;
 import com.simple.orchestrator.server.web.rest.MessageWriter;

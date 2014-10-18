@@ -7,9 +7,9 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
-import com.simple.api.orchestrator.IAnalyticsOperationInput;
-import com.simple.api.orchestrator.IDataProvider;
-import com.simple.orchestrator.api.hadoop.operation.IHadoopOperation;
+import com.simple.orchestrator.api.dataprovider.IDataProvider;
+import com.simple.orchestrator.api.hadoop.operation.IOperation;
+import com.simple.orchestrator.api.hadoop.operation.IOperationInput;
 import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 
 
@@ -28,19 +28,19 @@ public interface IHadoopJobConfiguration {
 	 * List of user inputs for the job
 	 * @return
 	 */
-	List<? extends IAnalyticsOperationInput> getUserInputs();
+	List<? extends IOperationInput> getUserInputs();
 
 	/**
 	 * The operation for the job
 	 * @return
 	 */
-	IHadoopOperation getMapperOperation();
+	IOperation getMapperOperation();
 	
 	/**
 	 * The operation that will be run during the reducer phase.
 	 * @return
 	 */
-	IHadoopOperation getReducerOperation();
+	IOperation getReducerOperation();
 
 	/**
 	 * List of data providers for the job.

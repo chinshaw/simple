@@ -5,7 +5,7 @@ import com.google.gwt.editor.client.SimpleBeanEditorDriver;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.simple.api.exceptions.SimpleException;
-import com.simple.api.orchestrator.IAnalyticsOperationOutput;
+import com.simple.orchestrator.api.IRHadoopOperationOutput;
 import com.simple.original.client.proxy.AnalyticsOperationOutputProxy;
 import com.simple.original.client.proxy.RAnalyticsOperationProxy;
 import com.simple.original.client.view.widgets.ErrorPanel;
@@ -32,7 +32,7 @@ public interface IOperationBuilderView extends IView {
 
         void onCancelAnalytics();
 
-        AnalyticsOperationOutputProxy createOutput(IAnalyticsOperationOutput.Type  type) throws SimpleException;
+        AnalyticsOperationOutputProxy createOutput(IRHadoopOperationOutput.Type  type) throws SimpleException;
 
         Enum<?>[] getAvailableOutputTypes();
 

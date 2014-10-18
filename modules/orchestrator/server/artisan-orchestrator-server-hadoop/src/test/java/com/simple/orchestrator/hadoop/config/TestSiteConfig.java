@@ -6,8 +6,8 @@ import java.nio.file.Paths;
 
 import org.junit.Test;
 
-import com.simple.orchestrator.server.hadoop.config.SiteConfigEditor;
-import com.simple.orchestrator.server.hadoop.config.SiteConfigurationException;
+import com.artisan.orchestrator.hadoop.job.config.SiteConfigEditor;
+import com.artisan.orchestrator.hadoop.job.config.SiteConfigurationException;
 
 public class TestSiteConfig {
 

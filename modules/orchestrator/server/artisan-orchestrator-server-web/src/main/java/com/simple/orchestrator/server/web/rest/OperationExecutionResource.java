@@ -7,16 +7,16 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import com.artisan.orchestrator.hadoop.hadoop.mrv2.OperationDriver;
 import com.google.inject.Inject;
-import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.orchestrator.api.IJobProgress;
 import com.simple.orchestrator.api.conf.IHadoopJobConfiguration;
+import com.simple.orchestrator.api.dataprovider.IDataProvider;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.exception.InvalidJobIdException;
+import com.simple.orchestrator.api.hadoop.operation.IOperationInput;
 import com.simple.orchestrator.api.rest.MediaType;
 import com.simple.orchestrator.api.service.IOperationExecutionService;
-import com.simple.orchestrator.server.hadoop.mrv2.OperationDriver;
 
 @Path("/operation")
 public class OperationExecutionResource implements IOperationExecutionService {
@@ -37,9 +37,9 @@ public class OperationExecutionResource implements IOperationExecutionService {
 			MediaType.APPLICATION_PROTOBUF })
 	public String execute(IHadoopJobConfiguration operationJob)
 			throws HadoopJobException {
-		List<AnalyticsOperationInput> inputs = (List<AnalyticsOperationInput>) operationJob
+		List<IOperationInput> inputs = (List<IOperationInput>) operationJob
 				.getUserInputs();
-		List<DataProvider> dataProviders = (List<DataProvider>) operationJob
+		List<IDataProvider> dataProviders = (List<IDataProvider>) operationJob
 				.getDataProviders();
 		return driver.execute(operationJob);
 	}
