@@ -1,0 +1,95 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.simple</groupId>
+		<artifactId>artisan-orchestrator-server</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>artisan-orchestrator-server-web</artifactId>
+	<name>Orchestrator Web</name>
+	<description>Orchestrator Web</description>
+
+	<packaging>war</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>tomcat-run</id>
+						<goals>
+							<goal>exec-war-only</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<path>/</path>
+							<!-- optional, needed only if you want to use a preconfigured server.xml 
+								file <serverXml>src/main/tomcat/server.xml</serverXml> -->
+							<!-- optional values which can be configurable -->
+							<attachArtifactClassifier>default value is exec-war but you can
+								customize</attachArtifactClassifier>
+							<attachArtifactClassifierType>default value is jar</attachArtifactClassifierType>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+
+			<!-- Adding the test classes so that other packages can use the test packages 
+				at compile time. Note if you use jar you should use the <scope>test</scope> 
+				so that the dependency does not get shipped with the deployables. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.simple</groupId>
+			<artifactId>artisan-orchestrator-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>artisan-orchestrator-server-hadoop</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-json</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>
