@@ -1,4 +1,4 @@
-package com.simple.api.orchestrator;
+package com.simple.api.domain;
 
 public interface IApplicationBookmark {
 

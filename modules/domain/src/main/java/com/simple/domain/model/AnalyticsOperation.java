@@ -27,7 +27,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 
-import com.simple.api.orchestrator.IAnalyticsOperation;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.domain.model.ui.DataProviderInput;
 
@@ -42,7 +41,7 @@ import com.simple.domain.model.ui.DataProviderInput;
 @JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "@class")
 @JsonSubTypes({ @JsonSubTypes.Type(value = RAnalyticsOperation.class, name="r")})
 @JsonIgnoreProperties(value = {"lastChangeLog", "modifiedDate", "lastModifiedBy"})
-public abstract class AnalyticsOperation extends RequestFactoryEntity implements IAnalyticsOperation  {
+public abstract class AnalyticsOperation extends RequestFactoryEntity   {
 
 	/**
 	 * Serialization Id.

@@ -26,7 +26,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
-import com.simple.api.orchestrator.IAnalyticsTask;
 import com.simple.api.orchestrator.IPerson;
 import com.simple.domain.model.dataprovider.DataProvider;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
@@ -48,8 +47,7 @@ import com.simple.domain.model.ui.dashboard.Dashboard;
 		@NamedQuery(name = "AnalyticsTask.byName", query = "select task from AnalyticsTask as task where task.name in :name order by task.name"),
 		@NamedQuery(name = "AnalyticsTask.byOwner", query = "select task from AnalyticsTask as task where task.owner.id = :owner order by task.name"),
 		@NamedQuery(name = "AnalyticsTask.countByOwner", query = "select count(task) from AnalyticsTask as task where task.owner.id= :userId and task.isPublic = false") })
-public class AnalyticsTask extends RequestFactoryEntity implements
-		IAnalyticsTask {
+public class AnalyticsTask extends RequestFactoryEntity  {
 
 	/**
 	 * Serialization id.
@@ -167,7 +165,7 @@ public class AnalyticsTask extends RequestFactoryEntity implements
 	 * 
 	 * @see com.simple.original.server.domain.IAnalyticsTask#getName()
 	 */
-	@Override
+	
 	public String getName() {
 		return name;
 	}
@@ -181,12 +179,11 @@ public class AnalyticsTask extends RequestFactoryEntity implements
 	 * 
 	 * @see com.simple.original.server.domain.IAnalyticsTask#getDescription()
 	 */
-	@Override
+	
 	public String getDescription() {
 		return description;
 	}
 
-	@Override
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -223,7 +220,6 @@ public class AnalyticsTask extends RequestFactoryEntity implements
 		this.isPublic = isPublic;
 	}
 
-	@Override
 	public List<AnalyticsOperation> getOperations() {
 		return operations;
 	}
@@ -323,7 +319,6 @@ public class AnalyticsTask extends RequestFactoryEntity implements
 		this.taskInputs = taskInputs;
 	}
 
-	@Override
 	public List<DataProvider> getDataProviders() {
 		return dataProviders;
 	}

@@ -23,8 +23,6 @@ public interface ITaskExecution extends Serializable {
 
     public abstract Date getCompletionTime();
     
-    public abstract IAnalyticsTask getAnalyticsTask();
-
     public abstract TaskCompletionStatus getCompletionStatus();
 
     public abstract void setCompletionStatus(TaskCompletionStatus completionStatus);

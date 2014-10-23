@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class RAnalyticsOperation extends AnalyticsOperation implements IRHadoopOperation {
+public class RAnalyticsOperation extends AnalyticsOperation {
 
     /**
      * Serialization ID.
@@ -47,12 +47,10 @@ public class RAnalyticsOperation extends AnalyticsOperation implements IRHadoopO
         this.name = name;
     }
 
-    @Override
     public String getCode() {
         return code;
     }
 
-    @Override
     public void setCode(String code) {
         this.code = code;
     }

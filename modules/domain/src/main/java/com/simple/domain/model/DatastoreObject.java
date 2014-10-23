@@ -7,10 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import com.simple.api.orchestrator.IDatastoreObject;
-
 @MappedSuperclass
-public abstract class DatastoreObject implements IDatastoreObject, Serializable {
+public abstract class DatastoreObject implements Serializable {
 
 	/**
 	 * Serialization id, this is mainly used for gwt rpc calls and events.

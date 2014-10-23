@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Pattern;
 
-import com.simple.api.orchestrator.IApplicationBookmark;
+import com.simple.api.domain.IApplicationBookmark;
 import com.simple.api.orchestrator.IPreferences;
 
 @Entity

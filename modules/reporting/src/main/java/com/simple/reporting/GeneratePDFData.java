@@ -24,7 +24,6 @@ import com.lowagie.text.Font;
 import com.simple.api.orchestrator.Criticality;
 import com.simple.api.orchestrator.IMetricDouble;
 import com.simple.api.orchestrator.INumberRange;
-import com.simple.domain.model.ui.dashboard.Dashboard;
 
 public class GeneratePDFData {
 	//private static Logger logger = Logger.getLogger(GeneratePDFData.class.getName());

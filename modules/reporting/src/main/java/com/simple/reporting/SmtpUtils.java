@@ -19,7 +19,6 @@ import javax.mail.internet.MimeMultipart;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.simple.domain.model.MailMessage;
 
 /**
  * Class used to send Mail as HTML format and Text format

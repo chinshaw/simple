@@ -18,12 +18,12 @@ import javax.persistence.Transient;
 
 import com.simple.api.exceptions.ExceptionUtils;
 import com.simple.api.orchestrator.IMetric;
-import com.simple.api.orchestrator.ITaskExecution;
+import com.simple.api.orchestrator.ITaskExecution.TaskCompletionStatus;
 import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.orchestrator.api.metric.Metric;
 
 
-public class AnalyticsTaskExecution extends RequestFactoryEntity implements ITaskExecution {
+public class AnalyticsTaskExecution extends RequestFactoryEntity {
 
     /**
      * Serialization id.
@@ -118,7 +118,6 @@ public class AnalyticsTaskExecution extends RequestFactoryEntity implements ITas
      * @see
      * com.simple.original.server.domain.IAnalyticsTaskExecutionEntity#getCompletionTime()
      */
-    @Override
     public Date getCompletionTime() {
         return endTime;
     }
@@ -133,7 +132,6 @@ public class AnalyticsTaskExecution extends RequestFactoryEntity implements ITas
      * @see
      * com.simple.original.server.domain.IAnalyticsTaskExecutionEntity#getAnalyticsTask()
      */
-    @Override
     public AnalyticsTask getAnalyticsTask() {
         return analyticsTask;
     }
@@ -170,7 +168,6 @@ public class AnalyticsTaskExecution extends RequestFactoryEntity implements ITas
      * com.simple.original.server.domain.IAnalyticsTaskExecutionEntity#getCompletionStatus
      * ()
      */
-    @Override
     public TaskCompletionStatus getCompletionStatus() {
         return this.completionStatus;
     }
@@ -232,7 +229,6 @@ public class AnalyticsTaskExecution extends RequestFactoryEntity implements ITas
      * @see
      * com.simple.original.server.domain.IAnalyticsTaskExecutionEntity#getExecutionLog()
      */
-    @Override
     public String getExecutionLog() {
         if (executionLog == null && executionLogFileName != null) {
             try {
@@ -327,7 +323,6 @@ public class AnalyticsTaskExecution extends RequestFactoryEntity implements ITas
      * com.simple.original.server.domain.IAnalyticsTaskExecutionEntity#getExecutionMetrics
      * ()
      */
-    @Override
     public List<IMetric> getExecutionMetrics() {
         return executionMetrics;
     }
@@ -339,7 +334,6 @@ public class AnalyticsTaskExecution extends RequestFactoryEntity implements ITas
 		 return null;
 	 }
 
-	@Override
 	public void createFailure(Throwable cause) {
 		this.setCompletionStatus(TaskCompletionStatus.FAILED);
 		this.executionLog.concat("SEVERE ERROR\n");

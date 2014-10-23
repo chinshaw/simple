@@ -24,12 +24,12 @@ import com.simple.api.domain.SortOrder;
 import com.simple.api.exceptions.DomainException;
 import com.simple.api.exceptions.SimpleException;
 import com.simple.api.exceptions.TooManyResultsException;
-import com.simple.api.orchestrator.IDatastoreObject;
 import com.simple.api.orchestrator.IPerson;
+import com.simple.domain.model.DatastoreObject;
 import com.simple.domain.model.Person;
 import com.simple.security.api.ISession;
 
-public class DaoBase<T extends IDatastoreObject> {
+public class DaoBase<T extends DatastoreObject> {
 
 	private final Logger logger = Logger.getLogger(DaoBase.class.getName());
 

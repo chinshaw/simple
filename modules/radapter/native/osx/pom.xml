@@ -151,7 +151,7 @@
 						</source>
 
 						<source>
-							<directory>/Library/Frameworks/R.framework/Versions/3.1/Resources/include/</directory>
+							<directory>/opt/artisan/apps/versions/R-3.1.0/R.framework/Versions/3.1/Resources/include/</directory>
 							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
 						</source>
 

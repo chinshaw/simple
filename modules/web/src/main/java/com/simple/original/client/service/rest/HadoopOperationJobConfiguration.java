@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.simple.api.orchestrator.IAnalyticsOperation;
-import com.simple.domain.model.AnalyticsOperation;
-import com.simple.domain.model.dataprovider.DataProvider;
-import com.simple.domain.model.ui.AnalyticsOperationInput;
 import com.simple.orchestrator.api.conf.IHadoopJobConfiguration;
+import com.simple.orchestrator.api.dataprovider.IDataProvider;
+import com.simple.orchestrator.api.hadoop.operation.IOperation;
+import com.simple.orchestrator.api.hadoop.operation.IOperationInput;
+import com.simple.orchestrator.api.hadoop.operation.IOperationOutput;
 
 /**
  * This is a wrapper for the 
@@ -19,13 +19,13 @@ public class HadoopOperationJobConfiguration implements IHadoopJobConfiguration 
 
 	private String owner;
 	
-	private AnalyticsOperation mapperOperation;
+	private IOperation mapperOperation;
 	
-	private AnalyticsOperation reducerOperation;
+	private IOperation reducerOperation;
 	
-	private List<AnalyticsOperationInput> userInputs;
+	private List<IOperationInput> userInputs;
 	
-	private List<DataProvider> dataProviders;
+	private List<IDataProvider> dataProviders;
 	
 	@Override
 	public String getOwner() {
@@ -37,30 +37,30 @@ public class HadoopOperationJobConfiguration implements IHadoopJobConfiguration 
 	}
 
 	@Override
-	public List<AnalyticsOperationInput> getUserInputs() {
+	public List<IOperationInput> getUserInputs() {
 		return userInputs;
 	}
 
-	public void setUserInputs(List<AnalyticsOperationInput> userInputs) {
+	public void setUserInputs(List<IOperationOutput> userInputs) {
 		this.userInputs = userInputs;
 	}
 	
 	@Override
-	public List<DataProvider> getDataProviders() {
+	public List<IDataProvider> getDataProviders() {
 		return dataProviders;
 	}
 
-	public void setDataProviders(List<DataProvider> dataProviders) {
+	public void setDataProviders(List<IDataProvider> dataProviders) {
 		this.dataProviders = dataProviders;
 	}
 
 	@Override
-	public IAnalyticsOperation getMapperOperation() {
+	public IOperation getMapperOperation() {
 		return mapperOperation;
 	}
 
 	@Override
-	public IAnalyticsOperation getReducerOperation() {
+	public IOperation getReducerOperation() {
 		return reducerOperation;
 	}
 }
