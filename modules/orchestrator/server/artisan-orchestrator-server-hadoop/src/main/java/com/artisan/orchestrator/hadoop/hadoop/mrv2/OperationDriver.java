@@ -78,9 +78,6 @@ public class OperationDriver implements IOperationExecutionService {
 		try {
 
 			ArtisanJob job = createJob(jobDetails);
-			//dispatcher.init(job.getConfiguration());
-			//dispatcher.start();
-			logger.log(Level.WARNING, " Jar class " + job.getJar());
 			job.submit();
 			return job.getJobID().toString();
 		} catch (ClassNotFoundException | IOException | InterruptedException
@@ -185,8 +182,6 @@ public class OperationDriver implements IOperationExecutionService {
 		job.setMapOutputKeyClass(MetricKey.class);
 		job.setMapOutputValueClass(MetricWritable.class);
 		job.setJarByClass(MetricInputFormat.class);
-
-		// Configuration configuration = job.getConfiguration();
 
 		job.getConfiguration()
 				.set("conf.column",

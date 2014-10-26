@@ -8,9 +8,8 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import com.simple.api.orchestrator.IMetricKey;
 import com.simple.api.orchestrator.ITaskExecution;
-import com.simple.orchestrator.api.ITaskExecutionDao;
 
-public class HBaseTaskExecutionDao extends HBaseDao implements ITaskExecutionDao {
+public class HBaseTaskExecutionDao extends HBaseDao {
 
 	public static final String TABLE_NAME ="taskexecution";
 	
@@ -23,7 +22,7 @@ public class HBaseTaskExecutionDao extends HBaseDao implements ITaskExecutionDao
 		get.addColumn(Bytes.toBytes(column), Bytes.toBytes(qualifier));
 		get.setMaxVersions(1);
 		Result result = getTable().get(get);
-		byte[] bytes = result.getValue(Bytes.toBytes("rexp"), null);
+	//	byte[] bytes = result.getValue(Bytes.toBytes("rexp"), null);
 		return null;
 	}
 
@@ -31,17 +30,14 @@ public class HBaseTaskExecutionDao extends HBaseDao implements ITaskExecutionDao
 		return null;
 	}
 
-	@Override
 	public void save(ITaskExecution execution) {
 
 	}
 
-	@Override
 	public ITaskExecution find(IMetricKey key) {
 		return null;
 	}
 
-	@Override
 	public ITaskExecution findLastTaskExecution(Long taskId) {
 		// TODO Auto-generated method stub
 		return null;
