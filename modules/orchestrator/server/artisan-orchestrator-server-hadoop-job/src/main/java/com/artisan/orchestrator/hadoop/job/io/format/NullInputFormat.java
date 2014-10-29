@@ -13,8 +13,8 @@ import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
+import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.simple.api.orchestrator.IMetricKey;
-import com.simple.orchestrator.api.IMetricWritable;
 
 /**
  * Simple class that does not provide any input, the mapper

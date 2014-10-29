@@ -6,8 +6,8 @@ import com.artisan.orchestrator.hadoop.job.io.format.MetricInputFormat;
 import com.artisan.orchestrator.hadoop.job.io.format.MetricOutputFormat;
 import com.artisan.orchestrator.hadoop.job.io.format.MetricInputFormat.InputAdapterType;
 import com.artisan.orchestrator.hadoop.job.io.format.MetricOutputFormat.OutputAdapterType;
+import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.simple.api.orchestrator.IMetricKey;
-import com.simple.orchestrator.api.IMetricWritable;
 
 public class MetricAdapterFactory {
 

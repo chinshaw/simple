@@ -3,9 +3,9 @@ package com.artisan.orchestrator.hadoop.job.mapper;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import com.artisan.orchestrator.server.api.AbstractMetricMapper;
+import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.simple.api.orchestrator.IMetricKey;
-import com.simple.orchestrator.api.AbstractMetricMapper;
-import com.simple.orchestrator.api.IMetricWritable;
 
 /**
  * This is the mapper implementation for R and right now it simply passes the

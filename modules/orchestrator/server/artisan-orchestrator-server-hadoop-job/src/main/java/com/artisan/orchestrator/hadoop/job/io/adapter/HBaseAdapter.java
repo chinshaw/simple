@@ -19,8 +19,8 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
 
 import com.artisan.orchestrator.hadoop.job.io.MetricWritable;
+import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.simple.api.orchestrator.IMetricKey;
-import com.simple.orchestrator.api.IMetricWritable;
 
 public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		extends AbstractOutputFormatAdapter<K, V> implements Configurable {

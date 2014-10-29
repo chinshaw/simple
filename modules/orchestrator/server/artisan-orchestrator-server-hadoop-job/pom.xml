@@ -41,6 +41,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.simple</groupId>
+			<artifactId>artisan-orchestrator-server-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-client</artifactId>
 			<exclusions>

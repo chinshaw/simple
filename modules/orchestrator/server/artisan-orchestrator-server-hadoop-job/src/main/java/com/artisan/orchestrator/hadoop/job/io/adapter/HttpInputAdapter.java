@@ -15,8 +15,8 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
 import com.artisan.orchestrator.hadoop.job.io.MetricWritable;
 import com.artisan.orchestrator.hadoop.job.io.format.HttpInputFormat;
+import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.simple.api.orchestrator.IMetricKey;
-import com.simple.orchestrator.api.IMetricWritable;
 import com.simple.orchestrator.api.metric.MetricKey;
 import com.simple.orchestrator.api.metric.MetricString;
 import com.simple.orchestrator.api.rest.MediaType;

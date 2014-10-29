@@ -14,8 +14,8 @@ import org.apache.log4j.Logger;
 
 import com.artisan.orchestrator.hadoop.job.io.adapter.AbstractOutputFormatAdapter;
 import com.artisan.orchestrator.hadoop.job.io.adapter.MetricAdapterFactory;
+import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.simple.api.orchestrator.IMetricKey;
-import com.simple.orchestrator.api.IMetricWritable;
 
 public class MetricOutputFormat<K extends IMetricKey, V extends IMetricWritable>
 		extends OutputFormat<K, V> implements Configurable {

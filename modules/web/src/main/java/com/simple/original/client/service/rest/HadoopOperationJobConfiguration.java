@@ -41,7 +41,7 @@ public class HadoopOperationJobConfiguration implements IHadoopJobConfiguration 
 		return userInputs;
 	}
 
-	public void setUserInputs(List<IOperationOutput> userInputs) {
+	public void setUserInputs(List<IOperationInput> userInputs) {
 		this.userInputs = userInputs;
 	}
 	

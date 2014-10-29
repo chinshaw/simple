@@ -1,4 +1,4 @@
-package com.simple.orchestrator.api;
+package com.artisan.orchestrator.server.api;
 
 import org.apache.hadoop.io.Writable;
 

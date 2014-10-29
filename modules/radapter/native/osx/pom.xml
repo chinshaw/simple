@@ -156,7 +156,7 @@
 						</source>
 
 						<source>
-							<directory>/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/include/darwin/</directory>
+							<directory>/Library/Java/JavaVirtualMachines/jdk1.7.0_55.jdk/Contents/Home/include/darwin/</directory>
 							<dependencyAnalysisParticipation>false</dependencyAnalysisParticipation>
 						</source>
 					</sources>
@@ -166,16 +166,16 @@
 
 					<linkerStartOptions>
 						<linkerStartOption>-g3 -shared -fpic -pipe -D_REENTRANT
-							-L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/
+							-L/Library/Java/JavaVirtualMachines/jdk1.7.0_55.jdk/Contents/Home/jre/lib/server/
 							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/
 							-L/usr/local/lib
 							-ljvm -lR -lprotobuf-c</linkerStartOption>
 					</linkerStartOptions>
 					<linkerEndOptions>
 						<linkerStartOption>-g3 -shared -fpic -pipe -D_REENTRANT
-							-L/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/server/
+							-L/Library/Java/JavaVirtualMachines/jdk1.7.0_55.jdk/Contents/Home/jre/lib/server/
 							-ljvm
-							-L/Library/Frameworks/R.framework/Versions/3.0/Resources/lib/ -lR</linkerStartOption>
+							-L/opt/artisan/apps/R/R.framework/Resources/lib/ -lR</linkerStartOption>
 					</linkerEndOptions>
 				</configuration>
 			</plugin>

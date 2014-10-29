@@ -13,8 +13,8 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 
 import com.artisan.orchestrator.hadoop.job.io.adapter.AbstractInputFormatAdapter;
 import com.artisan.orchestrator.hadoop.job.io.adapter.MetricAdapterFactory;
+import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.simple.api.orchestrator.IMetricKey;
-import com.simple.orchestrator.api.IMetricWritable;
 
 public class MetricInputFormat<K extends IMetricKey, V extends IMetricWritable>
 		extends InputFormat<K, V> implements Configurable {

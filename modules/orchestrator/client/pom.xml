@@ -8,33 +8,16 @@
 		<version>1.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>artisan-orchestrator-java-client</artifactId>
+	<artifactId>artisan-orchestrator-client</artifactId>
 	<name>Artisan Orchestrator Rest Client</name>
-	<description>Rest client for communicating with artisan server</description>
-
+	<description>This is the client that is used to talk to the orchestrator server. It supports both rest and gwt natively for submitting, querying jobs and monitoring jobs.</description>
+	
+	
 	<dependencies>
-
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-client</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-yarn-client</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>artisan-orchestrator-api</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>artisan-orchestrator-server</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -56,13 +39,10 @@
 			<groupId>com.sun.jersey.jersey-test-framework</groupId>
 			<artifactId>jersey-test-framework-grizzly</artifactId>
 		</dependency>
-
-		<!-- Test only packages -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<version>${project.version}</version>
 			<artifactId>artisan-orchestrator-server-web</artifactId>
-			<type>test-jar</type>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 

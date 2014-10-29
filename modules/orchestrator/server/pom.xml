@@ -116,5 +116,6 @@
 		<module>artisan-orchestrator-server-hadoop</module>
 		<module>artisan-orchestrator-server-web</module>
 		<module>artisan-orchestrator-server-hadoop-job</module>
+		<module>artisan-orchestrator-server-api</module>
 	</modules>
 </project>

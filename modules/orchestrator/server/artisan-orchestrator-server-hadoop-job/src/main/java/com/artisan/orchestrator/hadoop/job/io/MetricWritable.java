@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 
 import org.apache.hadoop.io.WritableUtils;
 
+import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.dyuproject.protostuff.ProtobufIOUtil;
-import com.simple.orchestrator.api.IMetricWritable;
 import com.simple.orchestrator.api.metric.Metric;
 import com.simple.orchestrator.api.rest.MediaType;
 

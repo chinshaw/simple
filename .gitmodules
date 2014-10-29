@@ -7,3 +7,9 @@
 [submodule "externals/hadoop"]
 	path = externals/hadoop
 	url = https://github.com/chinshaw/hadoop-common
+[submodule "externals/protobuf-c"]
+	path = externals/protobuf-c
+	url = https://github.com/protobuf-c/protobuf-c.git
+[submodule "externals/protobuf-c-rpc"]
+	path = externals/protobuf-c-rpc
+	url = https://github.com/protobuf-c/protobuf-c-rpc.git

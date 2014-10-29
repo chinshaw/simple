@@ -74,8 +74,8 @@ public class OperationExecutionActivity extends AbstractActivity<OperationExecut
 	@Override
 	public void onExecute() {
 		HadoopOperationJobConfiguration job = new HadoopOperationJobConfiguration();
-		job.setOperation(operation);
-		job.setDataProviders(dataProviders);
+	//	job.setOperation(operation);
+	//	job.setDataProviders(dataProviders);
 		
 		OrchestratorService.Util.get().executeOperation(job, new MethodCallback<Void>() {
 			

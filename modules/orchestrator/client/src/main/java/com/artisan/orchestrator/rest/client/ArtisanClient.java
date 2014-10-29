@@ -31,7 +31,6 @@ public class ArtisanClient {
 
 	private final String baseUrl;
 	
-	
 	public ArtisanClient(String host) {
 		this(host, CLIENT_DEFAULT_PORT);
 	}
