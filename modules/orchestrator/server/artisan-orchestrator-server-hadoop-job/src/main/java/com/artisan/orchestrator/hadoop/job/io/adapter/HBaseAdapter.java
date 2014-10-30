@@ -14,7 +14,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.OutputCommitter;
 import org.apache.hadoop.mapreduce.RecordWriter;
-import org.apache.hadoop.mapreduce.Reducer.Context;
+import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
 
@@ -49,7 +49,7 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		 * Get the configuration and configure the hbase output to write to the
 		 * correct column and
 		 */
-		protected void setup(Context context) throws IOException,
+		protected void setup(Reducer<K,V,K,V>.Context context) throws IOException,
 				InterruptedException {
 			String column = context.getConfiguration().get("conf.column");
 			byte[][] colKey = KeyValue.parseColumn(Bytes.toBytes(column));
@@ -84,10 +84,10 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 			DataOutputStream daos = new DataOutputStream(valueStream);
 			value.write(daos);
 			
-			put.add(family, Bytes.toBytes(getColumnFamily()),
+			put.add(family, Bytes.toBytes(COLUMN_VALUE_KEY),
 					valueStream.toByteArray());
 			
-			put.add(family, Bytes.toBytes(getColumnFamily()),
+			put.add(family, Bytes.toBytes(COLUMN_CLASS_KEY),
 					Bytes.toBytes(value.getClass().getName()));
 			
 			put.add(family, Bytes.toBytes(COLUMN_MEDIATYPE), value

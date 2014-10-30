@@ -88,6 +88,35 @@ public class OperationDriver implements IOperationExecutionService {
 			throw new HadoopJobException("Unable to execute operation", e);
 		}
 	}
+	
+	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * This will fire off the job and return the job id in string format, this
+	 * can be used to register status listeners for the job status.
+	 * 
+	 * @param jobOwner
+	 * @param operationInputs
+	 * @param operation
+	 * @param dataProviders
+	 * @return
+	 */
+	public void executeAndWait(IHadoopJobConfiguration jobDetails)
+			throws HadoopJobException {
+		try {
+
+			ArtisanJob job = createJob(jobDetails);
+			job.waitForCompletion(true);
+		} catch (ClassNotFoundException | IOException | InterruptedException
+				| RAnalyticsException | ConfigurationException e) {
+			logger.log(Level.SEVERE, "Unable to execute job", e);
+			throw new HadoopJobException("Unable to execute operation", e);
+		} catch (Exception e) {
+			throw new HadoopJobException("Unable to execute operation", e);
+		}
+	}
+	
 
 	/**
 	 * {@inheritDoc}

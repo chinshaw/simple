@@ -82,8 +82,6 @@ public class TestOperationDriver extends OrchestratorTest {
 		graphic.setId(1233l);
 		operation.addOutput(graphic);
 		
-		
-		logger.info("Connector is in test" + eventConnector);
 		eventConnector.subscribe(new Object() {
 			@Subscribe
 			public void onReducerStateChange(OperationReducerStateChange event) {
@@ -103,8 +101,8 @@ public class TestOperationDriver extends OrchestratorTest {
 */
 		builder.setMapperOperation(operation).setReducerOperation(operation);
 
-		executor.execute(builder.build());
-		latch.await(300, TimeUnit.SECONDS);
+		executor.executeAndWait(builder.build());
+		//latch.await(300, TimeUnit.SECONDS);
 	}
 
 	@Test

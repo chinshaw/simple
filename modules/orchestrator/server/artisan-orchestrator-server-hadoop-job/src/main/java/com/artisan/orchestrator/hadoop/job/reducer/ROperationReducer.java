@@ -96,7 +96,7 @@ public class ROperationReducer extends AbstractMetricReducer<IMetricKey, IMetric
 			// Write input to workspace
 			doWriteToWorkspace(context);
 
-			logger.info("Calling do operatoin");
+			logger.info("Calling do operation");
 			// Execute the operation
 			doOperation(context);
 
@@ -137,11 +137,9 @@ public class ROperationReducer extends AbstractMetricReducer<IMetricKey, IMetric
 			String code = operation.getCode();
 			logger.debug("Assigning code to operation " + code);
 
-			logger.info("About to execute code");
 			// executing script
 			logger.info("Code is " + code);
 			localAdapter.get().exec(code);
-
 			logger.info("Done executing code");
 
 		} catch (RAdapterException e) {
@@ -195,7 +193,6 @@ public class ROperationReducer extends AbstractMetricReducer<IMetricKey, IMetric
 
 				Metric<?> metric = RexpUtils.toMetric(key, rexp);
 
-				logger.info("Writing metric key => " + metric.getKey());
 				context.write(metric.getKey(), new MetricWritable<Metric<?>>(metric, MediaType.APPLICATION_PROTOBUF));
 
 			} catch (RAdapterException e) {
