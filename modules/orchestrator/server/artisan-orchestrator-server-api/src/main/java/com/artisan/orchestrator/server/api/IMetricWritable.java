@@ -7,7 +7,6 @@ import com.simple.api.orchestrator.IMetric;
 
 public interface IMetricWritable extends Writable {
 
-	
 	/**
 	 * This will convert the metric to a byte array, this will use
 	 * default serialization which is protocol buffers 

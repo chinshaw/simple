@@ -15,12 +15,12 @@ import com.artisan.orchestrator.hadoop.job.mapper.NullOperationMapper;
 import com.artisan.orchestrator.hadoop.job.reducer.NullOperationReducer;
 import com.google.common.eventbus.Subscribe;
 import com.simple.orchestrator.OrchestratorTest;
+import com.simple.orchestrator.api.conf.HadoopOperationJobConfiguration;
 import com.simple.orchestrator.api.conf.IHadoopJobConfiguration;
+import com.simple.orchestrator.api.conf.HadoopOperationJobConfiguration.Builder;
 import com.simple.orchestrator.api.event.IEventConnector;
 import com.simple.orchestrator.api.event.OperationReducerStateChange;
 import com.simple.orchestrator.api.exception.HadoopJobException;
-import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
-import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration.Builder;
 
 public class TestOperationDriverEventing extends OrchestratorTest {
 

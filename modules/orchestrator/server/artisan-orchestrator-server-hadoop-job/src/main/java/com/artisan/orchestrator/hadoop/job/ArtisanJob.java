@@ -11,7 +11,7 @@ import org.apache.hadoop.mapreduce.JobStatus;
 
 import com.artisan.orchestrator.hadoop.job.config.ArtisanConfiguration;
 import com.artisan.orchestrator.hadoop.job.config.OperationConfiguration;
-import com.simple.orchestrator.api.conf.ConfigurationException;
+import com.simple.orchestrator.api.conf.impl.ConfigurationException;
 import com.simple.orchestrator.api.dataprovider.IDataProvider;
 import com.simple.orchestrator.api.hadoop.operation.IOperation;
 import com.simple.orchestrator.api.hadoop.operation.IOperationInput;

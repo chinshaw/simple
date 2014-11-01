@@ -2,6 +2,7 @@ package com.artisan.orchestrator.hadoop.job.io.adapter;
 
 import org.apache.hadoop.conf.Configuration;
 
+import com.artisan.orchestrator.hadoop.job.io.adapter.hbase.HBaseMetricAdapterFacade;
 import com.artisan.orchestrator.hadoop.job.io.format.MetricInputFormat;
 import com.artisan.orchestrator.hadoop.job.io.format.MetricOutputFormat;
 import com.artisan.orchestrator.hadoop.job.io.format.MetricInputFormat.InputAdapterType;
@@ -18,7 +19,7 @@ public class MetricAdapterFactory {
 
 		switch (type) {
 		case HBASE:
-			return new HBaseAdapter<K, V>(conf);
+			return new HBaseMetricAdapterFacade<K, V>(conf);
 		case NONE:
 			return null;
 		default:

@@ -2,7 +2,6 @@ package com.simple.orchestrator.hadoop.mrv2;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
@@ -11,20 +10,23 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.artisan.orchestrator.hadoop.hadoop.mrv2.OperationDriver;
+import com.artisan.orchestrator.hadoop.job.io.adapter.local.LocalFileOutputCommitter;
 import com.artisan.utils.ClasspathUtils;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.simple.orchestrator.IOCOrchestratorTestModule;
 import com.simple.orchestrator.OrchestratorTest;
-import com.simple.orchestrator.api.conf.ConfigurationException;
+import com.simple.orchestrator.api.conf.HadoopOperationJobConfiguration;
+import com.simple.orchestrator.api.conf.IHadoopJobConfiguration;
+import com.simple.orchestrator.api.conf.HadoopOperationJobConfiguration.Builder;
+import com.simple.orchestrator.api.conf.impl.ConfigurationException;
+import com.simple.orchestrator.api.conf.impl.LocalFileAdapterConfiguration;
 import com.simple.orchestrator.api.event.IEventConnector;
 import com.simple.orchestrator.api.event.OperationReducerStateChange;
 import com.simple.orchestrator.api.exception.HadoopJobException;
 import com.simple.orchestrator.api.hadoop.operation.ROperation;
 import com.simple.orchestrator.api.hadoop.operation.ROperationOutput;
-import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
-import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration.Builder;
 
 /**
  * This allows for testing local hadoop taskss.
@@ -90,19 +92,22 @@ public class TestOperationDriver extends OrchestratorTest {
 			}
 		});
 
+		LocalFileAdapterConfiguration outputConfiguration = new LocalFileAdapterConfiguration();
+		outputConfiguration.setOutputFileName("/tmp/testGraphic.json");
+		
 		Builder builder = new HadoopOperationJobConfiguration.Builder();
-
+		builder.setMapperOperation(operation).setReducerOperation(operation).setOutputAdapterConfiguration(outputConfiguration);
+		IHadoopJobConfiguration configuration = builder.build();
+		
 		/*
 		HttpDataProvider dp = new HttpDataProvider(
 				"http://ichart.finance.yahoo.com/table.csv?s=HPQ&a=00&b=12&c=2013&d=00&e=15&f=2014&g=d&ignore=.csv");
 		List<DataProvider> dps = new ArrayList<DataProvider>();
 		
 		dps.add(dp);
-*/
-		builder.setMapperOperation(operation).setReducerOperation(operation);
+		 */
 
-		executor.executeAndWait(builder.build());
-		//latch.await(300, TimeUnit.SECONDS);
+		executor.executeAndWait(configuration);
 	}
 
 	@Test

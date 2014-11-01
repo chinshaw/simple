@@ -1,4 +1,4 @@
-package com.artisan.orchestrator.hadoop.job.io.adapter;
+package com.artisan.orchestrator.hadoop.job.io.adapter.hbase;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -14,15 +14,34 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.mapreduce.JobContext;
 import org.apache.hadoop.mapreduce.OutputCommitter;
 import org.apache.hadoop.mapreduce.RecordWriter;
-import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.log4j.Logger;
 
 import com.artisan.orchestrator.hadoop.job.io.MetricWritable;
+import com.artisan.orchestrator.hadoop.job.io.adapter.AbstractOutputFormatAdapter;
 import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.simple.api.orchestrator.IMetricKey;
 
-public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
+/**
+ * This is really just a facade for the Hbase TableOutputFormat so that it can write
+ * metrics out to the hbase data store.
+ * 
+ * Reuqired configurations:
+ * COLUMN_VALUE_KEY = "com.artisan.orchestrator.hbase.metric.colvalue";
+ *    The column name of the value column , example "value"
+ * COLUMN_CLASS_KEY = "com.artisan.orchestrator.hbase.metric.colclass";
+ *    The column name of the class column, this is used to store the class of
+ *    the metric.
+ * COLUMN_MEDIATYPE = "com.artisan.orchestrator.hbase.metric.colmediatype";
+ *    The media type to store the metric in, this can be used to store it in protocol buffers
+ *    json, xml etc.
+ * 
+ * @author chinshaw
+ *
+ * @param <K>
+ * @param <V>
+ */
+public class HBaseMetricAdapterFacade<K extends IMetricKey, V extends IMetricWritable>
 		extends AbstractOutputFormatAdapter<K, V> implements Configurable {
 	
 	public static String COLUMN_VALUE_KEY = "com.artisan.orchestrator.hbase.metric.colvalue";
@@ -31,7 +50,7 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 
 	public static String COLUMN_MEDIATYPE = "com.artisan.orchestrator.hbase.metric.colmediatype";
 
-	private static final Logger logger = Logger.getLogger(HBaseAdapter.class
+	private static final Logger logger = Logger.getLogger(HBaseMetricAdapterFacade.class
 			.getName());
 
 	public class HbaseRecordWriterAdapter extends RecordWriter<K, V> {
@@ -48,7 +67,7 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 		/**
 		 * Get the configuration and configure the hbase output to write to the
 		 * correct column and
-		 */
+		 // Evidently this is never called anywhere so I am going to comment it for now.
 		protected void setup(Reducer<K,V,K,V>.Context context) throws IOException,
 				InterruptedException {
 			String column = context.getConfiguration().get("conf.column");
@@ -58,6 +77,8 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 				qualifier = colKey[1];
 			}
 		}
+		 */
+		
 
 		/**
 		 * {@inheritDoc}
@@ -117,10 +138,10 @@ public class HBaseAdapter<K extends IMetricKey, V extends IMetricWritable>
 	 */
 	private byte[] qualifier;
 
-	public HBaseAdapter() {
+	public HBaseMetricAdapterFacade() {
 	}
 	
-	public HBaseAdapter(Configuration conf) {
+	public HBaseMetricAdapterFacade(Configuration conf) {
 		setConf(conf);
 	}
 

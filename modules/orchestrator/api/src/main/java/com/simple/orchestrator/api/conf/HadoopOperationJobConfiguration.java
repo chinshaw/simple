@@ -1,11 +1,10 @@
-package com.simple.orchestrator.api.rest;
+package com.simple.orchestrator.api.conf;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.simple.orchestrator.api.conf.IHadoopJobConfiguration;
 import com.simple.orchestrator.api.dataprovider.IDataProvider;
 import com.simple.orchestrator.api.hadoop.operation.OperationInput;
 import com.simple.orchestrator.api.hadoop.operation.IOperation;
@@ -31,6 +30,8 @@ public class HadoopOperationJobConfiguration implements
 	private IOperation mapperOperation;
 
 	private IOperation reducerOperation;
+	
+	private IOutputAdapterConfiguration outputAdapterConfiguration;
 
 	/**
 	 * 
@@ -81,6 +82,16 @@ public class HadoopOperationJobConfiguration implements
 	public void setRecducerOperation(IOperation reducerOperation) {
 		this.reducerOperation = reducerOperation;
 	}
+	
+
+	@Override
+	public IOutputAdapterConfiguration getOutputAdapterConfiguration() {
+		return outputAdapterConfiguration;
+	}
+	
+	public void setOutputAdapterConfiguration(IOutputAdapterConfiguration outputAdapterConfiguration) {
+		this.outputAdapterConfiguration = outputAdapterConfiguration;
+	}
 
 	/**
 	 * Simple buidler class to make creating a Hadoop Job configuration
@@ -97,6 +108,8 @@ public class HadoopOperationJobConfiguration implements
 		private List<IDataProvider> dataProviders;
 
 		private List<OperationInput> inputs;
+		
+		private IOutputAdapterConfiguration outputAdapterConfiguration;
 
 		public Builder setMapperOperation(IOperation mapperOperation) {
 			this.mapperOperation = mapperOperation;
@@ -126,6 +139,11 @@ public class HadoopOperationJobConfiguration implements
 			this.inputs = inputs;
 			return this;
 		}
+		
+		public Builder setOutputAdapterConfiguration(IOutputAdapterConfiguration outputAdapterConfiguration) {
+			this.outputAdapterConfiguration = outputAdapterConfiguration;
+			return this;
+		}
 
 		public IHadoopJobConfiguration build() {
 			HadoopOperationJobConfiguration config = new HadoopOperationJobConfiguration();
@@ -133,7 +151,9 @@ public class HadoopOperationJobConfiguration implements
 			config.setDataProviders(dataProviders);
 			config.setMapperOperation(mapperOperation);
 			config.setRecducerOperation(reducerOperation);
+			config.setOutputAdapterConfiguration(outputAdapterConfiguration);
 			return config;
 		}
 	}
+
 }

@@ -17,6 +17,17 @@ import com.artisan.orchestrator.hadoop.job.io.adapter.MetricAdapterFactory;
 import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.simple.api.orchestrator.IMetricKey;
 
+/**
+ * This class is a generic output adapter that will create an underlying output adapter based
+ * on the {@link Configuration} output adapter type. The configuration requires a type with the
+ * {@link MetricOutputFormat#OUTPUT_ADAPTER_TYPE} and a value of NONE,LOCAL_FILE, HBASE, CASSANDRA, etc in
+ * order to write the metrics to the correct location.
+ * 
+ * @author chinshaw
+ *
+ * @param <K>
+ * @param <V>
+ */
 public class MetricOutputFormat<K extends IMetricKey, V extends IMetricWritable>
 		extends OutputFormat<K, V> implements Configurable {
 
@@ -26,6 +37,7 @@ public class MetricOutputFormat<K extends IMetricKey, V extends IMetricWritable>
 	
 	public enum OutputAdapterType {
 		NONE,
+		LOCAL_FILE,
 		HBASE
 	}
 	

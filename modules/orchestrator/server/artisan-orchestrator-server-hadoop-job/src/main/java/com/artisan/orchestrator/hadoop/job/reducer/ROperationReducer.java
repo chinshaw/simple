@@ -19,7 +19,7 @@ import com.artisan.orchestrator.server.api.IMetricWritable;
 import com.google.inject.Inject;
 import com.simple.api.orchestrator.IMetricKey;
 import com.simple.orchestrator.api.IRHadoopOperationOutput.Type;
-import com.simple.orchestrator.api.conf.ConfigurationException;
+import com.simple.orchestrator.api.conf.impl.ConfigurationException;
 import com.simple.orchestrator.api.event.IEventConnector;
 import com.simple.orchestrator.api.event.OperationReducerStateChange;
 import com.simple.orchestrator.api.event.OperationReducerStateChange.State;

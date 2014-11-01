@@ -10,7 +10,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.Id;
 import com.simple.orchestrator.api.dataprovider.IDataProvider;
 import com.simple.orchestrator.api.hadoop.operation.IOperation;
 import com.simple.orchestrator.api.hadoop.operation.IOperationInput;
-import com.simple.orchestrator.api.rest.HadoopOperationJobConfiguration;
 
 
 @JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "@class")
@@ -47,4 +46,6 @@ public interface IHadoopJobConfiguration {
 	 * @return
 	 */
 	List<? extends IDataProvider> getDataProviders();
+	
+	public IOutputAdapterConfiguration getOutputAdapterConfiguration();
 }

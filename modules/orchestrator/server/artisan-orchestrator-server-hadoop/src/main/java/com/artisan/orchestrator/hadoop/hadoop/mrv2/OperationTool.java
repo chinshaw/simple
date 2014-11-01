@@ -15,7 +15,7 @@ import org.apache.hadoop.util.Tool;
 
 import com.artisan.orchestrator.hadoop.job.config.OperationConfiguration;
 import com.artisan.orchestrator.hadoop.job.mapper.ROperationMapper;
-import com.simple.orchestrator.api.conf.ConfigurationException;
+import com.simple.orchestrator.api.conf.impl.ConfigurationException;
 import com.simple.orchestrator.api.hadoop.operation.Operation;
 
 @Deprecated

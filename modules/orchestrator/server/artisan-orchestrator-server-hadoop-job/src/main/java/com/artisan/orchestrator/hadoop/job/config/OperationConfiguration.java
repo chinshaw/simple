@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.hadoop.conf.Configuration;
 
-import com.simple.orchestrator.api.conf.ConfigurationException;
+import com.simple.orchestrator.api.conf.impl.ConfigurationException;
 import com.simple.orchestrator.api.dataprovider.IDataProvider;
 import com.simple.orchestrator.api.hadoop.operation.Operation;
 import com.simple.orchestrator.api.hadoop.operation.IOperation;

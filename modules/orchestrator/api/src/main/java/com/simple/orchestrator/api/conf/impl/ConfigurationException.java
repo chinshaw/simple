@@ -1,4 +1,4 @@
-package com.simple.orchestrator.api.conf;
+package com.simple.orchestrator.api.conf.impl;
 
 public class ConfigurationException extends Exception {
 
